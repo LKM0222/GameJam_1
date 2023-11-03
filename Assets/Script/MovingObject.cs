@@ -23,6 +23,13 @@ public class MovingObject : MonoBehaviour
     // Animation을 위한 Animator
     Animator animator;
 
+    // 플레이어가 비행을 시작하고 바닥에 내려오는 시간
+    float waitTime;
+
+    // 플레이어가 비행 능력을 사용했는지 여부
+    bool flying;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +49,18 @@ public class MovingObject : MonoBehaviour
                 StartCoroutine(MoveCoroutine());
             }
         }
+
+        // 만약 비행중이 아니라면
+        if (!flying)
+        {
+            // 제자리에 서있더라도 Z키를 누르면 flying을 true로 바꾸고 애니메이션 실행 후, coroutine으로 3초 대기를 시켜줌
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                flying = true;
+                animator.SetBool("Flying", true);
+                StartCoroutine(WaitTimeCoroutine());
+            }
+        }
     }
 
     // 오브젝트를 움직이는 실질적인 함수
@@ -59,6 +78,7 @@ public class MovingObject : MonoBehaviour
             else
                 current_speed = speed;
 
+
             // vector에 x, y 값을 Input으로 받아옴
             vector.Set(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
@@ -69,9 +89,11 @@ public class MovingObject : MonoBehaviour
             if (vector.y != 0)
                 vector.x = 0;
 
+
             animator.SetFloat("DirX", vector.x);
             animator.SetFloat("DirY", vector.y);
             animator.SetBool("Walking", true);
+
 
             // 수평 이동
             if (vector.x != 0)
@@ -90,6 +112,15 @@ public class MovingObject : MonoBehaviour
 
         // 이동이 끝났으니 이제 움직일 수 있다는 뜻의 true
         canMove = true;
+    }
+
+    // 3초 대기 후 애니메이션 전환하는 Coroutine
+    IEnumerator WaitTimeCoroutine()
+    {
+
+        yield return new WaitForSeconds(3f);
+        animator.SetBool("Flying", false);
+        flying = false;
     }
 }
 
