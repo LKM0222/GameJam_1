@@ -11,5 +11,9 @@ public class Tile: MonoBehaviour
     public int price;
     public GameObject tilePrefab;
 
-
+    public Vector3 worldPos;
+    private void Start()
+    {
+        worldPos = this.transform.TransformDirection(this.transform.position);
+    }
 }
