@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public List<Map> maps = new List<Map>();
+    //ability
+    public bool middleFalg = false;
+    public Image[] abilityImg = new Image[3];
     
-
     // Start is called before the first frame update
     void Start()
     {
