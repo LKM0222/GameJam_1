@@ -2,18 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class test : MonoBehaviour
+public class PlayerAttack : MonoBehaviour
 {
+    public int attack;
+
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("GG");
-        
+
     }
 
     // Update is called once per frame
     void Update()
-    {  
-        
+    {
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        PlayerStat.instance.Hit(attack);
     }
 }
