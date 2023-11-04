@@ -23,6 +23,8 @@ public class cubeMove : MonoBehaviour
     public Animator dice1_animator;
     public Animator dice2_animator;
 
+    public GameObject plane;
+
     private void Awake()
     {
         if (instance == null)
@@ -59,8 +61,8 @@ public class cubeMove : MonoBehaviour
                 dice1_isJumpping = true;
                 dice2_isJumpping = true;
 
-                dice1.transform.position = new Vector3(-1, 1f, 0);
-                dice2.transform.position = new Vector3(01, 1f, 0);
+                dice1.transform.position = new Vector3(-1, 1f, plane.transform.position.z);
+                dice2.transform.position = new Vector3(1, 1f, plane.transform.position.z);
 
                 dice1.transform.rotation = Quaternion.identity;
                 dice2.transform.rotation = Quaternion.identity;
