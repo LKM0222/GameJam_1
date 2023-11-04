@@ -15,7 +15,13 @@ public class cubeMove : MonoBehaviour
     public Rigidbody dice1_Rb;
     public Rigidbody dice2_Rb;
 
+    public int rand_num1;
+    public int rand_num2;
+
     public static cubeMove instance;
+
+    public Animator dice1_animator;
+    public Animator dice2_animator;
 
     private void Awake()
     {
@@ -40,17 +46,27 @@ public class cubeMove : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
+                dice1_animator.SetBool("Throw", false);
+                dice1_animator.SetInteger("Number", 0);
+                dice2_animator.SetBool("Throw", false);
+                dice2_animator.SetInteger("Number", 0);
+
+                rand_num1 = Random.Range(1, 7);
+                rand_num2 = Random.Range(1, 7);
+
+                StartCoroutine(ThrowDice());
+
                 dice1_isJumpping = true;
                 dice2_isJumpping = true;
 
-                dice1.transform.position = new Vector3(Random.Range(-1, 1), 1f, 0);
-                dice2.transform.position = new Vector3(Random.Range(-1, 1), 1f, 0);
+                dice1.transform.position = new Vector3(-1, 1f, 0);
+                dice2.transform.position = new Vector3(01, 1f, 0);
 
                 dice1.transform.rotation = Quaternion.identity;
                 dice2.transform.rotation = Quaternion.identity;
 
-                dice1_Rb.AddTorque(Random.Range(50, 100), Random.Range(50, 100), Random.Range(50, 100));
-                dice2_Rb.AddTorque(Random.Range(50, 100), Random.Range(50, 100), Random.Range(50, 100));
+                dice1_Rb.AddTorque(101, 102, 103);
+                dice2_Rb.AddTorque(101, 102, 103);
 
 
                 dice1.GetComponent<Rigidbody>().velocity = Vector3.up * speed;
@@ -58,4 +74,16 @@ public class cubeMove : MonoBehaviour
             }
         }
     }
+
+    IEnumerator ThrowDice()
+    {
+        yield return new WaitForSeconds(0.01f);
+        dice1_animator.SetBool("Throw", true);
+        dice1_animator.SetInteger("Number", rand_num1);
+        dice2_animator.SetBool("Throw", true);
+        dice2_animator.SetInteger("Number", rand_num2);
+        yield return new WaitForSeconds(2f);
+    }
+
+
 }
