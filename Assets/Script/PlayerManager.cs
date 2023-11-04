@@ -47,6 +47,12 @@ public class PlayerManager : MonoBehaviour
         {
             StartCoroutine("DiceCoroutine");
         }
+        // if(tileNum == 0){
+        //     this.transform.GetComponent<SpriteRenderer>().color = new Color(1f,1f,0f,1f);
+        // }
+        // else{
+        //     this.transform.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
+        // }
     }
 
     IEnumerator DiceCoroutine()
@@ -75,7 +81,13 @@ public class PlayerManager : MonoBehaviour
                 if(tileToGo.Count == 1){//마지막 타일에 이동할 예정이라면
                     nowTile = tileToGo[0].GetComponent<Tile>(); //플레이어가 현재 서있는 타일임.
                 }
-                //player를 이동시킴
+                if(tileToGo[0].transform.name == "Tile (23)"){
+                    this.transform.GetComponent<SpriteRenderer>().color = new Color(1f,1f,0f,1f);
+                }
+                else{
+                    this.transform.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
+                }
+                //player를 이동시킴 (애니메이션 필요)
                 this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.position);
                 //애니메이션 나오는 시간동안 기다린 뒤
                 yield return new WaitForSeconds(0.5f);
