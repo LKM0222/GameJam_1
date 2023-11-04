@@ -14,7 +14,10 @@ public class Tile: MonoBehaviour
     public SpriteRenderer signImg; //땅이 누구 소유인지 보여주는 표식
     public bool tileFrontFlag; //타일의 위치 플래그 건물이 보여지는 위치를 결정
     public bool specialTile; //특수타일인지 체크하는 플래그
-    public int specialTileType; //특수타일이라면 어떤 타일인지 구분하기 위한 변수
+    public int specialTileType; //특수타일이라면 어떤 타일인지 구분하기 위한 변수 
+    //(0 : 양계장, 1 : 카드, 2 : 워프, 3 : 세금, 4 : 강탈)
+
+    public bool cardActive;
 
     GameManager theGM;
     private void Start()
@@ -31,11 +34,15 @@ public class Tile: MonoBehaviour
     private void Update() {
         if(!specialTile){
             //땅의 소유 색깔 변경
-            if(ownPlayer > -1){
-                signImg.sprite = theGM.signSprites[ownPlayer];
+            if(ownPlayer == -1){
+                signImg.sprite = null;
+                
+            }
+            else if(ownPlayer == 0){
+                signImg.sprite = theGM.signSprites[0];
             }
             else{
-                signImg.sprite = null;
+                signImg.sprite = theGM.signSprites[1];
             }
             // 건물의 이미지 변경
             if(building.type > -1){
@@ -49,7 +56,13 @@ public class Tile: MonoBehaviour
                 buildingImg.sprite = null;
             }
         }
-        
-        
+    }
+
+    private void OnMouseDown() {
+        if(cardActive){
+            //선택된 타일을 gm에 반환
+            theGM.clickedTile = this.gameObject;
+            print("clicked!");
+        }
     }
 }

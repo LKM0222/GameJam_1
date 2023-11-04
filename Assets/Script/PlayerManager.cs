@@ -7,36 +7,52 @@ using UnityEngine.UI;
 public class PlayerManager : MonoBehaviour
 {
     public int playerId; //몇번째 플레이어인지 정보
+    public int playerMoney; //플레이어의 자금
+    public Text playerMoneyText; //플레이어 자금 플로팅
     [SerializeField] List<GameObject> tileToGo = new List<GameObject>(); //플레이어가 가야될 타일//최대 12칸.
     public Tile nowTile; //현재 서 있는 타일의 정보
     public int diceNum; //주사위의 눈금
     public bool diceFlag; // 주사위 굴렸는지 플래그
     public bool movingFlag; //코루틴 반복을 방지하는 플래그
-    [SerializeField] GameObject[] cards = new GameObject[7]; //플레이어가 가진 카드
+    public List<Card> cards = new List<Card>(); //플레이어가 가진 카드
     [SerializeField] int tileNum; //플레이어가 서있는 칸의 번호
     TileManager theTM;//플레이어가 가야될 타일 정보 받아오기 위해 추가
     public bool myTurn;
     public Text downInformationText;
     GameManager theGM;
 
+    public GameObject VirtualCamera;
+
+    public GameObject cardPrefab;
+    public Transform cardParent;
+    public PlayerManager againstPlayer;
 
     [Header("Building")]
-    [SerializeField] int henneryCount;
+    public int buildingCount = 0;
+    public int groundCount = 0;
 
     [Header("Buy")]
     [SerializeField] GameObject groundBuyUi;
     [SerializeField] GameObject purchaseUi;
+
+    TurnSignScript theTSI;
+    [Header("Effect")]
+    public bool tpFlag;
+    public bool highSpeedFlag;
+    public bool invisibleFlag; //투명화
 
     // Start is called before the first frame update
     void Start()
     {
         theTM = FindObjectOfType<TileManager>();
         theGM = FindObjectOfType<GameManager>();
+        theTSI = FindObjectOfType<TurnSignScript>();
     }
 
     // Update is called once per frame
     void Update()
     {   
+        playerMoneyText.text = playerMoney.ToString();
         if(myTurn){
             downInformationText.gameObject.SetActive(true);
         }
@@ -47,50 +63,77 @@ public class PlayerManager : MonoBehaviour
         {
             StartCoroutine("DiceCoroutine");
         }
-        // if(tileNum == 0){
-        //     this.transform.GetComponent<SpriteRenderer>().color = new Color(1f,1f,0f,1f);
-        // }
-        // else{
-        //     this.transform.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
-        // }
     }
 
     IEnumerator DiceCoroutine()
     {
         movingFlag = false;
+        if(invisibleFlag && myTurn){//invisibleFalg
+            this.gameObject.GetComponent<SpriteRenderer>().color = 
+                new Color(1,1,1,0.5f);
+        }
         if (diceFlag)
         {//주사위를 굴렸다면
-            for (int i = 0; i < diceNum; i++)
-            { //주사위 눈금만큼 리스트에 넣어야됨.
-                if(tileNum + i >= theTM.tiles.Length){
-                    //넣어야하는 오브젝트의 길이가 전체 리스트의 길이를 넘어간다면 제대로 더해지지 않는거임.
-                    tileToGo.Add(theTM.tiles[tileNum + i - theTM.tiles.Length].gameObject);
+            if(highSpeedFlag && myTurn){ //고속이동을 활성화 했다면
+                for (int i = 0; i < diceNum * 2; i++) //두배로 이동
+                { //주사위 눈금만큼 리스트에 넣어야됨.
+                    if(tileNum + i >= theTM.tiles.Length){
+                        //넣어야하는 오브젝트의 길이가 전체 리스트의 길이를 넘어간다면 제대로 더해지지 않는거임.
+                        tileToGo.Add(theTM.tiles[tileNum + i - theTM.tiles.Length].gameObject);
+                    }
+                    else{
+                        //아니라면 그냥 추가시켜주면 됨.
+                        tileToGo.Add(theTM.tiles[tileNum + i].gameObject);
+                    }
+                    
                 }
-                else{
-                    //아니라면 그냥 추가시켜주면 됨.
-                    tileToGo.Add(theTM.tiles[tileNum + i].gameObject);
-                }
-                
+                highSpeedFlag = false;
             }
+            else{
+                for (int i = 0; i < diceNum; i++)
+                { //주사위 눈금만큼 리스트에 넣어야됨.
+                    if(tileNum + i >= theTM.tiles.Length){
+                        //넣어야하는 오브젝트의 길이가 전체 리스트의 길이를 넘어간다면 제대로 더해지지 않는거임.
+                        tileToGo.Add(theTM.tiles[tileNum + i - theTM.tiles.Length].gameObject);
+                    }
+                    else{
+                        //아니라면 그냥 추가시켜주면 됨.
+                        tileToGo.Add(theTM.tiles[tileNum + i].gameObject);
+                    }
+                    
+                }
+            }
+                
+
+            VirtualCamera.SetActive(true);
             //주사위 굴리는거 기다려야됨
             yield return new WaitForSeconds(1f);
             print("주사위 완료");
             //플레이어 이동
+            theTSI.cursorPos = 3;
             for (; tileToGo.Count != 0;)
-            {   
-                if(tileToGo.Count == 1){//마지막 타일에 이동할 예정이라면
-                    nowTile = tileToGo[0].GetComponent<Tile>(); //플레이어가 현재 서있는 타일임.
-                }
+            {
                 if(tileToGo[0].transform.name == "Tile (23)"){
                     this.transform.GetComponent<SpriteRenderer>().color = new Color(1f,1f,0f,1f);
+                    playerMoney += 100; //지나다닐때마다 100알씩 지급
                 }
                 else{
                     this.transform.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,1f);
                 }
                 //player를 이동시킴 (애니메이션 필요)
-                this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.position);
+                this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
+                nowTile = tileToGo[0].GetComponent<Tile>(); //현재 타일
+                if(invisibleFlag){//invisible플래그가 활성화되어있고
+                    if(againstPlayer.tileNum == tileNum){ //내가 상대방과 같은 타일을 지나간다면
+                        GameObject dCard = againstPlayer.cardParent.GetChild(UnityEngine.Random.Range(0,againstPlayer.cardParent.childCount)).gameObject;
+                        dCard.transform.parent = cardParent;
+                        //카드 한장을 훔침.
+                    }
+                    
+                }
                 //애니메이션 나오는 시간동안 기다린 뒤
                 yield return new WaitForSeconds(0.5f);
+                
                 //리스트에서 첫번째 요소 삭제
                 tileToGo.RemoveAt(0);
             }
@@ -127,20 +170,79 @@ public class PlayerManager : MonoBehaviour
                 }
                 else{//둘 다 아니라면 상대방의 땅
                     //돈 빼는 코드 작성
+                    if(nowTile.building != null){ //건물이 있는경우
+                        switch(nowTile.building.type){ //빌딩 타입 검사
+                            case 1:
+
+                            break;
+                            case 3:
+                                if(nowTile.building.visitCount < 5)
+                                    nowTile.building.visitCount += 1;
+                                playerMoney -= nowTile.building.visitCount * 100;
+                                againstPlayer.playerMoney += nowTile.building.visitCount * 100;
+                                break;
+                            default:
+                                playerMoney -= 100;
+                                againstPlayer.playerMoney += 100;
+                            break;
+                        }
+                        
+                    }
+                    else{
+                        playerMoney -= 50;
+                    }
+
+                    theGM.turnCount += 1;//턴넘김
+                    theGM.nextTurn = true;
 
                 }
             }
             else{//특수 타일이라면 특수 타일의 행동을 함.
+                print("specialTile" + nowTile.specialTileType);
+                switch(nowTile.specialTileType){//(0 : 양계장, 1 : 카드, 2 : 워프, 3 : 세금, 4 : 강탈)
+                    case 0: //양계장 
+                        print("card Tile");
+                    break;
+                    case 1: //카드 지급 
+                        print("card Tile");
+                        // 카드 구현해야됨.
+                        if(cardParent.childCount < 8){
+                            Card newCard = theGM.cards[UnityEngine.Random.Range(0,theGM.cards.Length)];
+                            print(newCard.card_name);
+                            cardPrefab.GetComponent<CardManager>().cardInfo = newCard; //theGM.cards[UnityEngine.Random.Range(0,theGM.cards.Length)]; //카드 속성 랜덤으로 설정해주고
+                            cardPrefab.GetComponent<SpriteRenderer>().sprite = newCard.cardImg; //cardPrefab.GetComponent<CardManager>().cardInfo.cardImg; //카드 이미지 변경(여기서 오류 한번 생길듯)
+                            var _card = Instantiate(cardPrefab,Vector3.zero, Quaternion.identity, cardParent);//카드 프리펩 생성해주고
+                            _card.transform.localPosition = new Vector3(0f,0f,0f);
+                            cards.Add(newCard); //플레이어 리스트에 카드 추가
+                        }
+                        
+                    break;
+                    case 2: //teleport
+                        //teleportFlag활성화
+                        for(int i=0;i < theTM.tiles.Length;i++){
+                            theTM.tiles[i].cardActive = true; //모든 카드 클릭 가능하도록 미리 클릭하고 다음턴에 해당 위치로 이동.
+                        }
+                        
+                    break;
+                    case 3: //세금
+                        //땅 갯수 *5 + 건물 갯수 * 10
+                        playerMoney -= (groundCount * 5) + (buildingCount * 10);
 
+                    break;
+                    case 4: //강탈
+                        //상대 플레이어 카드 무작위 한장 뺏어옴.
+                        GameObject dCard = againstPlayer.cardParent.GetChild(UnityEngine.Random.Range(0,againstPlayer.cardParent.childCount)).gameObject;
+                        dCard.transform.parent = cardParent;
+                    break;
+                    
+                }
                 //특수 행동 후 턴을 넘김
                 theGM.turnCount += 1;
                 theGM.nextTurn = true;
+                invisibleFlag = false;
+                this.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
             }
-           
-            theTM.tiles[tileNum].players = this.GetComponent<PlayerManager>(); //전체 타일의 리스트에도 현재 서있는 정보 반영. 근데 왠지 필요없어보이긴 함....
-            //왜냐면 플레이어의 스크립트에 이미 타일의 정보가 들어가있고, 어차피 각각의 플레이어가 각각의 턴을 갖고 움직이기 때문에 
-            //굳이?라는 생각이 들기도 함.
-            
+            VirtualCamera.SetActive(false);            
         }
     }
 }

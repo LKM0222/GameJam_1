@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CardManager : MonoBehaviour
 {
-    [SerializeField] Card cardInfo;
+    public Card cardInfo;
     [SerializeField] float upPos;
     GameManager theGM;
     // Start is called before the first frame update
@@ -36,6 +36,12 @@ public class CardManager : MonoBehaviour
     {   
         if(!theGM.UIFlag){
             //클릭하면 효과 발동
+            if(cardInfo.cardCode == 1){
+                theGM.nowPlayer.highSpeedFlag = true;
+            }
+            if(cardInfo.cardCode == 3){
+                theGM.nowPlayer.invisibleFlag = true;
+            }
             print("효과 발동");
         }
         

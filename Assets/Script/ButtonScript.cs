@@ -29,6 +29,8 @@ public class ButtonScript : MonoBehaviour
     }
     public void OnPurchaseBtn(){//건물 구매버튼
         thePS.buyFlag = true;
+        theGM.nowPlayer.buildingCount += 1;
+        theGM.nowPlayer.playerMoney -= 50;
     }
     public void OnPurchaseCloseBtn(){ //취소버튼
         theGM.turnCount += 1;
@@ -37,5 +39,7 @@ public class ButtonScript : MonoBehaviour
     }
     public void OnGroundBuyBtn(){ //땅 구매 버튼
         theGBS.groundBuyFlag = true;
+        theGM.nowPlayer.groundCount += 1;
+        theGM.nowPlayer.playerMoney -= 50;
     }
 }
