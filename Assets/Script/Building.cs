@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class Building : MonoBehaviour
+[System.Serializable]
+public class Building
 {
     // 건물 이름
     public string buildingName;
@@ -14,12 +16,12 @@ public class Building : MonoBehaviour
     public Animator animator;
 
     // 건물의 타입(은행, 닭장, 부화장 등)
-    public GroundType type;
+    public int type; //0부터 시작
 
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
