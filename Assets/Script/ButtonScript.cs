@@ -5,6 +5,7 @@ using UnityEngine;
 public class ButtonScript : MonoBehaviour
 {   
     public PurchaseSystem thePS;
+    public GroundBuyScript theGBS;
     GameManager theGM;
     private void Start()
     {
@@ -26,10 +27,15 @@ public class ButtonScript : MonoBehaviour
         thePS.buildingImg.sprite = theGM.buildings[thePS.cur].buildingImg.building_front;
         thePS.buildingText.text = theGM.buildings[thePS.cur].buildingName;
     }
-    public void OnPurchaseBtn(){//구매버튼
-
+    public void OnPurchaseBtn(){//건물 구매버튼
+        thePS.buyFlag = true;
     }
-    public void OnPurchaseCloseBtn(){
+    public void OnPurchaseCloseBtn(){ //취소버튼
+        theGM.turnCount += 1;
+        theGM.nextTurn = true;
         theGM.UIFlag = false;
+    }
+    public void OnGroundBuyBtn(){ //땅 구매 버튼
+        theGBS.groundBuyFlag = true;
     }
 }

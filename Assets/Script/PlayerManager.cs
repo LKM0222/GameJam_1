@@ -2,32 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
-
+    public int playerId; //몇번째 플레이어인지 정보
     [SerializeField] List<GameObject> tileToGo = new List<GameObject>(); //플레이어가 가야될 타일//최대 12칸.
     public Tile nowTile; //현재 서 있는 타일의 정보
     public int diceNum; //주사위의 눈금
-    [SerializeField] bool diceFlag; // 주사위 굴렸는지 플래그
-    [SerializeField] bool movingFlag; //코루틴 반복을 방지하는 플래그
+    public bool diceFlag; // 주사위 굴렸는지 플래그
+    public bool movingFlag; //코루틴 반복을 방지하는 플래그
     [SerializeField] GameObject[] cards = new GameObject[7]; //플레이어가 가진 카드
     [SerializeField] int tileNum; //플레이어가 서있는 칸의 번호
     TileManager theTM;//플레이어가 가야될 타일 정보 받아오기 위해 추가
+    public bool myTurn;
+    public Text downInformationText;
+    GameManager theGM;
 
 
     [Header("Building")]
     [SerializeField] int henneryCount;
 
+    [Header("Buy")]
+    [SerializeField] GameObject groundBuyUi;
+    [SerializeField] GameObject purchaseUi;
+
     // Start is called before the first frame update
     void Start()
     {
         theTM = FindObjectOfType<TileManager>();
+        theGM = FindObjectOfType<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
-    {
+    {   
+        if(myTurn){
+            downInformationText.gameObject.SetActive(true);
+        }
+        else{
+            downInformationText.gameObject.SetActive(false);
+        }
         if (movingFlag)
         {
             StartCoroutine("DiceCoroutine");
@@ -76,10 +91,44 @@ public class PlayerManager : MonoBehaviour
             else{//아니라면 그대로 더하기 진행
                 tileNum += diceNum;
             }
+            diceFlag = false;//작업 완료 후 다이스 false
+            movingFlag = false; //무빙 플래그도 false
+            //그다음 플래그 활성화 시켜야됨. 구매 플래그?
+            if(!nowTile.specialTile){//일반 땅이라면
+                if(nowTile.ownPlayer == playerId){//자기 땅이라면
+                    //일단 건물이 있는 땅인지 없는 땅인지 체크
+                    if(nowTile.building == null){ //건물이 없는 땅이라면
+                        //건물 구매 UI활성화
+                        purchaseUi.SetActive(true);
+                        //카드 선택 방지를 위한 UI활성화 플래그 활성화
+                        theGM.UIFlag = true;
+                    }
+                    else{ //건물이 있는 땅이라면
+                        //효과를 활성화
+                    }
+                }
+                else if(nowTile.ownPlayer == -1){ //주인없는 땅이라면
+                    //땅 구매 UI를 활성화
+                    groundBuyUi.SetActive(true);
+                    //카드 선택 방지를 위한 UI활성화 플래그 활성화
+                    theGM.UIFlag = true;
+                }
+                else{//둘 다 아니라면 상대방의 땅
+                    //돈 빼는 코드 작성
+
+                }
+            }
+            else{//특수 타일이라면 특수 타일의 행동을 함.
+
+                //특수 행동 후 턴을 넘김
+                theGM.turnCount += 1;
+                theGM.nextTurn = true;
+            }
+           
             theTM.tiles[tileNum].players = this.GetComponent<PlayerManager>(); //전체 타일의 리스트에도 현재 서있는 정보 반영. 근데 왠지 필요없어보이긴 함....
             //왜냐면 플레이어의 스크립트에 이미 타일의 정보가 들어가있고, 어차피 각각의 플레이어가 각각의 턴을 갖고 움직이기 때문에 
             //굳이?라는 생각이 들기도 함.
-            diceFlag = false;//작업 완료 후 다이스 false
+            
         }
     }
 }

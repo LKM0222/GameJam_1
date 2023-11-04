@@ -12,9 +12,6 @@ public class Building
     //건물 이미지
     public BuildingType buildingImg;
 
-    // 건물 프리팹
-    public GameObject buildingPrefab;
-
     // 건물 생성, 파괴 애니메이션
     public Animator animator;
 

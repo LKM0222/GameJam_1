@@ -39,10 +39,10 @@ public class Tile: MonoBehaviour
             }
             // 건물의 이미지 변경
             if(building.type > -1){
-                if(tileFrontFlag)//true : front, false : left
-                    buildingImg.sprite = theGM.buildingSprite[building.type].building_front;
+                if(tileFrontFlag)//true : left, false : front
+                    buildingImg.sprite = theGM.buildings[building.type].buildingImg.building_left;
                 else{
-                    buildingImg.sprite = theGM.buildingSprite[building.type].building_left;
+                    buildingImg.sprite = theGM.buildings[building.type].buildingImg.building_front;
                 }
             }
             else{
