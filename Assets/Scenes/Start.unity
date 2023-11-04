@@ -733,6 +733,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dice2
       objectReference: {fileID: 0}
+    - target: {fileID: 8899062131127352184, guid: d36fe6dfc51a93143a506874e3b2ff92, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8899062131127352191, guid: d36fe6dfc51a93143a506874e3b2ff92, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -1085,6 +1089,10 @@ PrefabInstance:
     - target: {fileID: 8899062131127352184, guid: d36fe6dfc51a93143a506874e3b2ff92, type: 3}
       propertyPath: m_Name
       value: Dice1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8899062131127352184, guid: d36fe6dfc51a93143a506874e3b2ff92, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8899062131127352191, guid: d36fe6dfc51a93143a506874e3b2ff92, type: 3}
       propertyPath: m_RootOrder
