@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerManager : MonoBehaviour
 {
-    
+
     [SerializeField] List<GameObject> tileToGo = new List<GameObject>(); //플레이어가 가야될 타일//최대 12칸.
     public int diceNum; //주사위의 눈금
     [SerializeField] bool diceFlag; // 주사위 굴렸는지 플래그
@@ -12,6 +13,10 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] GameObject[] cards = new GameObject[7]; //플레이어가 가진 카드
     [SerializeField] int tileNum; //플레이어가 서있는 칸의 번호
     TileManager theTM;//플레이어가 가야될 타일 정보 받아오기 위해 추가
+
+
+    [Header("Building")]
+    [SerializeField] int henneryCount;
 
     // Start is called before the first frame update
     void Start()
