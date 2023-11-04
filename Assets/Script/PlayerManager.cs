@@ -7,6 +7,7 @@ public class PlayerManager : MonoBehaviour
 {
 
     [SerializeField] List<GameObject> tileToGo = new List<GameObject>(); //플레이어가 가야될 타일//최대 12칸.
+    public Tile nowTile; //현재 서 있는 타일의 정보
     public int diceNum; //주사위의 눈금
     [SerializeField] bool diceFlag; // 주사위 굴렸는지 플래그
     [SerializeField] bool movingFlag; //코루틴 반복을 방지하는 플래그
@@ -56,6 +57,9 @@ public class PlayerManager : MonoBehaviour
             //플레이어 이동
             for (; tileToGo.Count != 0;)
             {   
+                if(tileToGo.Count == 1){//마지막 타일에 이동할 예정이라면
+                    nowTile = tileToGo[0].GetComponent<Tile>(); //플레이어가 현재 서있는 타일임.
+                }
                 //player를 이동시킴
                 this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.position);
                 //애니메이션 나오는 시간동안 기다린 뒤
@@ -72,7 +76,9 @@ public class PlayerManager : MonoBehaviour
             else{//아니라면 그대로 더하기 진행
                 tileNum += diceNum;
             }
-            
+            theTM.tiles[tileNum].players = this.GetComponent<PlayerManager>(); //전체 타일의 리스트에도 현재 서있는 정보 반영. 근데 왠지 필요없어보이긴 함....
+            //왜냐면 플레이어의 스크립트에 이미 타일의 정보가 들어가있고, 어차피 각각의 플레이어가 각각의 턴을 갖고 움직이기 때문에 
+            //굳이?라는 생각이 들기도 함.
             diceFlag = false;//작업 완료 후 다이스 false
         }
     }
