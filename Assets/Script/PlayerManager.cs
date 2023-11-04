@@ -26,6 +26,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject cardPrefab;
     public Transform cardParent;
     public PlayerManager againstPlayer;
+    public List<GameObject> againstPlayer_Tile = new List<GameObject>(); 
 
     [Header("Building")]
     public int buildingCount = 0;
@@ -38,8 +39,11 @@ public class PlayerManager : MonoBehaviour
     TurnSignScript theTSI;
     [Header("Effect")]
     public bool tpFlag;
+    bool tpSelectFlag;
+    public GameObject tpBack; //tp활성화 시 맵 이외의 주변이 어둡게 변함.
     public bool highSpeedFlag;
     public bool invisibleFlag; //투명화
+    public bool toosiFlag; //투시
 
     // Start is called before the first frame update
     void Start()
@@ -54,14 +58,34 @@ public class PlayerManager : MonoBehaviour
     {   
         playerMoneyText.text = playerMoney.ToString();
         if(myTurn){
+            
             downInformationText.gameObject.SetActive(true);
+            for(int i=0;i<againstPlayer.cards.Count; i++){ //상대방의 카드를 가림
+                againstPlayer.cardParent.GetChild(i).GetChild(0).gameObject.SetActive(false);
+            }
         }
         else{
             downInformationText.gameObject.SetActive(false);
+            for(int i=0;i<againstPlayer.cards.Count; i++){
+                cardParent.GetChild(i).GetChild(0).gameObject.SetActive(true);
+            }
         }
         if (movingFlag)
         {
             StartCoroutine("DiceCoroutine");
+        }
+        if(toosiFlag){
+            StartCoroutine("TooSiCoroutine");
+        }
+
+        if(tpFlag){
+            this.tileNum = int.Parse(theGM.tpTile.gameObject.name);
+            this.tileToGo.Add(theGM.tpTile);
+            this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
+            this.tileToGo.RemoveAt(0);
+            theGM.turnCount += 1;
+            theGM.nextTurn = true;
+
         }
     }
 
@@ -219,9 +243,9 @@ public class PlayerManager : MonoBehaviour
                     break;
                     case 2: //teleport
                         //teleportFlag활성화
-                        for(int i=0;i < theTM.tiles.Length;i++){
-                            theTM.tiles[i].cardActive = true; //모든 카드 클릭 가능하도록 미리 클릭하고 다음턴에 해당 위치로 이동.
-                        }
+                        tpSelectFlag = true;
+                        StartCoroutine("TeleportCoroutine");
+                        
                         
                     break;
                     case 3: //세금
@@ -236,13 +260,45 @@ public class PlayerManager : MonoBehaviour
                     break;
                     
                 }
-                //특수 행동 후 턴을 넘김
-                theGM.turnCount += 1;
-                theGM.nextTurn = true;
-                invisibleFlag = false;
-                this.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
+                if(!tpSelectFlag){ //tp중일땐 일단 타일이 선택되기 전까지는 기다려야하기 때문에 탈출할 수 없음...
+                    //특수 행동 후 턴을 넘김
+                    theGM.turnCount += 1;
+                    theGM.nextTurn = true;
+                    invisibleFlag = false;
+                    this.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
+                }
             }
             VirtualCamera.SetActive(false);            
         }
+        else{ //tpFlag일 경우 텔레포트함.
+
+        }
+    }
+
+    IEnumerator TooSiCoroutine(){
+        for(int i=0;i<againstPlayer.cards.Count; i++){
+                againstPlayer.cardParent.GetChild(i).GetChild(0).gameObject.SetActive(false);
+        }
+        yield return new WaitForSeconds(3f);
+        for(int i=0;i<againstPlayer.cards.Count; i++){
+                againstPlayer.cardParent.GetChild(i).GetChild(0).gameObject.SetActive(true);
+        }
+    }
+
+    IEnumerator TeleportCoroutine(){
+        tpBack.SetActive(true);
+        for(int i=0;i < theTM.tiles.Length;i++){
+            theTM.tiles[i].cardActive = true; //모든 카드 클릭 가능하도록 미리 클릭하고 다음턴에 해당 위치로 이동.
+        }
+        
+
+        yield return new WaitUntil(()=> theGM.tpTile != null);
+        for(int i=0;i < theTM.tiles.Length;i++){
+            theTM.tiles[i].cardActive = false; //다시 클릭 못하도록 변경
+        }
+        tpBack.SetActive(false);
+        tpFlag = true;
+        theGM.turnCount += 1;
+        theGM.nextTurn = true;
     }
 }

@@ -41,5 +41,6 @@ public class ButtonScript : MonoBehaviour
         theGBS.groundBuyFlag = true;
         theGM.nowPlayer.groundCount += 1;
         theGM.nowPlayer.playerMoney -= 50;
+        theGM.nowPlayer.againstPlayer_Tile.Add(theGM.nowPlayer.nowTile.gameObject);
     }
 }

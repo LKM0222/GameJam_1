@@ -972,7 +972,7 @@ GameObject:
   - component: {fileID: 132017986}
   - component: {fileID: 132017987}
   m_Layer: 0
-  m_Name: Tile (16)
+  m_Name: 17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1499,7 +1499,7 @@ GameObject:
   - component: {fileID: 236160211}
   - component: {fileID: 236160212}
   m_Layer: 0
-  m_Name: Tile (10)
+  m_Name: 11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1593,7 +1593,7 @@ GameObject:
   - component: {fileID: 241255654}
   - component: {fileID: 241255655}
   m_Layer: 0
-  m_Name: Tile (17)
+  m_Name: 18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2938,7 +2938,7 @@ GameObject:
   - component: {fileID: 588328939}
   - component: {fileID: 588328940}
   m_Layer: 0
-  m_Name: Tile (13)
+  m_Name: 14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3032,7 +3032,7 @@ GameObject:
   - component: {fileID: 609721503}
   - component: {fileID: 609721504}
   m_Layer: 0
-  m_Name: Tile (9)
+  m_Name: 10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3126,7 +3126,7 @@ GameObject:
   - component: {fileID: 617987190}
   - component: {fileID: 617987191}
   m_Layer: 0
-  m_Name: Tile (20)
+  m_Name: 21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3333,7 +3333,7 @@ GameObject:
   - component: {fileID: 659757445}
   - component: {fileID: 659757446}
   m_Layer: 0
-  m_Name: Tile (14)
+  m_Name: 15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3459,13 +3459,16 @@ MonoBehaviour:
   cardPrefab: {fileID: 2251793717217502938, guid: cf27e7408929c443abe4eeeeefda3072, type: 3}
   cardParent: {fileID: 1038877134}
   againstPlayer: {fileID: 1511854098}
+  againstPlayer_Tile: []
   buildingCount: 0
   groundCount: 0
   groundBuyUi: {fileID: 530706387}
   purchaseUi: {fileID: 1980317331}
   tpFlag: 0
+  tpBack: {fileID: 453495399}
   highSpeedFlag: 0
   invisibleFlag: 0
+  toosiFlag: 0
 --- !u!212 &675052500
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3703,7 +3706,7 @@ GameObject:
   - component: {fileID: 730861396}
   - component: {fileID: 730861397}
   m_Layer: 0
-  m_Name: Tile (22)
+  m_Name: 23
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4064,7 +4067,7 @@ GameObject:
   - component: {fileID: 833817703}
   - component: {fileID: 833817704}
   m_Layer: 0
-  m_Name: Tile (11)
+  m_Name: 12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4538,7 +4541,7 @@ GameObject:
   - component: {fileID: 964625323}
   - component: {fileID: 964625324}
   m_Layer: 0
-  m_Name: Tile (3)
+  m_Name: 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4632,7 +4635,7 @@ GameObject:
   - component: {fileID: 979879836}
   - component: {fileID: 979879835}
   m_Layer: 0
-  m_Name: Tile
+  m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5567,7 +5570,7 @@ GameObject:
   - component: {fileID: 1120327119}
   - component: {fileID: 1120327120}
   m_Layer: 0
-  m_Name: Tile (19)
+  m_Name: 20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5967,7 +5970,7 @@ GameObject:
   - component: {fileID: 1192613058}
   - component: {fileID: 1192613059}
   m_Layer: 0
-  m_Name: Tile (6)
+  m_Name: 7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6551,7 +6554,7 @@ GameObject:
   - component: {fileID: 1344631700}
   - component: {fileID: 1344631701}
   m_Layer: 0
-  m_Name: Tile (2)
+  m_Name: 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6937,7 +6940,7 @@ GameObject:
   - component: {fileID: 1401323774}
   - component: {fileID: 1401323775}
   m_Layer: 0
-  m_Name: Tile (21)
+  m_Name: 22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7116,7 +7119,7 @@ GameObject:
   - component: {fileID: 1429399485}
   - component: {fileID: 1429399486}
   m_Layer: 0
-  m_Name: Tile (7)
+  m_Name: 8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7294,7 +7297,7 @@ GameObject:
   - component: {fileID: 1472327846}
   - component: {fileID: 1472327847}
   m_Layer: 0
-  m_Name: Tile (12)
+  m_Name: 13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7492,13 +7495,16 @@ MonoBehaviour:
   cardPrefab: {fileID: 2251793717217502938, guid: cf27e7408929c443abe4eeeeefda3072, type: 3}
   cardParent: {fileID: 1044211839}
   againstPlayer: {fileID: 675052499}
+  againstPlayer_Tile: []
   buildingCount: 0
   groundCount: 0
   groundBuyUi: {fileID: 530706387}
   purchaseUi: {fileID: 1980317331}
   tpFlag: 0
-  highSpeedFlag: 1
+  tpBack: {fileID: 453495399}
+  highSpeedFlag: 0
   invisibleFlag: 0
+  toosiFlag: 0
 --- !u!61 &1511854100
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8019,7 +8025,7 @@ GameObject:
   - component: {fileID: 1606294477}
   - component: {fileID: 1606294478}
   m_Layer: 0
-  m_Name: Tile (5)
+  m_Name: 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8589,7 +8595,7 @@ GameObject:
   - component: {fileID: 1693466813}
   - component: {fileID: 1693466814}
   m_Layer: 0
-  m_Name: Tile (23)
+  m_Name: 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9033,7 +9039,7 @@ GameObject:
   - component: {fileID: 1762113626}
   - component: {fileID: 1762113627}
   m_Layer: 0
-  m_Name: Tile (18)
+  m_Name: 19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9377,6 +9383,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 2251793717217502938, guid: cf27e7408929c443abe4eeeeefda3072, type: 3}
   buyedTiles: []
   clickedTile: {fileID: 0}
+  tpTile: {fileID: 0}
 --- !u!1 &1883762171
 GameObject:
   m_ObjectHideFlags: 0
@@ -9701,7 +9708,7 @@ GameObject:
   - component: {fileID: 1933748941}
   - component: {fileID: 1933748942}
   m_Layer: 0
-  m_Name: Tile (15)
+  m_Name: 16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10447,7 +10454,7 @@ GameObject:
   - component: {fileID: 2075278429}
   - component: {fileID: 2075278430}
   m_Layer: 0
-  m_Name: Tile (4)
+  m_Name: 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10701,7 +10708,7 @@ GameObject:
   - component: {fileID: 2093685861}
   - component: {fileID: 2093685862}
   m_Layer: 0
-  m_Name: Tile (8)
+  m_Name: 9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11053,7 +11060,7 @@ GameObject:
   - component: {fileID: 2146064928}
   - component: {fileID: 2146064929}
   m_Layer: 0
-  m_Name: Tile (1)
+  m_Name: 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

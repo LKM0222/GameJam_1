@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> buyedTiles = new List<GameObject>();
     public GameObject clickedTile;
 
+    public GameObject tpTile; //텔레포트 활성화 시 다음턴에 움질일 위치 정함.
 
     // Start is called before the first frame update
     void Start()
