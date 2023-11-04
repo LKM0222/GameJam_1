@@ -29,6 +29,8 @@ public class cubeMove : MonoBehaviour
     public Animator dice1_animator;
     public Animator dice2_animator;
 
+    public GameObject plane;
+
     private void Awake()
     {
         if (instance == null)
@@ -71,9 +73,8 @@ public class cubeMove : MonoBehaviour
                 dice1_isJumpping = true;
                 dice2_isJumpping = true;
 
-                // 주사위 위치 초기화
-                dice1.transform.position = new Vector3(-1, 1f, 0);
-                dice2.transform.position = new Vector3(01, 1f, 0);
+                dice1.transform.position = new Vector3(-1, 1f, plane.transform.position.z);
+                dice2.transform.position = new Vector3(1, 1f, plane.transform.position.z);
 
                 // 주사위 로테이션 초기화
                 dice1.transform.rotation = Quaternion.identity;
