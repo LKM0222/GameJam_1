@@ -51,7 +51,7 @@ public class DiceSystem : MonoBehaviour,IDragHandler, IEndDragHandler, IPointerD
     public void OnEndDrag(PointerEventData eventData1){
         this.transform.localPosition = nowPos;
         EggObj.SetActive(true);
-        thePlayer.diceNum = 6;//Random.Range(1,9); //테스트중, 끝나면 다시 변환
+        thePlayer.diceNum = Random.Range(1,9); //테스트중, 끝나면 다시 변환
         thePlayer.diceFlag = true;
         diceNumText.text = thePlayer.diceNum.ToString();
         thePlayer.downInformationText.gameObject.SetActive(false);

@@ -19,6 +19,8 @@ public class Tile : MonoBehaviour
 
     public bool cardActive;
 
+    public int dir;//2345
+
     GameManager theGM;
     private void Start()
     {
@@ -72,7 +74,7 @@ public class Tile : MonoBehaviour
         if (cardActive)
         {
             //선택된 타일을 gm에 반환
-            // theGM.tpTile.Add(this.gameObject);
+            theGM.tpTile = this.gameObject;
             print("clicked!");
         }
     }

@@ -1054,6 +1054,7 @@ MonoBehaviour:
   specialTile: 0
   specialTileType: 0
   cardActive: 0
+  dir: 3
 --- !u!1 &141276519
 GameObject:
   m_ObjectHideFlags: 0
@@ -1581,6 +1582,7 @@ MonoBehaviour:
   specialTile: 0
   specialTileType: 0
   cardActive: 0
+  dir: 2
 --- !u!1 &241255652
 GameObject:
   m_ObjectHideFlags: 0
@@ -1673,6 +1675,7 @@ MonoBehaviour:
   specialTile: 1
   specialTileType: 4
   cardActive: 0
+  dir: 3
 --- !u!1 &243160862
 GameObject:
   m_ObjectHideFlags: 0
@@ -3020,6 +3023,7 @@ MonoBehaviour:
   specialTile: 0
   specialTileType: 0
   cardActive: 0
+  dir: 3
 --- !u!1 &609721501
 GameObject:
   m_ObjectHideFlags: 0
@@ -3114,6 +3118,7 @@ MonoBehaviour:
   specialTile: 0
   specialTileType: 0
   cardActive: 0
+  dir: 2
 --- !u!1 &617987188
 GameObject:
   m_ObjectHideFlags: 0
@@ -3206,6 +3211,7 @@ MonoBehaviour:
   specialTile: 1
   specialTileType: 1
   cardActive: 0
+  dir: 4
 --- !u!1 &626869443
 GameObject:
   m_ObjectHideFlags: 0
@@ -3413,6 +3419,7 @@ MonoBehaviour:
   specialTile: 1
   specialTileType: 1
   cardActive: 0
+  dir: 3
 --- !u!1 &675052498
 GameObject:
   m_ObjectHideFlags: 0
@@ -3424,6 +3431,7 @@ GameObject:
   - component: {fileID: 675052501}
   - component: {fileID: 675052500}
   - component: {fileID: 675052499}
+  - component: {fileID: 675052502}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Untagged
@@ -3466,9 +3474,11 @@ MonoBehaviour:
   purchaseUi: {fileID: 1980317331}
   tpFlag: 0
   tpBack: {fileID: 453495399}
+  tpTile: {fileID: 0}
   highSpeedFlag: 0
   invisibleFlag: 0
   toosiFlag: 0
+  biggerFlag: 0
 --- !u!212 &675052500
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3529,7 +3539,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 675052498}
   m_LocalRotation: {x: -0, y: -0, z: 0.0000000037252899, w: 1}
-  m_LocalPosition: {x: 5.22, y: -6.09, z: 0}
+  m_LocalPosition: {x: 4.59, y: -6.03, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3537,6 +3547,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &675052502
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675052498}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8999d851065bf462e91a7dc005129be6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &694598154
 GameObject:
   m_ObjectHideFlags: 0
@@ -3788,6 +3818,7 @@ MonoBehaviour:
   specialTile: 0
   specialTileType: 0
   cardActive: 0
+  dir: 4
 --- !u!1 &772154759
 GameObject:
   m_ObjectHideFlags: 0
@@ -4147,6 +4178,7 @@ MonoBehaviour:
   specialTile: 1
   specialTileType: 3
   cardActive: 0
+  dir: 2
 --- !u!1 &871563821
 GameObject:
   m_ObjectHideFlags: 0
@@ -4623,6 +4655,7 @@ MonoBehaviour:
   specialTile: 0
   specialTileType: 0
   cardActive: 0
+  dir: 5
 --- !u!1 &979879834
 GameObject:
   m_ObjectHideFlags: 0
@@ -4670,6 +4703,7 @@ MonoBehaviour:
   specialTile: 0
   specialTileType: 0
   cardActive: 0
+  dir: 5
 --- !u!60 &979879836
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -5652,6 +5686,7 @@ MonoBehaviour:
   specialTile: 0
   specialTileType: 0
   cardActive: 0
+  dir: 4
 --- !u!1 &1126767047
 GameObject:
   m_ObjectHideFlags: 0
@@ -6052,6 +6087,7 @@ MonoBehaviour:
   specialTile: 0
   specialTileType: 0
   cardActive: 0
+  dir: 2
 --- !u!1 &1234619302
 GameObject:
   m_ObjectHideFlags: 3
@@ -6634,6 +6670,7 @@ MonoBehaviour:
   specialTile: 1
   specialTileType: 1
   cardActive: 0
+  dir: 5
 --- !u!1 &1368351171
 GameObject:
   m_ObjectHideFlags: 3
@@ -7022,6 +7059,7 @@ MonoBehaviour:
   specialTile: 0
   specialTileType: 0
   cardActive: 0
+  dir: 4
 --- !u!1 &1416878612
 GameObject:
   m_ObjectHideFlags: 0
@@ -7201,6 +7239,7 @@ MonoBehaviour:
   specialTile: 0
   specialTileType: 0
   cardActive: 0
+  dir: 2
 --- !u!1 &1431344160
 GameObject:
   m_ObjectHideFlags: 0
@@ -7379,6 +7418,7 @@ MonoBehaviour:
   specialTile: 0
   specialTileType: 0
   cardActive: 0
+  dir: 3
 --- !u!1 &1511854095
 GameObject:
   m_ObjectHideFlags: 0
@@ -7459,7 +7499,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1511854095}
   m_LocalRotation: {x: -0, y: -0, z: 0.0000000037252899, w: 1}
-  m_LocalPosition: {x: 9.68, y: -6.11, z: 0}
+  m_LocalPosition: {x: 5.22, y: -6.11, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7502,9 +7542,11 @@ MonoBehaviour:
   purchaseUi: {fileID: 1980317331}
   tpFlag: 0
   tpBack: {fileID: 453495399}
+  tpTile: {fileID: 0}
   highSpeedFlag: 0
   invisibleFlag: 0
   toosiFlag: 0
+  biggerFlag: 0
 --- !u!61 &1511854100
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8105,6 +8147,7 @@ MonoBehaviour:
   specialTile: 1
   specialTileType: 2
   cardActive: 0
+  dir: 5
 --- !u!1 &1626855497
 GameObject:
   m_ObjectHideFlags: 0
@@ -8155,7 +8198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: c17b3f87d77154aa8a23fd9c425a7f71, type: 3}
   m_Color: {r: 1, g: 0.96427387, b: 0.3537736, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -8164,12 +8207,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 84a36e867d53e4d63806c5cd75aaf459, type: 3}
-    m_FontSize: 100
-    m_FontStyle: 1
+    m_Font: {fileID: 12800000, guid: c17b3f87d77154aa8a23fd9c425a7f71, type: 3}
+    m_FontSize: 120
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 100
+    m_MaxSize: 120
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -8675,6 +8718,7 @@ MonoBehaviour:
   specialTile: 1
   specialTileType: 0
   cardActive: 0
+  dir: 4
 --- !u!1 &1696929356
 GameObject:
   m_ObjectHideFlags: 0
@@ -9121,6 +9165,7 @@ MonoBehaviour:
   specialTile: 0
   specialTileType: 0
   cardActive: 0
+  dir: 4
 --- !u!1 &1793234642
 GameObject:
   m_ObjectHideFlags: 0
@@ -9315,17 +9360,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2b1ac94ec0a104600986da9fc6775e9d, type: 3}
   - {fileID: 21300000, guid: d39d98df0c6e54defa46f6d3cf1d9dc7, type: 3}
   cards:
-  - card_name: "\uB808\uC774\uC800 \uBE54"
-    cardCode: 0
-    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
-    targetTile: {fileID: 0}
   - card_name: "\uACE0\uC18D \uC774\uB3D9"
     cardCode: 1
     cardImg: {fileID: 21300000, guid: e5631acbcf2f240a58b390969420b074, type: 3}
-    targetTile: {fileID: 0}
-  - card_name: "\uACF5\uC911\uBD80\uC591"
-    cardCode: 2
-    cardImg: {fileID: 21300000, guid: e373adfff7d7c4dcf9539dc66f785246, type: 3}
     targetTile: {fileID: 0}
   - card_name: "\uD22C\uBA85 \uB3C4\uB451"
     cardCode: 3
@@ -9338,10 +9375,6 @@ MonoBehaviour:
   - card_name: "\uD22C\uC2DC"
     cardCode: 5
     cardImg: {fileID: 21300000, guid: d46864bc0e0de488f9a6ea74d1c90024, type: 3}
-    targetTile: {fileID: 0}
-  - card_name: "\uBD80\uB2F9\uAC70\uB798"
-    cardCode: 6
-    cardImg: {fileID: 21300000, guid: b7d97c486b14f47cbba872703aa23aca, type: 3}
     targetTile: {fileID: 0}
   buildings:
   - buildingName: "\uB18D\uC7A5"
@@ -9790,6 +9823,7 @@ MonoBehaviour:
   specialTile: 0
   specialTileType: 0
   cardActive: 0
+  dir: 3
 --- !u!1 &1953869135
 GameObject:
   m_ObjectHideFlags: 0
@@ -10536,6 +10570,7 @@ MonoBehaviour:
   specialTile: 0
   specialTileType: 0
   cardActive: 0
+  dir: 5
 --- !u!1 &2082389204
 GameObject:
   m_ObjectHideFlags: 0
@@ -10788,6 +10823,7 @@ MonoBehaviour:
   specialTile: 1
   specialTileType: 1
   cardActive: 0
+  dir: 2
 --- !u!1 &2102621171
 GameObject:
   m_ObjectHideFlags: 0
@@ -11142,3 +11178,4 @@ MonoBehaviour:
   specialTile: 0
   specialTileType: 0
   cardActive: 0
+  dir: 5

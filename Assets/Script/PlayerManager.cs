@@ -41,10 +41,12 @@ public class PlayerManager : MonoBehaviour
     public bool tpFlag;
     bool tpSelectFlag;
     public GameObject tpBack; //tp활성화 시 맵 이외의 주변이 어둡게 변함.
-
+    
+    public GameObject tpTile; //다음 이동할곳 저장
     public bool highSpeedFlag;
     public bool invisibleFlag; //투명화
     public bool toosiFlag; //투시
+    public bool biggerFlag; //거대화
 
     // Start is called before the first frame update
     void Start()
@@ -62,18 +64,19 @@ public class PlayerManager : MonoBehaviour
         {
 
             downInformationText.gameObject.SetActive(true);
-            for (int i = 0; i < againstPlayer.cards.Count; i++)
-            { //상대방의 카드를 가림
-                againstPlayer.cardParent.GetChild(i).GetChild(0).gameObject.SetActive(false);
+            for(int i=0;i<againstPlayer.cards.Count; i++){ //상대방의 카드를 가림
+                againstPlayer.cardParent.GetChild(i).GetChild(0).gameObject.SetActive(true);
+            }
+            for(int i=0;i<cards.Count; i++){
+                cardParent.GetChild(i).GetChild(0).gameObject.SetActive(false);
             }
         }
         else
         {
             downInformationText.gameObject.SetActive(false);
-            for (int i = 0; i < againstPlayer.cards.Count; i++)
-            {
-                cardParent.GetChild(i).GetChild(0).gameObject.SetActive(true);
-            }
+            // for(int i=0;i<cards.Count; i++){
+            //     cardParent.GetChild(i).GetChild(0).gameObject.SetActive(false);
+            // }
         }
         if (movingFlag)
         {
@@ -84,15 +87,14 @@ public class PlayerManager : MonoBehaviour
             StartCoroutine("TooSiCoroutine");
         }
 
-        if (tpFlag && myTurn)
-        {
-            this.tileNum = int.Parse(theGM.tpTile[0].gameObject.name);
-            this.tileToGo.Add(theGM.tpTile[0]);
+        if(tpFlag && myTurn){
+            this.tileNum = int.Parse(tpTile.gameObject.name);
+            this.tileToGo.Add(tpTile);
             this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
             this.tileToGo.RemoveAt(0);
-            // theGM.tpTile.RemoveAt(0);
             theGM.turnCount += 1;
             theGM.nextTurn = true;
+            tpFlag = false;
 
         }
     }
@@ -104,6 +106,9 @@ public class PlayerManager : MonoBehaviour
         {//invisibleFalg
             this.gameObject.GetComponent<SpriteRenderer>().color =
                 new Color(1, 1, 1, 0.5f);
+        }
+        if(biggerFlag && myTurn){
+            this.gameObject.transform.localScale = new Vector3(2f,2f,0);
         }
         if (diceFlag)
         {//주사위를 굴렸다면
@@ -163,12 +168,12 @@ public class PlayerManager : MonoBehaviour
                 }
                 //player를 이동시킴 (애니메이션 필요)
                 this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
+                // this.transform.position = Vector3.MoveTowards(gameObject.transform.position, tileToGo)
                 nowTile = tileToGo[0].GetComponent<Tile>(); //현재 타일
-                if (invisibleFlag)
-                {//invisible플래그가 활성화되어있고
-                    if (againstPlayer.tileNum == tileNum)
-                    { //내가 상대방과 같은 타일을 지나간다면
-                        GameObject dCard = againstPlayer.cardParent.GetChild(UnityEngine.Random.Range(0, againstPlayer.cardParent.childCount)).gameObject;
+                this.gameObject.GetComponent<Animator>().SetInteger("Dir",nowTile.dir);
+                if(invisibleFlag){//invisible플래그가 활성화되어있고
+                    if(againstPlayer.tileNum == tileNum){ //내가 상대방과 같은 타일을 지나간다면
+                        GameObject dCard = againstPlayer.cardParent.GetChild(UnityEngine.Random.Range(0,againstPlayer.cardParent.childCount)).gameObject;
                         dCard.transform.parent = cardParent;
                         //카드 한장을 훔침.
                     }
@@ -193,6 +198,9 @@ public class PlayerManager : MonoBehaviour
             }
             diceFlag = false;//작업 완료 후 다이스 false
             movingFlag = false; //무빙 플래그도 false
+
+
+            
             //그다음 플래그 활성화 시켜야됨. 구매 플래그?
             if (!nowTile.specialTile)
             {//일반 땅이라면
@@ -221,29 +229,36 @@ public class PlayerManager : MonoBehaviour
                 else
                 {//둘 다 아니라면 상대방의 땅
                     //돈 빼는 코드 작성
-                    if (nowTile.building != null)
-                    { //건물이 있는경우
-                        switch (nowTile.building.type)
-                        { //빌딩 타입 검사
-                            case 1:
-
-                                break;
-                            case 3:
-                                if (nowTile.building.visitCount < 5)
-                                    nowTile.building.visitCount += 1;
-                                playerMoney -= nowTile.building.visitCount * 100;
-                                againstPlayer.playerMoney += nowTile.building.visitCount * 100;
-                                break;
-                            default:
-                                playerMoney -= 100;
-                                againstPlayer.playerMoney += 100;
-                                break;
-                        }
-
+                    if(biggerFlag){
+                        nowTile.ownPlayer = -1;
+                        nowTile.building = null;
+                        this.gameObject.transform.localScale = new Vector3(1f,1f,1f);
+                        biggerFlag = false;
                     }
-                    else
-                    {
-                        playerMoney -= 50;
+                    else{
+
+                        if(nowTile.building != null){ //건물이 있는경우
+                            switch(nowTile.building.type){ //빌딩 타입 검사
+                                case 1:
+
+                                break;
+                                case 3:
+                                    if(nowTile.building.visitCount < 5)
+                                        nowTile.building.visitCount += 1;
+                                    playerMoney -= nowTile.building.visitCount * 100;
+                                    againstPlayer.playerMoney += nowTile.building.visitCount * 100;
+                                    break;
+                                default:
+                                    playerMoney -= 100;
+                                    againstPlayer.playerMoney += 100;
+                                break;
+                            }
+                            
+                        }
+                        
+                        else{
+                            playerMoney -= 50;
+                        }
                     }
 
                     theGM.turnCount += 1;//턴넘김
@@ -337,6 +352,8 @@ public class PlayerManager : MonoBehaviour
         {
             theTM.tiles[i].cardActive = false; //다시 클릭 못하도록 변경
         }
+        tpTile = theGM.tpTile;
+        theGM.tpTile = null;
         tpBack.SetActive(false);
         tpFlag = true;
         myTurn = false;
