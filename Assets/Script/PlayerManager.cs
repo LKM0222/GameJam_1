@@ -41,6 +41,7 @@ public class PlayerManager : MonoBehaviour
     public bool tpFlag;
     bool tpSelectFlag;
     public GameObject tpBack; //tp활성화 시 맵 이외의 주변이 어둡게 변함.
+    
     public bool highSpeedFlag;
     public bool invisibleFlag; //투명화
     public bool toosiFlag; //투시
@@ -78,11 +79,12 @@ public class PlayerManager : MonoBehaviour
             StartCoroutine("TooSiCoroutine");
         }
 
-        if(tpFlag){
-            this.tileNum = int.Parse(theGM.tpTile.gameObject.name);
-            this.tileToGo.Add(theGM.tpTile);
+        if(tpFlag && myTurn){
+            this.tileNum = int.Parse(theGM.tpTile[0].gameObject.name);
+            this.tileToGo.Add(theGM.tpTile[0]);
             this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
             this.tileToGo.RemoveAt(0);
+            theGM.tpTile.RemoveAt(0);
             theGM.turnCount += 1;
             theGM.nextTurn = true;
 
@@ -298,6 +300,7 @@ public class PlayerManager : MonoBehaviour
         }
         tpBack.SetActive(false);
         tpFlag = true;
+        myTurn = false;
         theGM.turnCount += 1;
         theGM.nextTurn = true;
     }
