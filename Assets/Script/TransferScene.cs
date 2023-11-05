@@ -8,15 +8,10 @@ using UnityEngine.UI;
 
 public class TransferScene : MonoBehaviour
 {
-    public float fadeTime = 3f;
-    public float currentFadeTime;
-
-    public SpriteRenderer spriteRender;
-
     // Start is called before the first frame update
     void Start()
     {
-
+        AudioManager.instance.Play("titleBGM");
     }
 
     // Update is called once per frame
@@ -25,9 +20,10 @@ public class TransferScene : MonoBehaviour
 
     }
 
-    public void MenuScene()
+    public void LoadingScene()
     {
-        SceneManager.LoadScene("MenuScene");
+        AudioManager.instance.Stop("titleBGM");
+        SceneManager.LoadScene("LoadingScene");
     }
 
     public void Exit()
@@ -35,12 +31,8 @@ public class TransferScene : MonoBehaviour
         Application.Quit();
     }
 
-    IEnumerator FadeOutCoroutine()
+    public void ButtonClickSound()
     {
-        while (currentFadeTime > 0)
-        {
-            currentFadeTime -= Time.deltaTime;
-            yield return new WaitForSeconds(0.01f);
-        }
+        AudioManager.instance.Play("buttonSound");
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
-public class Tile: MonoBehaviour
+public class Tile : MonoBehaviour
 {
     public PlayerManager players; //땅에 도착한 플레이어
     public Building building; //땅에 올라가있는 건물의 정보
@@ -24,44 +24,55 @@ public class Tile: MonoBehaviour
     {
         theGM = FindObjectOfType<GameManager>();
         ownPlayer = -1;
-        if(!specialTile){
+        if (!specialTile)
+        {
             buildingImg = this.transform.GetChild(0).GetComponent<SpriteRenderer>();
             signImg = this.transform.GetChild(1).GetComponent<SpriteRenderer>();
         }
-        
+
     }
 
-    private void Update() {
-        if(!specialTile){
+    private void Update()
+    {
+        if (!specialTile)
+        {
             //땅의 소유 색깔 변경
-            if(ownPlayer == -1){
+            if (ownPlayer == -1)
+            {
                 signImg.sprite = null;
-                
+
             }
-            else if(ownPlayer == 0){
+            else if (ownPlayer == 0)
+            {
                 signImg.sprite = theGM.signSprites[0];
             }
-            else{
+            else
+            {
                 signImg.sprite = theGM.signSprites[1];
             }
             // 건물의 이미지 변경
-            if(building.type > -1){
-                if(tileFrontFlag)//true : left, false : front
+            if (building.type > -1)
+            {
+                if (tileFrontFlag)//true : left, false : front
                     buildingImg.sprite = theGM.buildings[building.type].buildingImg.building_left;
-                else{
+                else
+                {
                     buildingImg.sprite = theGM.buildings[building.type].buildingImg.building_front;
                 }
             }
-            else{
+            else
+            {
                 buildingImg.sprite = null;
             }
         }
     }
 
-    private void OnMouseDown() {
-        if(cardActive){
+    private void OnMouseDown()
+    {
+        if (cardActive)
+        {
             //선택된 타일을 gm에 반환
-            theGM.tpTile.Add(this.gameObject);
+            // theGM.tpTile.Add(this.gameObject);
             print("clicked!");
         }
     }
