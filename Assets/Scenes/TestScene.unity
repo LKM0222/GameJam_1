@@ -3466,9 +3466,11 @@ MonoBehaviour:
   purchaseUi: {fileID: 1980317331}
   tpFlag: 0
   tpBack: {fileID: 453495399}
+  tpTile: {fileID: 0}
   highSpeedFlag: 0
   invisibleFlag: 0
   toosiFlag: 0
+  biggerFlag: 0
 --- !u!212 &675052500
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7459,7 +7461,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1511854095}
   m_LocalRotation: {x: -0, y: -0, z: 0.0000000037252899, w: 1}
-  m_LocalPosition: {x: 9.68, y: -6.11, z: 0}
+  m_LocalPosition: {x: 5.22, y: -6.11, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7502,9 +7504,11 @@ MonoBehaviour:
   purchaseUi: {fileID: 1980317331}
   tpFlag: 0
   tpBack: {fileID: 453495399}
+  tpTile: {fileID: 0}
   highSpeedFlag: 0
   invisibleFlag: 0
   toosiFlag: 0
+  biggerFlag: 0
 --- !u!61 &1511854100
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9315,17 +9319,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2b1ac94ec0a104600986da9fc6775e9d, type: 3}
   - {fileID: 21300000, guid: d39d98df0c6e54defa46f6d3cf1d9dc7, type: 3}
   cards:
-  - card_name: "\uB808\uC774\uC800 \uBE54"
-    cardCode: 0
-    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
-    targetTile: {fileID: 0}
   - card_name: "\uACE0\uC18D \uC774\uB3D9"
     cardCode: 1
     cardImg: {fileID: 21300000, guid: e5631acbcf2f240a58b390969420b074, type: 3}
-    targetTile: {fileID: 0}
-  - card_name: "\uACF5\uC911\uBD80\uC591"
-    cardCode: 2
-    cardImg: {fileID: 21300000, guid: e373adfff7d7c4dcf9539dc66f785246, type: 3}
     targetTile: {fileID: 0}
   - card_name: "\uD22C\uBA85 \uB3C4\uB451"
     cardCode: 3
@@ -9338,10 +9334,6 @@ MonoBehaviour:
   - card_name: "\uD22C\uC2DC"
     cardCode: 5
     cardImg: {fileID: 21300000, guid: d46864bc0e0de488f9a6ea74d1c90024, type: 3}
-    targetTile: {fileID: 0}
-  - card_name: "\uBD80\uB2F9\uAC70\uB798"
-    cardCode: 6
-    cardImg: {fileID: 21300000, guid: b7d97c486b14f47cbba872703aa23aca, type: 3}
     targetTile: {fileID: 0}
   buildings:
   - buildingName: "\uB18D\uC7A5"

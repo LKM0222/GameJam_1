@@ -46,6 +46,7 @@ public class PlayerManager : MonoBehaviour
     public bool highSpeedFlag;
     public bool invisibleFlag; //투명화
     public bool toosiFlag; //투시
+    public bool biggerFlag; //거대화
 
     // Start is called before the first frame update
     void Start()
@@ -63,14 +64,17 @@ public class PlayerManager : MonoBehaviour
             
             downInformationText.gameObject.SetActive(true);
             for(int i=0;i<againstPlayer.cards.Count; i++){ //상대방의 카드를 가림
-                againstPlayer.cardParent.GetChild(i).GetChild(0).gameObject.SetActive(false);
+                againstPlayer.cardParent.GetChild(i).GetChild(0).gameObject.SetActive(true);
+            }
+            for(int i=0;i<cards.Count; i++){
+                cardParent.GetChild(i).GetChild(0).gameObject.SetActive(false);
             }
         }
         else{
             downInformationText.gameObject.SetActive(false);
-            for(int i=0;i<againstPlayer.cards.Count; i++){
-                cardParent.GetChild(i).GetChild(0).gameObject.SetActive(true);
-            }
+            // for(int i=0;i<cards.Count; i++){
+            //     cardParent.GetChild(i).GetChild(0).gameObject.SetActive(false);
+            // }
         }
         if (movingFlag)
         {
@@ -98,6 +102,9 @@ public class PlayerManager : MonoBehaviour
         if(invisibleFlag && myTurn){//invisibleFalg
             this.gameObject.GetComponent<SpriteRenderer>().color = 
                 new Color(1,1,1,0.5f);
+        }
+        if(biggerFlag && myTurn){
+            this.gameObject.transform.localScale = new Vector3(2f,2f,0);
         }
         if (diceFlag)
         {//주사위를 굴렸다면
@@ -200,26 +207,36 @@ public class PlayerManager : MonoBehaviour
                 }
                 else{//둘 다 아니라면 상대방의 땅
                     //돈 빼는 코드 작성
-                    if(nowTile.building != null){ //건물이 있는경우
-                        switch(nowTile.building.type){ //빌딩 타입 검사
-                            case 1:
-
-                            break;
-                            case 3:
-                                if(nowTile.building.visitCount < 5)
-                                    nowTile.building.visitCount += 1;
-                                playerMoney -= nowTile.building.visitCount * 100;
-                                againstPlayer.playerMoney += nowTile.building.visitCount * 100;
-                                break;
-                            default:
-                                playerMoney -= 100;
-                                againstPlayer.playerMoney += 100;
-                            break;
-                        }
-                        
+                    if(biggerFlag){
+                        nowTile.ownPlayer = -1;
+                        nowTile.building = null;
+                        this.gameObject.transform.localScale = new Vector3(1f,1f,1f);
+                        biggerFlag = false;
                     }
                     else{
-                        playerMoney -= 50;
+
+                        if(nowTile.building != null){ //건물이 있는경우
+                            switch(nowTile.building.type){ //빌딩 타입 검사
+                                case 1:
+
+                                break;
+                                case 3:
+                                    if(nowTile.building.visitCount < 5)
+                                        nowTile.building.visitCount += 1;
+                                    playerMoney -= nowTile.building.visitCount * 100;
+                                    againstPlayer.playerMoney += nowTile.building.visitCount * 100;
+                                    break;
+                                default:
+                                    playerMoney -= 100;
+                                    againstPlayer.playerMoney += 100;
+                                break;
+                            }
+                            
+                        }
+                        
+                        else{
+                            playerMoney -= 50;
+                        }
                     }
 
                     theGM.turnCount += 1;//턴넘김
