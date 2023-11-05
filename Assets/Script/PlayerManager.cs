@@ -156,7 +156,9 @@ public class PlayerManager : MonoBehaviour
                 }
                 //player를 이동시킴 (애니메이션 필요)
                 this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
+                // this.transform.position = Vector3.MoveTowards(gameObject.transform.position, tileToGo)
                 nowTile = tileToGo[0].GetComponent<Tile>(); //현재 타일
+                this.gameObject.GetComponent<Animator>().SetInteger("Dir",nowTile.dir);
                 if(invisibleFlag){//invisible플래그가 활성화되어있고
                     if(againstPlayer.tileNum == tileNum){ //내가 상대방과 같은 타일을 지나간다면
                         GameObject dCard = againstPlayer.cardParent.GetChild(UnityEngine.Random.Range(0,againstPlayer.cardParent.childCount)).gameObject;

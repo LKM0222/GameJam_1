@@ -19,6 +19,8 @@ public class Tile: MonoBehaviour
 
     public bool cardActive;
 
+    public int dir;//2345
+
     GameManager theGM;
     private void Start()
     {
