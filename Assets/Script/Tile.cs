@@ -61,7 +61,7 @@ public class Tile: MonoBehaviour
     private void OnMouseDown() {
         if(cardActive){
             //선택된 타일을 gm에 반환
-            theGM.tpTile.Add(this.gameObject);
+            theGM.tpTile = this.gameObject;
             print("clicked!");
         }
     }
