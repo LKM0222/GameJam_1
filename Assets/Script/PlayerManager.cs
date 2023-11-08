@@ -157,7 +157,7 @@ public class PlayerManager : MonoBehaviour
             theTSI.cursorPos = 3;
             for (; tileToGo.Count != 0;)
             {
-                if (tileToGo[0].transform.name == "Tile (23)")
+                if (tileToGo[0].transform.name == "0")
                 {
                     this.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 0f, 1f);
                     playerMoney += 100; //지나다닐때마다 100알씩 지급
@@ -171,6 +171,8 @@ public class PlayerManager : MonoBehaviour
                 // this.transform.position = Vector3.MoveTowards(gameObject.transform.position, tileToGo)
                 nowTile = tileToGo[0].GetComponent<Tile>(); //현재 타일
                 this.gameObject.GetComponent<Animator>().SetInteger("Dir",nowTile.dir);
+                AudioManager.instance.Play("moveSound");
+            
                 if(invisibleFlag){//invisible플래그가 활성화되어있고
                     if(againstPlayer.tileNum == tileNum){ //내가 상대방과 같은 타일을 지나간다면
                         GameObject dCard = againstPlayer.cardParent.GetChild(UnityEngine.Random.Range(0,againstPlayer.cardParent.childCount)).gameObject;
@@ -281,6 +283,7 @@ public class PlayerManager : MonoBehaviour
                         {
                             Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
                             print(newCard.card_name);
+                            AudioManager.instance.Play("cardSound");
                             cardPrefab.GetComponent<CardManager>().cardInfo = newCard; //theGM.cards[UnityEngine.Random.Range(0,theGM.cards.Length)]; //카드 속성 랜덤으로 설정해주고
                             cardPrefab.GetComponent<SpriteRenderer>().sprite = newCard.cardImg; //cardPrefab.GetComponent<CardManager>().cardInfo.cardImg; //카드 이미지 변경(여기서 오류 한번 생길듯)
                             var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);//카드 프리펩 생성해주고
