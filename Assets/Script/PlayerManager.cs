@@ -44,9 +44,9 @@ public class PlayerManager : MonoBehaviour
     
     public GameObject tpTile; //다음 이동할곳 저장
     public bool highSpeedFlag;
-    public bool invisibleFlag; //투명화
-    public bool toosiFlag; //투시
-    public bool biggerFlag; //거대화
+    // public bool invisibleFlag; //투명화
+    // public bool toosiFlag; //투시
+    // public bool biggerFlag; //거대화
 
     // Start is called before the first frame update
     void Start()
@@ -82,10 +82,10 @@ public class PlayerManager : MonoBehaviour
         {
             StartCoroutine("DiceCoroutine");
         }
-        if (toosiFlag)
-        {
-            StartCoroutine("TooSiCoroutine");
-        }
+        // if (toosiFlag)
+        // {
+        //     StartCoroutine("TooSiCoroutine");
+        // }
 
         if(tpFlag && myTurn){
             this.tileNum = int.Parse(tpTile.gameObject.name);
@@ -102,14 +102,14 @@ public class PlayerManager : MonoBehaviour
     IEnumerator DiceCoroutine()
     {
         movingFlag = false;
-        if (invisibleFlag && myTurn)
-        {//invisibleFalg
-            this.gameObject.GetComponent<SpriteRenderer>().color =
-                new Color(1, 1, 1, 0.5f);
-        }
-        if(biggerFlag && myTurn){
-            this.gameObject.transform.localScale = new Vector3(2f,2f,0);
-        }
+        // if (invisibleFlag && myTurn)
+        // {//invisibleFalg
+        //     this.gameObject.GetComponent<SpriteRenderer>().color =
+        //         new Color(1, 1, 1, 0.5f);
+        // }
+        // if(biggerFlag && myTurn){
+        //     this.gameObject.transform.localScale = new Vector3(2f,2f,0);
+        // }
         if (diceFlag)
         {//주사위를 굴렸다면
             if (highSpeedFlag && myTurn)
@@ -171,16 +171,16 @@ public class PlayerManager : MonoBehaviour
                 // this.transform.position = Vector3.MoveTowards(gameObject.transform.position, tileToGo)
                 nowTile = tileToGo[0].GetComponent<Tile>(); //현재 타일
                 this.gameObject.GetComponent<Animator>().SetInteger("Dir",nowTile.dir);
-                AudioManager.instance.Play("moveSound");
+                //AudioManager.instance.Play("moveSound");
             
-                if(invisibleFlag){//invisible플래그가 활성화되어있고
-                    if(againstPlayer.tileNum == tileNum){ //내가 상대방과 같은 타일을 지나간다면
-                        GameObject dCard = againstPlayer.cardParent.GetChild(UnityEngine.Random.Range(0,againstPlayer.cardParent.childCount)).gameObject;
-                        dCard.transform.parent = cardParent;
-                        //카드 한장을 훔침.
-                    }
+                // if(invisibleFlag){//invisible플래그가 활성화되어있고
+                //     if(againstPlayer.tileNum == tileNum){ //내가 상대방과 같은 타일을 지나간다면
+                //         GameObject dCard = againstPlayer.cardParent.GetChild(UnityEngine.Random.Range(0,againstPlayer.cardParent.childCount)).gameObject;
+                //         dCard.transform.parent = cardParent;
+                //         //카드 한장을 훔침.
+                //     }
 
-                }
+                // }
                 //애니메이션 나오는 시간동안 기다린 뒤
                 yield return new WaitForSeconds(0.5f);
 
@@ -231,13 +231,13 @@ public class PlayerManager : MonoBehaviour
                 else
                 {//둘 다 아니라면 상대방의 땅
                     //돈 빼는 코드 작성
-                    if(biggerFlag){
-                        nowTile.ownPlayer = -1;
-                        nowTile.building = null;
-                        this.gameObject.transform.localScale = new Vector3(1f,1f,1f);
-                        biggerFlag = false;
-                    }
-                    else{
+                    // if(biggerFlag){
+                    //     nowTile.ownPlayer = -1;
+                    //     nowTile.building = null;
+                    //     this.gameObject.transform.localScale = new Vector3(1f,1f,1f);
+                    //     biggerFlag = false;
+                    // }
+                    //else{
 
                         if(nowTile.building != null){ //건물이 있는경우
                             switch(nowTile.building.type){ //빌딩 타입 검사
@@ -261,7 +261,7 @@ public class PlayerManager : MonoBehaviour
                         else{
                             playerMoney -= 50;
                         }
-                    }
+                    //}
 
                     theGM.turnCount += 1;//턴넘김
                     theGM.nextTurn = true;
@@ -283,7 +283,7 @@ public class PlayerManager : MonoBehaviour
                         {
                             Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
                             print(newCard.card_name);
-                            AudioManager.instance.Play("cardSound");
+                            //AudioManager.instance.Play("cardSound");
                             cardPrefab.GetComponent<CardManager>().cardInfo = newCard; //theGM.cards[UnityEngine.Random.Range(0,theGM.cards.Length)]; //카드 속성 랜덤으로 설정해주고
                             cardPrefab.GetComponent<SpriteRenderer>().sprite = newCard.cardImg; //cardPrefab.GetComponent<CardManager>().cardInfo.cardImg; //카드 이미지 변경(여기서 오류 한번 생길듯)
                             var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);//카드 프리펩 생성해주고
@@ -316,7 +316,7 @@ public class PlayerManager : MonoBehaviour
                     //특수 행동 후 턴을 넘김
                     theGM.turnCount += 1;
                     theGM.nextTurn = true;
-                    invisibleFlag = false;
+                    //invisibleFlag = false;
                     this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
                 }
             }

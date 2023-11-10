@@ -49,7 +49,7 @@ public class DiceSystem : MonoBehaviour,IDragHandler, IEndDragHandler, IPointerD
         }
     }
     public void OnEndDrag(PointerEventData eventData1){
-        AudioManager.instance.Play("diceSound");
+        //AudioManager.instance.Play("diceSound");
         this.transform.localPosition = nowPos;
         EggObj.SetActive(true);
         thePlayer.diceNum = Random.Range(1,9); //테스트중, 끝나면 다시 변환

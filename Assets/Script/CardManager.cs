@@ -39,15 +39,15 @@ public class CardManager : MonoBehaviour
             if(cardInfo.cardCode == 1){
                 theGM.nowPlayer.highSpeedFlag = true;
             }
-            if(cardInfo.cardCode == 3){
-                theGM.nowPlayer.invisibleFlag = true;
-            }
-            if(cardInfo.cardCode == 4){
-                theGM.nowPlayer.biggerFlag = true;
-            }
-            if(cardInfo.cardCode == 5){
-                theGM.nowPlayer.toosiFlag = true;
-            }
+            // if(cardInfo.cardCode == 3){
+            //     theGM.nowPlayer.invisibleFlag = true;
+            // }
+            // if(cardInfo.cardCode == 4){
+            //     theGM.nowPlayer.biggerFlag = true;
+            // }
+            // if(cardInfo.cardCode == 5){
+            //     theGM.nowPlayer.toosiFlag = true;
+            // }
             Destroy(this.gameObject);
             theGM.nowPlayer.cards.Remove(this.gameObject.GetComponent<Card>());
             print("효과 발동");
