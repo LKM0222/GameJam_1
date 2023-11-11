@@ -30,6 +30,7 @@ public class CardManager : MonoBehaviour
             this.transform.localScale = new Vector3(7f,7f,1f);
             this.transform.position += Vector3.down * upPos;
             this.GetComponent<SpriteRenderer>().sortingOrder = 0;
+        
         }
     }
     private void OnMouseDown()

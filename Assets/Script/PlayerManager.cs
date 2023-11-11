@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     public bool diceFlag; // 주사위 굴렸는지 플래그
     public bool movingFlag; //코루틴 반복을 방지하는 플래그
     public List<Card> cards = new List<Card>(); //플레이어가 가진 카드
+    PlayerCard thePCard;
     [SerializeField] int tileNum; //플레이어가 서있는 칸의 번호
     TileManager theTM;//플레이어가 가야될 타일 정보 받아오기 위해 추가
     public bool myTurn;
@@ -54,6 +55,7 @@ public class PlayerManager : MonoBehaviour
         theTM = FindObjectOfType<TileManager>();
         theGM = FindObjectOfType<GameManager>();
         theTSI = FindObjectOfType<TurnSignScript>();
+        thePCard = FindObjectOfType<PlayerCard>();
     }
 
     // Update is called once per frame
@@ -62,21 +64,11 @@ public class PlayerManager : MonoBehaviour
         playerMoneyText.text = playerMoney.ToString();
         if (myTurn)
         {
-
             downInformationText.gameObject.SetActive(true);
-            for(int i=0;i<againstPlayer.cards.Count; i++){ //상대방의 카드를 가림
-                againstPlayer.cardParent.GetChild(i).GetChild(0).gameObject.SetActive(true);
-            }
-            for(int i=0;i<cards.Count; i++){
-                cardParent.GetChild(i).GetChild(0).gameObject.SetActive(false);
-            }
         }
         else
         {
             downInformationText.gameObject.SetActive(false);
-            // for(int i=0;i<cards.Count; i++){
-            //     cardParent.GetChild(i).GetChild(0).gameObject.SetActive(false);
-            // }
         }
         if (movingFlag)
         {
@@ -92,8 +84,7 @@ public class PlayerManager : MonoBehaviour
             this.tileToGo.Add(tpTile);
             this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
             this.tileToGo.RemoveAt(0);
-            theGM.turnCount += 1;
-            theGM.nextTurn = true;
+            theGM.NextTurnFunc();
             tpFlag = false;
 
         }
@@ -263,8 +254,7 @@ public class PlayerManager : MonoBehaviour
                         }
                     //}
 
-                    theGM.turnCount += 1;//턴넘김
-                    theGM.nextTurn = true;
+                    theGM.NextTurnFunc();
 
                 }
             }
@@ -283,9 +273,6 @@ public class PlayerManager : MonoBehaviour
                         {
                             Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
                             print(newCard.card_name);
-                            //AudioManager.instance.Play("cardSound");
-                            cardPrefab.GetComponent<CardManager>().cardInfo = newCard; //theGM.cards[UnityEngine.Random.Range(0,theGM.cards.Length)]; //카드 속성 랜덤으로 설정해주고
-                            cardPrefab.GetComponent<SpriteRenderer>().sprite = newCard.cardImg; //cardPrefab.GetComponent<CardManager>().cardInfo.cardImg; //카드 이미지 변경(여기서 오류 한번 생길듯)
                             var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);//카드 프리펩 생성해주고
                             _card.transform.localPosition = new Vector3(0f, 0f, 0f);
                             cards.Add(newCard); //플레이어 리스트에 카드 추가
@@ -314,8 +301,7 @@ public class PlayerManager : MonoBehaviour
                 if (!tpSelectFlag)
                 { //tp중일땐 일단 타일이 선택되기 전까지는 기다려야하기 때문에 탈출할 수 없음...
                     //특수 행동 후 턴을 넘김
-                    theGM.turnCount += 1;
-                    theGM.nextTurn = true;
+                    theGM.NextTurnFunc();
                     //invisibleFlag = false;
                     this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
                 }
@@ -360,7 +346,6 @@ public class PlayerManager : MonoBehaviour
         tpBack.SetActive(false);
         tpFlag = true;
         myTurn = false;
-        theGM.turnCount += 1;
-        theGM.nextTurn = true;
+        theGM.NextTurnFunc();
     }
 }
