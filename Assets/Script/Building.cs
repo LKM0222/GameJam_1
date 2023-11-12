@@ -6,11 +6,11 @@ using System;
 [System.Serializable]
 public class Building
 {
-    // 건물 이름
-    public string buildingName;
-
     //건물 이미지
     public BuildingType buildingImg;
+
+    // 건물 이름
+    public string buildingName;
 
     // 건물 생성, 파괴 애니메이션
     public Animator animator;

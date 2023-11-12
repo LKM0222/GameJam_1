@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardInfo:
     card_name: "\uD22C\uBA85 \uB3C4\uB451"
-    cardCode: 3
+    cardCode: 2
     cardImg: {fileID: 21300000, guid: 329fabe67d1ba4f0ab6ae0496c9e14ba, type: 3}
     targetTile: {fileID: 0}
   upPos: 5

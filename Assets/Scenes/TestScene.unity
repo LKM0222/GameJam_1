@@ -1039,10 +1039,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: -1
     visitCount: 0
@@ -1361,7 +1361,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursor: {fileID: 1021203170}
   cursorPos: 1
-  speed: 5
   pos:
   - {x: -147, y: 13, z: 0}
   - {x: 0, y: 13, z: 0}
@@ -1567,10 +1566,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: -1
     visitCount: 0
@@ -1660,10 +1659,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: 4
     visitCount: 0
@@ -3008,10 +3007,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: -1
     visitCount: 0
@@ -3103,10 +3102,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: -1
     visitCount: 0
@@ -3196,10 +3195,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: 1
     visitCount: 0
@@ -3404,10 +3403,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: 1
     visitCount: 0
@@ -3454,20 +3453,20 @@ MonoBehaviour:
   playerId: 1
   playerMoney: 1000
   playerMoneyText: {fileID: 1674247640}
+  againstPlayer: {fileID: 1511854098}
   tileToGo: []
   nowTile: {fileID: 0}
+  tileNum: 0
+  againstPlayer_Tile: []
   diceNum: 1
   diceFlag: 1
   movingFlag: 0
-  cards: []
-  tileNum: 0
   myTurn: 0
-  downInformationText: {fileID: 1114345601}
-  VirtualCamera: {fileID: 1598001944}
+  cards: []
   cardPrefab: {fileID: 2251793717217502938, guid: cf27e7408929c443abe4eeeeefda3072, type: 3}
   cardParent: {fileID: 1038877134}
-  againstPlayer: {fileID: 1511854098}
-  againstPlayer_Tile: []
+  VirtualCamera: {fileID: 1598001944}
+  downInformationText: {fileID: 1114345601}
   buildingCount: 0
   groundCount: 0
   groundBuyUi: {fileID: 530706387}
@@ -3803,10 +3802,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: -1
     visitCount: 0
@@ -4163,10 +4162,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: 3
     visitCount: 0
@@ -4640,10 +4639,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: -1
     visitCount: 0
@@ -4688,10 +4687,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: -1
     visitCount: 0
@@ -5671,10 +5670,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: -1
     visitCount: 0
@@ -6072,10 +6071,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: -1
     visitCount: 0
@@ -6655,10 +6654,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: 0
     visitCount: 0
@@ -7044,10 +7043,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: -1
     visitCount: 0
@@ -7224,10 +7223,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: -1
     visitCount: 0
@@ -7403,10 +7402,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: -1
     visitCount: 0
@@ -7522,20 +7521,20 @@ MonoBehaviour:
   playerId: 0
   playerMoney: 1000
   playerMoneyText: {fileID: 1244230541}
+  againstPlayer: {fileID: 675052499}
   tileToGo: []
   nowTile: {fileID: 0}
+  tileNum: 0
+  againstPlayer_Tile: []
   diceNum: 1
   diceFlag: 1
   movingFlag: 0
-  cards: []
-  tileNum: 0
   myTurn: 0
-  downInformationText: {fileID: 255605554}
-  VirtualCamera: {fileID: 997630559}
+  cards: []
   cardPrefab: {fileID: 2251793717217502938, guid: cf27e7408929c443abe4eeeeefda3072, type: 3}
   cardParent: {fileID: 1044211839}
-  againstPlayer: {fileID: 675052499}
-  againstPlayer_Tile: []
+  VirtualCamera: {fileID: 997630559}
+  downInformationText: {fileID: 255605554}
   buildingCount: 0
   groundCount: 0
   groundBuyUi: {fileID: 530706387}
@@ -7740,6 +7739,56 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &1544906835
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1544906837}
+  - component: {fileID: 1544906836}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1544906836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544906835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adab3e43651d357468cfe3fb0eebd846, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - clip: {fileID: 0}
+    source: {fileID: 0}
+    name: diceSound
+    volume: 0
+    loop: 0
+--- !u!4 &1544906837
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544906835}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.3049042, y: -2.3275807, z: 0.068765074}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1557932487
 GameObject:
   m_ObjectHideFlags: 0
@@ -8132,10 +8181,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: 2
     visitCount: 0
@@ -8319,9 +8368,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd7989d03ae6041f99888f5684f13f2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thePlayer: {fileID: 0}
-  groundBuyFlag: 0
   purchaseUI: {fileID: 1980317331}
+  groundBuyFlag: 0
 --- !u!1 &1655456259
 GameObject:
   m_ObjectHideFlags: 0
@@ -8703,10 +8751,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: 0
     visitCount: 0
@@ -9150,10 +9198,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: -1
     visitCount: 0
@@ -9365,43 +9413,43 @@ MonoBehaviour:
     cardImg: {fileID: 21300000, guid: e5631acbcf2f240a58b390969420b074, type: 3}
     targetTile: {fileID: 0}
   - card_name: "\uD22C\uBA85 \uB3C4\uB451"
-    cardCode: 3
+    cardCode: 2
     cardImg: {fileID: 21300000, guid: 329fabe67d1ba4f0ab6ae0496c9e14ba, type: 3}
     targetTile: {fileID: 0}
   - card_name: "\uAC70\uB300\uD654 \uAF2C\uAF2C"
-    cardCode: 4
+    cardCode: 3
     cardImg: {fileID: 21300000, guid: 3792c71bf07534e9f9286bfe077f27a3, type: 3}
     targetTile: {fileID: 0}
   - card_name: "\uD22C\uC2DC"
-    cardCode: 5
+    cardCode: 4
     cardImg: {fileID: 21300000, guid: d46864bc0e0de488f9a6ea74d1c90024, type: 3}
     targetTile: {fileID: 0}
   buildings:
-  - buildingName: "\uB18D\uC7A5"
-    buildingImg:
+  - buildingImg:
       building_front: {fileID: 21300000, guid: 37f495e51523d4155be2c8b06ac83126, type: 3}
       building_left: {fileID: 21300000, guid: 94f8cda90ed874a89935ef9e20aa4415, type: 3}
+    buildingName: "\uB18D\uC7A5"
     animator: {fileID: 0}
     type: 0
     visitCount: 0
-  - buildingName: "\uC7AC\uB2E8"
-    buildingImg:
+  - buildingImg:
       building_front: {fileID: 21300000, guid: a1af7f3515fed4ab383b3abd29958c47, type: 3}
       building_left: {fileID: 21300000, guid: e79cb0391a3444be1a0fe02407737ef9, type: 3}
+    buildingName: "\uC7AC\uB2E8"
     animator: {fileID: 0}
     type: 1
     visitCount: 0
-  - buildingName: "\uD2B9\uBCC4\uC0C1\uC810"
-    buildingImg:
+  - buildingImg:
       building_front: {fileID: 21300000, guid: 321f2b42d43b04a9b8f5dc1ea71869ed, type: 3}
       building_left: {fileID: 21300000, guid: 6208f577b5bc2472ab6e6cf62dc0a0f6, type: 3}
+    buildingName: "\uD2B9\uBCC4\uC0C1\uC810"
     animator: {fileID: 0}
     type: 2
     visitCount: 0
-  - buildingName: "\uB79C\uB4DC\uB9C8\uD06C"
-    buildingImg:
+  - buildingImg:
       building_front: {fileID: 21300000, guid: 1e9065a0504dd436bba0f2434fdaf3ee, type: 3}
       building_left: {fileID: 21300000, guid: 573c6b270fd1c402db24c31777ac3ffb, type: 3}
+    buildingName: "\uB79C\uB4DC\uB9C8\uD06C"
     animator: {fileID: 0}
     type: 3
     visitCount: 0
@@ -9808,10 +9856,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: -1
     visitCount: 0
@@ -10555,10 +10603,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: -1
     visitCount: 0
@@ -10808,10 +10856,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: 1
     visitCount: 0
@@ -11163,10 +11211,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: {fileID: 0}
   building:
-    buildingName: 
     buildingImg:
       building_front: {fileID: 0}
       building_left: {fileID: 0}
+    buildingName: 
     animator: {fileID: 0}
     type: -1
     visitCount: 0

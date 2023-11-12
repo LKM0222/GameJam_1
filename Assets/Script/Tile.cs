@@ -19,13 +19,19 @@ public class Tile : MonoBehaviour
 
     public bool cardActive;
 
+    // 타일의 상하좌우 방향
     public int dir;//2345
 
     GameManager theGM;
+
     private void Start()
     {
         theGM = FindObjectOfType<GameManager>();
+
+        // 모든 타일을 주인 없는 상태로 초기화
         ownPlayer = -1;
+
+        // 일반 타일이라면 건물과 타일 색을 초기화
         if (!specialTile)
         {
             buildingImg = this.transform.GetChild(0).GetComponent<SpriteRenderer>();
@@ -42,7 +48,6 @@ public class Tile : MonoBehaviour
             if (ownPlayer == -1)
             {
                 signImg.sprite = null;
-
             }
             else if (ownPlayer == 0)
             {
@@ -52,6 +57,7 @@ public class Tile : MonoBehaviour
             {
                 signImg.sprite = theGM.signSprites[1];
             }
+
             // 건물의 이미지 변경
             if (building.type > -1)
             {
