@@ -9,11 +9,13 @@ public class PlayerManager : MonoBehaviour
     public int playerId; //몇번째 플레이어인지 정보
     public int playerMoney; //플레이어의 자금
     public Text playerMoneyText; //플레이어 자금 플로팅
+    [SerializeField] float speed; //이동속도
+    [SerializeField] bool movingFlag; //이동 완료인지 이동중인지 체크하는 플래그
     [SerializeField] List<GameObject> tileToGo = new List<GameObject>(); //플레이어가 가야될 타일//최대 12칸.
     public Tile nowTile; //현재 서 있는 타일의 정보
     public int diceNum; //주사위의 눈금
     public bool diceFlag; // 주사위 굴렸는지 플래그
-    public bool movingFlag; //코루틴 반복을 방지하는 플래그
+    public bool movingCoroutineFlag; //코루틴 반복을 방지하는 플래그
     public List<Card> cards = new List<Card>(); //플레이어가 가진 카드
     PlayerCard thePCard;
     [SerializeField] int tileNum; //플레이어가 서있는 칸의 번호
@@ -70,7 +72,7 @@ public class PlayerManager : MonoBehaviour
         {
             downInformationText.gameObject.SetActive(false);
         }
-        if (movingFlag)
+        if (movingCoroutineFlag)
         {
             StartCoroutine("DiceCoroutine");
         }
@@ -79,7 +81,7 @@ public class PlayerManager : MonoBehaviour
         //     StartCoroutine("TooSiCoroutine");
         // }
 
-        if(tpFlag && myTurn){
+        if(tpFlag && myTurn){//말끔하게 수정 필요
             this.tileNum = int.Parse(tpTile.gameObject.name);
             this.tileToGo.Add(tpTile);
             this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
@@ -92,7 +94,7 @@ public class PlayerManager : MonoBehaviour
 
     IEnumerator DiceCoroutine()
     {
-        movingFlag = false;
+        movingCoroutineFlag = false;
         // if (invisibleFlag && myTurn)
         // {//invisibleFalg
         //     this.gameObject.GetComponent<SpriteRenderer>().color =
@@ -103,26 +105,25 @@ public class PlayerManager : MonoBehaviour
         // }
         if (diceFlag)
         {//주사위를 굴렸다면
-            if (highSpeedFlag && myTurn)
-            { //고속이동을 활성화 했다면
-                for (int i = 0; i < diceNum * 2; i++) //두배로 이동
-                { //주사위 눈금만큼 리스트에 넣어야됨.
-                    if (tileNum + i >= theTM.tiles.Length)
-                    {
-                        //넣어야하는 오브젝트의 길이가 전체 리스트의 길이를 넘어간다면 제대로 더해지지 않는거임.
-                        tileToGo.Add(theTM.tiles[tileNum + i - theTM.tiles.Length].gameObject);
-                    }
-                    else
-                    {
-                        //아니라면 그냥 추가시켜주면 됨.
-                        tileToGo.Add(theTM.tiles[tileNum + i].gameObject);
-                    }
+            //highspeedflag는 diceSystem으로 넘어감. 거기가 더 깔끔해보여서. 테스트 후 아래의 주석 처리 코드는 삭제할것.
+            // if (highSpeedFlag && myTurn)
+            // { //고속이동을 활성화 했다면
+            //     for (int i = 0; i < diceNum * 2; i++) //두배로 이동
+            //     { //주사위 눈금만큼 리스트에 넣어야됨.
+            //         if (tileNum + i >= theTM.tiles.Length)
+            //         {
+            //             //넣어야하는 오브젝트의 길이가 전체 리스트의 길이를 넘어간다면 제대로 더해지지 않는거임.
+            //             tileToGo.Add(theTM.tiles[tileNum + i - theTM.tiles.Length].gameObject);
+            //         }
+            //         else
+            //         {
+            //             //아니라면 그냥 추가시켜주면 됨.
+            //             tileToGo.Add(theTM.tiles[tileNum + i].gameObject);
+            //         }
 
-                }
-                highSpeedFlag = false;
-            }
-            else
-            {
+            //     }
+            //     highSpeedFlag = false;
+            // }
                 for (int i = 0; i < diceNum; i++)
                 { //주사위 눈금만큼 리스트에 넣어야됨.
                     if (tileNum + i >= theTM.tiles.Length)
@@ -137,7 +138,7 @@ public class PlayerManager : MonoBehaviour
                     }
 
                 }
-            }
+ 
 
 
             VirtualCamera.SetActive(true);
@@ -157,11 +158,14 @@ public class PlayerManager : MonoBehaviour
                 {
                     this.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
                 }
-                //player를 이동시킴 (애니메이션 필요)
-                this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
-                // this.transform.position = Vector3.MoveTowards(gameObject.transform.position, tileToGo)
+                //player를 이동시킴 (애니메이션 필요) 메인 이동 코드
+                movingFlag = true;
+                //this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
+                Vector3 targetPos = tileToGo[0].transform.Find("Pos").transform.position;
+               
+                StartCoroutine(MovingCoroutine(targetPos));
+                yield return new WaitUntil(()=> movingFlag == false); //코루틴이 끝난지 체크
                 nowTile = tileToGo[0].GetComponent<Tile>(); //현재 타일
-                this.gameObject.GetComponent<Animator>().SetInteger("Dir",nowTile.dir);
                 //AudioManager.instance.Play("moveSound");
             
                 // if(invisibleFlag){//invisible플래그가 활성화되어있고
@@ -190,7 +194,8 @@ public class PlayerManager : MonoBehaviour
                 tileNum += diceNum;
             }
             diceFlag = false;//작업 완료 후 다이스 false
-            movingFlag = false; //무빙 플래그도 false
+            this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", false);
+            movingCoroutineFlag = false; //무빙 플래그도 false
 
 
             
@@ -347,5 +352,19 @@ public class PlayerManager : MonoBehaviour
         tpFlag = true;
         myTurn = false;
         theGM.NextTurnFunc();
+    }
+
+    IEnumerator MovingCoroutine(Vector3 target){
+        this.gameObject.GetComponent<Animator>().SetInteger("Dir",nowTile.dir);
+        this.gameObject.GetComponent<Animator>().SetBool("WalkFlag",true);
+        while(movingFlag){
+            this.transform.position = Vector3.MoveTowards(this.transform.position, target, Time.deltaTime * speed);
+            yield return new WaitForEndOfFrame();
+            if(this.transform.position == target){
+                movingFlag = false;
+            }
+        }
+        this.gameObject.GetComponent<Animator>().SetBool("WalkFlag",false);
+        yield return null;
     }
 }

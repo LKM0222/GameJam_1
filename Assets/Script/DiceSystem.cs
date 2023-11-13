@@ -26,7 +26,7 @@ public class DiceSystem : MonoBehaviour,IDragHandler, IEndDragHandler, IPointerD
                 //애니메이션 오브젝트를 비활성화 시키고
                 EggObj.SetActive(false);
                 //플레이어 무브 플래그 활성화
-                thePlayer.movingFlag = true;
+                thePlayer.movingCoroutineFlag = true;
                 animatorFlag = false;
             }
         }
@@ -52,7 +52,11 @@ public class DiceSystem : MonoBehaviour,IDragHandler, IEndDragHandler, IPointerD
         //AudioManager.instance.Play("diceSound");
         this.transform.localPosition = nowPos;
         EggObj.SetActive(true);
-        thePlayer.diceNum = 3;//Random.Range(1,9); //테스트중, 끝나면 다시 변환
+        thePlayer.diceNum = Random.Range(1,9); //테스트중, 끝나면 다시 변환
+        if(thePlayer.highSpeedFlag){
+            thePlayer.diceNum = thePlayer.diceNum * 2;
+            thePlayer.highSpeedFlag = false;
+        }
         thePlayer.diceFlag = true;
         diceNumText.text = thePlayer.diceNum.ToString();
         thePlayer.downInformationText.gameObject.SetActive(false);
