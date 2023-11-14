@@ -6,51 +6,30 @@ using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
-    //몇번째 플레이어인지 정보
-    public int playerId;
-    //플레이어의 자금
-    public int playerMoney;
-    //플레이어 자금 플로팅
-    public Text playerMoneyText;
-    // 상대 플레이어
-    public PlayerManager againstPlayer;
-
-    //플레이어가 밟고 지나가야 될 타일(최대 12칸.)
-    [SerializeField] List<GameObject> tileToGo = new List<GameObject>();
-    //현재 서 있는 타일의 정보
-    public Tile nowTile;
-    //플레이어가 서있는 칸의 번호
-    [SerializeField] int tileNum;
-    // 상대 플레이어가 가지고 있는 타일
-    public List<GameObject> againstPlayer_Tile = new List<GameObject>();
-
-
-    //주사위의 눈금
-    public int diceNum;
-    // 주사위 굴렸는지 플래그
-    public bool diceFlag;
-    //코루틴 반복을 방지하는 플래그(myTurn이랑 기능이 똑같은거 아닌가?)
-    public bool movingFlag;
-    // 각 플레이어마다 부여되는 턴 플래그
+    public int playerId; //몇번째 플레이어인지 정보
+    public int playerMoney; //플레이어의 자금
+    public Text playerMoneyText; //플레이어 자금 플로팅
+    [SerializeField] float speed; //이동속도
+    [SerializeField] bool movingFlag; //이동 완료인지 이동중인지 체크하는 플래그
+    [SerializeField] List<GameObject> tileToGo = new List<GameObject>(); //플레이어가 가야될 타일//최대 12칸.
+    public Tile nowTile; //현재 서 있는 타일의 정보
+    public int diceNum; //주사위의 눈금
+    public bool diceFlag; // 주사위 굴렸는지 플래그
+    public bool movingCoroutineFlag; //코루틴 반복을 방지하는 플래그
+    public List<Card> cards = new List<Card>(); //플레이어가 가진 카드
+    PlayerCard thePCard;
+    [SerializeField] int tileNum; //플레이어가 서있는 칸의 번호
+    TileManager theTM;//플레이어가 가야될 타일 정보 받아오기 위해 추가
     public bool myTurn;
-
-
-    //플레이어가 가진 카드 리스트
-    public List<Card> cards = new List<Card>();
-    // 카드 프리팹
-    public GameObject cardPrefab;
-    // 카드가 들어갈 부모 오브젝트 위치
-    public Transform cardParent;
-
-    TurnSignScript theTSI;
+    public Text downInformationText;
     GameManager theGM;
-    TileManager theTM; // 플레이어가 가야될 타일 정보 받아오기 위해 추가
+
     public GameObject VirtualCamera;
 
-    // '아래로 당기시오!!' 텍스트
-    public Text downInformationText;
-
-
+    public GameObject cardPrefab;
+    public Transform cardParent;
+    public PlayerManager againstPlayer;
+    public List<GameObject> againstPlayer_Tile = new List<GameObject>();
 
     [Header("Building")]
     public int buildingCount = 0;
@@ -60,16 +39,17 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] GameObject groundBuyUi;
     [SerializeField] GameObject purchaseUi;
 
+    TurnSignScript theTSI;
     [Header("Effect")]
     public bool tpFlag;
     bool tpSelectFlag;
-    public GameObject tpBack; // 텔레포트 사용 시 적용되는 어두운 Background
-
-    public GameObject tpTile; // 다음 이동할곳 저장
+    public GameObject tpBack; //tp활성화 시 맵 이외의 주변이 어둡게 변함.
+    
+    public GameObject tpTile; //다음 이동할곳 저장
     public bool highSpeedFlag;
-    public bool invisibleFlag; // 투명화
-    public bool toosiFlag; // 투시
-    public bool biggerFlag; // 거대화
+    // public bool invisibleFlag; //투명화
+    // public bool toosiFlag; //투시
+    // public bool biggerFlag; //거대화
 
     // Start is called before the first frame update
     void Start()
@@ -77,179 +57,125 @@ public class PlayerManager : MonoBehaviour
         theTM = FindObjectOfType<TileManager>();
         theGM = FindObjectOfType<GameManager>();
         theTSI = FindObjectOfType<TurnSignScript>();
+        thePCard = FindObjectOfType<PlayerCard>();
     }
 
     // Update is called once per frame
     void Update()
     {
         playerMoneyText.text = playerMoney.ToString();
-        // 자신의 턴일때
         if (myTurn)
         {
-            // '아래로 당기시오' 텍스트를 띄워줌
             downInformationText.gameObject.SetActive(true);
-
-            for (int i = 0; i < againstPlayer.cards.Count; i++)
-            {   // cardPrefab의 Cover(뒷면)을 활성화해서 상대방의 카드 내용을 가려줌
-                againstPlayer.cardParent.GetChild(i).GetChild(0).gameObject.SetActive(true);
-            }
-
-            for (int i = 0; i < cards.Count; i++)
-            {   // cardPrefab의 Cover(뒷면)을 비활성화해서 본인의 카드 내용 보여줌
-                cardParent.GetChild(i).GetChild(0).gameObject.SetActive(false);
-            }
         }
-        // 자신의 턴이 아닐때
         else
         {
-            // '아래로 당기시오' 텍스트를 가려줌
             downInformationText.gameObject.SetActive(false);
-            // for(int i=0;i<cards.Count; i++){
-            //     cardParent.GetChild(i).GetChild(0).gameObject.SetActive(false);
-            // }
         }
-
-        // 
-        if (movingFlag)
+        if (movingCoroutineFlag)
         {
             StartCoroutine("DiceCoroutine");
         }
+        // if (toosiFlag)
+        // {
+        //     StartCoroutine("TooSiCoroutine");
+        // }
 
-        if (toosiFlag)
-        {
-            StartCoroutine("TooSiCoroutine");
-        }
-
-        if (tpFlag && myTurn)
-        {
+        if(tpFlag && myTurn){//말끔하게 수정 필요
             this.tileNum = int.Parse(tpTile.gameObject.name);
             this.tileToGo.Add(tpTile);
             this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
             this.tileToGo.RemoveAt(0);
-            theGM.turnCount += 1;
-            theGM.nextTurn = true;
+            theGM.NextTurnFunc();
             tpFlag = false;
+
         }
     }
 
     IEnumerator DiceCoroutine()
     {
-        movingFlag = false;
-
-        // 투명화 카드를 썼다면
-        if (invisibleFlag && myTurn)
-        {
-            this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
-        }
-
-        // 거대화 카드를 썼다면
-        if (biggerFlag && myTurn)
-        {
-            this.gameObject.transform.localScale = new Vector3(2f, 2f, 0);
-        }
-
-        //주사위를 굴렸다면
+        movingCoroutineFlag = false;
+        // if (invisibleFlag && myTurn)
+        // {//invisibleFalg
+        //     this.gameObject.GetComponent<SpriteRenderer>().color =
+        //         new Color(1, 1, 1, 0.5f);
+        // }
+        // if(biggerFlag && myTurn){
+        //     this.gameObject.transform.localScale = new Vector3(2f,2f,0);
+        // }
         if (diceFlag)
-        {
-            //고속이동을 활성화 했다면 두배로 이동
-            if (highSpeedFlag && myTurn)
-            {
-                // 플레이어가 밟아서 이동해야 하는 타일들을 tileToGo에 추가해줌
-                for (int i = 0; i < diceNum * 2; i++)
-                {
-                    // 전체 타일의 길이를 넘어서서 한바퀴를 돌았다면
-                    if (tileNum + i >= theTM.tiles.Length)
-                    {
-                        // 전체 타일의 길이만큼 뺀 다음에 tileToGo에 추가
-                        tileToGo.Add(theTM.tiles[tileNum + i - theTM.tiles.Length].gameObject);
-                    }
-                    else
-                    {
-                        tileToGo.Add(theTM.tiles[tileNum + i].gameObject);
-                    }
+        {//주사위를 굴렸다면
+            //highspeedflag는 diceSystem으로 넘어감. 거기가 더 깔끔해보여서. 테스트 후 아래의 주석 처리 코드는 삭제할것.
+            // if (highSpeedFlag && myTurn)
+            // { //고속이동을 활성화 했다면
+            //     for (int i = 0; i < diceNum * 2; i++) //두배로 이동
+            //     { //주사위 눈금만큼 리스트에 넣어야됨.
+            //         if (tileNum + i >= theTM.tiles.Length)
+            //         {
+            //             //넣어야하는 오브젝트의 길이가 전체 리스트의 길이를 넘어간다면 제대로 더해지지 않는거임.
+            //             tileToGo.Add(theTM.tiles[tileNum + i - theTM.tiles.Length].gameObject);
+            //         }
+            //         else
+            //         {
+            //             //아니라면 그냥 추가시켜주면 됨.
+            //             tileToGo.Add(theTM.tiles[tileNum + i].gameObject);
+            //         }
 
-                }
-                highSpeedFlag = false;
-            }
-            else
-            {
-                // 플레이어가 밟아서 이동해야 하는 타일들을 tileToGo에 추가해줌
+            //     }
+            //     highSpeedFlag = false;
+            // }
                 for (int i = 0; i < diceNum; i++)
-                {
-                    // 전체 타일의 길이를 넘어서서 한바퀴를 돌았다면
+                { //주사위 눈금만큼 리스트에 넣어야됨.
                     if (tileNum + i >= theTM.tiles.Length)
                     {
-                        // 전체 타일의 길이만큼 뺀 다음에 tileToGo에 추가
+                        //넣어야하는 오브젝트의 길이가 전체 리스트의 길이를 넘어간다면 제대로 더해지지 않는거임.
                         tileToGo.Add(theTM.tiles[tileNum + i - theTM.tiles.Length].gameObject);
                     }
                     else
                     {
+                        //아니라면 그냥 추가시켜주면 됨.
                         tileToGo.Add(theTM.tiles[tileNum + i].gameObject);
                     }
 
                 }
-            }
+ 
 
-            // 가상카메라 활성화
+
             VirtualCamera.SetActive(true);
-
-            // 주사위 굴리는거 기다려야됨
+            //주사위 굴리는거 기다려야됨
             yield return new WaitForSeconds(1f);
             print("주사위 완료");
-
             //플레이어 이동
             theTSI.cursorPos = 3;
             for (; tileToGo.Count != 0;)
             {
-<<<<<<< Updated upstream
-                if (tileToGo[0].transform.name == "Tile (23)")
-=======
-                // 양계장에 도착했다면
                 if (tileToGo[0].transform.name == "0")
->>>>>>> Stashed changes
                 {
                     this.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 0f, 1f);
-                    // 완주 보상을 100알 지급
-                    playerMoney += 100;
+                    playerMoney += 100; //지나다닐때마다 100알씩 지급
                 }
                 else
                 {
                     this.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
                 }
-
-                // player를 tile의 로컬좌표를 기준으로 이동시킴 (애니메이션 필요)
-                this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
-                // this.transform.position = Vector3.MoveTowards(gameObject.transform.position, tileToGo)
-<<<<<<< Updated upstream
+                //player를 이동시킴 (애니메이션 필요) 메인 이동 코드
+                movingFlag = true;
+                //this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
+                Vector3 targetPos = tileToGo[0].transform.Find("Pos").transform.position;
+               
+                StartCoroutine(MovingCoroutine(targetPos));
+                yield return new WaitUntil(()=> movingFlag == false); //코루틴이 끝난지 체크
                 nowTile = tileToGo[0].GetComponent<Tile>(); //현재 타일
-                this.gameObject.GetComponent<Animator>().SetInteger("Dir",nowTile.dir);
-                if(invisibleFlag){//invisible플래그가 활성화되어있고
-                    if(againstPlayer.tileNum == tileNum){ //내가 상대방과 같은 타일을 지나간다면
-                        GameObject dCard = againstPlayer.cardParent.GetChild(UnityEngine.Random.Range(0,againstPlayer.cardParent.childCount)).gameObject;
-                        dCard.transform.parent = cardParent;
-                        //카드 한장을 훔침.
-                    }
-=======
->>>>>>> Stashed changes
+                //AudioManager.instance.Play("moveSound");
+            
+                // if(invisibleFlag){//invisible플래그가 활성화되어있고
+                //     if(againstPlayer.tileNum == tileNum){ //내가 상대방과 같은 타일을 지나간다면
+                //         GameObject dCard = againstPlayer.cardParent.GetChild(UnityEngine.Random.Range(0,againstPlayer.cardParent.childCount)).gameObject;
+                //         dCard.transform.parent = cardParent;
+                //         //카드 한장을 훔침.
+                //     }
 
-                // 현재 player가 이동한 타일
-                nowTile = tileToGo[0].GetComponent<Tile>();
-                // 타일의 방향에 맞춰서 플레이어를 회전시키는 애니메이션 적용
-                this.gameObject.GetComponent<Animator>().SetInteger("Dir", nowTile.dir);
-                AudioManager.instance.Play("moveSound");
-
-                // 투명화 스킬을 썼다면
-                if (invisibleFlag)
-                {
-                    // 상대방이 서있는 타일과 현재 자신이 서있는 타일이 겹칠때
-                    if (againstPlayer.tileNum == tileNum)
-                    {
-                        // 상대방의 카드를 랜덤하게 하나 훔치고, 자신의 카드에 추가함
-                        // (상대방 카드 목록에서 삭제, 내 카드 목록 업데이트 필요)
-                        GameObject dCard = againstPlayer.cardParent.GetChild(UnityEngine.Random.Range(0, againstPlayer.cardParent.childCount)).gameObject;
-                        dCard.transform.parent = cardParent;
-                    }
-                }
+                // }
                 //애니메이션 나오는 시간동안 기다린 뒤
                 yield return new WaitForSeconds(0.5f);
 
@@ -257,81 +183,65 @@ public class PlayerManager : MonoBehaviour
                 tileToGo.RemoveAt(0);
             }
 
-            // 현재 서있는 위치 업데이트, 한바퀴를 돌았을 경우 전체 타일 갯수만큼 빼줌
             if (tileNum + diceNum > theTM.tiles.Length)
             {
+                //만약 현재 위치를 업데이트 했을때, 총 타일의 길이를 넘어간다면 길이만큼 빼 줘야 정확한 위치에 있는것임.
                 tileNum += diceNum;
                 tileNum -= theTM.tiles.Length;
             }
             else
-            {
+            {//아니라면 그대로 더하기 진행
                 tileNum += diceNum;
             }
+            diceFlag = false;//작업 완료 후 다이스 false
+            this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", false);
+            movingCoroutineFlag = false; //무빙 플래그도 false
 
-            // 이동과 주사위 굴리기 모두 마쳤으니 false로 변경
-            diceFlag = false;
-            movingFlag = false;
 
-            // 현재 서있는 땅이 일반 땅이라면(건물을 지을 수 있는 땅)
+            
+            //그다음 플래그 활성화 시켜야됨. 구매 플래그?
             if (!nowTile.specialTile)
-            {
-                // 자신의 땅이라면
+            {//일반 땅이라면
                 if (nowTile.ownPlayer == playerId)
-                {
-                    // 건물이 없으면 건물 구매 UI 활성화
+                {//자기 땅이라면
+                    //일단 건물이 있는 땅인지 없는 땅인지 체크
                     if (nowTile.building == null)
-                    {
+                    { //건물이 없는 땅이라면
+                        //건물 구매 UI활성화
                         purchaseUi.SetActive(true);
                         //카드 선택 방지를 위한 UI활성화 플래그 활성화
                         theGM.UIFlag = true;
                     }
-                    // 건물이 있으면 건물 효과 활성화
                     else
-                    {
+                    { //건물이 있는 땅이라면
                         //효과를 활성화
                     }
                 }
-                // 주인이 없는 땅이라면
                 else if (nowTile.ownPlayer == -1)
-                {
+                { //주인없는 땅이라면
                     //땅 구매 UI를 활성화
                     groundBuyUi.SetActive(true);
                     //카드 선택 방지를 위한 UI활성화 플래그 활성화
                     theGM.UIFlag = true;
                 }
-                // 상대방의 땅이라면
                 else
-                {
-                    // 거대화 카드 사용시 상대방의 건물 파괴
-                    if (biggerFlag)
-                    {
-                        nowTile.ownPlayer = -1;
-                        nowTile.building = null;
-                        this.gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
-                        biggerFlag = false;
-                    }
+                {//둘 다 아니라면 상대방의 땅
+                    //돈 빼는 코드 작성
+                    // if(biggerFlag){
+                    //     nowTile.ownPlayer = -1;
+                    //     nowTile.building = null;
+                    //     this.gameObject.transform.localScale = new Vector3(1f,1f,1f);
+                    //     biggerFlag = false;
+                    // }
+                    //else{
 
-                    // 거대화 카드 사용 없이 방문했다면
-                    else
-                    {
-                        // 상대방의 건물이 있다면
-                        if (nowTile.building != null)
-                        {
-                            // 어떤 건물인지 체크
-                            switch (nowTile.building.type)
-                            {
-                                // 농장
-                                case 0:
-                                    break;
-                                // 제단
+                        if(nowTile.building != null){ //건물이 있는경우
+                            switch(nowTile.building.type){ //빌딩 타입 검사
                                 case 1:
-                                    break;
-                                // 상점
-                                case 2:
-                                    break;
-                                // 랜드마크
+
+                                break;
                                 case 3:
-                                    if (nowTile.building.visitCount < 5)
+                                    if(nowTile.building.visitCount < 5)
                                         nowTile.building.visitCount += 1;
                                     playerMoney -= nowTile.building.visitCount * 100;
                                     againstPlayer.playerMoney += nowTile.building.visitCount * 100;
@@ -339,142 +249,122 @@ public class PlayerManager : MonoBehaviour
                                 default:
                                     playerMoney -= 100;
                                     againstPlayer.playerMoney += 100;
-                                    break;
+                                break;
                             }
-
+                            
                         }
-                        // 없다면 기본 통행료 50만큼만 차감
-                        else
-                        {
+                        
+                        else{
                             playerMoney -= 50;
                         }
-                    }
+                    //}
 
-                    theGM.turnCount += 1;//턴넘김
-                    theGM.nextTurn = true;
+                    theGM.NextTurnFunc();
 
                 }
             }
-
-            //특수 타일이라면
             else
-            {
+            {//특수 타일이라면 특수 타일의 행동을 함.
                 print("specialTile" + nowTile.specialTileType);
-
-                // 특수 타일 타입 체크
                 switch (nowTile.specialTileType)
-                {
-                    // 양계장 타일
-                    case 0:
+                {//(0 : 양계장, 1 : 카드, 2 : 워프, 3 : 세금, 4 : 강탈)
+                    case 0: //양계장 
                         print("card Tile");
                         break;
-                    // 카드 지급 타일
-                    case 1:
+                    case 1: //카드 지급 
                         print("card Tile");
-                        // 소지 카드 갯수가 7개 이하라면 
+                        // 카드 구현해야됨.
                         if (cardParent.childCount < 8)
                         {
-                            // 랜덤한 카드를 하나 가져와서 cardPrefab에 적용시킨 후 복제해서 player의 card 리스트에 넣어줌
                             Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
                             print(newCard.card_name);
-                            cardPrefab.GetComponent<CardManager>().cardInfo = newCard; //theGM.cards[UnityEngine.Random.Range(0,theGM.cards.Length)]; //카드 속성 랜덤으로 설정해주고
-                            cardPrefab.GetComponent<SpriteRenderer>().sprite = newCard.cardImg; //cardPrefab.GetComponent<CardManager>().cardInfo.cardImg; //카드 이미지 변경(여기서 오류 한번 생길듯)
                             var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);//카드 프리펩 생성해주고
                             _card.transform.localPosition = new Vector3(0f, 0f, 0f);
                             cards.Add(newCard); //플레이어 리스트에 카드 추가
                         }
+
                         break;
-                    // 텔레포트 타일
-                    case 2:
+                    case 2: //teleport
                         //teleportFlag활성화
                         tpSelectFlag = true;
                         StartCoroutine("TeleportCoroutine");
+
+
                         break;
-                    // 세금 징수 타일
-                    case 3:
+                    case 3: //세금
                         //땅 갯수 *5 + 건물 갯수 * 10
                         playerMoney -= (groundCount * 5) + (buildingCount * 10);
+
                         break;
-                    // 강탈 타일
-                    case 4:
-                        // 상대방의 카드를 랜덤하게 하나 훔치고, 자신의 카드에 추가함
-                        // (상대방 카드 목록에서 삭제, 내 카드 목록 업데이트 필요)
+                    case 4: //강탈
+                        //상대 플레이어 카드 무작위 한장 뺏어옴.
                         GameObject dCard = againstPlayer.cardParent.GetChild(UnityEngine.Random.Range(0, againstPlayer.cardParent.childCount)).gameObject;
                         dCard.transform.parent = cardParent;
                         break;
-                }
 
-                // 텔레포트 타일에 도착하지 않았다면 턴을 종료
-                // 텔레포트 타일에 도착했다면 이 부분은 넘어감
+                }
                 if (!tpSelectFlag)
                 { //tp중일땐 일단 타일이 선택되기 전까지는 기다려야하기 때문에 탈출할 수 없음...
                     //특수 행동 후 턴을 넘김
-                    theGM.turnCount += 1;
-                    theGM.nextTurn = true;
-                    invisibleFlag = false;
+                    theGM.NextTurnFunc();
+                    //invisibleFlag = false;
                     this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
                 }
             }
             VirtualCamera.SetActive(false);
         }
-
         else
         { //tpFlag일 경우 텔레포트함.
 
         }
     }
 
-    // 투시 Coroutine
     IEnumerator TooSiCoroutine()
     {
-        // 상대방의 카드들의 Cover를 비활성화 시켜서 카드 내용을 보여줌
         for (int i = 0; i < againstPlayer.cards.Count; i++)
         {
             againstPlayer.cardParent.GetChild(i).GetChild(0).gameObject.SetActive(false);
         }
-
         yield return new WaitForSeconds(3f);
-
-        // 3초 대기 이후 Cover를 다시 씌워서 카드 내용을 가림
         for (int i = 0; i < againstPlayer.cards.Count; i++)
         {
             againstPlayer.cardParent.GetChild(i).GetChild(0).gameObject.SetActive(true);
         }
     }
 
-    // 순간이동 Coroutine
     IEnumerator TeleportCoroutine()
     {
-        // 텔레포트 할 타일 선택 시, 검게 변하는 Background 이미지 활성화
         tpBack.SetActive(true);
-
-        // 모든 타일을 클릭 가능하게 변경
         for (int i = 0; i < theTM.tiles.Length; i++)
         {
-            theTM.tiles[i].cardActive = true;
+            theTM.tiles[i].cardActive = true; //모든 카드 클릭 가능하도록 미리 클릭하고 다음턴에 해당 위치로 이동.
         }
 
-        // 타일을 클릭하기 전까지 대기
+
         yield return new WaitUntil(() => theGM.tpTile != null);
-
-        // 모든 타일을 클릭 불가능하게 변경
         for (int i = 0; i < theTM.tiles.Length; i++)
         {
-            theTM.tiles[i].cardActive = false;
+            theTM.tiles[i].cardActive = false; //다시 클릭 못하도록 변경
         }
-
-        // tpTile에 GameManager의 tpTile을 대입시키고 GameManager의 tpTile은 null로 초기화
-        // GM.tpTile을 null로 초기화 시켜주지 않으면, 상대방이 뒤따라 도착했을때 위치를 정하지 못하고 같은 곳으로 이동하게됨
         tpTile = theGM.tpTile;
         theGM.tpTile = null;
-
-        // 텔레포트 Background를 꺼주고 tpFlag를 true로 바꿔서 다음 턴에 텔레포트 가능하도록 함
         tpBack.SetActive(false);
         tpFlag = true;
-
-        // 텔레포트할 위치를 정했으면 턴 종료
         myTurn = false;
-        theGM.turnCount += 1;
-        theGM.nextTurn = true;
+        theGM.NextTurnFunc();
+    }
+
+    IEnumerator MovingCoroutine(Vector3 target){
+        this.gameObject.GetComponent<Animator>().SetInteger("Dir",nowTile.dir);
+        this.gameObject.GetComponent<Animator>().SetBool("WalkFlag",true);
+        while(movingFlag){
+            this.transform.position = Vector3.MoveTowards(this.transform.position, target, Time.deltaTime * speed);
+            yield return new WaitForEndOfFrame();
+            if(this.transform.position == target){
+                movingFlag = false;
+            }
+        }
+        this.gameObject.GetComponent<Animator>().SetBool("WalkFlag",false);
+        yield return null;
     }
 }

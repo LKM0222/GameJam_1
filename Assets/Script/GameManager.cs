@@ -40,10 +40,12 @@ public class GameManager : MonoBehaviour
 
     public GameObject tpTile; //텔레포트 활성화 시 다음턴에 움질일 위치 정함.
 
+
     // Start is called before the first frame update
     void Start()
     {
         theTSI = FindObjectOfType<TurnSignScript>();
+        //AudioManager.instance.Play("mainSound");
     }
 
     // Update is called once per frame
@@ -60,7 +62,7 @@ public class GameManager : MonoBehaviour
                 players[1].myTurn = false;
                 nowPlayer = players[0];
                 theTSI.cursorPos = 1;
-                // CardListUpdate();
+                CardListUpdate();
             }
             else
             {
@@ -69,7 +71,7 @@ public class GameManager : MonoBehaviour
                 players[0].myTurn = false;
                 nowPlayer = players[1];
                 theTSI.cursorPos = 1;
-                // CardListUpdate();
+                CardListUpdate();
             }
             nextTurn = false;
         }
@@ -101,5 +103,11 @@ public class GameManager : MonoBehaviour
                 _card.GetComponent<SpriteRenderer>().sprite = nowPlayer.cards[i].cardImg;
             }
         }
+    }
+
+    public void NextTurnFunc()
+    { //턴 종료일때 호출하는 메서드. 공통으로 들어가는 요소만 넣었음.
+        turnCount += 1;//턴넘김
+        nextTurn = true;
     }
 }

@@ -52,12 +52,9 @@ public class ButtonScript : MonoBehaviour
         // theGM.nowPlayer.buildingCount += 1;
         // theGM.nowPlayer.playerMoney -= 50;
     }
-
-    //취소버튼
     public void OnPurchaseCloseBtn()
-    {
-        theGM.turnCount += 1;
-        theGM.nextTurn = true;
+    { //취소버튼
+        theGM.NextTurnFunc();
         theGM.UIFlag = false;
     }
 

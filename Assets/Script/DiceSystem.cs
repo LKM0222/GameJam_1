@@ -32,7 +32,8 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler, IPointer
             {
                 // 주사위 비활성화, movingFlag을 true로 바꿔서 움직이게함
                 EggObj.SetActive(false);
-                thePlayer.movingFlag = true;
+                //플레이어 무브 플래그 활성화
+                thePlayer.movingCoroutineFlag = true;
                 animatorFlag = false;
             }
         }
@@ -66,10 +67,17 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler, IPointer
         }
     }
 <<<<<<< Updated upstream
-    public void OnEndDrag(PointerEventData eventData1){
+    public void OnEndDrag(PointerEventData eventData1)
+    {
+        //AudioManager.instance.Play("diceSound");
         this.transform.localPosition = nowPos;
         EggObj.SetActive(true);
-        thePlayer.diceNum = Random.Range(1,9); //테스트중, 끝나면 다시 변환
+        thePlayer.diceNum = Random.Range(1, 9); //테스트중, 끝나면 다시 변환
+        if (thePlayer.highSpeedFlag)
+        {
+            thePlayer.diceNum = thePlayer.diceNum * 2;
+            thePlayer.highSpeedFlag = false;
+        }
         thePlayer.diceFlag = true;
         diceNumText.text = thePlayer.diceNum.ToString();
         thePlayer.downInformationText.gameObject.SetActive(false);
