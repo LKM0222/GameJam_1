@@ -9,6 +9,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler, IPointer
 {
 
     TurnSignScript theTSI;
+    CardManager theCM;
     [SerializeField] PlayerManager thePlayer; //플레이어의 정보
     [SerializeField] Vector3 nowPos;//현재 팻말의 위치 저장
     [SerializeField] GameObject EggObj; //주사위 오브젝트
@@ -21,6 +22,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler, IPointer
     {
         nowPos = this.transform.localPosition;
         theTSI = FindObjectOfType<TurnSignScript>();
+        theCM = FindObjectOfType<CardManager>();
     }
 
     void Update()
@@ -66,47 +68,31 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler, IPointer
             this.transform.localPosition = new Vector3(nowPos.x, ypos.y, nowPos.z);
         }
     }
-<<<<<<< Updated upstream
-    public void OnEndDrag(PointerEventData eventData1)
-    {
-        //AudioManager.instance.Play("diceSound");
-        this.transform.localPosition = nowPos;
-        EggObj.SetActive(true);
-        thePlayer.diceNum = Random.Range(1, 9); //테스트중, 끝나면 다시 변환
-        if (thePlayer.highSpeedFlag)
-        {
-            thePlayer.diceNum = thePlayer.diceNum * 2;
-            thePlayer.highSpeedFlag = false;
-        }
-        thePlayer.diceFlag = true;
-        diceNumText.text = thePlayer.diceNum.ToString();
-        thePlayer.downInformationText.gameObject.SetActive(false);
-        animatorFlag = true;
-    }
-=======
->>>>>>> Stashed changes
 
-    // 해당 스크립트가 붙은 오브젝트(팻말)의 드래그가 끝났을 때  호출
     public void OnEndDrag(PointerEventData eventData1)
     {
-        // 팻말을 쭉 당겨야 작동하게 하는 것도 좋을듯
         if (thePlayer.myTurn)
         {
-            AudioManager.instance.Play("diceSound");
-
+            //AudioManager.instance.Play("diceSound");
             // 팻말의 위치를 다시 초기 위치로 돌려놓음
             this.transform.localPosition = nowPos;
+            thePlayer.diceNum = Random.Range(1, 9); //테스트중, 끝나면 다시 변환
+
+            if (thePlayer.highSpeedFlag)
+            {
+                theCM.HighSpeedMove();
+                // thePlayer.diceNum = thePlayer.diceNum * 2;
+                // thePlayer.highSpeedFlag = false;
+            }
 
             // diceFlag를 true로 바꾸고 주사위를 랜덤하게 굴린 다음 text에 적용
             thePlayer.diceFlag = true;
-            thePlayer.diceNum = Random.Range(1, 9); //테스트중, 끝나면 다시 변환
             diceNumText.text = thePlayer.diceNum.ToString();
-
             // 아래로 당기시오 텍스트를 숨기고, 주사위를 활성화하고, animatorFlag를 true로 켜서 업데이트문에 들어가게함
             thePlayer.downInformationText.gameObject.SetActive(false);
             EggObj.SetActive(true);
             animatorFlag = true;
         }
-
     }
+
 }

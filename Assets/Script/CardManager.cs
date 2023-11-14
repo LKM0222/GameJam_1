@@ -12,10 +12,13 @@ public class CardManager : MonoBehaviour
     // 카드를 위아래로 움직일 수치
     [SerializeField] float upPos;
 
+    PlayerManager thePM;
+
     // Start is called before the first frame update
     void Start()
     {
         theGM = FindObjectOfType<GameManager>();
+        thePM = FindObjectOfType<PlayerManager>();
     }
 
     // Update is called once per frame
@@ -82,9 +85,43 @@ public class CardManager : MonoBehaviour
 
             // 카드 오브젝트 삭제 및 플레이어가 가지고 있는 카드 리스트에서도 삭제
             Destroy(this.gameObject);
-            theGM.nowPlayer.cards.Remove(this.gameObject.GetComponent<Card>());
+            Destroy(theGM.nowPlayer.cardParent.GetChild(0).gameObject);
+            theGM.nowPlayer.cards.Remove(this.cardInfo);
             print("효과 발동");
         }
+    }
 
+    public void HighSpeedMove()
+    {
+        print("고속이동 사용");
+        theGM.nowPlayer.diceNum = theGM.nowPlayer.diceNum * 2;
+        theGM.nowPlayer.highSpeedFlag = false;
+    }
+
+    public void InvisibleThief()
+    {
+        print("투명도둑 사용");
+        // 상대가 가진 카드를 랜덤으로 골라서 현재 플레이어 카드에 추가하고 상대 플레이어 카드에는 삭제
+        int randomCard = UnityEngine.Random.Range(0, thePM.againstPlayer.cards.Count);
+        theGM.nowPlayer.cards.Add(thePM.againstPlayer.cards[randomCard]);
+        thePM.againstPlayer.cards.RemoveAt(randomCard);
+
+        // 상대방 카드 UI를 내 카드 UI로 옮겨오고 스프라이트 이미지도 변경
+        GameObject dCard = thePM.againstPlayer.cardParent.GetChild(randomCard).gameObject;
+        dCard.transform.parent = thePM.cardParent;
+        dCard.GetComponent<SpriteRenderer>().sprite = theGM.nowPlayer.cardPrefab.GetComponent<SpriteRenderer>().sprite;
+
+        // invisibleFlag를 False로 변환
+        theGM.nowPlayer.invisibleFlag = false;
+    }
+
+    public void BiggerChicken()
+    {
+        print("거대화꼬꼬 사용");
+    }
+
+    public void Penetrate()
+    {
+        print("투시 사용");
     }
 }

@@ -44,12 +44,14 @@ public class PlayerManager : MonoBehaviour
     public bool tpFlag;
     bool tpSelectFlag;
     public GameObject tpBack; //tp활성화 시 맵 이외의 주변이 어둡게 변함.
-    
+
     public GameObject tpTile; //다음 이동할곳 저장
     public bool highSpeedFlag;
-    // public bool invisibleFlag; //투명화
-    // public bool toosiFlag; //투시
-    // public bool biggerFlag; //거대화
+    public bool invisibleFlag; //투명화
+    public bool toosiFlag; //투시
+    public bool biggerFlag; //거대화
+
+    public CardManager theCM;
 
     // Start is called before the first frame update
     void Start()
@@ -81,7 +83,8 @@ public class PlayerManager : MonoBehaviour
         //     StartCoroutine("TooSiCoroutine");
         // }
 
-        if(tpFlag && myTurn){//말끔하게 수정 필요
+        if (tpFlag && myTurn)
+        {//말끔하게 수정 필요
             this.tileNum = int.Parse(tpTile.gameObject.name);
             this.tileToGo.Add(tpTile);
             this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
@@ -103,42 +106,41 @@ public class PlayerManager : MonoBehaviour
         // if(biggerFlag && myTurn){
         //     this.gameObject.transform.localScale = new Vector3(2f,2f,0);
         // }
+
+        if (theGM.nowPlayer.highSpeedFlag)
+        {
+            theCM.HighSpeedMove();
+        }
+        if (theGM.nowPlayer.invisibleFlag)
+        {
+            theGM.nowPlayer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+        }
+        if (theGM.nowPlayer.biggerFlag)
+        {
+            theCM.BiggerChicken();
+        }
+        if (theGM.nowPlayer.toosiFlag)
+        {
+            theCM.Penetrate();
+        }
+
         if (diceFlag)
-        {//주사위를 굴렸다면
-            //highspeedflag는 diceSystem으로 넘어감. 거기가 더 깔끔해보여서. 테스트 후 아래의 주석 처리 코드는 삭제할것.
-            // if (highSpeedFlag && myTurn)
-            // { //고속이동을 활성화 했다면
-            //     for (int i = 0; i < diceNum * 2; i++) //두배로 이동
-            //     { //주사위 눈금만큼 리스트에 넣어야됨.
-            //         if (tileNum + i >= theTM.tiles.Length)
-            //         {
-            //             //넣어야하는 오브젝트의 길이가 전체 리스트의 길이를 넘어간다면 제대로 더해지지 않는거임.
-            //             tileToGo.Add(theTM.tiles[tileNum + i - theTM.tiles.Length].gameObject);
-            //         }
-            //         else
-            //         {
-            //             //아니라면 그냥 추가시켜주면 됨.
-            //             tileToGo.Add(theTM.tiles[tileNum + i].gameObject);
-            //         }
-
-            //     }
-            //     highSpeedFlag = false;
-            // }
-                for (int i = 0; i < diceNum; i++)
-                { //주사위 눈금만큼 리스트에 넣어야됨.
-                    if (tileNum + i >= theTM.tiles.Length)
-                    {
-                        //넣어야하는 오브젝트의 길이가 전체 리스트의 길이를 넘어간다면 제대로 더해지지 않는거임.
-                        tileToGo.Add(theTM.tiles[tileNum + i - theTM.tiles.Length].gameObject);
-                    }
-                    else
-                    {
-                        //아니라면 그냥 추가시켜주면 됨.
-                        tileToGo.Add(theTM.tiles[tileNum + i].gameObject);
-                    }
-
+        {
+            for (int i = 0; i < diceNum; i++)
+            { //주사위 눈금만큼 리스트에 넣어야됨.
+                if (tileNum + i >= theTM.tiles.Length)
+                {
+                    //넣어야하는 오브젝트의 길이가 전체 리스트의 길이를 넘어간다면 제대로 더해지지 않는거임.
+                    tileToGo.Add(theTM.tiles[tileNum + i - theTM.tiles.Length].gameObject);
                 }
- 
+                else
+                {
+                    //아니라면 그냥 추가시켜주면 됨.
+                    tileToGo.Add(theTM.tiles[tileNum + i].gameObject);
+                }
+
+            }
+
 
 
             VirtualCamera.SetActive(true);
@@ -156,33 +158,32 @@ public class PlayerManager : MonoBehaviour
                 }
                 else
                 {
-                    this.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+                    // this.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
                 }
                 //player를 이동시킴 (애니메이션 필요) 메인 이동 코드
                 movingFlag = true;
                 //this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
                 Vector3 targetPos = tileToGo[0].transform.Find("Pos").transform.position;
-               
-                StartCoroutine(MovingCoroutine(targetPos));
-                yield return new WaitUntil(()=> movingFlag == false); //코루틴이 끝난지 체크
-                nowTile = tileToGo[0].GetComponent<Tile>(); //현재 타일
-                //AudioManager.instance.Play("moveSound");
-            
-                // if(invisibleFlag){//invisible플래그가 활성화되어있고
-                //     if(againstPlayer.tileNum == tileNum){ //내가 상대방과 같은 타일을 지나간다면
-                //         GameObject dCard = againstPlayer.cardParent.GetChild(UnityEngine.Random.Range(0,againstPlayer.cardParent.childCount)).gameObject;
-                //         dCard.transform.parent = cardParent;
-                //         //카드 한장을 훔침.
-                //     }
 
-                // }
+                StartCoroutine(MovingCoroutine(targetPos));
+                yield return new WaitUntil(() => movingFlag == false); //코루틴이 끝난지 체크
+                nowTile = tileToGo[0].GetComponent<Tile>(); //현재 타일
+                                                            //AudioManager.instance.Play("moveSound");
+
+                if (invisibleFlag)
+                {//invisible플래그가 활성화되어있고
+                    if (againstPlayer.nowTile == nowTile)
+                    { //내가 상대방과 같은 타일을 지나간다면
+                        theCM.InvisibleThief();
+                        theGM.nowPlayer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1f);
+                    }
+                }
                 //애니메이션 나오는 시간동안 기다린 뒤
                 yield return new WaitForSeconds(0.5f);
 
                 //리스트에서 첫번째 요소 삭제
                 tileToGo.RemoveAt(0);
             }
-
             if (tileNum + diceNum > theTM.tiles.Length)
             {
                 //만약 현재 위치를 업데이트 했을때, 총 타일의 길이를 넘어간다면 길이만큼 빼 줘야 정확한 위치에 있는것임.
@@ -193,12 +194,13 @@ public class PlayerManager : MonoBehaviour
             {//아니라면 그대로 더하기 진행
                 tileNum += diceNum;
             }
+
             diceFlag = false;//작업 완료 후 다이스 false
             this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", false);
             movingCoroutineFlag = false; //무빙 플래그도 false
 
 
-            
+
             //그다음 플래그 활성화 시켜야됨. 구매 플래그?
             if (!nowTile.specialTile)
             {//일반 땅이라면
@@ -226,37 +228,40 @@ public class PlayerManager : MonoBehaviour
                 }
                 else
                 {//둘 다 아니라면 상대방의 땅
-                    //돈 빼는 코드 작성
-                    // if(biggerFlag){
-                    //     nowTile.ownPlayer = -1;
-                    //     nowTile.building = null;
-                    //     this.gameObject.transform.localScale = new Vector3(1f,1f,1f);
-                    //     biggerFlag = false;
-                    // }
-                    //else{
+                 //돈 빼는 코드 작성
+                 // if(biggerFlag){
+                 //     nowTile.ownPlayer = -1;
+                 //     nowTile.building = null;
+                 //     this.gameObject.transform.localScale = new Vector3(1f,1f,1f);
+                 //     biggerFlag = false;
+                 // }
+                 //else{
 
-                        if(nowTile.building != null){ //건물이 있는경우
-                            switch(nowTile.building.type){ //빌딩 타입 검사
-                                case 1:
+                    if (nowTile.building != null)
+                    { //건물이 있는경우
+                        switch (nowTile.building.type)
+                        { //빌딩 타입 검사
+                            case 1:
 
                                 break;
-                                case 3:
-                                    if(nowTile.building.visitCount < 5)
-                                        nowTile.building.visitCount += 1;
-                                    playerMoney -= nowTile.building.visitCount * 100;
-                                    againstPlayer.playerMoney += nowTile.building.visitCount * 100;
-                                    break;
-                                default:
-                                    playerMoney -= 100;
-                                    againstPlayer.playerMoney += 100;
+                            case 3:
+                                if (nowTile.building.visitCount < 5)
+                                    nowTile.building.visitCount += 1;
+                                playerMoney -= nowTile.building.visitCount * 100;
+                                againstPlayer.playerMoney += nowTile.building.visitCount * 100;
                                 break;
-                            }
-                            
+                            default:
+                                playerMoney -= 100;
+                                againstPlayer.playerMoney += 100;
+                                break;
                         }
-                        
-                        else{
-                            playerMoney -= 50;
-                        }
+
+                    }
+
+                    else
+                    {
+                        playerMoney -= 50;
+                    }
                     //}
 
                     theGM.NextTurnFunc();
@@ -276,7 +281,8 @@ public class PlayerManager : MonoBehaviour
                         // 카드 구현해야됨.
                         if (cardParent.childCount < 8)
                         {
-                            Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
+                            // Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
+                            Card newCard = theGM.cards[UnityEngine.Random.Range(1, 2)];
                             print(newCard.card_name);
                             var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);//카드 프리펩 생성해주고
                             _card.transform.localPosition = new Vector3(0f, 0f, 0f);
@@ -354,17 +360,20 @@ public class PlayerManager : MonoBehaviour
         theGM.NextTurnFunc();
     }
 
-    IEnumerator MovingCoroutine(Vector3 target){
-        this.gameObject.GetComponent<Animator>().SetInteger("Dir",nowTile.dir);
-        this.gameObject.GetComponent<Animator>().SetBool("WalkFlag",true);
-        while(movingFlag){
+    IEnumerator MovingCoroutine(Vector3 target)
+    {
+        this.gameObject.GetComponent<Animator>().SetInteger("Dir", nowTile.dir);
+        this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", true);
+        while (movingFlag)
+        {
             this.transform.position = Vector3.MoveTowards(this.transform.position, target, Time.deltaTime * speed);
             yield return new WaitForEndOfFrame();
-            if(this.transform.position == target){
+            if (this.transform.position == target)
+            {
                 movingFlag = false;
             }
         }
-        this.gameObject.GetComponent<Animator>().SetBool("WalkFlag",false);
+        this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", false);
         yield return null;
     }
 }
