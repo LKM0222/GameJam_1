@@ -13,6 +13,8 @@ public class CardManager : MonoBehaviour
     [SerializeField] float upPos;
 
     PlayerManager thePM;
+    public bool completeFlag;
+    public ParticleSystem destroyParticle;
 
     // Start is called before the first frame update
     void Start()
@@ -118,10 +120,48 @@ public class CardManager : MonoBehaviour
     public void BiggerChicken()
     {
         print("거대화꼬꼬 사용");
+        if (thePM.nowTile.ownPlayer != theGM.nowPlayer.playerId)
+        {
+            StartCoroutine(BiggerCoroutine());
+        }
     }
 
     public void Penetrate()
     {
         print("투시 사용");
+    }
+
+    IEnumerator BiggerCoroutine()
+    {
+        Color buildingColor = thePM.nowTile.buildingImg.GetComponent<SpriteRenderer>().color;
+        Color tileColor = thePM.nowTile.signImg.GetComponent<SpriteRenderer>().color;
+        destroyParticle.gameObject.SetActive(true);
+        destroyParticle.transform.position = thePM.nowTile.transform.GetChild(0).position;
+        destroyParticle.Play();
+
+        while (buildingColor.a > 0f)
+        {
+            buildingColor.a -= 0.02f;
+            tileColor.a -= 0.02f;
+
+            thePM.nowTile.buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
+            thePM.nowTile.signImg.GetComponent<SpriteRenderer>().color = tileColor;
+
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        destroyParticle.gameObject.SetActive(false);
+
+        thePM.nowTile.ownPlayer = -1;
+        thePM.nowTile.building.type = -1;
+
+        buildingColor.a = 1f;
+        tileColor.a = 1f;
+        thePM.nowTile.buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
+        thePM.nowTile.signImg.GetComponent<SpriteRenderer>().color = tileColor;
+
+        this.gameObject.transform.localScale = new Vector3(1f, 1f, 0);
+        thePM.biggerFlag = false;
+        completeFlag = true;
     }
 }

@@ -117,7 +117,7 @@ public class PlayerManager : MonoBehaviour
         }
         if (theGM.nowPlayer.biggerFlag)
         {
-            theCM.BiggerChicken();
+            this.gameObject.transform.localScale = new Vector3(2f, 2f, 0);
         }
         if (theGM.nowPlayer.toosiFlag)
         {
@@ -184,6 +184,14 @@ public class PlayerManager : MonoBehaviour
                 //리스트에서 첫번째 요소 삭제
                 tileToGo.RemoveAt(0);
             }
+
+            if (theGM.nowPlayer.biggerFlag)
+            {
+                theCM.BiggerChicken();
+                yield return new WaitUntil(() => theCM.completeFlag);
+                theCM.completeFlag = false;
+            }
+
             if (tileNum + diceNum > theTM.tiles.Length)
             {
                 //만약 현재 위치를 업데이트 했을때, 총 타일의 길이를 넘어간다면 길이만큼 빼 줘야 정확한 위치에 있는것임.
@@ -282,7 +290,7 @@ public class PlayerManager : MonoBehaviour
                         if (cardParent.childCount < 8)
                         {
                             // Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
-                            Card newCard = theGM.cards[UnityEngine.Random.Range(1, 2)];
+                            Card newCard = theGM.cards[UnityEngine.Random.Range(2, 3)];
                             print(newCard.card_name);
                             var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);//카드 프리펩 생성해주고
                             _card.transform.localPosition = new Vector3(0f, 0f, 0f);
