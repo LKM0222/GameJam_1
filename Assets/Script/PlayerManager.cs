@@ -25,7 +25,6 @@ public class PlayerManager : MonoBehaviour
     GameManager theGM;
 
     public GameObject VirtualCamera;
-
     public GameObject cardPrefab;
     public Transform cardParent;
     public PlayerManager againstPlayer;
@@ -78,10 +77,12 @@ public class PlayerManager : MonoBehaviour
         {
             StartCoroutine("DiceCoroutine");
         }
-        // if (toosiFlag)
-        // {
-        //     StartCoroutine("TooSiCoroutine");
-        // }
+
+        if (toosiFlag && myTurn)
+        {
+            toosiFlag = false;
+            theCM.Penetrate();
+        }
 
         if (tpFlag && myTurn)
         {//말끔하게 수정 필요
@@ -91,22 +92,14 @@ public class PlayerManager : MonoBehaviour
             this.tileToGo.RemoveAt(0);
             theGM.NextTurnFunc();
             tpFlag = false;
-
         }
     }
 
     IEnumerator DiceCoroutine()
     {
         movingCoroutineFlag = false;
-        // if (invisibleFlag && myTurn)
-        // {//invisibleFalg
-        //     this.gameObject.GetComponent<SpriteRenderer>().color =
-        //         new Color(1, 1, 1, 0.5f);
-        // }
-        // if(biggerFlag && myTurn){
-        //     this.gameObject.transform.localScale = new Vector3(2f,2f,0);
-        // }
 
+        // 카드효과 사전작업
         if (theGM.nowPlayer.highSpeedFlag)
         {
             theCM.HighSpeedMove();
@@ -121,7 +114,9 @@ public class PlayerManager : MonoBehaviour
         }
         if (theGM.nowPlayer.toosiFlag)
         {
-            theCM.Penetrate();
+            // theCM.Penetrate();
+            // yield return new WaitUntil(() => theCM.completeFlag);
+            // theCM.completeFlag = false;
         }
 
         if (diceFlag)
@@ -138,7 +133,6 @@ public class PlayerManager : MonoBehaviour
                     //아니라면 그냥 추가시켜주면 됨.
                     tileToGo.Add(theTM.tiles[tileNum + i].gameObject);
                 }
-
             }
 
 
@@ -185,6 +179,7 @@ public class PlayerManager : MonoBehaviour
                 tileToGo.RemoveAt(0);
             }
 
+            // 플레이어가 거대화 스킬을 사용하고 이동이 끝났다면 효과 발동
             if (theGM.nowPlayer.biggerFlag)
             {
                 theCM.BiggerChicken();
@@ -290,7 +285,7 @@ public class PlayerManager : MonoBehaviour
                         if (cardParent.childCount < 8)
                         {
                             // Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
-                            Card newCard = theGM.cards[UnityEngine.Random.Range(2, 3)];
+                            Card newCard = theGM.cards[UnityEngine.Random.Range(3, 4)];
                             print(newCard.card_name);
                             var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);//카드 프리펩 생성해주고
                             _card.transform.localPosition = new Vector3(0f, 0f, 0f);

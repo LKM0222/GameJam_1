@@ -39,7 +39,8 @@ public class GameManager : MonoBehaviour
     public GameObject clickedTile;
 
     public GameObject tpTile; //텔레포트 활성화 시 다음턴에 움질일 위치 정함.
-
+    public GameObject showCardObject;
+    public GameObject onlyCardImg;
 
     // Start is called before the first frame update
     void Start()
@@ -79,7 +80,7 @@ public class GameManager : MonoBehaviour
     }
 
     // 플레이어가 가진 카드의 목록 업데이트
-    void CardListUpdate()
+    public void CardListUpdate()
     {
         // 카드를 1개 이상 가지고 있다면 전부 삭제
         if (cardsObj.transform.childCount != 0)

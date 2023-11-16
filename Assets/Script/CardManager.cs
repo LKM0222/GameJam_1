@@ -12,15 +12,14 @@ public class CardManager : MonoBehaviour
     // 카드를 위아래로 움직일 수치
     [SerializeField] float upPos;
 
-    PlayerManager thePM;
     public bool completeFlag;
     public ParticleSystem destroyParticle;
+
 
     // Start is called before the first frame update
     void Start()
     {
         theGM = FindObjectOfType<GameManager>();
-        thePM = FindObjectOfType<PlayerManager>();
     }
 
     // Update is called once per frame
@@ -89,7 +88,7 @@ public class CardManager : MonoBehaviour
             Destroy(this.gameObject);
             Destroy(theGM.nowPlayer.cardParent.GetChild(0).gameObject);
             theGM.nowPlayer.cards.Remove(this.cardInfo);
-            print("효과 발동");
+            print("효과 발동" + transform.name);
         }
     }
 
@@ -104,13 +103,13 @@ public class CardManager : MonoBehaviour
     {
         print("투명도둑 사용");
         // 상대가 가진 카드를 랜덤으로 골라서 현재 플레이어 카드에 추가하고 상대 플레이어 카드에는 삭제
-        int randomCard = UnityEngine.Random.Range(0, thePM.againstPlayer.cards.Count);
-        theGM.nowPlayer.cards.Add(thePM.againstPlayer.cards[randomCard]);
-        thePM.againstPlayer.cards.RemoveAt(randomCard);
+        int randomCard = UnityEngine.Random.Range(0, theGM.nowPlayer.againstPlayer.cards.Count);
+        theGM.nowPlayer.cards.Add(theGM.nowPlayer.againstPlayer.cards[randomCard]);
+        theGM.nowPlayer.againstPlayer.cards.RemoveAt(randomCard);
 
         // 상대방 카드 UI를 내 카드 UI로 옮겨오고 스프라이트 이미지도 변경
-        GameObject dCard = thePM.againstPlayer.cardParent.GetChild(randomCard).gameObject;
-        dCard.transform.parent = thePM.cardParent;
+        GameObject dCard = theGM.nowPlayer.againstPlayer.cardParent.GetChild(randomCard).gameObject;
+        dCard.transform.parent = theGM.nowPlayer.cardParent;
         dCard.GetComponent<SpriteRenderer>().sprite = theGM.nowPlayer.cardPrefab.GetComponent<SpriteRenderer>().sprite;
 
         // invisibleFlag를 False로 변환
@@ -120,48 +119,94 @@ public class CardManager : MonoBehaviour
     public void BiggerChicken()
     {
         print("거대화꼬꼬 사용");
-        if (thePM.nowTile.ownPlayer != theGM.nowPlayer.playerId)
+        // 만약 현재 타일의 소유주가 자신이 아니라면 코루틴을 실행하고 자신의 소유라면 completeFlag를 true로 주어 기존 코드를 실행
+        if (theGM.nowPlayer.nowTile.ownPlayer != theGM.nowPlayer.playerId)
         {
             StartCoroutine(BiggerCoroutine());
+        }
+        else
+        {
+            completeFlag = true;
         }
     }
 
     public void Penetrate()
     {
         print("투시 사용");
+        StartCoroutine(PenetrateCoroutine());
     }
 
+    // 거대화 사용효과 및 애니메이션 코루틴
     IEnumerator BiggerCoroutine()
     {
-        Color buildingColor = thePM.nowTile.buildingImg.GetComponent<SpriteRenderer>().color;
-        Color tileColor = thePM.nowTile.signImg.GetComponent<SpriteRenderer>().color;
+        // 건물과 타일의 컬러를 받아옴
+        Color buildingColor = theGM.nowPlayer.nowTile.buildingImg.GetComponent<SpriteRenderer>().color;
+        Color tileColor = theGM.nowPlayer.nowTile.signImg.GetComponent<SpriteRenderer>().color;
+
+        // 건물파괴 파티클을 활성화하고 위치를 현재 타일의 건물 위치로 옮긴 다음 파티클 실행
         destroyParticle.gameObject.SetActive(true);
-        destroyParticle.transform.position = thePM.nowTile.transform.GetChild(0).position;
+        destroyParticle.transform.position = theGM.nowPlayer.nowTile.transform.GetChild(0).position;
         destroyParticle.Play();
 
+        // 건물의 Alpha 값을 조절해서 서서히 사라지는 듯한 연출
         while (buildingColor.a > 0f)
         {
             buildingColor.a -= 0.02f;
             tileColor.a -= 0.02f;
 
-            thePM.nowTile.buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
-            thePM.nowTile.signImg.GetComponent<SpriteRenderer>().color = tileColor;
+            theGM.nowPlayer.nowTile.buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
+            theGM.nowPlayer.nowTile.signImg.GetComponent<SpriteRenderer>().color = tileColor;
 
             yield return new WaitForSeconds(0.01f);
         }
 
+        // 파티클 비활성화
         destroyParticle.gameObject.SetActive(false);
 
-        thePM.nowTile.ownPlayer = -1;
-        thePM.nowTile.building.type = -1;
+        // 현재 타일의 소유주와 건물을 없앰
+        theGM.nowPlayer.nowTile.ownPlayer = -1;
+        theGM.nowPlayer.nowTile.building.type = -1;
 
+        // 0으로 감소시켰던 건물과 타일의 Alpha 값을 원상복구
         buildingColor.a = 1f;
         tileColor.a = 1f;
-        thePM.nowTile.buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
-        thePM.nowTile.signImg.GetComponent<SpriteRenderer>().color = tileColor;
+        theGM.nowPlayer.nowTile.buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
+        theGM.nowPlayer.nowTile.signImg.GetComponent<SpriteRenderer>().color = tileColor;
 
+        // 꼬꼬의 크기를 다시 줄이고 거대화 효과 플래그를 false로, 애니메이션을 위한 코루틴 제어 플래그도 flag로 바꿔줌
         this.gameObject.transform.localScale = new Vector3(1f, 1f, 0);
-        thePM.biggerFlag = false;
+        theGM.nowPlayer.biggerFlag = false;
         completeFlag = true;
+    }
+
+    IEnumerator PenetrateCoroutine()
+    {
+        // 상대방의 카드가 1장 이상이라면
+        if (theGM.nowPlayer.againstPlayer.cards.Count > 0)
+        {
+            // 상대방 카드의 갯수만큼 showCardObject에 복제하고 이미지를 맞춰줌
+            for (int i = 0; i < theGM.nowPlayer.againstPlayer.cards.Count; i++)
+            {
+                var _card = Instantiate(theGM.onlyCardImg, new Vector3(0, 0, 0), Quaternion.identity, theGM.showCardObject.transform);
+                _card.transform.localPosition = new Vector2(0, 0);
+                _card.transform.localScale = new Vector2(10, 10);
+                _card.GetComponent<SpriteRenderer>().sprite = theGM.nowPlayer.againstPlayer.cards[i].cardImg;
+            }
+
+            // 3초동안 보여주고 이후에 showCardObject에 복제했던 오브젝트를 파괴함
+            yield return new WaitForSeconds(3f);
+
+            for (int i = 0; i < theGM.nowPlayer.againstPlayer.cards.Count; i++)
+            {
+                Destroy(theGM.showCardObject.transform.GetChild(0).gameObject);
+            }
+        }
+
+        // 상대방의 카드 갯수와 상관없이 투시카드를 사용하면 랜덤하게 카드를 한장 습득
+        theGM.nowPlayer.cards.Add(theGM.cards[UnityEngine.Random.Range(0, 4)]);
+        // 팻말 아래에 카드 생성
+        Instantiate(theGM.nowPlayer.cardPrefab, theGM.nowPlayer.cardParent.transform.position, Quaternion.identity, theGM.nowPlayer.cardParent);
+        // 상세 카드 창에 카드 리스트 업데이트
+        theGM.CardListUpdate();
     }
 }
