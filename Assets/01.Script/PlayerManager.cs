@@ -363,7 +363,7 @@ public class PlayerManager : MonoBehaviour
         Vector3 target = tileToGo[0].transform.Find("Pos").transform.position;
         while(tpMovingFlag){
             this.transform.position = Vector3.MoveTowards(this.transform.position, target, Time.deltaTime * speed);
-            yield return new WaitForEndOfFrame();
+            // 여기서 뭔가 텔레포트하는 애니메이션이 필요할듯!
             if(this.transform.position == target){
                 tpMovingFlag = false;
             }
@@ -375,7 +375,7 @@ public class PlayerManager : MonoBehaviour
         tpFlag = false;
         yield return null;
     }
-    IEnumerator NextTrunWait(){
+    IEnumerator NextTrunWait(){ //현재 플레이어의 텔레포트가 완료되기 전에 상대 플레이어가 이동하는걸 방지하는 코드.
         yield return new WaitUntil(()=> tpMovingFlag == false);
     }
 
