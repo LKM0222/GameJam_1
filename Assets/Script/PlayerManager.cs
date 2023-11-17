@@ -49,6 +49,10 @@ public class PlayerManager : MonoBehaviour
     public bool invisibleFlag; //투명화
     public bool toosiFlag; //투시
     public bool biggerFlag; //거대화
+    public bool higherDiceFlag;
+    public bool lowerDiceFlag;
+    public bool exemptionFlag;
+    public bool laserFlag;
 
     public CardManager theCM;
 
@@ -84,6 +88,12 @@ public class PlayerManager : MonoBehaviour
             theCM.Penetrate();
         }
 
+        if (laserFlag && myTurn)
+        {
+            laserFlag = false;
+            theCM.LaserBeam();
+        }
+
         if (tpFlag && myTurn)
         {//말끔하게 수정 필요
             this.tileNum = int.Parse(tpTile.gameObject.name);
@@ -112,12 +122,7 @@ public class PlayerManager : MonoBehaviour
         {
             this.gameObject.transform.localScale = new Vector3(2f, 2f, 0);
         }
-        if (theGM.nowPlayer.toosiFlag)
-        {
-            // theCM.Penetrate();
-            // yield return new WaitUntil(() => theCM.completeFlag);
-            // theCM.completeFlag = false;
-        }
+
 
         if (diceFlag)
         {
@@ -239,36 +244,41 @@ public class PlayerManager : MonoBehaviour
                  //     biggerFlag = false;
                  // }
                  //else{
+                 // 통행료 면제 카드가 없다면 통행료 징수
+                    if (!exemptionFlag)
+                    {
+                        if (nowTile.building != null)
+                        { //건물이 있는경우
+                            switch (nowTile.building.type)
+                            { //빌딩 타입 검사
+                                case 1:
 
-                    if (nowTile.building != null)
-                    { //건물이 있는경우
-                        switch (nowTile.building.type)
-                        { //빌딩 타입 검사
-                            case 1:
+                                    break;
+                                case 3:
+                                    if (nowTile.building.visitCount < 5)
+                                        nowTile.building.visitCount += 1;
+                                    playerMoney -= nowTile.building.visitCount * 100;
+                                    againstPlayer.playerMoney += nowTile.building.visitCount * 100;
+                                    break;
+                                default:
+                                    playerMoney -= 100;
+                                    againstPlayer.playerMoney += 100;
+                                    break;
+                            }
 
-                                break;
-                            case 3:
-                                if (nowTile.building.visitCount < 5)
-                                    nowTile.building.visitCount += 1;
-                                playerMoney -= nowTile.building.visitCount * 100;
-                                againstPlayer.playerMoney += nowTile.building.visitCount * 100;
-                                break;
-                            default:
-                                playerMoney -= 100;
-                                againstPlayer.playerMoney += 100;
-                                break;
                         }
 
+                        else
+                        {
+                            playerMoney -= 50;
+                        }
                     }
-
+                    // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
                     else
                     {
-                        playerMoney -= 50;
+                        theCM.TollExemption();
                     }
-                    //}
-
                     theGM.NextTurnFunc();
-
                 }
             }
             else
@@ -285,11 +295,16 @@ public class PlayerManager : MonoBehaviour
                         if (cardParent.childCount < 8)
                         {
                             // Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
-                            Card newCard = theGM.cards[UnityEngine.Random.Range(3, 4)];
+                            Card newCard = theGM.cards[UnityEngine.Random.Range(7, 8)];
                             print(newCard.card_name);
                             var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);//카드 프리펩 생성해주고
                             _card.transform.localPosition = new Vector3(0f, 0f, 0f);
                             cards.Add(newCard); //플레이어 리스트에 카드 추가
+
+                            if (newCard == theGM.cards[6])
+                            {
+                                exemptionFlag = true;
+                            }
                         }
 
                         break;

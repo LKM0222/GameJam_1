@@ -81,8 +81,16 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler, IPointer
             if (thePlayer.highSpeedFlag)
             {
                 theCM.HighSpeedMove();
-                // thePlayer.diceNum = thePlayer.diceNum * 2;
-                // thePlayer.highSpeedFlag = false;
+            }
+
+            if (thePlayer.lowerDiceFlag)
+            {
+                theCM.LowerDiceControl();
+            }
+
+            if (thePlayer.higherDiceFlag)
+            {
+                theCM.HigherDiceControll();
             }
 
             // diceFlag를 true로 바꾸고 주사위를 랜덤하게 굴린 다음 text에 적용

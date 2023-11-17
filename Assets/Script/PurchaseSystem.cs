@@ -37,12 +37,10 @@ public class PurchaseSystem : MonoBehaviour
             buyFlag = false;//재반복 막기 위해 설정
             theGM.NextTurnFunc(); //next turn 호출
             this.transform.parent.gameObject.SetActive(false);//모든 작업 끝났으니 현재 UI종료
-
             // }
         }
-
-
     }
+
     // 빌딩 건설 함수
     public void BuildingPurchase()
     {

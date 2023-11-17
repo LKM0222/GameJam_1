@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class CardManager : MonoBehaviour
 {
     GameManager theGM;
+    TileManager theTile;
 
     // 카드의 정보
     public Card cardInfo;
@@ -14,12 +16,14 @@ public class CardManager : MonoBehaviour
 
     public bool completeFlag;
     public ParticleSystem destroyParticle;
+    public ParticleSystem laserParticle;
 
 
     // Start is called before the first frame update
     void Start()
     {
         theGM = FindObjectOfType<GameManager>();
+        theTile = FindObjectOfType<TileManager>();
     }
 
     // Update is called once per frame
@@ -83,6 +87,26 @@ public class CardManager : MonoBehaviour
             {
                 theGM.nowPlayer.toosiFlag = true;
             }
+            // cardCode가 5라면 주사위컨트롤(하)
+            else if (cardInfo.cardCode == 5)
+            {
+                theGM.nowPlayer.lowerDiceFlag = true;
+            }
+            // cardCode가 6이라면 주사위컨트롤(상)
+            else if (cardInfo.cardCode == 6)
+            {
+                theGM.nowPlayer.higherDiceFlag = true;
+            }
+            // // cardCode가 7이라면 통행료면제
+            // else if (cardInfo.cardCode == 7)
+            // {
+            //     theGM.nowPlayer.exemptionFlag = true;
+            // }
+            // cardCode가 8이라면 레이저빔
+            else if (cardInfo.cardCode == 8)
+            {
+                theGM.nowPlayer.laserFlag = true;
+            }
 
             // 카드 오브젝트 삭제 및 플레이어가 가지고 있는 카드 리스트에서도 삭제
             Destroy(this.gameObject);
@@ -112,6 +136,13 @@ public class CardManager : MonoBehaviour
         dCard.transform.parent = theGM.nowPlayer.cardParent;
         dCard.GetComponent<SpriteRenderer>().sprite = theGM.nowPlayer.cardPrefab.GetComponent<SpriteRenderer>().sprite;
 
+        // 만약 뺏어온 카드가 통행료면제 카드라면 플래그를 서로 바꿔줌
+        if (theGM.nowPlayer.againstPlayer.cards[randomCard] == theGM.cards[6])
+        {
+            theGM.nowPlayer.exemptionFlag = true;
+            theGM.nowPlayer.againstPlayer.exemptionFlag = false;
+        }
+
         // invisibleFlag를 False로 변환
         theGM.nowPlayer.invisibleFlag = false;
     }
@@ -136,6 +167,44 @@ public class CardManager : MonoBehaviour
         StartCoroutine(PenetrateCoroutine());
     }
 
+    public void LowerDiceControl()
+    {
+        print("주사위컨트롤(하) 사용");
+        theGM.nowPlayer.diceNum = Random.Range(1, 5);
+        theGM.nowPlayer.lowerDiceFlag = false;
+    }
+
+    public void HigherDiceControll()
+    {
+        print("주사위컨트롤(상) 사용");
+        theGM.nowPlayer.diceNum = Random.Range(5, 9);
+        theGM.nowPlayer.higherDiceFlag = false;
+    }
+
+
+    public void TollExemption()
+    {
+        print("통행료 면제 카드 발동!");
+
+        // 현재 자신의 카드 중에서 통행료 면제 카드를 찾아서 파괴함
+        for (int i = 0; i < theGM.nowPlayer.cards.Count; i++)
+        {
+            if (theGM.nowPlayer.cards[i] == theGM.cards[6])
+            {
+                theGM.nowPlayer.cards.RemoveAt(i);
+                Destroy(theGM.nowPlayer.cardParent.GetChild(0).gameObject);
+            }
+        }
+        // 카드 효과를 사용했으니 flag를 false로 바꿔줌
+        theGM.nowPlayer.exemptionFlag = false;
+    }
+
+    public void LaserBeam()
+    {
+        print("레이저 빔 사용");
+        StartCoroutine(LaserBeamCoroutine());
+    }
+
     // 거대화 사용효과 및 애니메이션 코루틴
     IEnumerator BiggerCoroutine()
     {
@@ -157,7 +226,7 @@ public class CardManager : MonoBehaviour
             theGM.nowPlayer.nowTile.buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
             theGM.nowPlayer.nowTile.signImg.GetComponent<SpriteRenderer>().color = tileColor;
 
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.02f);
         }
 
         // 파티클 비활성화
@@ -166,6 +235,8 @@ public class CardManager : MonoBehaviour
         // 현재 타일의 소유주와 건물을 없앰
         theGM.nowPlayer.nowTile.ownPlayer = -1;
         theGM.nowPlayer.nowTile.building.type = -1;
+
+        yield return new WaitForEndOfFrame();
 
         // 0으로 감소시켰던 건물과 타일의 Alpha 값을 원상복구
         buildingColor.a = 1f;
@@ -179,6 +250,7 @@ public class CardManager : MonoBehaviour
         completeFlag = true;
     }
 
+    // 투시효과 코루틴
     IEnumerator PenetrateCoroutine()
     {
         // 상대방의 카드가 1장 이상이라면
@@ -208,5 +280,60 @@ public class CardManager : MonoBehaviour
         Instantiate(theGM.nowPlayer.cardPrefab, theGM.nowPlayer.cardParent.transform.position, Quaternion.identity, theGM.nowPlayer.cardParent);
         // 상세 카드 창에 카드 리스트 업데이트
         theGM.CardListUpdate();
+    }
+
+    IEnumerator LaserBeamCoroutine()
+    {
+        theGM.nowPlayer.tpBack.SetActive(true);
+        for (int i = 0; i < theTile.tiles.Length; i++)
+        {
+            theTile.tiles[i].cardActive = true; //모든 카드 클릭 가능하도록 미리 클릭하고 다음턴에 해당 위치로 이동.
+        }
+
+        yield return new WaitUntil(() => theGM.tpTile != null);
+
+        for (int i = 0; i < theTile.tiles.Length; i++)
+        {
+            theTile.tiles[i].cardActive = false; //다시 클릭 못하도록 변경
+        }
+        theGM.nowPlayer.tpBack.SetActive(false);
+
+        // 건물과 타일의 컬러를 받아옴
+        Color buildingColor = theGM.tpTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color;
+        Color tileColor = theGM.tpTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
+
+        // 건물파괴 파티클을 활성화하고 위치를 현재 타일의 건물 위치로 옮긴 다음 파티클 실행
+        laserParticle.gameObject.SetActive(true);
+        laserParticle.transform.position = theGM.tpTile.transform.GetChild(0).position;
+        laserParticle.Play();
+
+        // 건물의 Alpha 값을 조절해서 서서히 사라지는 듯한 연출
+        while (buildingColor.a > 0f)
+        {
+            buildingColor.a -= 0.02f;
+            tileColor.a -= 0.02f;
+
+            theGM.tpTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
+            theGM.tpTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
+
+            yield return new WaitForSeconds(0.02f);
+        }
+
+        // 파티클 비활성화
+        laserParticle.gameObject.SetActive(false);
+
+        // 현재 타일의 소유주와 건물을 없앰
+        theGM.tpTile.GetComponent<Tile>().ownPlayer = -1;
+        theGM.tpTile.GetComponent<Tile>().building.type = -1;
+
+        yield return new WaitForEndOfFrame();
+
+        // 0으로 감소시켰던 건물과 타일의 Alpha 값을 원상복구
+        buildingColor.a = 1f;
+        tileColor.a = 1f;
+        theGM.tpTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
+        theGM.tpTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
+
+        theGM.tpTile = null;
     }
 }

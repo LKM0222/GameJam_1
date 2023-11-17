@@ -39,8 +39,13 @@ public class GameManager : MonoBehaviour
     public GameObject clickedTile;
 
     public GameObject tpTile; //텔레포트 활성화 시 다음턴에 움질일 위치 정함.
+
+    // 투시를 사용하면 카드들을 보여줄 오브젝트
     public GameObject showCardObject;
+    // 카드 이미지만 담은 프리팹
     public GameObject onlyCardImg;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -76,7 +81,6 @@ public class GameManager : MonoBehaviour
             }
             nextTurn = false;
         }
-
     }
 
     // 플레이어가 가진 카드의 목록 업데이트
