@@ -5,6 +5,7 @@ using System;
 using UnityEngine.UI;
 
 //커밋준비
+//test commit!
 public class PlayerManager : MonoBehaviour
 {
     public int playerId; //몇번째 플레이어인지 정보
