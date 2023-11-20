@@ -289,7 +289,8 @@ public class PlayerManager : MonoBehaviour
 
                         break;
                     case 3: //세금
-                        //땅 갯수 *5 + 건물 갯수 * 10
+                        //상대방 땅 갯수 *5 + 건물 갯수 * 10
+                        //세금 징수하는 애니메이션이나, 영수증 띄워주면 좋을듯
                         playerMoney -= (groundCount * 5) + (buildingCount * 10);
 
                         break;

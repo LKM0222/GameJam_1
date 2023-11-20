@@ -52,7 +52,7 @@ public class DiceSystem : MonoBehaviour,IDragHandler, IEndDragHandler, IPointerD
         //AudioManager.instance.Play("diceSound");
         this.transform.localPosition = nowPos;
         EggObj.SetActive(true);
-        thePlayer.diceNum = 6;//Random.Range(1,9); //테스트중, 끝나면 다시 변환
+        thePlayer.diceNum = Random.Range(1,9); //테스트중, 끝나면 다시 변환
         if(thePlayer.highSpeedFlag){
             thePlayer.diceNum = thePlayer.diceNum * 2;
             thePlayer.highSpeedFlag = false;
