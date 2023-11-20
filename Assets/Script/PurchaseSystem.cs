@@ -30,28 +30,20 @@ public class PurchaseSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (buyFlag)
-        {//구매 버튼을 눌렀다면
-            theGM.nowPlayer.nowTile.building = theGM.buildings[cur]; //타일의 건물 정보를 현재 커서에서 선택한 건물로 변경
-            theGM.UIFlag = false; //UI가 꺼졌으니 UIFlag False;
-            buyFlag = false;//재반복 막기 위해 설정
-            theGM.NextTurnFunc(); //next turn 호출
-            this.transform.parent.gameObject.SetActive(false);//모든 작업 끝났으니 현재 UI종료
-            // }
-        }
+
     }
 
     // 빌딩 건설 함수
     public void BuildingPurchase()
     {
         theGM.nowPlayer.nowTile.building = theGM.buildings[cur]; //타일의 건물 정보를 현재 커서에서 선택한 건물로 변경
+
         this.transform.parent.gameObject.SetActive(false);//모든 작업 끝났으니 현재 UI종료
 
         theGM.nowPlayer.buildingCount += 1;
         theGM.nowPlayer.playerMoney -= 50;
 
-        theGM.turnCount += 1; //건물까지 올렸으면 턴 끝남 1증가
         theGM.UIFlag = false; // UI를 끄기 위해 UIFlag False;
-        theGM.nextTurn = true;
+        theGM.NextTurnFunc(); //next turn 호출
     }
 }

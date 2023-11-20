@@ -208,44 +208,60 @@ public class CardManager : MonoBehaviour
     // 거대화 사용효과 및 애니메이션 코루틴
     IEnumerator BiggerCoroutine()
     {
-        // 건물과 타일의 컬러를 받아옴
-        Color buildingColor = theGM.nowPlayer.nowTile.buildingImg.GetComponent<SpriteRenderer>().color;
-        Color tileColor = theGM.nowPlayer.nowTile.signImg.GetComponent<SpriteRenderer>().color;
-
-        // 건물파괴 파티클을 활성화하고 위치를 현재 타일의 건물 위치로 옮긴 다음 파티클 실행
-        destroyParticle.gameObject.SetActive(true);
-        destroyParticle.transform.position = theGM.nowPlayer.nowTile.transform.GetChild(0).position;
-        destroyParticle.Play();
-
-        // 건물의 Alpha 값을 조절해서 서서히 사라지는 듯한 연출
-        while (buildingColor.a > 0f)
+        // 현재 타일이 빈 땅도 아니고, 현재 플레이어 id와 ownPlayer가 다르다면 상대방의 땅
+        if (theGM.nowPlayer.nowTile.ownPlayer != -1 && theGM.nowPlayer.playerId != theGM.nowPlayer.nowTile.ownPlayer)
         {
-            buildingColor.a -= 0.02f;
-            tileColor.a -= 0.02f;
+            // 건물과 타일의 컬러를 받아옴
+            Color buildingColor = theGM.nowPlayer.nowTile.buildingImg.GetComponent<SpriteRenderer>().color;
+            Color tileColor = theGM.nowPlayer.nowTile.signImg.GetComponent<SpriteRenderer>().color;
 
+            // 건물파괴 파티클을 활성화하고 위치를 현재 타일의 건물 위치로 옮긴 다음 파티클 실행
+            destroyParticle.gameObject.SetActive(true);
+            destroyParticle.transform.position = theGM.nowPlayer.nowTile.transform.GetChild(0).position;
+            destroyParticle.Play();
+
+            // 건물의 Alpha 값을 조절해서 서서히 사라지는 듯한 연출
+            while (buildingColor.a > 0f)
+            {
+                buildingColor.a -= 0.02f;
+                tileColor.a -= 0.02f;
+
+                theGM.nowPlayer.nowTile.buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
+                theGM.nowPlayer.nowTile.signImg.GetComponent<SpriteRenderer>().color = tileColor;
+
+                yield return new WaitForSeconds(0.02f);
+            }
+
+            // 파티클 비활성화
+            destroyParticle.gameObject.SetActive(false);
+
+            // 현재 타일의 소유주와 건물을 없앰
+            theGM.nowPlayer.nowTile.ownPlayer = -1;
+            // theGM.nowPlayer.nowTile.buildingImg = null;
+
+            yield return new WaitForEndOfFrame();
+
+            // 0으로 감소시켰던 건물과 타일의 Alpha 값을 원상복구
+            buildingColor.a = 1f;
+            tileColor.a = 1f;
             theGM.nowPlayer.nowTile.buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
             theGM.nowPlayer.nowTile.signImg.GetComponent<SpriteRenderer>().color = tileColor;
 
-            yield return new WaitForSeconds(0.02f);
         }
-
-        // 파티클 비활성화
-        destroyParticle.gameObject.SetActive(false);
-
-        // 현재 타일의 소유주와 건물을 없앰
-        theGM.nowPlayer.nowTile.ownPlayer = -1;
-        theGM.nowPlayer.nowTile.building.type = -1;
-
-        yield return new WaitForEndOfFrame();
-
-        // 0으로 감소시켰던 건물과 타일의 Alpha 값을 원상복구
-        buildingColor.a = 1f;
-        tileColor.a = 1f;
-        theGM.nowPlayer.nowTile.buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
-        theGM.nowPlayer.nowTile.signImg.GetComponent<SpriteRenderer>().color = tileColor;
-
         // 꼬꼬의 크기를 다시 줄이고 거대화 효과 플래그를 false로, 애니메이션을 위한 코루틴 제어 플래그도 flag로 바꿔줌
-        this.gameObject.transform.localScale = new Vector3(1f, 1f, 0);
+        // 크기가 서서히 커지는 듯한 연출
+        Vector3 scale = new Vector3(2f, 2f, 0);
+        while (true)
+        {
+            scale -= new Vector3(0.1f, 0.1f, 0);
+            theGM.nowPlayer.gameObject.transform.localScale = scale;
+            yield return new WaitForSeconds(0.1f);
+
+            if (scale.x <= 1.5f)
+            {
+                break;
+            }
+        }
         theGM.nowPlayer.biggerFlag = false;
         completeFlag = true;
     }

@@ -120,7 +120,19 @@ public class PlayerManager : MonoBehaviour
         }
         if (theGM.nowPlayer.biggerFlag)
         {
-            this.gameObject.transform.localScale = new Vector3(2f, 2f, 0);
+            // 크기가 서서히 커지는 듯한 연출
+            Vector3 scale = new Vector3(1.5f, 1.5f, 0);
+            while (true)
+            {
+                scale += new Vector3(0.1f, 0.1f, 0);
+                this.gameObject.transform.localScale = scale;
+                yield return new WaitForSeconds(0.1f);
+
+                if (scale.x >= 2f)
+                {
+                    break;
+                }
+            }
         }
 
 
@@ -295,7 +307,7 @@ public class PlayerManager : MonoBehaviour
                         if (cardParent.childCount < 8)
                         {
                             // Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
-                            Card newCard = theGM.cards[UnityEngine.Random.Range(7, 8)];
+                            Card newCard = theGM.cards[UnityEngine.Random.Range(2, 3)];
                             print(newCard.card_name);
                             var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);//카드 프리펩 생성해주고
                             _card.transform.localPosition = new Vector3(0f, 0f, 0f);

@@ -44,14 +44,8 @@ public class ButtonScript : MonoBehaviour
     public void OnPurchaseBtn()
     {
         thePS.BuildingPurchase();
-        // thePS.buyFlag = true; // 구매 플래그 true
-        // theGM.turnCount += 1; //건물까지 올렸으면 턴 끝남 1증가
-        // theGM.UIFlag = false; // UI를 끄기 위해 UIFlag False;
-        // theGM.nextTurn = true;
-
-        // theGM.nowPlayer.buildingCount += 1;
-        // theGM.nowPlayer.playerMoney -= 50;
     }
+
     public void OnPurchaseCloseBtn()
     { //취소버튼
         theGM.NextTurnFunc();
