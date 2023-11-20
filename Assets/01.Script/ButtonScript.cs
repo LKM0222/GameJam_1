@@ -2,44 +2,64 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 땅 및 건물 구매창 UI 버튼 관리 스크립트
 public class ButtonScript : MonoBehaviour
-{   
+{
+    GameManager theGM;
     public PurchaseSystem thePS;
     public GroundBuyScript theGBS;
-    GameManager theGM;
+
     private void Start()
     {
         theGM = FindObjectOfType<GameManager>();
     }
-    public void OnRightBtn(){//Right버튼
+
+    //Right버튼
+    public void OnRightBtn()
+    {
         thePS.cur += 1;
-        if(thePS.cur > theGM.buildings.Length - 1){
+        // 커서가 리스트의 길이를 넘기면 0으로 초기화
+        if (thePS.cur > theGM.buildings.Length - 1)
+        {
             thePS.cur = 0;
         }
         thePS.buildingImg.sprite = theGM.buildings[thePS.cur].buildingImg.building_front;
         thePS.buildingText.text = theGM.buildings[thePS.cur].buildingName;
     }
-    public void OnLeftBtn(){//Left버튼
+
+    //Left버튼
+    public void OnLeftBtn()
+    {
         thePS.cur -= 1;
-        if(thePS.cur == -1){
+        // 커서가 0보다 작다면 마지막 건물 리스트로 초기화
+        if (thePS.cur == -1)
+        {
             thePS.cur = theGM.buildings.Length - 1;
         }
         thePS.buildingImg.sprite = theGM.buildings[thePS.cur].buildingImg.building_front;
         thePS.buildingText.text = theGM.buildings[thePS.cur].buildingName;
     }
-    public void OnPurchaseBtn(){//건물 구매버튼
-        thePS.buyFlag = true;
-        theGM.nowPlayer.buildingCount += 1;
-        theGM.nowPlayer.playerMoney -= 50;
+
+    //건물 구매버튼
+    public void OnPurchaseBtn()
+    {
+        thePS.BuildingPurchase();
     }
-    public void OnPurchaseCloseBtn(){ //취소버튼
+
+    public void OnPurchaseCloseBtn()
+    { //취소버튼
         theGM.NextTurnFunc();
         theGM.UIFlag = false;
     }
-    public void OnGroundBuyBtn(){ //땅 구매 버튼
+
+    //땅 구매 버튼
+    public void OnGroundBuyBtn()
+    {
         theGBS.groundBuyFlag = true;
         theGM.nowPlayer.groundCount += 1;
         theGM.nowPlayer.playerMoney -= 50;
-        theGM.nowPlayer.againstPlayer_Tile.Add(theGM.nowPlayer.nowTile.gameObject);
+
+        // 땅만 샀을 경우 해당 타일을 추가하고 상대방이 밟았을 때 50골드만 감소시키는 것 구현 아직 안됨
+        // theGM.nowPlayer.againstPlayer_Tile.Add(theGM.nowPlayer.nowTile.gameObject);
     }
 }

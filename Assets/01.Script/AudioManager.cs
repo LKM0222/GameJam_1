@@ -5,9 +5,9 @@ using UnityEngine;
 [System.Serializable]
 class Source
 {
-    public string name;
     public AudioClip clip;
     public AudioSource source;
+    public string name;
     public float volume;
     public bool loop;
 

@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/VFX/Cartoon Coffee/2D Slash VFX/Materials/CartoonCoffee_Slash-v10_Blue_001-Add-[1.0].mat.meta
+guid: 4aef2c9b093754f22bc599e05a3fe7ad
+NativeFormatImporter:
+========
 guid: da2194de975eb4891bac2f95035b208b
 folderAsset: yes
 DefaultImporter:
+>>>>>>>> newJH:Assets/04.Image/Logo.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

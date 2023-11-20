@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/VFX/Cartoon Coffee/2D Slash VFX/Prefabs/Bursts/Blue Slash v1.prefab.meta
+guid: 47be96c73b83d465cbf849d06c1f004e
+PrefabImporter:
+========
 guid: 4d421b0c33aec4907b5664577935f1e6
 folderAsset: yes
 DefaultImporter:
+>>>>>>>> newJH:Assets/04.Image/Card.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
