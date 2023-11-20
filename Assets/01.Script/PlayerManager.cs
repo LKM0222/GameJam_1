@@ -406,6 +406,8 @@ public class PlayerManager : MonoBehaviour
     //     {
     //     }
     // }
+    //ㅁㄴㅇㄹㅇㅁㄴㄹasdgasdg
+    
 
     IEnumerator TeleportCoroutine(){
         this.tileNum = int.Parse(tpTile.gameObject.name);
