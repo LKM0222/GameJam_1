@@ -80,7 +80,8 @@ public class PlayerManager : MonoBehaviour
         }
         if (!tpFlag && movingCoroutineFlag)
         {
-            StartCoroutine("DiceCoroutine");
+            
+            StartCoroutine(DiceCoroutine());
         }
 
         if (toosiFlag && myTurn)
@@ -156,7 +157,7 @@ public class PlayerManager : MonoBehaviour
                 }
             }
 
-
+    //
 
             VirtualCamera.SetActive(true);
             //주사위 굴리는거 기다려야됨
@@ -310,8 +311,8 @@ public class PlayerManager : MonoBehaviour
                         // 카드 구현해야됨.
                         if (cardParent.childCount < 8)//카드는 최대 7장
                         {
-                            // Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
-                            Card newCard = theGM.cards[UnityEngine.Random.Range(2, 3)];
+                            Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
+                            // Card newCard = theGM.cards[UnityEngine.Random.Range(2, 3)];
                             print(newCard.card_name);
                             var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);//카드 프리펩 생성해주고
                             _card.transform.localPosition = new Vector3(0f, 0f, 0f);
@@ -327,7 +328,7 @@ public class PlayerManager : MonoBehaviour
                     case 2: //teleport
                         //teleportFlag활성화
                         tpSelectFlag = true;
-                        StartCoroutine("TeleportSetCoroutine");
+                        StartCoroutine(TeleportSetCoroutine());
 
 
                         break;
