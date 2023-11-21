@@ -5,6 +5,7 @@ using System;
 using UnityEngine.UI;
 
 //커밋준비
+//test commit!
 public class PlayerManager : MonoBehaviour
 {
     public int playerId; //몇번째 플레이어인지 정보
@@ -109,6 +110,7 @@ public class PlayerManager : MonoBehaviour
             //waitcoroutine 추가로 자신의 턴이 끝나기 전에 상대방이 움직이는 버그 해결
             StartCoroutine(NextTrunWait());
             tpFlag = false;
+        }
     }
 
     IEnumerator DiceCoroutine()
@@ -157,9 +159,7 @@ public class PlayerManager : MonoBehaviour
                     tileToGo.Add(theTM.tiles[tileNum + i].gameObject);
                 }
             }
-
-    //
-
+            
             VirtualCamera.SetActive(true);
             //주사위 굴리는거 기다려야됨
             yield return new WaitForSeconds(1f);
@@ -451,5 +451,5 @@ public class PlayerManager : MonoBehaviour
         yield return null;
     }
     
-    }
+    
 }
