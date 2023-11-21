@@ -19,6 +19,7 @@ public class TransferScene : MonoBehaviour
 
     public void LoadingScene()
     {
+        AudioManager.instance.Play("buttonSound");
         AudioManager.instance.Stop("titleBGM");
         SceneManager.LoadScene("LoadingScene");
     }
@@ -30,6 +31,6 @@ public class TransferScene : MonoBehaviour
 
     public void ButtonClickSound()
     {
-        AudioManager.instance.Play("buttonSound");
+        
     }
 }
