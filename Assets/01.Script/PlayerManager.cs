@@ -163,6 +163,12 @@ public class PlayerManager : MonoBehaviour
             print("주사위 완료");
 
             //플레이어 이동
+            if (theGM.nowPlayer.highSpeedFlag)
+            {
+                theCM.highMoveParticle.gameObject.SetActive(true);
+                theCM.highMoveParticle.Play();
+            }
+
             theTSI.cursorPos = 3;
             for (; tileToGo.Count != 0;)
             {
@@ -208,6 +214,9 @@ public class PlayerManager : MonoBehaviour
             {
                 theGM.nowPlayer.speed = 4f;
                 theGM.nowPlayer.highSpeedFlag = false;
+
+                theCM.highMoveParticle.Stop();
+                theCM.highMoveParticle.gameObject.SetActive(false);
             }
 
             // 플레이어가 거대화 스킬을 사용하고 이동이 끝났다면 효과 발동
@@ -434,6 +443,25 @@ public class PlayerManager : MonoBehaviour
     {
         this.gameObject.GetComponent<Animator>().SetInteger("Dir", nowTile.dir);
         this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", true);
+
+        if (nowTile.dir == 5)
+        {
+            theCM.highMoveParticle.gameObject.transform.SetParent(theGM.nowPlayer.transform.GetChild(1));
+        }
+        else if (nowTile.dir == 2)
+        {
+            theCM.highMoveParticle.gameObject.transform.SetParent(theGM.nowPlayer.transform.GetChild(2));
+        }
+        else if (nowTile.dir == 3)
+        {
+            theCM.highMoveParticle.gameObject.transform.SetParent(theGM.nowPlayer.transform.GetChild(3));
+        }
+        else if (nowTile.dir == 4)
+        {
+            theCM.highMoveParticle.gameObject.transform.SetParent(theGM.nowPlayer.transform.GetChild(4));
+        }
+        theCM.highMoveParticle.gameObject.transform.localPosition = new Vector3(0f, 0f, 1f);
+
         if (theGM.nowPlayer.highSpeedFlag)
         {
             this.gameObject.GetComponent<Animator>().SetBool("FlyFlag", true);

@@ -17,6 +17,7 @@ public class CardManager : MonoBehaviour
     public bool completeFlag;
     public ParticleSystem destroyParticle;
     public ParticleSystem laserParticle;
+    public ParticleSystem highMoveParticle;
 
 
     // Start is called before the first frame update
