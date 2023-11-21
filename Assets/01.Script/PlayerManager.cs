@@ -11,7 +11,7 @@ public class PlayerManager : MonoBehaviour
     public int playerId; //몇번째 플레이어인지 정보
     public int playerMoney; //플레이어의 자금
     public Text playerMoneyText; //플레이어 자금 플로팅
-    [SerializeField] float speed; //이동속도
+    public float speed; //이동속도
     [SerializeField] bool movingFlag; //이동 완료인지 이동중인지 체크하는 플래그
     [SerializeField] List<GameObject> tileToGo = new List<GameObject>(); //플레이어가 가야될 타일//최대 12칸.
     public Tile nowTile; //현재 서 있는 타일의 정보
@@ -161,13 +161,14 @@ public class PlayerManager : MonoBehaviour
             //주사위 굴리는거 기다려야됨
             yield return new WaitForSeconds(1f);
             print("주사위 완료");
+
             //플레이어 이동
             theTSI.cursorPos = 3;
             for (; tileToGo.Count != 0;)
             {
                 if (tileToGo[0].transform.name == "0")
                 {
-                    this.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 0f, 1f);
+                    // this.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 0f, 1f);
                     playerMoney += 100; //지나다닐때마다 100알씩 지급
                 }
                 else
@@ -175,29 +176,38 @@ public class PlayerManager : MonoBehaviour
                     // this.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
                 }
 
+                // 투명도둑을 사용하고 나와 상대방이 겹쳐질때 투명도둑 효과 발동
+                if (invisibleFlag)
+                {
+                    if (againstPlayer.nowTile == nowTile)
+                    {
+                        theCM.InvisibleThief();
+                        theGM.nowPlayer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1f);
+                    }
+                }
+
                 //player를 이동시킴 (애니메이션 필요) 메인 이동 코드
                 movingFlag = true;
-                //this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
                 Vector3 targetPos = tileToGo[0].transform.Find("Pos").transform.position;
 
                 StartCoroutine(MovingCoroutine(targetPos));
                 yield return new WaitUntil(() => movingFlag == false); //코루틴이 끝난지 체크
                 nowTile = tileToGo[0].GetComponent<Tile>(); //현재 타일
-                                                            //AudioManager.instance.Play("moveSound");
-
-                if (invisibleFlag)
-                {//invisible플래그가 활성화되어있고
-                    if (againstPlayer.nowTile == nowTile)
-                    { //내가 상대방과 같은 타일을 지나간다면
-                        theCM.InvisibleThief();
-                        theGM.nowPlayer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1f);
-                    }
-                }
-                //애니메이션 나오는 시간동안 기다린 뒤
-                yield return new WaitForSeconds(0.5f);
+                //AudioManager.instance.Play("moveSound");
 
                 //리스트에서 첫번째 요소 삭제
                 tileToGo.RemoveAt(0);
+            }
+
+            this.gameObject.GetComponent<Animator>().SetBool("FlyFlag", false);
+            this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", false);
+
+
+            // 고속이동이 끝났다면 스피드를 원상복구 시키고 플래그를 비활성화시킴
+            if (theGM.nowPlayer.highSpeedFlag)
+            {
+                theGM.nowPlayer.speed = 4f;
+                theGM.nowPlayer.highSpeedFlag = false;
             }
 
             // 플레이어가 거대화 스킬을 사용하고 이동이 끝났다면 효과 발동
@@ -310,8 +320,8 @@ public class PlayerManager : MonoBehaviour
                         // 카드 구현해야됨.
                         if (cardParent.childCount < 8)//카드는 최대 7장
                         {
-                            Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
-                            // Card newCard = theGM.cards[UnityEngine.Random.Range(2, 3)];
+                            // Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
+                            Card newCard = theGM.cards[UnityEngine.Random.Range(0, 1)];
                             print(newCard.card_name);
                             var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);//카드 프리펩 생성해주고
                             _card.transform.localPosition = new Vector3(0f, 0f, 0f);
@@ -424,6 +434,10 @@ public class PlayerManager : MonoBehaviour
     {
         this.gameObject.GetComponent<Animator>().SetInteger("Dir", nowTile.dir);
         this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", true);
+        if (theGM.nowPlayer.highSpeedFlag)
+        {
+            this.gameObject.GetComponent<Animator>().SetBool("FlyFlag", true);
+        }
         while (movingFlag)
         {
             this.transform.position = Vector3.MoveTowards(this.transform.position, target, Time.deltaTime * speed);
@@ -433,7 +447,7 @@ public class PlayerManager : MonoBehaviour
                 movingFlag = false;
             }
         }
-        this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", false);
+        // this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", false);
         yield return null;
     }
 

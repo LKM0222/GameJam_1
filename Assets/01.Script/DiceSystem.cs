@@ -78,10 +78,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler, IPointer
             this.transform.localPosition = nowPos;
             thePlayer.diceNum = Random.Range(1, 9); //테스트중, 끝나면 다시 변환
 
-            if (thePlayer.highSpeedFlag)
-            {
-                theCM.HighSpeedMove();
-            }
+
 
             if (thePlayer.lowerDiceFlag)
             {

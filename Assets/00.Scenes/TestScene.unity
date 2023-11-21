@@ -7835,7 +7835,7 @@ MonoBehaviour:
   movingFlag: 0
   tileToGo: []
   nowTile: {fileID: 1693466814}
-  diceNum: 1
+  diceNum: 3
   diceFlag: 1
   movingCoroutineFlag: 0
   cards: []
