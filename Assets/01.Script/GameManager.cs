@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
     public GameObject tpImg; //텔레포트 활성화 시 표시할 그림
 
     // 투시를 사용하면 카드들을 보여줄 오브젝트
+    public GameObject showCardListObject;
+    // 카드를 획득하면 보여줄 오브젝트
     public GameObject showCardObject;
     // 카드 이미지만 담은 프리팹
     public GameObject onlyCardImg;
@@ -82,8 +84,9 @@ public class GameManager : MonoBehaviour
                 theTSI.cursorPos = 1;
                 CardListUpdate();
             }
-           
-            if(nextTurn){//턴 넘기기
+
+            if (nextTurn)
+            {//턴 넘기기
                 StartCoroutine(TurnImgCoroutine(turnCount % 2));
                 nextTurn = false;
             }
@@ -122,8 +125,10 @@ public class GameManager : MonoBehaviour
         turnCount += 1;//턴넘김
         nextTurn = true;
     }
-    IEnumerator TurnImgCoroutine(int turn){
-        if(turn == 1){
+    IEnumerator TurnImgCoroutine(int turn)
+    {
+        if (turn == 1)
+        {
             player1TurnImg.SetActive(true);
             yield return new WaitForSeconds(1f);
             player1TurnImg.SetActive(false);
@@ -133,7 +138,8 @@ public class GameManager : MonoBehaviour
             nowPlayer = players[0];
             CardListUpdate(); //추후 통신 구현하면 이 코드는 다른곳으로 옮겨야함.
         }
-        if(turn == 0){
+        if (turn == 0)
+        {
             player2TurnImg.SetActive(true);
             yield return new WaitForSeconds(1f);
             player2TurnImg.SetActive(false);

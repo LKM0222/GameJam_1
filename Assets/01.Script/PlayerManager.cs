@@ -58,6 +58,7 @@ public class PlayerManager : MonoBehaviour
     public bool laserFlag;
 
     public CardManager theCM;
+    public bool showCardFlag;
 
     // Start is called before the first frame update
     void Start()
@@ -82,7 +83,7 @@ public class PlayerManager : MonoBehaviour
         }
         if (!tpFlag && movingCoroutineFlag)
         {
-            
+
             StartCoroutine(DiceCoroutine());
         }
 
@@ -100,16 +101,11 @@ public class PlayerManager : MonoBehaviour
 
         if (tpFlag && myTurn)
         {//말끔하게 수정 필요
-            this.tileNum = int.Parse(tpTile.gameObject.name);
-            this.tileToGo.Add(tpTile);
-            this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
-            this.tileToGo.RemoveAt(0);
-            theGM.NextTurnFunc();
             tpMovingFlag = true;
             StartCoroutine(TeleportCoroutine());
             //waitcoroutine 추가로 자신의 턴이 끝나기 전에 상대방이 움직이는 버그 해결
             StartCoroutine(NextTrunWait());
-            tpFlag = false;
+        }
     }
 
     IEnumerator DiceCoroutine()
@@ -159,7 +155,7 @@ public class PlayerManager : MonoBehaviour
                 }
             }
 
-    //
+            //
 
             VirtualCamera.SetActive(true);
             //주사위 굴리는거 기다려야됨
@@ -178,6 +174,7 @@ public class PlayerManager : MonoBehaviour
                 {
                     // this.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
                 }
+
                 //player를 이동시킴 (애니메이션 필요) 메인 이동 코드
                 movingFlag = true;
                 //this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
@@ -233,22 +230,22 @@ public class PlayerManager : MonoBehaviour
             {//일반 땅이라면
                 if (nowTile.ownPlayer == playerId)
                 {//자기 땅이라면
-                    //일단 건물이 있는 땅인지 없는 땅인지 체크
+                 //일단 건물이 있는 땅인지 없는 땅인지 체크
                     if (nowTile.building == null)
                     { //건물이 없는 땅이라면
-                        //건물 구매 UI활성화
+                      //건물 구매 UI활성화
                         purchaseUi.SetActive(true);
                         //카드 선택 방지를 위한 UI활성화 플래그 활성화
                         theGM.UIFlag = true;
                     }
                     else
                     { //건물이 있는 땅이라면
-                        //효과를 활성화
+                      //효과를 활성화
                     }
                 }
                 else if (nowTile.ownPlayer == -1)
                 { //주인없는 땅이라면
-                    //땅 구매 UI를 활성화
+                  //땅 구매 UI를 활성화
                     groundBuyUi.SetActive(true);
                     //카드 선택 방지를 위한 UI활성화 플래그 활성화
                     theGM.UIFlag = true;
@@ -319,29 +316,33 @@ public class PlayerManager : MonoBehaviour
                             var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);//카드 프리펩 생성해주고
                             _card.transform.localPosition = new Vector3(0f, 0f, 0f);
                             cards.Add(newCard); //플레이어 리스트에 카드 추가
-
                             if (newCard == theGM.cards[6])
                             {
                                 exemptionFlag = true;
                             }
+
+                            // 획득한 카드를 보여주기 위한 코루틴 실행
+                            StartCoroutine(GetCardShow());
+                            yield return new WaitUntil(() => showCardFlag);
+                            showCardFlag = false;
                         }
 
                         break;
                     case 2: //teleport
-                        //teleportFlag활성화
+                            //teleportFlag활성화
                         tpSelectFlag = true;
                         StartCoroutine(TeleportSetCoroutine());
 
 
                         break;
                     case 3: //세금
-                        //상대방 땅 갯수 *5 + 건물 갯수 * 10
-                        //세금 징수하는 애니메이션이나, 영수증 띄워주면 좋을듯
+                            //상대방 땅 갯수 *5 + 건물 갯수 * 10
+                            //세금 징수하는 애니메이션이나, 영수증 띄워주면 좋을듯
                         playerMoney -= (groundCount * 5) + (buildingCount * 10);
 
                         break;
                     case 4: //강탈
-                        //상대 플레이어 카드 무작위 한장 뺏어옴.
+                            //상대 플레이어 카드 무작위 한장 뺏어옴.
                         GameObject dCard = againstPlayer.cardParent.GetChild(UnityEngine.Random.Range(0, againstPlayer.cardParent.childCount)).gameObject;
                         dCard.transform.parent = cardParent;
                         break;
@@ -349,7 +350,7 @@ public class PlayerManager : MonoBehaviour
                 }
                 if (!tpSelectFlag)
                 { //tp중일땐 일단 타일이 선택되기 전까지는 기다려야하기 때문에 탈출할 수 없음...
-                    //특수 행동 후 턴을 넘김
+                  //특수 행동 후 턴을 넘김
                     theGM.NextTurnFunc();
                     //invisibleFlag = false;
                     this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
@@ -363,19 +364,6 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    IEnumerator TooSiCoroutine()
-    {
-        for (int i = 0; i < againstPlayer.cards.Count; i++)
-        {
-            againstPlayer.cardParent.GetChild(i).GetChild(0).gameObject.SetActive(false);
-        }
-        yield return new WaitForSeconds(3f);
-        for (int i = 0; i < againstPlayer.cards.Count; i++)
-        {
-            againstPlayer.cardParent.GetChild(i).GetChild(0).gameObject.SetActive(true);
-        }
-    }
-
     IEnumerator TeleportSetCoroutine()
     {
         tpBack.SetActive(true);
@@ -385,12 +373,13 @@ public class PlayerManager : MonoBehaviour
             theTM.tiles[i].cardActive = true; //모든 카드 클릭 가능하도록 미리 클릭하고 다음턴에 해당 위치로 이동.
         }
 
-
         yield return new WaitUntil(() => theGM.tpTile != null);
+
         for (int i = 0; i < theTM.tiles.Length; i++)
         {
             theTM.tiles[i].cardActive = false; //다시 클릭 못하도록 변경
         }
+
         tpTile = theGM.tpTile;
         theGM.tpTile = null;
         tpBack.SetActive(false);
@@ -400,18 +389,8 @@ public class PlayerManager : MonoBehaviour
         theGM.NextTurnFunc();
     }
 
-    // IEnumerator MovingCoroutine(Vector3 target)
-    // {
-    //     this.gameObject.GetComponent<Animator>().SetInteger("Dir", nowTile.dir);
-    //     this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", true);
-    //     while (movingFlag)
-    //     {
-    //     }
-    // }
-    //ㅁㄴㅇㄹㅇㅁㄴㄹasdgasdg
-    
-
-    IEnumerator TeleportCoroutine(){
+    IEnumerator TeleportCoroutine()
+    {
         this.tileNum = int.Parse(tpTile.gameObject.name);
         this.tileToGo.Add(tpTile);
         //주석 처리된 코드는 그 자리로 순간이동하는 코드
@@ -419,10 +398,12 @@ public class PlayerManager : MonoBehaviour
         //this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
         //새로 작성한 코드는 그 자리로 moving하는것처럼 이동하는 코드
         Vector3 target = tileToGo[0].transform.Find("Pos").transform.position;
-        while(tpMovingFlag){
+        while (tpMovingFlag)
+        {
             this.transform.position = Vector3.MoveTowards(this.transform.position, target, Time.deltaTime * speed);
             // 여기서 뭔가 텔레포트하는 애니메이션이 필요할듯!
-            if(this.transform.position == target){
+            if (this.transform.position == target)
+            {
                 tpMovingFlag = false;
             }
         }
@@ -433,14 +414,18 @@ public class PlayerManager : MonoBehaviour
         tpFlag = false;
         yield return null;
     }
-    IEnumerator NextTrunWait(){ //현재 플레이어의 텔레포트가 완료되기 전에 상대 플레이어가 이동하는걸 방지하는 코드.
-        yield return new WaitUntil(()=> tpMovingFlag == false);
+
+    IEnumerator NextTrunWait()
+    { //현재 플레이어의 텔레포트가 완료되기 전에 상대 플레이어가 이동하는걸 방지하는 코드.
+        yield return new WaitUntil(() => tpMovingFlag == false);
     }
 
-    IEnumerator MovingCoroutine(Vector3 target){
-        this.gameObject.GetComponent<Animator>().SetInteger("Dir",nowTile.dir);
-        this.gameObject.GetComponent<Animator>().SetBool("WalkFlag",true);
-        while(movingFlag){
+    IEnumerator MovingCoroutine(Vector3 target)
+    {
+        this.gameObject.GetComponent<Animator>().SetInteger("Dir", nowTile.dir);
+        this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", true);
+        while (movingFlag)
+        {
             this.transform.position = Vector3.MoveTowards(this.transform.position, target, Time.deltaTime * speed);
             yield return new WaitForEndOfFrame();
             if (this.transform.position == target)
@@ -451,6 +436,22 @@ public class PlayerManager : MonoBehaviour
         this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", false);
         yield return null;
     }
-    
+
+    // 획득한 카드를 게임화면에 띄워서 보여주는 코루틴
+    IEnumerator GetCardShow()
+    {
+        // GameManager에 만들어놓은 카드이미지프리팹을 카드를 띄워줄 위치에 있는 오브젝트에 복제
+        // 이후 위치값, 스케일값, 스프라이트 이미지를 변경함
+        var _card = Instantiate(theGM.onlyCardImg, Vector3.zero, Quaternion.identity, theGM.showCardObject.transform);
+        _card.transform.localPosition = new Vector3(0f, 0f, 0f);
+        _card.transform.localScale = new Vector3(20f, 20f, 20f);
+        _card.GetComponent<SpriteRenderer>().sprite = theGM.nowPlayer.cards[cards.Count - 1].cardImg;
+
+        // 3초 대기 이후 보여줬던 카드를 파괴하고 코루틴 탈출
+        yield return new WaitForSeconds(3f);
+
+        Destroy(_card);
+        showCardFlag = true;
     }
 }
+

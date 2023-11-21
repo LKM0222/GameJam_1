@@ -46,8 +46,9 @@ public class ButtonScript : MonoBehaviour
         thePS.BuildingPurchase();
     }
 
+    //취소버튼
     public void OnPurchaseCloseBtn()
-    { //취소버튼
+    {
         theGM.NextTurnFunc();
         theGM.UIFlag = false;
     }

@@ -272,21 +272,21 @@ public class CardManager : MonoBehaviour
         // 상대방의 카드가 1장 이상이라면
         if (theGM.nowPlayer.againstPlayer.cards.Count > 0)
         {
-            // 상대방 카드의 갯수만큼 showCardObject에 복제하고 이미지를 맞춰줌
+            // 상대방 카드의 갯수만큼 showCardListObject에 복제하고 이미지를 맞춰줌
             for (int i = 0; i < theGM.nowPlayer.againstPlayer.cards.Count; i++)
             {
-                var _card = Instantiate(theGM.onlyCardImg, new Vector3(0, 0, 0), Quaternion.identity, theGM.showCardObject.transform);
+                var _card = Instantiate(theGM.onlyCardImg, new Vector3(0, 0, 0), Quaternion.identity, theGM.showCardListObject.transform);
                 _card.transform.localPosition = new Vector2(0, 0);
                 _card.transform.localScale = new Vector2(10, 10);
                 _card.GetComponent<SpriteRenderer>().sprite = theGM.nowPlayer.againstPlayer.cards[i].cardImg;
             }
 
-            // 3초동안 보여주고 이후에 showCardObject에 복제했던 오브젝트를 파괴함
+            // 3초동안 보여주고 이후에 showCardListObject에 복제했던 오브젝트를 파괴함
             yield return new WaitForSeconds(3f);
 
             for (int i = 0; i < theGM.nowPlayer.againstPlayer.cards.Count; i++)
             {
-                Destroy(theGM.showCardObject.transform.GetChild(0).gameObject);
+                Destroy(theGM.showCardListObject.transform.GetChild(0).gameObject);
             }
         }
 
