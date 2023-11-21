@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Mirror;
 
 public class TransferScene : MonoBehaviour
 {
@@ -21,16 +22,17 @@ public class TransferScene : MonoBehaviour
     {
         AudioManager.instance.Play("buttonSound");
         AudioManager.instance.Stop("titleBGM");
-        SceneManager.LoadScene("LoadingScene");
+
+        // SceneManager.LoadScene("LoadingScene");
     }
 
     public void Exit()
     {
         Application.Quit();
     }
-
-    public void ButtonClickSound()
-    {
-        
+    public void CreateRoom(){
+        var manager = RoomManager.singleton; 
+        //방 설정 작업
+        manager.StartHost();
     }
 }

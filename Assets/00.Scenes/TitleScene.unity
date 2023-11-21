@@ -564,7 +564,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 686501616}
         m_TargetAssemblyTypeName: TransferScene, Assembly-CSharp
-        m_MethodName: ButtonClickSound
+        m_MethodName: CreateRoom
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -734,7 +734,7 @@ MonoBehaviour:
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 0}
+  playerPrefab: {fileID: 6245547035012869279, guid: 9e60712b9bb494e8f9348b56382703b6, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs: []
@@ -753,9 +753,9 @@ MonoBehaviour:
   timeInterpolationGui: 0
   showRoomGUI: 1
   minPlayers: 1
-  roomPlayerPrefab: {fileID: 0}
-  RoomScene: 
-  GameplayScene: 
+  roomPlayerPrefab: {fileID: 7018936154115320513, guid: f22e254a441d24b04b38b53fc3f7d360, type: 3}
+  RoomScene: Assets/00.Scenes/MenuScene.unity
+  GameplayScene: Assets/00.Scenes/TestScene.unity
   _allPlayersReady: 0
   roomSlots: []
   clientIndex: 0
