@@ -119,7 +119,17 @@ public class PlayerManager : MonoBehaviour
         }
         if (theGM.nowPlayer.invisibleFlag)
         {
-            theGM.nowPlayer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+            // 캐릭터가 점점 투명해지는 듯한 연출
+            Color alpha = new(1, 1, 1, 1);
+            while (true)
+            {
+                theGM.nowPlayer.GetComponent<SpriteRenderer>().color = alpha;
+                alpha.a -= 0.1f;
+                yield return new WaitForSeconds(0.1f);
+
+                if (alpha.a <= 0.5f)
+                    break;
+            }
         }
         if (theGM.nowPlayer.biggerFlag)
         {
@@ -182,13 +192,12 @@ public class PlayerManager : MonoBehaviour
                     // this.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
                 }
 
-                // 투명도둑을 사용하고 나와 상대방이 겹쳐질때 투명도둑 효과 발동
+                // 투명도둑을 사용하고 나와 상대방이 겹쳐질때, 상대방의 카드가 있을 때 투명도둑 효과 발동
                 if (invisibleFlag)
                 {
-                    if (againstPlayer.nowTile == nowTile)
+                    if (againstPlayer.nowTile == nowTile && againstPlayer.cards.Count != 0)
                     {
                         theCM.InvisibleThief();
-                        theGM.nowPlayer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1f);
                     }
                 }
 
@@ -208,6 +217,26 @@ public class PlayerManager : MonoBehaviour
             this.gameObject.GetComponent<Animator>().SetBool("FlyFlag", false);
             this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", false);
 
+            // 투명도둑을 사용했었다면 알파값 원상복구
+            if (theGM.nowPlayer.invisibleFlag)
+            {
+                // invisibleFlag를 False로 변환
+                theGM.nowPlayer.invisibleFlag = false;
+
+                Color alpha = new(1, 1, 1, 0.5f);
+                while (true)
+                {
+                    theGM.nowPlayer.GetComponent<SpriteRenderer>().color = alpha;
+                    alpha.a += 0.1f;
+                    yield return new WaitForSeconds(0.1f);
+
+                    if (alpha.a >= 1f)
+                        break;
+                }
+
+                theCM.InvisibleParticle.Stop();
+                theCM.InvisibleParticle.gameObject.SetActive(false);
+            }
 
             // 고속이동이 끝났다면 스피드를 원상복구 시키고 플래그를 비활성화시킴
             if (theGM.nowPlayer.highSpeedFlag)
@@ -330,7 +359,7 @@ public class PlayerManager : MonoBehaviour
                         if (cardParent.childCount < 8)//카드는 최대 7장
                         {
                             // Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
-                            Card newCard = theGM.cards[UnityEngine.Random.Range(0, 1)];
+                            Card newCard = theGM.cards[UnityEngine.Random.Range(1, 2)];
                             print(newCard.card_name);
                             var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);//카드 프리펩 생성해주고
                             _card.transform.localPosition = new Vector3(0f, 0f, 0f);
@@ -444,28 +473,29 @@ public class PlayerManager : MonoBehaviour
         this.gameObject.GetComponent<Animator>().SetInteger("Dir", nowTile.dir);
         this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", true);
 
-        if (nowTile.dir == 5)
-        {
-            theCM.highMoveParticle.gameObject.transform.SetParent(theGM.nowPlayer.transform.GetChild(1));
-        }
-        else if (nowTile.dir == 2)
-        {
-            theCM.highMoveParticle.gameObject.transform.SetParent(theGM.nowPlayer.transform.GetChild(2));
-        }
-        else if (nowTile.dir == 3)
-        {
-            theCM.highMoveParticle.gameObject.transform.SetParent(theGM.nowPlayer.transform.GetChild(3));
-        }
-        else if (nowTile.dir == 4)
-        {
-            theCM.highMoveParticle.gameObject.transform.SetParent(theGM.nowPlayer.transform.GetChild(4));
-        }
-        theCM.highMoveParticle.gameObject.transform.localPosition = new Vector3(0f, 0f, 1f);
-
         if (theGM.nowPlayer.highSpeedFlag)
         {
             this.gameObject.GetComponent<Animator>().SetBool("FlyFlag", true);
+
+            if (nowTile.dir == 5)
+            {
+                theCM.highMoveParticle.gameObject.transform.SetParent(theGM.nowPlayer.transform.GetChild(1));
+            }
+            else if (nowTile.dir == 2)
+            {
+                theCM.highMoveParticle.gameObject.transform.SetParent(theGM.nowPlayer.transform.GetChild(2));
+            }
+            else if (nowTile.dir == 3)
+            {
+                theCM.highMoveParticle.gameObject.transform.SetParent(theGM.nowPlayer.transform.GetChild(3));
+            }
+            else if (nowTile.dir == 4)
+            {
+                theCM.highMoveParticle.gameObject.transform.SetParent(theGM.nowPlayer.transform.GetChild(4));
+            }
+            theCM.highMoveParticle.gameObject.transform.localPosition = new Vector3(0f, 0f, 1f);
         }
+
         while (movingFlag)
         {
             this.transform.position = Vector3.MoveTowards(this.transform.position, target, Time.deltaTime * speed);
@@ -475,7 +505,6 @@ public class PlayerManager : MonoBehaviour
                 movingFlag = false;
             }
         }
-        // this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", false);
         yield return null;
     }
 

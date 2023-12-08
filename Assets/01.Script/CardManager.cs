@@ -18,7 +18,7 @@ public class CardManager : MonoBehaviour
     public ParticleSystem destroyParticle;
     public ParticleSystem laserParticle;
     public ParticleSystem highMoveParticle;
-
+    public ParticleSystem InvisibleParticle;
 
     // Start is called before the first frame update
     void Start()
@@ -129,13 +129,8 @@ public class CardManager : MonoBehaviour
         print("투명도둑 사용");
         // 상대가 가진 카드를 랜덤으로 골라서 현재 플레이어 카드에 추가하고 상대 플레이어 카드에는 삭제
         int randomCard = UnityEngine.Random.Range(0, theGM.nowPlayer.againstPlayer.cards.Count);
-        theGM.nowPlayer.cards.Add(theGM.nowPlayer.againstPlayer.cards[randomCard]);
-        theGM.nowPlayer.againstPlayer.cards.RemoveAt(randomCard);
 
-        // 상대방 카드 UI를 내 카드 UI로 옮겨오고 스프라이트 이미지도 변경
-        GameObject dCard = theGM.nowPlayer.againstPlayer.cardParent.GetChild(randomCard).gameObject;
-        dCard.transform.parent = theGM.nowPlayer.cardParent;
-        dCard.GetComponent<SpriteRenderer>().sprite = theGM.nowPlayer.cardPrefab.GetComponent<SpriteRenderer>().sprite;
+        // 효과음 추가하기
 
         // 만약 뺏어온 카드가 통행료면제 카드라면 플래그를 서로 바꿔줌
         if (theGM.nowPlayer.againstPlayer.cards[randomCard] == theGM.cards[6])
@@ -144,8 +139,17 @@ public class CardManager : MonoBehaviour
             theGM.nowPlayer.againstPlayer.exemptionFlag = false;
         }
 
-        // invisibleFlag를 False로 변환
-        theGM.nowPlayer.invisibleFlag = false;
+        theGM.nowPlayer.cards.Add(theGM.nowPlayer.againstPlayer.cards[randomCard]);
+        theGM.nowPlayer.againstPlayer.cards.RemoveAt(randomCard);
+
+        InvisibleParticle.gameObject.SetActive(true);
+        InvisibleParticle.transform.position = theGM.nowPlayer.transform.position;
+        InvisibleParticle.Play();
+
+        // 상대방 카드 UI를 내 카드 UI로 옮겨오고 스프라이트 이미지도 변경
+        GameObject dCard = theGM.nowPlayer.againstPlayer.cardParent.GetChild(0).gameObject;
+        dCard.transform.SetParent(theGM.nowPlayer.cardParent);
+        dCard.GetComponent<SpriteRenderer>().sprite = theGM.nowPlayer.cardPrefab.GetComponent<SpriteRenderer>().sprite;
     }
 
     public void BiggerChicken()
