@@ -16,6 +16,9 @@ public class TransferScene : MonoBehaviour
     {
 
     }
+    public void ClickBtnSound(){
+        AudioManager.instance.Play("buttonSound");
+    }
 
     public void LoadingScene()
     {

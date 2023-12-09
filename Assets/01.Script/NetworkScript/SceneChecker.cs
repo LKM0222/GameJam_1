@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-// using UnityEngine.UI;
+using UnityEngine.UI;
+using Photon.Pun;
 
 public class SceneChecker : MonoBehaviour
 {
@@ -23,7 +24,14 @@ public class SceneChecker : MonoBehaviour
     {
         if(SceneManager.GetActiveScene().name == "MenuScene"){
             GameObject text = GameObject.Find("Code");
-            // text.GetComponent<Text>().text = "참여코드 : " + PhotonNetwork.CurrentRoom.Name;
+            text.GetComponent<Text>().text = "참여코드 : " + PhotonNetwork.CurrentRoom.Name;
+
+            GameObject playerText = GameObject.Find("PlayerText");
+            string playertxt = "";
+            for(int i = 0; i < PhotonNetwork.PlayerList.Length; i++){
+                playertxt += PhotonNetwork.PlayerList[i].NickName + ", ";
+            }
+            playerText.GetComponent<Text>().text = playertxt;
         }
     }
 }
