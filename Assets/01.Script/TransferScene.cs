@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Mirror;
 
 public class TransferScene : MonoBehaviour
 {
@@ -29,10 +28,5 @@ public class TransferScene : MonoBehaviour
     public void Exit()
     {
         Application.Quit();
-    }
-    public void CreateRoom(){
-        var manager = RoomManager.singleton; 
-        //방 설정 작업
-        manager.StartHost();
     }
 }
