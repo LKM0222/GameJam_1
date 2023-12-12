@@ -1,70 +1,91 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
-    
-    [SerializeField] InputField roomCodeInput;
-    [SerializeField] InputField playerNickNameInput;
+    NetworkManager instance;
+    [SerializeField] Text stateText;
+    //CreateUI
+    [SerializeField] InputField CreateNickname;
+    //JoinUI
+    [SerializeField] InputField joinNickName, roomCodeInput;
+
+
+    private void Awake()
+    {
+        if(instance == null){
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else{
+            Destroy(this.gameObject);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        Connected();
+        Connect();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(SceneManager.GetActiveScene().name == "TitleScene")
+            stateText.text = PhotonNetwork.NetworkClientState.ToString();
     }
 
-    //ServerConnect
-    public void Connected() => PhotonNetwork.ConnectUsingSettings();
-    public override void OnConnected() => print("서버 연결 완료");
-    public override void OnDisconnected(DisconnectCause cause) => print("연결 종료");
-
-    //RoomCreate
-    public void CreateRoom() => CheckCreateRoom();
-    public override void OnCreatedRoom() => AfterCreateRoom();
-    public override void OnCreateRoomFailed(short returnCode, string message) => print("방 생성 실패");
-    void AfterCreateRoom(){
-        print("방 생성완료");
-        SceneManager.LoadScene("MenuScene");
+    //Server Connect
+    void Connect(){
+        PhotonNetwork.ConnectUsingSettings();
     }
-    void CheckCreateRoom(){
-        if(playerNickNameInput.text == ""){
-            print("닉네임을 입력해야합니다.");
+    public override void OnConnected() => print("connect");
+    public override void OnDisconnected(DisconnectCause cause) => print("disconnected");
+
+    //Create Room
+    public void CreateRoom(){
+        if(CreateNickname.text == ""){
+            print("닉네임을 입력해야 합니다.");
         }
         else{
-            print("닉네임이 있음.");
-            PhotonNetwork.LocalPlayer.NickName = playerNickNameInput.text;
-            PhotonNetwork.CreateRoom("100",new RoomOptions { MaxPlayers = 2 });
+            PhotonNetwork.LocalPlayer.NickName = CreateNickname.text;
+            PhotonNetwork.CreateRoom("100", new RoomOptions{MaxPlayers = 2});
+            print("방 생성 완료");
+            SceneManager.LoadScene("MenuScene");
         }
     }
+    public override void OnCreatedRoom(){
+        print("OnCreatedRoom");
+
+        var player = PhotonNetwork.Instantiate("Player",Vector3.zero, Quaternion.identity);
+        print(player);
+        DontDestroyOnLoad(player);
+    }
+    public override void OnCreateRoomFailed(short returnCode, string message) => print("CreateRoomFailed");
+
 
     //JoinRoom
-    public void JoinRoom() => CheckJoinRoom();
-    public override void OnJoinedRoom() => AfterJoinRoom();
-    public override void OnJoinRoomFailed(short returnCode, string message) => print("방 참가 실패");
-    void AfterJoinRoom(){
-        print("방 참가완료" + PhotonNetwork.CurrentRoom.Name);
-        SceneManager.LoadScene("MenuScene");
-    }
-    void CheckJoinRoom(){
-        if(playerNickNameInput.text == "" && roomCodeInput.text == ""){
-            print("InputField를 입력해야합니다.");
+    public void JoinRoom(){
+        if(joinNickName.text == "" && roomCodeInput.text == ""){
+            print("input이 비었습니다.");
         }
         else{
-            print("닉네임이 있음.");
-            PhotonNetwork.LocalPlayer.NickName = playerNickNameInput.text;
+            PhotonNetwork.LocalPlayer.NickName = joinNickName.text;
             PhotonNetwork.JoinRoom(roomCodeInput.text);
+            
         }
     }
-
-
+    public override void OnJoinedRoom(){
+        print("OnJoinedRoom");
+        var player = PhotonNetwork.Instantiate("Player",Vector3.zero,Quaternion.identity);
+        print(player);
+        DontDestroyOnLoad(player);
+        SceneManager.LoadScene("MenuScene");
+    }
+    public override void OnJoinRoomFailed(short returnCode, string message) => print("방 입장 실패");
 }
