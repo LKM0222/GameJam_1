@@ -4,8 +4,6 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 
-//커밋준비
-//test commit!
 public class PlayerManager : MonoBehaviour
 {
     public int playerId; //몇번째 플레이어인지 정보
@@ -359,7 +357,7 @@ public class PlayerManager : MonoBehaviour
                         if (cardParent.childCount < 8)//카드는 최대 7장
                         {
                             // Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
-                            Card newCard = theGM.cards[UnityEngine.Random.Range(1, 2)];
+                            Card newCard = theGM.cards[UnityEngine.Random.Range(2, 3)];
                             print(newCard.card_name);
                             var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);//카드 프리펩 생성해주고
                             _card.transform.localPosition = new Vector3(0f, 0f, 0f);

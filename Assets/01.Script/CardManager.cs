@@ -154,16 +154,7 @@ public class CardManager : MonoBehaviour
 
     public void BiggerChicken()
     {
-        print("거대화꼬꼬 사용");
-        // 만약 현재 타일의 소유주가 자신이 아니라면 코루틴을 실행하고 자신의 소유라면 completeFlag를 true로 주어 기존 코드를 실행
-        if (theGM.nowPlayer.nowTile.ownPlayer != theGM.nowPlayer.playerId)
-        {
-            StartCoroutine(BiggerCoroutine());
-        }
-        else
-        {
-            completeFlag = true;
-        }
+        StartCoroutine(BiggerCoroutine());
     }
 
     public void Penetrate()
@@ -242,9 +233,7 @@ public class CardManager : MonoBehaviour
 
             // 현재 타일의 소유주와 건물을 없앰
             theGM.nowPlayer.nowTile.ownPlayer = -1;
-            // theGM.nowPlayer.nowTile.buildingImg = null;
-
-            yield return new WaitForEndOfFrame();
+            theGM.nowPlayer.nowTile.building.type = -1;
 
             // 0으로 감소시켰던 건물과 타일의 Alpha 값을 원상복구
             buildingColor.a = 1f;
@@ -254,7 +243,6 @@ public class CardManager : MonoBehaviour
 
         }
         // 꼬꼬의 크기를 다시 줄이고 거대화 효과 플래그를 false로, 애니메이션을 위한 코루틴 제어 플래그도 flag로 바꿔줌
-        // 크기가 서서히 커지는 듯한 연출
         Vector3 scale = new Vector3(2f, 2f, 0);
         while (true)
         {
