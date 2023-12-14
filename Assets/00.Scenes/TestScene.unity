@@ -8378,7 +8378,13 @@ MonoBehaviour:
   diceNum: 3
   diceFlag: 1
   movingCoroutineFlag: 0
-  cards: []
+  cards:
+  - card_name: "\uC8FC\uCEE8"
+    cardCode: 6
+    cardImg: {fileID: 21300000, guid: e373adfff7d7c4dcf9539dc66f785246, type: 3}
+  - card_name: "\uACE0\uC18D"
+    cardCode: 1
+    cardImg: {fileID: 21300000, guid: e5631acbcf2f240a58b390969420b074, type: 3}
   tileNum: 0
   myTurn: 0
   downInformationText: {fileID: 255605554}
@@ -10419,7 +10425,7 @@ SpriteRenderer:
   m_SortingLayerID: 207275519
   m_SortingLayer: 5
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 4389c8599c7ca448eba706208deaa0f2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cd45e56b713177245ba031be175c47c1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -10427,7 +10433,7 @@ SpriteRenderer:
   m_Size: {x: 2.4, y: 1.92}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1872538175
