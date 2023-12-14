@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     // 현재 턴을 가진 플레이어 정보
     public PlayerManager nowPlayer;
 
+    public TextManager textManager;
+
     // 현재 진행된 턴 수
     public int turnCount;
 

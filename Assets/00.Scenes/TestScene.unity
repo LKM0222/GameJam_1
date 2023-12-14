@@ -741,6 +741,7 @@ RectTransform:
   - {fileID: 1553124380}
   - {fileID: 2138027892}
   - {fileID: 1406615653}
+  - {fileID: 465093530}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -806,7 +807,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 207275519
   m_SortingOrder: 1
   m_TargetDisplay: 0
@@ -1023,7 +1024,7 @@ GameObject:
   - component: {fileID: 141276520}
   - component: {fileID: 141276521}
   m_Layer: 0
-  m_Name: Building (4)
+  m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1461,7 +1462,7 @@ GameObject:
   - component: {fileID: 220893587}
   - component: {fileID: 220893588}
   m_Layer: 0
-  m_Name: Building (7)
+  m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2924,6 +2925,154 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &465093529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 465093530}
+  - component: {fileID: 465093532}
+  - component: {fileID: 465093531}
+  - component: {fileID: 465093533}
+  m_Layer: 0
+  m_Name: TextManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &465093530
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 465093529}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 108708371}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -50}
+  m_SizeDelta: {x: 200, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &465093531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 465093529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: bd3c5a2d39c825648be143b3dd0a1006, type: 2}
+  m_sharedMaterial: {fileID: 3781471295288711613, guid: bd3c5a2d39c825648be143b3dd0a1006, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4278217727
+  m_fontColor: {r: 1, g: 0.417865, b: 0, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 100
+  m_fontSizeBase: 100
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 1
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 0
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &465093532
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 465093529}
+  m_CullTransparentMesh: 1
+--- !u!114 &465093533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 465093529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9848c22bd4bec524889219b0361d4d34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &530706387
 GameObject:
   m_ObjectHideFlags: 0
@@ -3012,7 +3161,7 @@ GameObject:
   - component: {fileID: 580572878}
   - component: {fileID: 580572879}
   m_Layer: 0
-  m_Name: Building (10)
+  m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4558,7 +4707,7 @@ GameObject:
   - component: {fileID: 949869486}
   - component: {fileID: 949869487}
   m_Layer: 0
-  m_Name: Building (2)
+  m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5630,7 +5779,6 @@ MonoBehaviour:
     card_name: 
     cardCode: 0
     cardImg: {fileID: 0}
-    targetTile: {fileID: 0}
   upPos: 0
   completeFlag: 0
   destroyParticle: {fileID: 660541764}
@@ -9323,7 +9471,7 @@ GameObject:
   - component: {fileID: 1696929357}
   - component: {fileID: 1696929358}
   m_Layer: 0
-  m_Name: Building (5)
+  m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10333,35 +10481,27 @@ MonoBehaviour:
   - card_name: "\uACE0\uC18D \uC774\uB3D9"
     cardCode: 1
     cardImg: {fileID: 21300000, guid: e5631acbcf2f240a58b390969420b074, type: 3}
-    targetTile: {fileID: 0}
   - card_name: "\uD22C\uBA85 \uB3C4\uB451"
     cardCode: 2
     cardImg: {fileID: 21300000, guid: 329fabe67d1ba4f0ab6ae0496c9e14ba, type: 3}
-    targetTile: {fileID: 0}
   - card_name: "\uAC70\uB300\uD654 \uAF2C\uAF2C"
     cardCode: 3
     cardImg: {fileID: 21300000, guid: 3792c71bf07534e9f9286bfe077f27a3, type: 3}
-    targetTile: {fileID: 0}
   - card_name: "\uD22C\uC2DC"
     cardCode: 4
     cardImg: {fileID: 21300000, guid: d46864bc0e0de488f9a6ea74d1c90024, type: 3}
-    targetTile: {fileID: 0}
   - card_name: "\uC8FC\uC0AC\uC704\uCEE8\uD2B8\uB864(\uD558)"
     cardCode: 5
     cardImg: {fileID: 21300000, guid: e373adfff7d7c4dcf9539dc66f785246, type: 3}
-    targetTile: {fileID: 0}
   - card_name: "\uC8FC\uC0AC\uC704\uCEE8\uD2B8\uB864(\uC0C1)"
     cardCode: 6
     cardImg: {fileID: 21300000, guid: e373adfff7d7c4dcf9539dc66f785246, type: 3}
-    targetTile: {fileID: 0}
   - card_name: "\uD1B5\uD589\uB8CC \uBA74\uC81C"
     cardCode: 7
     cardImg: {fileID: 21300000, guid: b7d97c486b14f47cbba872703aa23aca, type: 3}
-    targetTile: {fileID: 0}
   - card_name: "\uB808\uC774\uC800 \uBE54"
     cardCode: 8
     cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
-    targetTile: {fileID: 0}
   buildings:
   - buildingImg:
       building_front: {fileID: 21300000, guid: 37f495e51523d4155be2c8b06ac83126, type: 3}
@@ -10395,6 +10535,7 @@ MonoBehaviour:
   - {fileID: 1511854098}
   - {fileID: 954396769}
   nowPlayer: {fileID: 0}
+  textManager: {fileID: 465093533}
   turnCount: 1
   nextTurn: 1
   UIFlag: 0
@@ -10404,8 +10545,8 @@ MonoBehaviour:
   clickedTile: {fileID: 0}
   tpTile: {fileID: 0}
   tpImg: {fileID: 0}
-  showCardListObject: {fileID: 0}
-  showCardObject: {fileID: 1553124379}
+  showCardListObject: {fileID: 1553124379}
+  showCardObject: {fileID: 1322388068}
   onlyCardImg: {fileID: 6734135712915195262, guid: f0c8e962b9bb6944f8cd518915fe3f3f, type: 3}
   player1TurnImg: {fileID: 2138027891}
   player2TurnImg: {fileID: 1406615652}
@@ -11086,7 +11227,7 @@ GameObject:
   - component: {fileID: 1967598981}
   - component: {fileID: 1967598982}
   m_Layer: 0
-  m_Name: Building (1)
+  m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11343,7 +11484,7 @@ GameObject:
   - component: {fileID: 2037518917}
   - component: {fileID: 2037518918}
   m_Layer: 0
-  m_Name: Building (6)
+  m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12228,7 +12369,7 @@ GameObject:
   - component: {fileID: 2144100599}
   - component: {fileID: 2144100600}
   m_Layer: 0
-  m_Name: Building (9)
+  m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

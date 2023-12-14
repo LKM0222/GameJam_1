@@ -269,6 +269,7 @@ public class CardManager : MonoBehaviour
             for (int i = 0; i < theGM.nowPlayer.againstPlayer.cards.Count; i++)
             {
                 var _card = Instantiate(theGM.onlyCardImg, new Vector3(0, 0, 0), Quaternion.identity, theGM.showCardListObject.transform);
+                _card.AddComponent<RectTransform>();
                 _card.transform.localPosition = new Vector2(0, 0);
                 _card.transform.localScale = new Vector2(10, 10);
                 _card.GetComponent<SpriteRenderer>().sprite = theGM.nowPlayer.againstPlayer.cards[i].cardImg;
@@ -277,14 +278,23 @@ public class CardManager : MonoBehaviour
             // 3초동안 보여주고 이후에 showCardListObject에 복제했던 오브젝트를 파괴함
             yield return new WaitForSeconds(3f);
 
-            for (int i = 0; i < theGM.nowPlayer.againstPlayer.cards.Count; i++)
+            for (int i = 1; i < theGM.nowPlayer.againstPlayer.cards.Count; i++)
             {
-                Destroy(theGM.showCardListObject.transform.GetChild(0).gameObject);
+                Destroy(theGM.showCardListObject.transform.GetChild(i).gameObject);
             }
+        }
+        // 상대방의 카드가 없을 경우 안내메시지 출력
+        else
+        {
+            theGM.textManager.ShowText("상대방의 카드가 없습니다!");
+
+            yield return new WaitForSeconds(3f);
+
+            theGM.textManager.HideText();
         }
 
         // 상대방의 카드 갯수와 상관없이 투시카드를 사용하면 랜덤하게 카드를 한장 습득
-        theGM.nowPlayer.cards.Add(theGM.cards[UnityEngine.Random.Range(0, 4)]);
+        theGM.nowPlayer.cards.Add(theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)]);
         // 팻말 아래에 카드 생성
         Instantiate(theGM.nowPlayer.cardPrefab, theGM.nowPlayer.cardParent.transform.position, Quaternion.identity, theGM.nowPlayer.cardParent);
         // 상세 카드 창에 카드 리스트 업데이트
