@@ -1833,6 +1833,7 @@ GameObject:
   - component: {fileID: 722610889}
   - component: {fileID: 722610888}
   - component: {fileID: 722610887}
+  - component: {fileID: 722610890}
   m_Layer: 5
   m_Name: SignUpBtn
   m_TagString: Untagged
@@ -1904,7 +1905,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 722610888}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 722610890}
+        m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
+        m_MethodName: SignUpBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &722610888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1943,6 +1956,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 722610885}
   m_CullTransparentMesh: 1
+--- !u!114 &722610890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722610885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c63862070b98148a9b2cc1a2f09c095e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loginIdInput: {fileID: 0}
+  loginPwInput: {fileID: 0}
+  signIdInput: {fileID: 714400309}
+  signPwInput: {fileID: 2007234257}
+  signNickNameInput: {fileID: 1832707461}
+  signEmailInput: {fileID: 964413899}
 --- !u!1 &807728525
 GameObject:
   m_ObjectHideFlags: 0
@@ -2332,8 +2363,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 964413900}
   m_TextComponent: {fileID: 873185531}
   m_Placeholder: {fileID: 148564310}
-  m_ContentType: 7
-  m_InputType: 2
+  m_ContentType: 0
+  m_InputType: 0
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
@@ -4381,8 +4412,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1832707462}
   m_TextComponent: {fileID: 1428263745}
   m_Placeholder: {fileID: 174997640}
-  m_ContentType: 7
-  m_InputType: 2
+  m_ContentType: 0
+  m_InputType: 0
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0

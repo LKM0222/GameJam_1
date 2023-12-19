@@ -16,10 +16,4 @@ public class BackendManager : MonoBehaviour
             print("서버 연결 실패" + bro);
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
