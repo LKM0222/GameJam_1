@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3810905725945125859}
   - component: {fileID: 970700792062995967}
   - component: {fileID: 1822719134089903901}
+  - component: {fileID: 1494196691046787181}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -141,3 +142,16 @@ MonoBehaviour:
   DisconnectAfterKeepAlive: 0
   KeepAliveInBackground: 60000
   ApplyDontDestroyOnLoad: 1
+--- !u!114 &1494196691046787181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8501887210099762253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d70c81f2d49fd4eebb1bbaba28a05832, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
