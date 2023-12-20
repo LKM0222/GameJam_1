@@ -14,7 +14,7 @@ public class PurchaseSystem : MonoBehaviour
     public Image buildingImg;
 
     // 어떤 건물을 선택중인지 순서로 접근하는 변수
-    public int cur = 0;
+    public int cur = 1;
 
     //건물 구매 버튼을 눌렀을 경우 건물 구매를 위한 플래그
     public bool buyFlag;
@@ -23,8 +23,8 @@ public class PurchaseSystem : MonoBehaviour
     void Start()
     {
         theGM = FindObjectOfType<GameManager>();
-        buildingImg.sprite = theGM.buildings[0].buildingImg.building_front;
-        buildingText.text = theGM.buildings[0].buildingName;
+        buildingImg.sprite = theGM.buildings[1].buildingImg.building_front;
+        buildingText.text = theGM.buildings[1].buildingName;
     }
 
     // Update is called once per frame

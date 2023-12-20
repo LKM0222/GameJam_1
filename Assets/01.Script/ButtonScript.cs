@@ -21,7 +21,7 @@ public class ButtonScript : MonoBehaviour
         // 커서가 리스트의 길이를 넘기면 0으로 초기화
         if (thePS.cur > theGM.buildings.Length - 1)
         {
-            thePS.cur = 0;
+            thePS.cur = 1;
         }
         thePS.buildingImg.sprite = theGM.buildings[thePS.cur].buildingImg.building_front;
         thePS.buildingText.text = theGM.buildings[thePS.cur].buildingName;
@@ -31,8 +31,8 @@ public class ButtonScript : MonoBehaviour
     public void OnLeftBtn()
     {
         thePS.cur -= 1;
-        // 커서가 0보다 작다면 마지막 건물 리스트로 초기화
-        if (thePS.cur == -1)
+        // 커서가 1보다 작다면 마지막 건물 리스트로 초기화
+        if (thePS.cur == 0)
         {
             thePS.cur = theGM.buildings.Length - 1;
         }

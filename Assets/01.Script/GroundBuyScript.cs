@@ -29,9 +29,9 @@ public class GroundBuyScript : MonoBehaviour
         if (groundBuyFlag)
         {
             // 건물 구매 UI 출력시 항상 첫번째 건물을 띄워주게 변경
-            thePM.cur = 0;
-            thePM.buildingImg.sprite = theGM.buildings[0].buildingImg.building_front;
-            thePM.buildingText.text = theGM.buildings[0].buildingName;
+            thePM.cur = 1;
+            thePM.buildingImg.sprite = theGM.buildings[1].buildingImg.building_front;
+            thePM.buildingText.text = theGM.buildings[1].buildingName;
 
             purchaseUI.SetActive(true); //UI활성화
             theGM.nowPlayer.nowTile.ownPlayer = theGM.nowPlayer.playerId; //땅을 샀으니, 소유주 변경

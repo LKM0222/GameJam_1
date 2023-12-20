@@ -364,7 +364,7 @@ public class PlayerManager : MonoBehaviour
                         {
                             // 랜덤하게 카드번호를 추출
                             // Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
-                            Card newCard = theGM.cards[UnityEngine.Random.Range(3, 4)];
+                            Card newCard = theGM.cards[UnityEngine.Random.Range(7, 8)];
 
                             // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
                             var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);

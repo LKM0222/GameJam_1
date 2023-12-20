@@ -62,10 +62,10 @@ public class Tile : MonoBehaviour
             if (building.type > -1)
             {
                 if (tileFrontFlag)//true : left, false : front
-                    buildingImg.sprite = theGM.buildings[building.type].buildingImg.building_left;
+                    buildingImg.sprite = theGM.buildings[building.type + 1].buildingImg.building_left;
                 else
                 {
-                    buildingImg.sprite = theGM.buildings[building.type].buildingImg.building_front;
+                    buildingImg.sprite = theGM.buildings[building.type + 1].buildingImg.building_front;
                 }
             }
             else
