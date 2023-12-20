@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.Threading.Tasks;
 using BackEnd;
 using UnityEngine.SceneManagement;
+using System;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class ButtonManager : MonoBehaviour
     [SerializeField] InputField signPwInput;
     [SerializeField] InputField signNickNameInput;
     [SerializeField] InputField signEmailInput;
+
+    [Header("Test")]
+    [SerializeField] Text testNickname;
 
     public async void SignUpBtn(){
         await Task.Run(() => {
@@ -37,5 +41,14 @@ public class ButtonManager : MonoBehaviour
             print("로그인 실패");
         }
     }
+
+    public void BackTitleBtn(){
+        SceneManager.LoadScene("TitleScene");
+    }
+
+    public void NicknameTest(){
+        testNickname.text = "gg \n" + DateTime.Now;
+    }
+
     
 }

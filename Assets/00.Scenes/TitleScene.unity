@@ -1131,6 +1131,7 @@ MonoBehaviour:
   signPwInput: {fileID: 0}
   signNickNameInput: {fileID: 0}
   signEmailInput: {fileID: 0}
+  testNickname: {fileID: 0}
 --- !u!1 &557726785
 GameObject:
   m_ObjectHideFlags: 0
@@ -2005,6 +2006,7 @@ MonoBehaviour:
   signPwInput: {fileID: 2007234257}
   signNickNameInput: {fileID: 1832707461}
   signEmailInput: {fileID: 964413899}
+  testNickname: {fileID: 0}
 --- !u!1 &807728525
 GameObject:
   m_ObjectHideFlags: 0
