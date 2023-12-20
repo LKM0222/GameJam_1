@@ -270,58 +270,63 @@ public class PlayerManager : MonoBehaviour
             movingCoroutineFlag = false; //무빙 플래그도 false
 
 
-
-            //그다음 플래그 활성화 시켜야됨. 구매 플래그?
+            // 이동이 끝난 후, 일반 타일에 도착했다면
             if (!nowTile.specialTile)
-            {//일반 땅이라면
+            {
+                // 일반 타일 중 자신이 구매한 타일이라면
                 if (nowTile.ownPlayer == playerId)
-                {//자기 땅이라면
-                 //일단 건물이 있는 땅인지 없는 땅인지 체크
+                {
+                    // 건물이 없으면 건물 구매 UI 활성화
                     if (nowTile.building == null)
-                    { //건물이 없는 땅이라면
-                      //건물 구매 UI활성화
+                    {
                         purchaseUi.SetActive(true);
                         //카드 선택 방지를 위한 UI활성화 플래그 활성화
                         theGM.UIFlag = true;
                     }
+                    // 건물이 있으면 건물 방문 효과 활성화
                     else
-                    { //건물이 있는 땅이라면
-                      //효과를 활성화
+                    {
+
                     }
                 }
+                // 일반 타일 중 아무도 구매하지 않은 타일이라면 땅 구매 UI 활성화
                 else if (nowTile.ownPlayer == -1)
-                { //주인없는 땅이라면
-                  //땅 구매 UI를 활성화
+                {
                     groundBuyUi.SetActive(true);
                     //카드 선택 방지를 위한 UI활성화 플래그 활성화
                     theGM.UIFlag = true;
                 }
+                // 일반 타일 중 상대방이 구매한 타일이라면
                 else
-                {//둘 다 아니라면 상대방의 땅
-                 //돈 빼는 코드 작성
-                 // if(biggerFlag){
-                 //     nowTile.ownPlayer = -1;
-                 //     nowTile.building = null;
-                 //     this.gameObject.transform.localScale = new Vector3(1f,1f,1f);
-                 //     biggerFlag = false;
-                 // }
-                 //else{
-                 // 통행료 면제 카드가 없다면 통행료 징수
+                {
+                    // 통행료 카드가 없는 경우 통행료 징수
                     if (!exemptionFlag)
                     {
+                        // 건물이 있는 경우 건물에 따른 통행료 징수
                         if (nowTile.building != null)
-                        { //건물이 있는경우
+                        {
                             switch (nowTile.building.type)
-                            { //빌딩 타입 검사
-                                case 1:
-
+                            {
+                                // 농장
+                                case 0:
                                     break;
+
+                                // 제단
+                                case 1:
+                                    break;
+
+                                // 특별상점
+                                case 2:
+                                    break;
+
+                                // 랜드마크
                                 case 3:
                                     if (nowTile.building.visitCount < 5)
                                         nowTile.building.visitCount += 1;
                                     playerMoney -= nowTile.building.visitCount * 100;
                                     againstPlayer.playerMoney += nowTile.building.visitCount * 100;
                                     break;
+
                                 default:
                                     playerMoney -= 100;
                                     againstPlayer.playerMoney += 100;
@@ -329,12 +334,13 @@ public class PlayerManager : MonoBehaviour
                             }
 
                         }
-
+                        // 건물이 없다면 기본 토지 통행료만 징수
                         else
                         {
                             playerMoney -= 50;
                         }
                     }
+
                     // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
                     else
                     {
@@ -343,52 +349,58 @@ public class PlayerManager : MonoBehaviour
                     theGM.NextTurnFunc();
                 }
             }
+            // 일반 타일이 아니라, 특수 타일일 경우
             else
-            {//특수 타일이라면 특수 타일의 행동을 함.
-                print("specialTile" + nowTile.specialTileType);
+            {
                 switch (nowTile.specialTileType)
-                {//(0 : 양계장, 1 : 카드, 2 : 워프, 3 : 세금, 4 : 강탈)
+                {
+                    // 양계장(출발점)
                     case 0: //양계장 
-
                         break;
-                    case 1: //카드 지급 
-                        print("card Tile");
-                        // 카드 구현해야됨.
-                        if (cardParent.childCount < 8)//카드는 최대 7장
+
+                    // 카드지급
+                    case 1:
+                        if (cardParent.childCount < 8)
                         {
+                            // 랜덤하게 카드번호를 추출
                             // Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
                             Card newCard = theGM.cards[UnityEngine.Random.Range(3, 4)];
-                            print(newCard.card_name);
-                            var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);//카드 프리펩 생성해주고
-                            _card.transform.localPosition = new Vector3(0f, 0f, 0f);
-                            cards.Add(newCard); //플레이어 리스트에 카드 추가
-                            if (newCard == theGM.cards[6])
-                            {
-                                exemptionFlag = true;
-                            }
 
-                            // 획득한 카드를 보여주기 위한 코루틴 실행
+                            // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
+                            var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);
+                            _card.transform.localPosition = new Vector3(0f, 0f, 0f);
+                            cards.Add(newCard);
+
                             StartCoroutine(GetCardShow());
                             yield return new WaitUntil(() => showCardFlag);
                             showCardFlag = false;
-                        }
 
+                            // 만약 통행료면제 카드라면 카드효과를 즉시 활성화.
+                            if (newCard == theGM.cards[6])
+                            {
+                                exemptionFlag = true;
+                                theGM.textManager.ShowText("플레이어" + theGM.nowPlayer.playerId + " 통행료 면제 효과 발동");
+                                yield return new WaitForSeconds(3f);
+                                theGM.textManager.HideText();
+                            }
+                        }
                         break;
-                    case 2: //teleport
-                            //teleportFlag활성화
+
+                    // 텔레포트
+                    case 2:
                         tpSelectFlag = true;
                         StartCoroutine(TeleportSetCoroutine());
-
-
                         break;
+
+                    // 세금징수
                     case 3: //세금
                             //상대방 땅 갯수 *5 + 건물 갯수 * 10
                             //세금 징수하는 애니메이션이나, 영수증 띄워주면 좋을듯
                         playerMoney -= (groundCount * 5) + (buildingCount * 10);
-
                         break;
-                    case 4: //강탈
-                            //상대 플레이어 카드 무작위 한장 뺏어옴.
+
+                    // 룰렛
+                    case 4:
                         GameObject dCard = againstPlayer.cardParent.GetChild(UnityEngine.Random.Range(0, againstPlayer.cardParent.childCount)).gameObject;
                         dCard.transform.parent = cardParent;
                         break;
@@ -507,7 +519,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     // 획득한 카드를 게임화면에 띄워서 보여주는 코루틴
-    IEnumerator GetCardShow()
+    public IEnumerator GetCardShow()
     {
         // GameManager에 만들어놓은 카드이미지프리팹을 카드를 띄워줄 위치에 있는 오브젝트에 복제
         // 이후 위치값, 스케일값, 스프라이트 이미지를 변경함

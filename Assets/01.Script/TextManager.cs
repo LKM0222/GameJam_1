@@ -15,12 +15,10 @@ public class TextManager : MonoBehaviour
     public void ShowText(string _text)
     {
         text.text = _text;
-        text.gameObject.SetActive(true);
     }
 
     public void HideText()
     {
         text.text = "";
     }
-
 }

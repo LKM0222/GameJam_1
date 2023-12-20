@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class CardManager : MonoBehaviour
 {
@@ -109,11 +108,13 @@ public class CardManager : MonoBehaviour
                 theGM.nowPlayer.laserFlag = true;
             }
 
-            // 카드 오브젝트 삭제 및 플레이어가 가지고 있는 카드 리스트에서도 삭제
-            Destroy(this.gameObject);
-            Destroy(theGM.nowPlayer.cardParent.GetChild(0).gameObject);
-            theGM.nowPlayer.cards.Remove(this.cardInfo);
-            print("효과 발동" + transform.name);
+            if (cardInfo.cardCode != 7)
+            {
+                // 카드 오브젝트 삭제 및 플레이어가 가지고 있는 카드 리스트에서도 삭제
+                Destroy(this.gameObject);
+                Destroy(theGM.nowPlayer.cardParent.GetChild(0).gameObject);
+                theGM.nowPlayer.cards.Remove(this.cardInfo);
+            }
         }
     }
 
@@ -180,8 +181,6 @@ public class CardManager : MonoBehaviour
 
     public void TollExemption()
     {
-        print("통행료 면제 카드 발동!");
-
         // 현재 자신의 카드 중에서 통행료 면제 카드를 찾아서 파괴함
         for (int i = 0; i < theGM.nowPlayer.cards.Count; i++)
         {
@@ -193,6 +192,10 @@ public class CardManager : MonoBehaviour
         }
         // 카드 효과를 사용했으니 flag를 false로 바꿔줌
         theGM.nowPlayer.exemptionFlag = false;
+
+        // 캐릭터를 감싸는 보호막 이펙트 추가하기
+        // 통행료면제카드를 획득하자마자? 아니면 효과가 발동될때?
+        // 통행료면제가 됐다는 효과를 인게임내에서 줘야할듯
     }
 
     public void LaserBeam()
@@ -278,7 +281,7 @@ public class CardManager : MonoBehaviour
             // 3초동안 보여주고 이후에 showCardListObject에 복제했던 오브젝트를 파괴함
             yield return new WaitForSeconds(3f);
 
-            for (int i = 1; i < theGM.nowPlayer.againstPlayer.cards.Count; i++)
+            for (int i = 0; i < theGM.nowPlayer.againstPlayer.cards.Count; i++)
             {
                 Destroy(theGM.showCardListObject.transform.GetChild(i).gameObject);
             }
@@ -293,12 +296,32 @@ public class CardManager : MonoBehaviour
             theGM.textManager.HideText();
         }
 
-        // 상대방의 카드 갯수와 상관없이 투시카드를 사용하면 랜덤하게 카드를 한장 습득
-        theGM.nowPlayer.cards.Add(theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)]);
-        // 팻말 아래에 카드 생성
-        Instantiate(theGM.nowPlayer.cardPrefab, theGM.nowPlayer.cardParent.transform.position, Quaternion.identity, theGM.nowPlayer.cardParent);
-        // 상세 카드 창에 카드 리스트 업데이트
-        theGM.CardListUpdate();
+
+        if (theGM.nowPlayer.cardParent.childCount < 8)
+        {
+            // 랜덤하게 카드번호를 추출
+            Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
+
+            // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
+            var _card = Instantiate(theGM.nowPlayer.cardPrefab, Vector3.zero, Quaternion.identity, theGM.nowPlayer.cardParent);
+            _card.transform.localPosition = new Vector3(0f, 0f, 0f);
+            theGM.nowPlayer.cards.Add(newCard);
+
+            StartCoroutine(theGM.nowPlayer.GetCardShow());
+            yield return new WaitUntil(() => theGM.nowPlayer.showCardFlag);
+            theGM.nowPlayer.showCardFlag = false;
+
+            // 만약 통행료면제 카드라면 카드효과를 즉시 활성화.
+            if (newCard == theGM.cards[6])
+            {
+                theGM.nowPlayer.exemptionFlag = true;
+                theGM.textManager.ShowText("플레이어" + theGM.nowPlayer.playerId + " 통행료 면제 효과 발동");
+                yield return new WaitForSeconds(3f);
+                theGM.textManager.HideText();
+            }
+            // 상세 카드 창에 카드 리스트 업데이트
+            theGM.CardListUpdate();
+        }
     }
 
     IEnumerator LaserBeamCoroutine()
