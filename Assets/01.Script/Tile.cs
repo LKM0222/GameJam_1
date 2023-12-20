@@ -79,9 +79,13 @@ public class Tile : MonoBehaviour
     {
         if (cardActive)
         {
-            //선택된 타일을 gm에 반환
-            theGM.tpTile = this.gameObject;
-            print("clicked!");
+            if (theGM.nowPlayer.playerId != ownPlayer)
+            {
+                //선택된 타일을 gm에 반환
+                theGM.tpTile = this.gameObject;
+                print("clicked!");
+            }
+
         }
     }
 }

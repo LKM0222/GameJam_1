@@ -4827,7 +4827,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 954396766}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -5325,7 +5325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingText: {fileID: 1670625033}
   buildingImg: {fileID: 109043266}
-  cur: 0
+  cur: 1
   buyFlag: 0
 --- !u!1 &1013962116
 GameObject:
@@ -8378,13 +8378,7 @@ MonoBehaviour:
   diceNum: 3
   diceFlag: 1
   movingCoroutineFlag: 0
-  cards:
-  - card_name: "\uC8FC\uCEE8"
-    cardCode: 6
-    cardImg: {fileID: 21300000, guid: e373adfff7d7c4dcf9539dc66f785246, type: 3}
-  - card_name: "\uACE0\uC18D"
-    cardCode: 1
-    cardImg: {fileID: 21300000, guid: e5631acbcf2f240a58b390969420b074, type: 3}
+  cards: []
   tileNum: 0
   myTurn: 0
   downInformationText: {fileID: 255605554}
@@ -8418,7 +8412,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1511854095}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -10509,6 +10503,13 @@ MonoBehaviour:
     cardCode: 8
     cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
   buildings:
+  - buildingImg:
+      building_front: {fileID: 0}
+      building_left: {fileID: 0}
+    buildingName: 
+    animator: {fileID: 0}
+    type: -1
+    visitCount: 0
   - buildingImg:
       building_front: {fileID: 21300000, guid: 37f495e51523d4155be2c8b06ac83126, type: 3}
       building_left: {fileID: 21300000, guid: 94f8cda90ed874a89935ef9e20aa4415, type: 3}
