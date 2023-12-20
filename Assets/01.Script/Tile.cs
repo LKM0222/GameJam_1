@@ -79,7 +79,7 @@ public class Tile : MonoBehaviour
     {
         if (cardActive)
         {
-            if (theGM.nowPlayer.playerId != ownPlayer)
+            if (theGM.nowPlayer.playerId != ownPlayer && ownPlayer != -1)
             {
                 //선택된 타일을 gm에 반환
                 theGM.tpTile = this.gameObject;
