@@ -71,31 +71,37 @@ public class CardManager : MonoBehaviour
             if (cardInfo.cardCode == 1)
             {
                 theGM.nowPlayer.highSpeedFlag = true;
+                DestroyCard();
             }
             // cardCode가 2라면 투명도둑
             else if (cardInfo.cardCode == 2)
             {
                 theGM.nowPlayer.invisibleFlag = true;
+                DestroyCard();
             }
             // cardCode가 3이라면 거대화꼬꼬
             else if (cardInfo.cardCode == 3)
             {
                 theGM.nowPlayer.biggerFlag = true;
+                DestroyCard();
             }
             // cardCode가 4라면 투시
             else if (cardInfo.cardCode == 4)
             {
                 theGM.nowPlayer.toosiFlag = true;
+                DestroyCard();
             }
             // cardCode가 5라면 주사위컨트롤(하)
             else if (cardInfo.cardCode == 5)
             {
                 theGM.nowPlayer.lowerDiceFlag = true;
+                DestroyCard();
             }
             // cardCode가 6이라면 주사위컨트롤(상)
             else if (cardInfo.cardCode == 6)
             {
                 theGM.nowPlayer.higherDiceFlag = true;
+                DestroyCard();
             }
             // // cardCode가 7이라면 통행료면제
             // else if (cardInfo.cardCode == 7)
@@ -105,17 +111,27 @@ public class CardManager : MonoBehaviour
             // cardCode가 8이라면 레이저빔
             else if (cardInfo.cardCode == 8)
             {
-                theGM.nowPlayer.laserFlag = true;
-            }
-
-            if (cardInfo.cardCode != 7)
-            {
-                // 카드 오브젝트 삭제 및 플레이어가 가지고 있는 카드 리스트에서도 삭제
-                Destroy(this.gameObject);
-                Destroy(theGM.nowPlayer.cardParent.GetChild(0).gameObject);
-                theGM.nowPlayer.cards.Remove(this.cardInfo);
+                // 모든 타일을 돌면서 상대방 소유의 땅이 있는지 검사
+                for (int i = 0; i < theTile.tiles.Length; i++)
+                {
+                    // 타일의 주인이 상대플레이어의 ID와 일치하면 카드 사용 가능
+                    if (theTile.tiles[i].ownPlayer == theGM.nowPlayer.againstPlayer.playerId)
+                    {
+                        theGM.nowPlayer.laserFlag = true;
+                        DestroyCard();
+                        break;
+                    }
+                }
             }
         }
+    }
+
+    public void DestroyCard()
+    {
+        // 카드 오브젝트 삭제 및 플레이어가 가지고 있는 카드 리스트에서도 삭제
+        Destroy(this.gameObject);
+        Destroy(theGM.nowPlayer.cardParent.GetChild(0).gameObject);
+        theGM.nowPlayer.cards.Remove(this.cardInfo);
     }
 
     public void HighSpeedMove()
