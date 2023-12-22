@@ -67,10 +67,34 @@ public class BackendGameData
         }
     }
     
-    public void GameDataGet() {
-        // Step 3. 게임정보 불러오기 구현하기
+    public UserData GameDataGet() {
+        Debug.Log("게임 정보 불러오기");
+        var bro = Backend.GameData.GetMyData("USER_DATA", new Where());
+        if(bro.IsSuccess()){
+            Debug.Log("게임 데이터 불러오기 성공! " + bro);
+
+            LitJson.JsonData gameDataJson = bro.FlattenRows(); //Json으로 리턴한 데이터 받아오기.
+            if(gameDataJson.Count <= 0){
+                Debug.Log("데이터가 존재하지 않습니다.");
+            }
+            else{
+                gamedataRowInDate = gameDataJson[0]["inDate"].ToString();
+
+                userData = new UserData();
+                userData.losescore = int.Parse(gameDataJson[0]["losescore"].ToString());
+                userData.winscore = int.Parse(gameDataJson[0]["winscore"].ToString());
+                userData.nickname = gameDataJson[0]["nickname"].ToString();
+                userData.email = gameDataJson[0]["email"].ToString();
+
+                Debug.Log(userData.ToString());
+            }
+            return userData;
+        } else{
+            Debug.LogError("게임 데이터 조회에 실패하였습니다. : " + bro);
+            return null;
+        }
     }
-    
+
     public void LevelUp() {
         // Step 4. 게임정보 수정 구현하기
     }

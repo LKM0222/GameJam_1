@@ -36,6 +36,7 @@ public class ButtonManager : MonoBehaviour
         if(Backend.IsLogin){
             print("로그인 완료");
             SceneManager.LoadScene("MenuScene");
+            // BackendGameData.Instance.GameDataGet(); //게임 데이터를 조회해서 메뉴 씬에서 출력할꺼야 
         }
         else {
             print("로그인 실패");
