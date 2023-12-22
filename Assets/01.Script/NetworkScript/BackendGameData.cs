@@ -4,11 +4,13 @@ using UnityEngine;
 using BackEnd;
 using System.Text;
 using System;
+using System.Reflection;
 
 public class UserData {
     public int winscore;
     public int losescore;
     public string nickname;
+    public string email;
 
     public override string ToString()
     {   
@@ -16,6 +18,7 @@ public class UserData {
         result.AppendLine($"winscore : {winscore}");
         result.AppendLine($"losescore : {losescore}");
         result.AppendLine($"nickname : {nickname}");
+        result.AppendLine($"email : {email}");
         return base.ToString();
     }
 
@@ -38,8 +41,30 @@ public class BackendGameData
 
     private string gamedataRowInDate = String.Empty;
 
-    public void GameDataInsert() {
-        // Step 2. 게임정보 삽입 구현하기 
+    public void GameDataInsert(string _nickname, string _email) {
+        if(userData == null){
+            userData = new UserData();
+        }
+        Debug.Log("userdata를 초기화 합니다.");
+        userData.losescore = 0;
+        userData.winscore = 0;
+        userData.nickname = _nickname;
+        userData.email = _email;
+
+        Param param = new Param();
+        param.Add("winscore",userData.winscore);
+        param.Add("losescore", userData.losescore);
+        param.Add("nickname", userData.nickname);
+        param.Add("email", userData.email);
+
+        var bro = Backend.GameData.Insert("USER_DATA", param);
+
+        if(bro.IsSuccess()){
+            Debug.Log("데이터 삽입 성공 " + bro);
+            gamedataRowInDate = bro.GetInDate();
+        } else {
+            Debug.Log("데이터 삽입 실패 " + bro);
+        }
     }
     
     public void GameDataGet() {

@@ -29,12 +29,17 @@ public class BackendLogin
             var bro = Backend.BMember.CustomSignUp(id, pw);
             if(bro.IsSuccess()){
                 Debug.Log("회원가입 성공! : " +bro);
+
                 var Nemail = Backend.BMember.UpdateCustomEmail(email);
                 if (Nemail.IsSuccess())Debug.Log("이메일 변경 로그" + Nemail);
                 else Debug.Log("이메일 변경 실패");
+
                 var Nnickname = Backend.BMember.UpdateNickname(nickname);
-                if(Nnickname.IsSuccess()) Debug.Log("닉네임 변경 로그" + Nnickname);
-                else Debug.Log("닉네임 변경 실패");
+                if(Nnickname.IsSuccess()) {
+                    Debug.Log("닉네임 변경 로그" + Nnickname);
+                } else Debug.Log("닉네임 변경 실패");
+                
+                BackendGameData.Instance.GameDataInsert(nickname,email);
             } else {
                 Debug.Log("회원가입 실패! : " +bro);
             }
