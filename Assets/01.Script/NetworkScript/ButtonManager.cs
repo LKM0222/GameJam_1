@@ -50,6 +50,13 @@ public class ButtonManager : MonoBehaviour
     public void NicknameTest(){
         testNickname.text = "gg \n" + DateTime.Now;
     }
+    
+    // public void MatchingBtn(){
+    //     ErrorInfo errorInfo = null;
+    //     Error
+    //     if(Backend.Match.JoinMatchMakingServer(errorInfo)){
 
+    //     }
+    // }
     
 }
