@@ -26,4 +26,9 @@ public class BackendManager : MonoBehaviour
             print("서버 접속 실패 : " + bro);
         }
     }
+    private void Update() {
+        if(Backend.IsInitialized){
+            Backend.Match.Poll();
+        }
+    }
 }
