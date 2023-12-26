@@ -46,8 +46,9 @@ public class MatchManager : MonoBehaviour
     void CreateMatchRoom(){
         Backend.Match.OnMatchMakingRoomCreate = (MatchMakingInteractionEventArgs args) => {
             if(args.ErrInfo == ErrorCode.Success){
-                print("CreateRoom Success : " + args.ToString());
                 Backend.Match.RequestMatchMaking(matchCards[index].matchType, matchCards[index].matchModeType, matchCards[index].inDate);
+                print("CreateRoom Success : " + args.ToString());
+                // print(Backend.Match.room)
             } else {
                 print("CreateRoom error : " + args.ToString());
             }
