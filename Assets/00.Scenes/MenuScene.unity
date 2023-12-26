@@ -488,6 +488,7 @@ MonoBehaviour:
   signNickNameInput: {fileID: 0}
   signEmailInput: {fileID: 0}
   testNickname: {fileID: 1835884955}
+  winBool: 0
 --- !u!114 &1111248239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -534,7 +535,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1111248238}
         m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
-        m_MethodName: NicknameTest
+        m_MethodName: UpScore
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1213,6 +1214,7 @@ MonoBehaviour:
   signNickNameInput: {fileID: 0}
   signEmailInput: {fileID: 0}
   testNickname: {fileID: 0}
+  winBool: 0
 --- !u!1 &1693756039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1300,7 +1302,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1693756044}
         m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
-        m_MethodName: MatchBtn
+        m_MethodName: MatchingBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1367,6 +1369,7 @@ MonoBehaviour:
   signNickNameInput: {fileID: 0}
   signEmailInput: {fileID: 0}
   testNickname: {fileID: 0}
+  winBool: 0
 --- !u!1 &1719545771
 GameObject:
   m_ObjectHideFlags: 0

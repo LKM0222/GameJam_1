@@ -38,7 +38,7 @@ public class BackendLogin
                 if(Nnickname.IsSuccess()) {
                     Debug.Log("닉네임 변경 로그" + Nnickname);
                 } else Debug.Log("닉네임 변경 실패");
-                
+
                 BackendGameData.Instance.GameDataInsert(nickname,email);
             } else {
                 Debug.Log("회원가입 실패! : " +bro);
@@ -52,13 +52,6 @@ public class BackendLogin
 
         if(bro.IsSuccess()){
             Debug.Log("로그인 성공!" + bro);
-            // SceneManager.LoadScene("MenuScene");
-            // // ErrorInfo errorInfo;
-            // // Backend.Match.JoinMatchMakingServer(out errorInfo);
-            // // Debug.Log("매치서버 접속 " + errorInfo);
-            // // Backend.Match.OnJoinMatchMakingServer = (JoinChannelEventArgs args) => {
-            // //     SceneManager.LoadScene("MenuScene");
-            // // };
         }
         else {
             Debug.Log("로그인 실패" + bro);

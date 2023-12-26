@@ -95,12 +95,40 @@ public class BackendGameData
         }
     }
 
-    public void LevelUp() {
-        // Step 4. 게임정보 수정 구현하기
+    public void UpWinScore() {
+        Debug.Log("승리 포인트 증가");
+        userData.winscore += 1;
+    }
+    public void UpLoseScore(){
+        Debug.Log("패배 포인트 증가");
+        userData.losescore += 1;
     }
     
     public void GameDataUpdate() {
-        // Step 4. 게임정보 수정 구현하기
+        if(userData == null){
+            Debug.Log("서버에서 다운받거나 새로 삽입한 데이터가 존재하지 않습니다. Insert 혹은 Get을 통해 데이터를 생성해주세요.");
+            return;
+        }
+        Param param = new Param();
+        param.Add("winscore",userData.winscore);
+        param.Add("losescore", userData.losescore);
+        param.Add("nickname", userData.nickname);
+        param.Add("email", userData.email);
+
+        BackendReturnObject bro = null;
+        if(string.IsNullOrEmpty(gamedataRowInDate)){
+            Debug.Log("내 제일 최신 게임정보 데이터 수정을 요청합니다.");
+            bro = Backend.GameData.Update("USER_DATA", new Where(), param);
+        } else { 
+            Debug.Log($"{gamedataRowInDate}의 게임데이터 수정을 요청합니다.");
+            bro = Backend.GameData.UpdateV2("USER_DATA",gamedataRowInDate, Backend.UserInDate, param);
+        }
+
+        if(bro.IsSuccess()){
+            Debug.Log("게임정보 데이터 수정에 성공했습니다. : " + bro);
+        } else{
+            Debug.LogError("게임정보 데이터 수정에 실패했습니다. : " + bro);
+        }
     }
 
 }
