@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerDownHandler
+public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
 {
 
     TurnSignScript theTSI;
@@ -42,17 +42,15 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler, IPointer
 
     }
 
-    // 해당 스크립트가 붙은 오브젝트(팻말)를 클릭했을 때 호출
-    public void OnPointerDown(PointerEventData eventData2)
-    {
-        if (thePlayer.myTurn)
-        {
-            // 주사위를 굴릴때 cursorPos를 2로 변경
-            theTSI.cursorPos = 2;
-            // OnDrag(eventData2);
-        }
-
-    }
+    // // 해당 스크립트가 붙은 오브젝트(팻말)를 클릭했을 때 호출
+    // public void OnPointerDown(PointerEventData eventData2)
+    // {
+    //     if (thePlayer.myTurn)
+    //     {
+    //         // 주사위를 굴릴때 cursorPos를 2로 변경
+    //         // OnDrag(eventData2);
+    //     }
+    // }
 
     // 해당 스크립트가 붙은 오브젝트(팻말)을 드래그했을 때 호출
     public void OnDrag(PointerEventData eventData)
@@ -65,6 +63,10 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler, IPointer
             {
                 ypos = new Vector3(0f, 200f, 0f);
             }
+            else if (ypos.y > nowPos.y)
+            {
+                ypos = new Vector3(0f, nowPos.y, 0f);
+            }
             this.transform.localPosition = new Vector3(nowPos.x, ypos.y, nowPos.z);
         }
     }
@@ -73,31 +75,41 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler, IPointer
     {
         if (thePlayer.myTurn)
         {
-            //AudioManager.instance.Play("diceSound");
-            // 팻말의 위치를 다시 초기 위치로 돌려놓음
-            this.transform.localPosition = nowPos;
-            thePlayer.diceNum = Random.Range(1, 9); //테스트중, 끝나면 다시 변환
-
-
-
-            if (thePlayer.lowerDiceFlag)
+            if (this.transform.localPosition.y < 470)
             {
-                theCM.LowerDiceControl();
-            }
+                theTSI.cursorPos = 2;
 
-            if (thePlayer.higherDiceFlag)
+                //AudioManager.instance.Play("diceSound");
+
+                // 팻말의 위치를 다시 초기 위치로 돌려놓음
+                this.transform.localPosition = nowPos;
+
+                thePlayer.diceNum = Random.Range(1, 9); //테스트중, 끝나면 다시 변환
+
+                if (thePlayer.lowerDiceFlag)
+                {
+                    theCM.LowerDiceControl();
+                }
+
+                if (thePlayer.higherDiceFlag)
+                {
+                    theCM.HigherDiceControll();
+                }
+
+                // diceFlag를 true로 바꾸고 주사위를 랜덤하게 굴린 다음 text에 적용
+                thePlayer.diceFlag = true;
+                diceNumText.text = thePlayer.diceNum.ToString();
+
+                // 아래로 당기시오 텍스트를 숨기고, 주사위를 활성화하고, animatorFlag를 true로 켜서 업데이트문에 들어가게함
+                thePlayer.downInformationText.gameObject.SetActive(false);
+                EggObj.SetActive(true);
+                animatorFlag = true;
+            }
+            else
             {
-                theCM.HigherDiceControll();
+                // 팻말의 위치를 다시 초기 위치로 돌려놓음
+                this.transform.localPosition = nowPos;
             }
-
-            // diceFlag를 true로 바꾸고 주사위를 랜덤하게 굴린 다음 text에 적용
-            thePlayer.diceFlag = true;
-            diceNumText.text = thePlayer.diceNum.ToString();
-            // 아래로 당기시오 텍스트를 숨기고, 주사위를 활성화하고, animatorFlag를 true로 켜서 업데이트문에 들어가게함
-            thePlayer.downInformationText.gameObject.SetActive(false);
-            EggObj.SetActive(true);
-            animatorFlag = true;
         }
     }
-
 }
