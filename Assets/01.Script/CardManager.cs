@@ -88,8 +88,8 @@ public class CardManager : MonoBehaviour
                 theGM.nowPlayer.biggerFlag = true;
                 DestroyCard();
             }
-            // cardCode가 4라면 투시
-            else if (cardInfo.cardCode == 4 && !theGM.nowPlayer.toosiFlag && theGM.penetrateComplete)
+            // cardCode가 4라면 투시(투시카드 사용이 완료되었고, 레이저빔도 완료되어야만 사용 가능 => 둘 중 하나라도 발동중이면 사용불가)
+            else if (cardInfo.cardCode == 4 && !theGM.nowPlayer.toosiFlag && theGM.penetrateComplete && theGM.laserComplete)
             {
                 theGM.nowPlayer.toosiFlag = true;
                 DestroyCard();
@@ -111,8 +111,8 @@ public class CardManager : MonoBehaviour
             // {
             //     theGM.nowPlayer.exemptionFlag = true;
             // }
-            // cardCode가 8이라면 레이저빔
-            else if (cardInfo.cardCode == 8 && !theGM.nowPlayer.laserFlag && theGM.laserComplete)
+            // cardCode가 8이라면 레이저빔(레이저빔 사용이 완료되었고, 투시 완료되어야만 사용 가능 => 둘 중 하나라도 발동중이면 사용불가)
+            else if (cardInfo.cardCode == 8 && !theGM.nowPlayer.laserFlag && theGM.laserComplete && theGM.penetrateComplete)
             {
                 // 모든 타일을 돌면서 상대방 소유의 땅이 있는지 검사
                 for (int i = 0; i < theTile.tiles.Length; i++)

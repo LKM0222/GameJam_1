@@ -5039,7 +5039,7 @@ MonoBehaviour:
   movingCoroutineFlag: 0
   cards:
   - card_name: 
-    cardCode: 8
+    cardCode: 4
     cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
   - card_name: 
     cardCode: 8
@@ -5955,7 +5955,7 @@ MonoBehaviour:
     cardCode: 0
     cardImg: {fileID: 0}
   upPos: 0
-  completeFlag: 0
+  biggerComplete: 0
   destroyParticle: {fileID: 660541764}
   laserParticle: {fileID: 1754885353}
   highMoveParticle: {fileID: 2082826368}
@@ -10639,6 +10639,8 @@ MonoBehaviour:
   turnCount: 1
   nextTurn: 1
   UIFlag: 0
+  penetrateComplete: 1
+  laserComplete: 1
   cardsObj: {fileID: 307154998}
   cardPrefab: {fileID: 2251793717217502938, guid: cf27e7408929c443abe4eeeeefda3072, type: 3}
   buyedTiles: []
