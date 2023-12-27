@@ -30,6 +30,10 @@ public class GameManager : MonoBehaviour
     //UI가 활성화 되어있는지 확인하는 플래그
     public bool UIFlag = false;
 
+    // 투시, 레이저빔의 카드 사용이 완료되었는지 체크하는 플래그
+    public bool penetrateComplete = true;
+    public bool laserComplete = true;
+
     // 카드를 담을 GameObject
     public GameObject cardsObj;
     // 카드 Prefab

@@ -79,9 +79,9 @@ public class PlayerManager : MonoBehaviour
         {
             downInformationText.gameObject.SetActive(false);
         }
+
         if (!tpFlag && movingCoroutineFlag)
         {
-
             StartCoroutine(DiceCoroutine());
         }
 
@@ -250,8 +250,8 @@ public class PlayerManager : MonoBehaviour
             if (theGM.nowPlayer.biggerFlag)
             {
                 theCM.BiggerChicken();
-                yield return new WaitUntil(() => theCM.completeFlag);
-                theCM.completeFlag = false;
+                yield return new WaitUntil(() => theCM.biggerComplete);
+                theCM.biggerComplete = false;
             }
 
             if (tileNum + diceNum > theTM.tiles.Length)
@@ -363,8 +363,7 @@ public class PlayerManager : MonoBehaviour
                         if (cardParent.childCount < 8)
                         {
                             // 랜덤하게 카드번호를 추출
-                            // Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
-                            Card newCard = theGM.cards[UnityEngine.Random.Range(7, 8)];
+                            Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
 
                             // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
                             var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);

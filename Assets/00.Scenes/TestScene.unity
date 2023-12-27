@@ -5037,7 +5037,13 @@ MonoBehaviour:
   diceNum: 1
   diceFlag: 1
   movingCoroutineFlag: 0
-  cards: []
+  cards:
+  - card_name: 
+    cardCode: 8
+    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
+  - card_name: 
+    cardCode: 8
+    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
   tileNum: 0
   myTurn: 0
   downInformationText: {fileID: 1114345601}

@@ -6,6 +6,7 @@ public class CardManager : MonoBehaviour
 {
     GameManager theGM;
     TileManager theTile;
+    TurnSignScript theTSI;
 
     // 카드의 정보
     public Card cardInfo;
@@ -13,7 +14,8 @@ public class CardManager : MonoBehaviour
     // 카드를 위아래로 움직일 수치
     [SerializeField] float upPos;
 
-    public bool completeFlag;
+    public bool biggerComplete;
+
     public ParticleSystem destroyParticle;
     public ParticleSystem laserParticle;
     public ParticleSystem highMoveParticle;
@@ -24,6 +26,7 @@ public class CardManager : MonoBehaviour
     {
         theGM = FindObjectOfType<GameManager>();
         theTile = FindObjectOfType<TileManager>();
+        theTSI = FindObjectOfType<TurnSignScript>();
     }
 
     // Update is called once per frame
@@ -64,41 +67,41 @@ public class CardManager : MonoBehaviour
     // 해당 스크립트가 붙은 오브젝트(획득한 카드)에 마우스를 클릭할 때 호출
     private void OnMouseDown()
     {
-        // 땅, 건물 구매 UI가 꺼져있을때
-        if (!theGM.UIFlag)
+        // 땅, 건물 구매 UI가 꺼져있을때 && 카드를 사용하는 순서일때
+        if (!theGM.UIFlag && theTSI.cursorPos == 1)
         {
-            // cardCode가 1이라면 고속이동
-            if (cardInfo.cardCode == 1)
+            // cardCode가 1이라면 고속이동(중복사용 방지를 위해 플래그가 꺼져있을때만)
+            if (cardInfo.cardCode == 1 && !theGM.nowPlayer.highSpeedFlag)
             {
                 theGM.nowPlayer.highSpeedFlag = true;
                 DestroyCard();
             }
             // cardCode가 2라면 투명도둑
-            else if (cardInfo.cardCode == 2)
+            else if (cardInfo.cardCode == 2 && !theGM.nowPlayer.invisibleFlag)
             {
                 theGM.nowPlayer.invisibleFlag = true;
                 DestroyCard();
             }
             // cardCode가 3이라면 거대화꼬꼬
-            else if (cardInfo.cardCode == 3)
+            else if (cardInfo.cardCode == 3 && !theGM.nowPlayer.biggerFlag)
             {
                 theGM.nowPlayer.biggerFlag = true;
                 DestroyCard();
             }
             // cardCode가 4라면 투시
-            else if (cardInfo.cardCode == 4)
+            else if (cardInfo.cardCode == 4 && !theGM.nowPlayer.toosiFlag && theGM.penetrateComplete)
             {
                 theGM.nowPlayer.toosiFlag = true;
                 DestroyCard();
             }
             // cardCode가 5라면 주사위컨트롤(하)
-            else if (cardInfo.cardCode == 5)
+            else if (cardInfo.cardCode == 5 && !theGM.nowPlayer.lowerDiceFlag)
             {
                 theGM.nowPlayer.lowerDiceFlag = true;
                 DestroyCard();
             }
             // cardCode가 6이라면 주사위컨트롤(상)
-            else if (cardInfo.cardCode == 6)
+            else if (cardInfo.cardCode == 6 && !theGM.nowPlayer.higherDiceFlag)
             {
                 theGM.nowPlayer.higherDiceFlag = true;
                 DestroyCard();
@@ -109,7 +112,7 @@ public class CardManager : MonoBehaviour
             //     theGM.nowPlayer.exemptionFlag = true;
             // }
             // cardCode가 8이라면 레이저빔
-            else if (cardInfo.cardCode == 8)
+            else if (cardInfo.cardCode == 8 && !theGM.nowPlayer.laserFlag && theGM.laserComplete)
             {
                 // 모든 타일을 돌면서 상대방 소유의 땅이 있는지 검사
                 for (int i = 0; i < theTile.tiles.Length; i++)
@@ -275,12 +278,14 @@ public class CardManager : MonoBehaviour
             }
         }
         theGM.nowPlayer.biggerFlag = false;
-        completeFlag = true;
+        biggerComplete = true;
     }
 
     // 투시효과 코루틴
     IEnumerator PenetrateCoroutine()
     {
+        theGM.penetrateComplete = false;
+
         // 상대방의 카드가 1장 이상이라면
         if (theGM.nowPlayer.againstPlayer.cards.Count > 0)
         {
@@ -337,11 +342,15 @@ public class CardManager : MonoBehaviour
             }
             // 상세 카드 창에 카드 리스트 업데이트
             theGM.CardListUpdate();
+
+            theGM.penetrateComplete = true;
         }
     }
 
     IEnumerator LaserBeamCoroutine()
     {
+        theGM.laserComplete = false;
+
         theGM.nowPlayer.tpBack.SetActive(true);
         for (int i = 0; i < theTile.tiles.Length; i++)
         {
@@ -393,5 +402,7 @@ public class CardManager : MonoBehaviour
         theGM.tpTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
 
         theGM.tpTile = null;
+
+        theGM.laserComplete = true;
     }
 }
