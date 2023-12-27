@@ -2318,7 +2318,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -260, y: -453}
+  m_AnchoredPosition: {x: -210, y: -410}
   m_SizeDelta: {x: 1265.17, y: 192}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &307155001
@@ -5037,10 +5037,7 @@ MonoBehaviour:
   diceNum: 1
   diceFlag: 1
   movingCoroutineFlag: 0
-  cards:
-  - card_name: 
-    cardCode: 8
-    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
+  cards: []
   tileNum: 0
   myTurn: 0
   downInformationText: {fileID: 1114345601}
@@ -8440,8 +8437,8 @@ MonoBehaviour:
   movingCoroutineFlag: 0
   cards:
   - card_name: 
-    cardCode: 4
-    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
+    cardCode: 1
+    cardImg: {fileID: 21300000, guid: e5631acbcf2f240a58b390969420b074, type: 3}
   tileNum: 0
   myTurn: 0
   downInformationText: {fileID: 255605554}

@@ -46,8 +46,6 @@ public class CardManager : MonoBehaviour
             this.transform.position += Vector3.up * upPos;
             this.GetComponent<SpriteRenderer>().sortingOrder = 1;
         }
-
-        // 카드를 쓰는 턴일때만 작동하게(주사위를 굴리는 도중, 이동하는 도중은 작동하지 않게 해야함)
     }
 
     // 해당 스크립트가 붙은 오브젝트(획득한 카드)에 마우스를 올렸다가 떨어트렸을 때 호출
