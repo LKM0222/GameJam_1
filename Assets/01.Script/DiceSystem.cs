@@ -10,6 +10,8 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
 
     TurnSignScript theTSI;
     CardManager theCM;
+    GameManager theGM;
+
     [SerializeField] PlayerManager thePlayer; //플레이어의 정보
     [SerializeField] Vector3 nowPos;//현재 팻말의 위치 저장
     [SerializeField] GameObject EggObj; //주사위 오브젝트
@@ -23,6 +25,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
         nowPos = this.transform.localPosition;
         theTSI = FindObjectOfType<TurnSignScript>();
         theCM = FindObjectOfType<CardManager>();
+        theGM = FindObjectOfType<GameManager>();
     }
 
     void Update()
@@ -55,7 +58,8 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     // 해당 스크립트가 붙은 오브젝트(팻말)을 드래그했을 때 호출
     public void OnDrag(PointerEventData eventData)
     {
-        if (thePlayer.myTurn)
+        // 투시와 레이저빔의 사용이 모두 끝났을 때 주사위를 굴릴 수 있게(=> 사용중이라면 굴릴 수 없게)
+        if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete)
         {
             // eventData의 position.y가 아니라 마우스를 기준으로 받아오면 좋을듯
             Vector3 ypos = new Vector3(0f, eventData.position.y, 0f);
@@ -73,7 +77,8 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void OnEndDrag(PointerEventData eventData1)
     {
-        if (thePlayer.myTurn)
+        // 투시와 레이저빔의 사용이 모두 끝났을 때 주사위를 굴릴 수 있게(=> 사용중이라면 굴릴 수 없게)
+        if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete)
         {
             if (this.transform.localPosition.y < 470)
             {
