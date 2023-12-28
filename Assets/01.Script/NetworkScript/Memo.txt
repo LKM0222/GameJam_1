@@ -73,3 +73,14 @@ Backend.Match.OnJoinMatchMakingServer = (JoinChannelEventArgs args) => {
 매칭 정보를 갖고 있는 MatchCard 클래스를 MatchManager에 구현완료.
 
 
+
+///함수의 흐름
+JoinMatchMakingServer() -> CreateMatchRoom() -> 
+Backend.Match.OnMatchMakingRoomCreate // Backend.Match.RequestMatchMaking 
+-> Backend.Match.CreateMatchRoom(); -> GetMatchList();
+-> RequestMatchMaking(); -> Backend.Match.OnMatchMakingResponse
+-> Backend.Match.RequestMatchMaking(); 요렇게 인데..
+
+
+
+뭔가 대기방에 들어갈때 보면, 데이터 불러오는게 되게 느려서 일단, 로딩창이 필요할것 같긴 허다,...

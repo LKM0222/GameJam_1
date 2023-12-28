@@ -6,11 +6,13 @@ using BackEnd;
 using BackEnd.Tcp;
 using BackEnd.RealTime;
 using System.IO;
+using System.Threading;
 
-public class MatchManager : MonoBehaviour
+public class MatchManager
 {
-    List<MatchCard> matchCards = new List<MatchCard>();
-    int index = 1;
+    public List<MatchCard> matchCards = new List<MatchCard>();
+    int index = 0;
+    public bool listIsEmpty = false;
 
     private static MatchManager _instance = null;
 
@@ -18,10 +20,22 @@ public class MatchManager : MonoBehaviour
         get {
             if(_instance == null){
                 _instance = new MatchManager();
+                return _instance;
             }
-            return _instance;
+            else{
+                return _instance;
+            }
+            
         }
     }
+    // private void Awake() {
+    //     if(_instance == null){
+    //         _instance = new MatchManager();
+    //         DontDestroyOnLoad(this.gameObject);
+    //     } else {
+    //         Destroy(this.gameObject);
+    //     }
+    // }
 
     public void JoinMatchMakingServer(){
         Backend.Match.OnJoinMatchMakingServer = (JoinChannelEventArgs args) =>  {
@@ -37,9 +51,9 @@ public class MatchManager : MonoBehaviour
     void Join(){
         ErrorInfo errorInfo;
         if(Backend.Match.JoinMatchMakingServer(out errorInfo)){
-            print("Join Success : " + errorInfo.ToString());
+            Debug.Log("Join Success : " + errorInfo.ToString());
         }else{
-            print("Join error : " + errorInfo.ToString());
+            Debug.Log("Join error : " + errorInfo.ToString());
         }
     }
 
@@ -47,13 +61,13 @@ public class MatchManager : MonoBehaviour
         Backend.Match.OnMatchMakingRoomCreate = (MatchMakingInteractionEventArgs args) => {
             if(args.ErrInfo == ErrorCode.Success){
                 Backend.Match.RequestMatchMaking(matchCards[index].matchType, matchCards[index].matchModeType, matchCards[index].inDate);
-                print("CreateRoom Success : " + args.ToString());
-                // print(Backend.Match.room)
+                Debug.Log("CreateRoom Success : " + args.ToString());
+                // Debug.Log(Backend.Match.room)
             } else {
-                print("CreateRoom error : " + args.ToString());
+                Debug.Log("CreateRoom error : " + args.ToString());
             }
         };
-        print("CreateMatchingRoom");
+        Debug.Log("CreateMatchingRoom");
         Backend.Match.CreateMatchRoom();
     }
 
@@ -62,7 +76,7 @@ public class MatchManager : MonoBehaviour
 
     void GetMatchList()
     {
-        print("start GetmatchList");
+        Debug.Log("start GetmatchList");
         var callback = Backend.Match.GetMatchList();
 
         if(!callback.IsSuccess())
@@ -77,10 +91,10 @@ public class MatchManager : MonoBehaviour
 
         Debug.Log("Backend.Match.GetMatchList : " + callback);
 
+        MatchCard matchCard = new MatchCard();
+
         for(int i = 0; i < matchCardListJson.Count; i++)
         {
-            MatchCard matchCard = new MatchCard();
-
             matchCard.inDate = matchCardListJson[i]["inDate"].ToString();
             matchCard.result_processing_type = matchCardListJson[i]["result_processing_type"].ToString();
             matchCard.version = int.Parse(matchCardListJson[i]["version"].ToString());
@@ -169,10 +183,16 @@ public class MatchManager : MonoBehaviour
             matchCardList.Add(matchCard);
         }
 
-        foreach(var matchCard in matchCardList)
+        foreach(var matchcard in matchCardList)
         {
-            Debug.Log(matchCard.ToString());
+            Debug.Log(matchcard.ToString());
         }
+        if(matchCardList.Count > 0){
+            Debug.Log("list idx 0 is " + matchCardList[0]);
+            MatchingRoomScript.Instance.roomMatchCard = matchCardList[0];
+            listIsEmpty = true;
+        }
+        
     }
 
 
