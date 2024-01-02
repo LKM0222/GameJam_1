@@ -38,6 +38,7 @@ public class MatchManager
     // }
 
     public void JoinMatchMakingServer(){
+        Join();
         Backend.Match.OnJoinMatchMakingServer = (JoinChannelEventArgs args) =>  {
             //createroom
             if(args.ErrInfo == ErrorInfo.Success){
@@ -45,7 +46,6 @@ public class MatchManager
                 GetMatchList();
             }
         };
-        Join();
         
     }
 
@@ -53,13 +53,13 @@ public class MatchManager
         ErrorInfo errorInfo;
         if(Backend.Match.JoinMatchMakingServer(out errorInfo)){
             Debug.Log("Join Success : " + errorInfo.ToString());
-            MatchMakingRoomUserList();
         }else{
             Debug.Log("Join error : " + errorInfo.ToString());
         }
     }
 
     void CreateMatchRoom(){
+        Backend.Match.CreateMatchRoom();
         Backend.Match.OnMatchMakingRoomCreate = (MatchMakingInteractionEventArgs args) => {
             if(args.ErrInfo == ErrorCode.Success){
                 Backend.Match.RequestMatchMaking(matchCards[index].matchType, matchCards[index].matchModeType, matchCards[index].inDate);
@@ -71,7 +71,6 @@ public class MatchManager
         };
         Debug.Log("CreateMatchingRoom");
         Backend.Match.CreateMatchRoom();
-        
     }
 
     void MatchMakingRoomUserList(){
