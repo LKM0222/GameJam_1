@@ -15,7 +15,7 @@ public class SpecialTile : MonoBehaviour
 
     public void PoultryParm()
     {
-
+        theGM.nowPlayer.playerMoney += 200;
     }
 
     public void CardProvide()

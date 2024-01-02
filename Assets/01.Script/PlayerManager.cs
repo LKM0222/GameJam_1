@@ -166,8 +166,6 @@ public class PlayerManager : MonoBehaviour
                 }
             }
 
-            //
-
             VirtualCamera.SetActive(true);
             //주사위 굴리는거 기다려야됨
             yield return new WaitForSeconds(1f);
@@ -183,14 +181,10 @@ public class PlayerManager : MonoBehaviour
             theTSI.cursorPos = 3;
             for (; tileToGo.Count != 0;)
             {
+                // 시작지점을 지나쳐간다면 월급 지급
                 if (tileToGo[0].transform.name == "0")
                 {
-                    // this.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 0f, 1f);
-                    playerMoney += 100; //지나다닐때마다 100알씩 지급
-                }
-                else
-                {
-                    // this.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+                    theSpecialTile.PoultryParm();
                 }
 
                 // 투명도둑을 사용하고 나와 상대방이 겹쳐질때, 상대방의 카드가 있을 때 투명도둑 효과 발동
@@ -406,7 +400,7 @@ public class PlayerManager : MonoBehaviour
     IEnumerator TeleportSetCoroutine()
     {
         tpBack.SetActive(true);
-        theGM.tpImg.SetActive(true);
+        // theGM.tpImg.SetActive(true);
         for (int i = 0; i < theTM.tiles.Length; i++)
         {
             theTM.tiles[i].cardActive = true; //모든 카드 클릭 가능하도록 미리 클릭하고 다음턴에 해당 위치로 이동.
@@ -422,7 +416,7 @@ public class PlayerManager : MonoBehaviour
         tpTile = theGM.tpTile;
         theGM.tpTile = null;
         tpBack.SetActive(false);
-        theGM.tpImg.SetActive(false);
+        // theGM.tpImg.SetActive(false);
         tpFlag = true;
         myTurn = false;
         theGM.NextTurnFunc();
