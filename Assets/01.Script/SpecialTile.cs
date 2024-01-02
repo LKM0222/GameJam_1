@@ -20,13 +20,13 @@ public class SpecialTile : MonoBehaviour
 
     public void CardProvide()
     {
-        StartCoroutine(CardProvideCoroutine());
         cardFlag = false;
+        StartCoroutine(CardProvideCoroutine());
     }
 
     IEnumerator CardProvideCoroutine()
     {
-        if (theGM.nowPlayer.cardParent.childCount < 8)
+        if (theGM.nowPlayer.cards.Count < 8)
         {
             // 랜덤하게 카드번호를 추출
             Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];

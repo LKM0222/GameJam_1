@@ -2983,7 +2983,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 301937071
   m_SortingLayer: 1
-  m_SortingOrder: -1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0.4}
   m_FlipX: 0
@@ -5037,7 +5037,31 @@ MonoBehaviour:
   diceNum: 1
   diceFlag: 1
   movingCoroutineFlag: 0
-  cards: []
+  cards:
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 0}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 0}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 0}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 0}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 0}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 0}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 0}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 0}
   tileNum: 0
   myTurn: 0
   downInformationText: {fileID: 1114345601}
@@ -5063,6 +5087,7 @@ MonoBehaviour:
   exemptionFlag: 0
   laserFlag: 0
   theCM: {fileID: 1057635936}
+  theSpecialTile: {fileID: 0}
   showCardFlag: 0
 --- !u!212 &954396770
 SpriteRenderer:
@@ -7048,6 +7073,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1295471227}
   - component: {fileID: 1295471228}
+  - component: {fileID: 1295471229}
   m_Layer: 0
   m_Name: TileManager
   m_TagString: Untagged
@@ -7131,6 +7157,19 @@ MonoBehaviour:
   - {fileID: 1401323775}
   - {fileID: 730861397}
   - {fileID: 1693466814}
+--- !u!114 &1295471229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295471226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 518d116bb96bf0a41866e95dabfd97d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardFlag: 0
 --- !u!1 &1297390241
 GameObject:
   m_ObjectHideFlags: 0
@@ -8437,8 +8476,26 @@ MonoBehaviour:
   movingCoroutineFlag: 0
   cards:
   - card_name: 
-    cardCode: 1
-    cardImg: {fileID: 21300000, guid: e5631acbcf2f240a58b390969420b074, type: 3}
+    cardCode: 0
+    cardImg: {fileID: 0}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 0}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 0}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 0}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 0}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 0}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 0}
   tileNum: 0
   myTurn: 0
   downInformationText: {fileID: 255605554}
@@ -8464,6 +8521,7 @@ MonoBehaviour:
   exemptionFlag: 0
   laserFlag: 0
   theCM: {fileID: 1057635936}
+  theSpecialTile: {fileID: 0}
   showCardFlag: 0
 --- !u!61 &1511854100
 BoxCollider2D:
