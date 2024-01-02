@@ -56,6 +56,8 @@ public class PlayerManager : MonoBehaviour
     public bool laserFlag;
 
     public CardManager theCM;
+    public SpecialTile theSpecialTile;
+
     public bool showCardFlag;
 
     // Start is called before the first frame update
@@ -65,6 +67,7 @@ public class PlayerManager : MonoBehaviour
         theGM = FindObjectOfType<GameManager>();
         theTSI = FindObjectOfType<TurnSignScript>();
         thePCard = FindObjectOfType<PlayerCard>();
+        theSpecialTile = FindObjectOfType<SpecialTile>();
     }
 
     // Update is called once per frame
@@ -360,29 +363,8 @@ public class PlayerManager : MonoBehaviour
 
                     // 카드지급
                     case 1:
-                        if (cardParent.childCount < 8)
-                        {
-                            // 랜덤하게 카드번호를 추출
-                            Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
-
-                            // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
-                            var _card = Instantiate(cardPrefab, Vector3.zero, Quaternion.identity, cardParent);
-                            _card.transform.localPosition = new Vector3(0f, 0f, 0f);
-                            cards.Add(newCard);
-
-                            StartCoroutine(GetCardShow());
-                            yield return new WaitUntil(() => showCardFlag);
-                            showCardFlag = false;
-
-                            // 만약 통행료면제 카드라면 카드효과를 즉시 활성화.
-                            if (newCard == theGM.cards[6])
-                            {
-                                exemptionFlag = true;
-                                theGM.textManager.ShowText("플레이어" + theGM.nowPlayer.playerId + " 통행료 면제 효과 발동");
-                                yield return new WaitForSeconds(3f);
-                                theGM.textManager.HideText();
-                            }
-                        }
+                        theSpecialTile.CardProvide();
+                        yield return new WaitUntil(() => theSpecialTile.cardFlag);
                         break;
 
                     // 텔레포트
