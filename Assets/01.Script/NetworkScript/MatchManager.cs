@@ -46,12 +46,14 @@ public class MatchManager
             }
         };
         Join();
+        
     }
 
     void Join(){
         ErrorInfo errorInfo;
         if(Backend.Match.JoinMatchMakingServer(out errorInfo)){
             Debug.Log("Join Success : " + errorInfo.ToString());
+            MatchMakingRoomUserList();
         }else{
             Debug.Log("Join error : " + errorInfo.ToString());
         }
@@ -69,6 +71,17 @@ public class MatchManager
         };
         Debug.Log("CreateMatchingRoom");
         Backend.Match.CreateMatchRoom();
+        
+    }
+
+    void MatchMakingRoomUserList(){
+        Backend.Match.OnMatchMakingRoomUserList = (MatchMakingGamerInfoListInRoomEventArgs args) => {
+            if(args.ErrInfo == ErrorCode.Success){
+                Debug.Log("UserList " + args.UserInfos);
+            } else{
+                Debug.Log("userlist error");
+            }
+        };
     }
 
 
