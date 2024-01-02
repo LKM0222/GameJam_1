@@ -181,6 +181,7 @@ public class MatchManager
                 }
             }
             matchCardList.Add(matchCard);
+            matchCards = matchCardList;
         }
 
         foreach(var matchcard in matchCardList)

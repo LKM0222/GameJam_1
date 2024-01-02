@@ -13,7 +13,7 @@ public class ButtonManager : MonoBehaviour
     [Header("Login")]
     [SerializeField] InputField loginIdInput;
     [SerializeField] InputField loginPwInput;
-
+    
     [Header("SignUp")]
     [SerializeField] InputField signIdInput;
     [SerializeField] InputField signPwInput;
@@ -76,6 +76,7 @@ public class ButtonManager : MonoBehaviour
         //방 생성 완료한거 같은데 방 설정 정보 불러와서 진짜 방 생성이 된건지 확인해보자
         print("방 정보는 ? : ");
         SceneManager.LoadScene("MatchingRoom");
+        
     }
     
 

@@ -39,7 +39,8 @@ public class MatchingRoomScript : MonoBehaviour
         print("waitcoroutine start!");
         yield return new WaitUntil(() => MatchManager.Instance.listIsEmpty == true);
         print("listisEmpty is True" + MatchManager.Instance.listIsEmpty);
-        print("matchCard is " + roomMatchCard);
+        roomMatchCard = MatchManager.Instance.matchCards[0];
+        print("matchCard is " + roomMatchCard + "and MatchCards Count is " + MatchManager.Instance.matchCards.Count);
         roomName.text = roomMatchCard.matchTitle;
         
     }
