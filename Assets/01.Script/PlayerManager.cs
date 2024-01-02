@@ -415,9 +415,9 @@ public class PlayerManager : MonoBehaviour
 
         tpTile = theGM.tpTile;
         theGM.tpTile = null;
+        tpFlag = true;
         tpBack.SetActive(false);
         // theGM.tpImg.SetActive(false);
-        tpFlag = true;
         myTurn = false;
         theGM.NextTurnFunc();
     }
@@ -428,18 +428,18 @@ public class PlayerManager : MonoBehaviour
         this.tileToGo.Add(tpTile);
         //주석 처리된 코드는 그 자리로 순간이동하는 코드
         //만약, 순간이동처럼 보이고 싶다면 애니매이션 추가한 후 아래의 코드를 써야될듯.
-        //this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
+        this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
         //새로 작성한 코드는 그 자리로 moving하는것처럼 이동하는 코드
-        Vector3 target = tileToGo[0].transform.Find("Pos").transform.position;
-        while (tpMovingFlag)
-        {
-            this.transform.position = Vector3.MoveTowards(this.transform.position, target, Time.deltaTime * speed);
-            // 여기서 뭔가 텔레포트하는 애니메이션이 필요할듯!
-            if (this.transform.position == target)
-            {
-                tpMovingFlag = false;
-            }
-        }
+        // Vector3 target = tileToGo[0].transform.Find("Pos").transform.position;
+        // while (tpMovingFlag)
+        // {
+        //     this.transform.position = Vector3.MoveTowards(this.transform.position, target, 0.01f);
+        //     // 여기서 뭔가 텔레포트하는 애니메이션이 필요할듯!
+        //     if (this.transform.position == target)
+        //     {
+        //         tpMovingFlag = false;
+        //     }
+        // }
         nowTile = tileToGo[0].GetComponent<Tile>();
         this.GetComponent<Animator>().SetInteger("Dir", nowTile.dir);
         this.tileToGo.RemoveAt(0);
@@ -462,7 +462,7 @@ public class PlayerManager : MonoBehaviour
         {
             this.gameObject.GetComponent<Animator>().SetBool("FlyFlag", true);
 
-            if (nowTile.dir == 5)
+            if (nowTile.dir == 1)
             {
                 theCM.highMoveParticle.gameObject.transform.SetParent(theGM.nowPlayer.transform.GetChild(1));
             }

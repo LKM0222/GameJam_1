@@ -19,8 +19,8 @@ public class Tile : MonoBehaviour
 
     public bool cardActive;
 
-    // 타일의 상하좌우 방향
-    public int dir;//2345
+    // 타일의 상하좌우 방향(1,2,3,4)
+    public int dir;
 
     GameManager theGM;
 
@@ -77,7 +77,7 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (cardActive)
+        if (cardActive && theGM.nowPlayer.laserFlag)
         {
             if (theGM.nowPlayer.playerId != ownPlayer && ownPlayer != -1)
             {
@@ -85,7 +85,13 @@ public class Tile : MonoBehaviour
                 theGM.tpTile = this.gameObject;
                 print("clicked!");
             }
+        }
 
+        if (cardActive && theGM.nowPlayer.theSpecialTile)
+        {
+            //선택된 타일을 gm에 반환
+            theGM.tpTile = this.gameObject;
+            print("clicked!");
         }
     }
 }
