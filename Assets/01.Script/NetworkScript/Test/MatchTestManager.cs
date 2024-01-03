@@ -1,50 +1,50 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BackEnd;
 using BackEnd.Tcp;
-using BackEnd.RealTime;
-using System.IO;
-using System.Threading;
+using UnityEngine.SceneManagement;
 
-public class MatchManager
+
+/*
+    내가 본 게 맞다면
+    일단 호출하는 함수 따로, 이벤트 따로일것.
+
+    이벤트는 Pool 함수에 이벤트가 호출된다면 자동으로 호출되는것..!
+
+    그러면 어쨌든 다른 스크립트에 있어도 이벤트가 호출되지 않을까?
+
+    이벤트가 호출되는 스크립트는 EventManager에서 호출됨.
+*/
+
+public class MatchTestManager : MonoBehaviour
 {
+    
+    private static MatchTestManager _instance;
+
     public List<MatchCard> matchCards = new List<MatchCard>();
-    int index = 0;
-    public bool listIsEmpty = false;
 
-    private static MatchManager _instance = null;
-
-    public static MatchManager Instance {
+    public static MatchTestManager Instance { 
         get {
             if(_instance == null){
-                _instance = new MatchManager();
-                return _instance;
+                _instance = new MatchTestManager();
             }
-            else{
-                return _instance;
-            }
-            
+            return _instance;
         }
     }
-    // private void Awake() {
-    //     if(_instance == null){
-    //         _instance = new MatchManager();
-    //         DontDestroyOnLoad(this.gameObject);
-    //     } else {
-    //         Destroy(this.gameObject);
-    //     }
-    // }
 
-    public void JoinMatchMakingServer(){
+    //여기까지가 방을 만들고, 방에 유저를 모으는 작업.
+    //매칭서버 접속 및 대기방 참여 코드
+    public void VisitMatchServerAndCreateMatchingRoom(){
         Join();
-        Backend.Match.OnJoinMatchMakingServer = (JoinChannelEventArgs args) =>  {
-            //createroom
-            if(args.ErrInfo == ErrorInfo.Success){
-                CreateMatchRoom();
-                GetMatchList();
-            }
+        //이례적으로 일단 조인이 완료되어야 방을 생성하니까 여기서 호출함.
+        Backend.Match.OnJoinMatchMakingServer = (JoinChannelEventArgs args) => {
+            
+            CreateMatchRoom();
+            GetMatchList(); //추후 매칭신청을 위해 카드 리스트 가져와야함.
+            print("matchcards count is " + matchCards.Count);
+            print("matchcard is : " + matchCards[0]);
+            SceneManager.LoadScene("MatchingRoom");
         };
         
     }
@@ -52,37 +52,15 @@ public class MatchManager
     void Join(){
         ErrorInfo errorInfo;
         if(Backend.Match.JoinMatchMakingServer(out errorInfo)){
-            Debug.Log("Join Success : " + errorInfo.ToString());
-        }else{
-            Debug.Log("Join error : " + errorInfo.ToString());
+            Debug.Log("Success " + errorInfo);
         }
     }
-
+    
     void CreateMatchRoom(){
         Backend.Match.CreateMatchRoom();
-        Backend.Match.OnMatchMakingRoomCreate = (MatchMakingInteractionEventArgs args) => {
-            if(args.ErrInfo == ErrorCode.Success){
-                Backend.Match.RequestMatchMaking(matchCards[index].matchType, matchCards[index].matchModeType, matchCards[index].inDate);
-                Debug.Log("CreateRoom Success : " + args.ToString());
-                // Debug.Log(Backend.Match.room)
-            } else {
-                Debug.Log("CreateRoom error : " + args.ToString());
-            }
-        };
-        Debug.Log("CreateMatchingRoom");
-        Backend.Match.CreateMatchRoom();
     }
 
-    void MatchMakingRoomUserList(){
-        Backend.Match.OnMatchMakingRoomUserList = (MatchMakingGamerInfoListInRoomEventArgs args) => {
-            if(args.ErrInfo == ErrorCode.Success){
-                Debug.Log("UserList " + args.UserInfos);
-            } else{
-                Debug.Log("userlist error");
-            }
-        };
-    }
-
+    
 
 
 
@@ -193,7 +171,7 @@ public class MatchManager
                 }
             }
             matchCardList.Add(matchCard);
-            matchCards = matchCardList;
+            // this.matchCards = matchCardList;
         }
 
         foreach(var matchcard in matchCardList)
@@ -201,63 +179,63 @@ public class MatchManager
             Debug.Log(matchcard.ToString());
         }
         if(matchCardList.Count > 0){
+            matchCards = matchCardList;
             Debug.Log("list idx 0 is " + matchCardList[0]);
-            // MatchingRoomScript.Instance.roomMatchCard = matchCardList[0];
-            listIsEmpty = true;
         }
         
     }
 
-
 }
-// public class MatchCard
-// {
-//     public string inDate;
-//     public string matchTitle;
-//     public bool enable_sandbox;
-//     public BackEnd.Tcp.MatchType matchType;
-//     public MatchModeType matchModeType;
-//     public int matchHeadCount;
-//     public bool enable_battle_royale;
-//     public int match_timeout_m;
-//     public int transit_to_sandbox_timeout_ms;
-//     public int match_start_waiting_time_s;
-//     public int match_increment_time_s;
-//     public int maxMatchRange;
-//     public int increaseAndDecrease;
-//     public string initializeCycle;
-//     public int defaultPoint;
-//     public int version;
-//     public string result_processing_type;
-//     public Dictionary<string, int> savingPoint = new Dictionary<string, int>(); // 팀전/개인전에 따라 키값이 달라질 수 있음.  
-//     public override string ToString()
-//     {
-//         string savingPointString = "savingPont : \n";
-//         foreach(var dic in savingPoint)
-//         {
-//             savingPointString += $"{dic.Key} : {dic.Value}\n";
-//         }
-//         savingPointString += "\n";
-//         return $"inDate : {inDate}\n" +
-//         $"matchTitle : {matchTitle}\n" +
-//         $"enable_sandbox : {enable_sandbox}\n" +
-//         $"matchType : {matchType}\n" +
-//         $"matchModeType : {matchModeType}\n" +
-//         $"matchHeadCount : {matchHeadCount}\n" +
-//         $"enable_battle_royale : {enable_battle_royale}\n" +
-//         $"match_timeout_m : {match_timeout_m}\n" +
-//         $"transit_to_sandbox_timeout_ms : {transit_to_sandbox_timeout_ms}\n" +
-//         $"match_start_waiting_time_s : {match_start_waiting_time_s}\n" +
-//         $"match_increment_time_s : {match_increment_time_s}\n" +
-//         $"maxMatchRange : {maxMatchRange}\n" +
-//         $"increaseAndDecrease : {increaseAndDecrease}\n" +
-//         $"initializeCycle : {initializeCycle}\n" +
-//         $"defaultPoint : {defaultPoint}\n" +
-//         $"version : {version}\n" +
-//         $"result_processing_type : {result_processing_type}\n" +
-//         savingPointString;
-//     }
-// }
+
+public class MatchCard
+{
+    public string inDate;
+    public string matchTitle;
+    public bool enable_sandbox;
+    public BackEnd.Tcp.MatchType matchType;
+    public MatchModeType matchModeType;
+    public int matchHeadCount;
+    public bool enable_battle_royale;
+    public int match_timeout_m;
+    public int transit_to_sandbox_timeout_ms;
+    public int match_start_waiting_time_s;
+    public int match_increment_time_s;
+    public int maxMatchRange;
+    public int increaseAndDecrease;
+    public string initializeCycle;
+    public int defaultPoint;
+    public int version;
+    public string result_processing_type;
+    public Dictionary<string, int> savingPoint = new Dictionary<string, int>(); // 팀전/개인전에 따라 키값이 달라질 수 있음.  
+    public override string ToString()
+    {
+        string savingPointString = "savingPont : \n";
+        foreach(var dic in savingPoint)
+        {
+            savingPointString += $"{dic.Key} : {dic.Value}\n";
+        }
+        savingPointString += "\n";
+        return $"inDate : {inDate}\n" +
+        $"matchTitle : {matchTitle}\n" +
+        $"enable_sandbox : {enable_sandbox}\n" +
+        $"matchType : {matchType}\n" +
+        $"matchModeType : {matchModeType}\n" +
+        $"matchHeadCount : {matchHeadCount}\n" +
+        $"enable_battle_royale : {enable_battle_royale}\n" +
+        $"match_timeout_m : {match_timeout_m}\n" +
+        $"transit_to_sandbox_timeout_ms : {transit_to_sandbox_timeout_ms}\n" +
+        $"match_start_waiting_time_s : {match_start_waiting_time_s}\n" +
+        $"match_increment_time_s : {match_increment_time_s}\n" +
+        $"maxMatchRange : {maxMatchRange}\n" +
+        $"increaseAndDecrease : {increaseAndDecrease}\n" +
+        $"initializeCycle : {initializeCycle}\n" +
+        $"defaultPoint : {defaultPoint}\n" +
+        $"version : {version}\n" +
+        $"result_processing_type : {result_processing_type}\n" +
+        savingPointString;
+    }
+}
+
 
 
 
