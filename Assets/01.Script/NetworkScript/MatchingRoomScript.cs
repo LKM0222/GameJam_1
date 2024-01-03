@@ -10,6 +10,9 @@ using System;
 public class MatchingRoomScript : MonoBehaviour
 {
     [SerializeField] Text roomName;
+    [SerializeField] Text userListText;
+
+
     private static MatchingRoomScript _instance;
     List<string> userList = new List<string>();
     public static MatchingRoomScript Instance{
@@ -26,8 +29,10 @@ public class MatchingRoomScript : MonoBehaviour
     private void Update() {
         //플레이어가 들어올때마다 플레이어 목록을 추가시켜줘야함.
         Backend.Match.OnMatchMakingRoomUserList = (MatchMakingGamerInfoListInRoomEventArgs args) => {
-            //userlist항목을 텍스트 박스에 집어넣는 작업 할거임.
-            //내일 와서 씬 수정 및 스크립트 수정 필요.
+            string u_str = "";
+            for(int i = 0; i < args.UserInfos.Count; i++){
+                u_str += args.UserInfos[i].m_nickName + " , ";
+            }
         };
     }
 

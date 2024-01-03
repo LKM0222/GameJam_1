@@ -40,7 +40,7 @@ public class MatchTestManager : MonoBehaviour
         //이례적으로 일단 조인이 완료되어야 방을 생성하니까 여기서 호출함.
         Backend.Match.OnJoinMatchMakingServer = (JoinChannelEventArgs args) => {
             
-            CreateMatchRoom();
+            CreateMatchRoom();//대기방 생성
             GetMatchList(); //추후 매칭신청을 위해 카드 리스트 가져와야함.
             print("matchcards count is " + matchCards.Count);
             print("matchcard is : " + matchCards[0]);

@@ -7,13 +7,14 @@ using BackEnd.Tcp;
 using BackEnd.RealTime;
 using System.IO;
 using System.Threading;
+using Unity.VisualScripting;
 
 public class MatchManager
 {
     public List<MatchCard> matchCards = new List<MatchCard>();
     int index = 0;
     public bool listIsEmpty = false;
-
+    
     private static MatchManager _instance = null;
 
     public static MatchManager Instance {
@@ -28,14 +29,9 @@ public class MatchManager
             
         }
     }
-    // private void Awake() {
-    //     if(_instance == null){
-    //         _instance = new MatchManager();
-    //         DontDestroyOnLoad(this.gameObject);
-    //     } else {
-    //         Destroy(this.gameObject);
-    //     }
-    // }
+    private void Update() {
+        
+    }
 
     public void JoinMatchMakingServer(){
         Join();

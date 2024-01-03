@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using BackEnd;
 using BackEnd.Tcp;
+using UnityEngine.UI;
 public class EventManager : MonoBehaviour
 {
-    private static EventManager _instance = null;
+    public static EventManager Instance = null;
 
+    [Header("Invite Info")]
+    public MatchMakingUserInfo matchMakingUserInfo;
+    public SessionId roomId;
+    public string roomToken;
+    
     private void Awake() {
-        if(_instance == null){
-            _instance = new EventManager();
+        if(Instance == null){
+            Instance = new EventManager();
             DontDestroyOnLoad(this.gameObject);
         }
         else{
@@ -20,8 +26,15 @@ public class EventManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Backend.Match.OnMatchMakingRoomCreate = (MatchMakingInteractionEventArgs args) => {
+        Backend.Match.OnMatchMakingRoomCreate = (MatchMakingInteractionEventArgs args) => { //매칭룸을 생성했을때 호출되는 이벤트
             Debug.Log("MatchRoom Create");
         };
+
+        //초대 수락, 거절 시 발생하는 이벤트
+        Backend.Match.OnMatchMakingRoomInviteResponse = (MatchMakingInteractionEventArgs args) => {
+            //수락 시 자동으로 대기방에 접속됨.
+            Debug.Log("초대 수락/ 거절 결과 : " + args);
+        };
+
     }
 }

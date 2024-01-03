@@ -24,6 +24,11 @@ public class ButtonManager : MonoBehaviour
     [SerializeField] Text testNickname;
     [SerializeField] bool winBool;
 
+    [Header("InviteUserBtn")]
+    [SerializeField] InputField inviteUserNicknameInput;
+    [SerializeField] GameObject inviteResultPopup;
+    [SerializeField] Text inviteResultText;
+
     // List<>
 
     public async void SignUpBtn(){
@@ -87,6 +92,44 @@ public class ButtonManager : MonoBehaviour
     //매칭서버 접속 및 대기방 참여
     public void VisitMatchingRoomBtn(){
 
+    }
+
+    //대기방에 유저 초대
+    public void InviteUserBtn(){
+        if(inviteUserNicknameInput.text == ""){
+            Debug.Log("닉네임이 비었습니다.");
+        }
+        else{
+            Backend.Match.InviteUser(inviteUserNicknameInput.text); //유저 초대 함수
+            inviteResultPopup.SetActive(true);
+            Backend.Match.OnMatchMakingRoomInvite = (MatchMakingInteractionEventArgs args) => { //유저 초대 시 발생하는 이벤트처리.
+                switch(args.ErrInfo){//에러코드 잘 읽어보면 무슨 케이스인지 나옴!
+                    case ErrorCode.Match_Making_NotJoinedRoom:
+                        inviteResultText.text = "대기방을 만들지 않고는 초대 할 수 없습니다.\n";
+                        break;
+                    case ErrorCode.Match_Making_NotFoundGamer:
+                        inviteResultText.text = "초대할 유저가 서버에 접속해있지 않습니다.\n";
+                        break;
+                    case ErrorCode.Match_Making_AlreadyJoinedRoom:
+                        inviteResultText.text = "초대할 유저가 이미 다른방에 들어가있습니다.\n";
+                        break;
+                    default:
+                        inviteResultText.text = inviteUserNicknameInput.text + "를 초대하였습니다.";
+                        break;
+
+                }
+            };
+            
+        }
+    }
+
+    //유저 초대 수락
+    public void AcceptInviteBtn(){
+        Backend.Match.AcceptInvitation(EventManager.Instance.roomId, EventManager.Instance.roomToken);
+    }
+    //유저 초대 거절
+    public void DenyInviteBtn(){
+        Backend.Match.DeclineInvitation(EventManager.Instance.roomId, EventManager.Instance.roomToken);
     }
     
 
