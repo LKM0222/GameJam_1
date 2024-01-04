@@ -38,6 +38,7 @@ public class EventManager : MonoBehaviour
             //이 기준은 어디서..?
             Debug.Log("초대 수락/ 거절 결과 : " + args.ErrInfo);
         };
+        
 
     }
 }
