@@ -33,6 +33,7 @@ public class MatchingRoomScript : MonoBehaviour
             for(int i = 0; i < args.UserInfos.Count; i++){
                 u_str += args.UserInfos[i].m_nickName + " , ";
             }
+            userListText.text = u_str;
         };
     }
 

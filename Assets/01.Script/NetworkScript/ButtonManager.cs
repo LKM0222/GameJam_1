@@ -130,6 +130,8 @@ public class ButtonManager : MonoBehaviour
     //유저 초대 수락
     public void AcceptInviteBtn(){
         Backend.Match.AcceptInvitation(EventManager.Instance.roomId, EventManager.Instance.roomToken);
+        //여기서 씬을 불러와야될까?
+        SceneManager.LoadScene("MatchingRoom");
     }
     //유저 초대 거절
     public void DenyInviteBtn(){
