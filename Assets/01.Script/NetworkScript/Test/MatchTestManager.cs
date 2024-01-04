@@ -34,29 +34,23 @@ public class MatchTestManager : MonoBehaviour
     }
 
     //여기까지가 방을 만들고, 방에 유저를 모으는 작업.
-    //매칭서버 접속 및 대기방 참여 코드
-    public void VisitMatchServerAndCreateMatchingRoom(){
-        Join();
-        //이례적으로 일단 조인이 완료되어야 방을 생성하니까 여기서 호출함.
-        Backend.Match.OnJoinMatchMakingServer = (JoinChannelEventArgs args) => {
-            
-            CreateMatchRoom();//대기방 생성
-            GetMatchList(); //추후 매칭신청을 위해 카드 리스트 가져와야함.
-            print("matchcards count is " + matchCards.Count);
-            print("matchcard is : " + matchCards[0]);
-            SceneManager.LoadScene("MatchingRoom");
-        };
-        
+    //대기방 참여 코드
+    public void CreateMatchingRoom(){ //EventHandler는 EventManager에 위치함.
+        CreateMatchRoom();//대기방 생성
+        GetMatchList(); //추후 매칭신청을 위해 카드 리스트 가져와야함.
+        print("matchcards count is " + matchCards.Count);
+        print("matchcard is : " + matchCards[0]);
+        SceneManager.LoadScene("MatchingRoom");
     }
 
-    void Join(){
+    public void Join(){
         ErrorInfo errorInfo;
         if(Backend.Match.JoinMatchMakingServer(out errorInfo)){
             Debug.Log("Success " + errorInfo);
         }
     }
     
-    void CreateMatchRoom(){
+    void CreateMatchRoom(){ //envent handler는 eventManager에 있음.
         Backend.Match.CreateMatchRoom();
     }
 

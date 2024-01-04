@@ -7,6 +7,7 @@ using BackEnd;
 using UnityEngine.SceneManagement;
 using System;
 using BackEnd.Tcp;
+using System.Text.RegularExpressions;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -44,8 +45,11 @@ public class ButtonManager : MonoBehaviour
 
         if(Backend.IsLogin){
             print("로그인 완료");
-            SceneManager.LoadScene("MenuScene");
-            // BackendGameData.Instance.GameDataGet(); //게임 데이터를 조회해서 메뉴 씬에서 출력할꺼야 
+            MatchTestManager.Instance.Join(); //로그인 후 매칭서버 접속 
+            Backend.Match.OnJoinMatchMakingServer = (JoinChannelEventArgs args) => {
+                Debug.Log("Login Result : " + args.ErrInfo); 
+                SceneManager.LoadScene("MenuScene"); //매칭서버에 접속 완료했을 때 MenuScene으로 넘어가야함.
+            };
         }
         else {
             print("로그인 실패");
@@ -84,12 +88,12 @@ public class ButtonManager : MonoBehaviour
         
     // }
 
-    //매칭서버 접속 및 대기방 생성
+    //대기방 생성 매칭서버 접속은 여기서 하지 않고, 로그인 시 자동으로 이뤄져야함.
     public void MatchingBtn(){
-        MatchTestManager.Instance.VisitMatchServerAndCreateMatchingRoom();
+        MatchTestManager.Instance.CreateMatchingRoom();
     }
 
-    //매칭서버 접속 및 대기방 참여
+    //대기방 참여
     public void VisitMatchingRoomBtn(){
 
     }
