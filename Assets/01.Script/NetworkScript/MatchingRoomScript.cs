@@ -6,7 +6,7 @@ using BackEnd;
 using BackEnd.Tcp;
 using Unity.VisualScripting;
 using System;
-
+ 
 public class MatchingRoomScript : MonoBehaviour
 {
     [SerializeField] Text roomName;
@@ -33,6 +33,7 @@ public class MatchingRoomScript : MonoBehaviour
         for(int i = 0; i < userInfos.Count; i++){
             u_str += userInfos[i].m_nickName + " , ";
         }
+        print(userListText.text);
         userListText.text = u_str;
     }
 
@@ -52,6 +53,11 @@ public class MatchingRoomScript : MonoBehaviour
         //     }
         //     userListText.text = u_str;
         // };
+        Backend.Match.OnMatchMakingRoomJoin = (MatchMakingGamerInfoInRoomEventArgs args) => {
+            //유저가 입장했을때, 대기방에 있는 모든 유저들에게 호출되는 이벤트
+            matchingRoomLogStr += args.UserInfo.m_nickName + " 님이 입장하였습니다.\n";
+            MatchingRoomLogText.text = matchingRoomLogStr;
+        };
     }
 
     // IEnumerator WaitInfoCoroutine(){

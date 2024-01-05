@@ -134,6 +134,7 @@ public class ButtonManager : MonoBehaviour
         Backend.Match.AcceptInvitation(EventManager.Instance.roomId, EventManager.Instance.roomToken);
         //여기서 씬을 불러와야될까?
         SceneManager.LoadScene("MatchingRoom");
+        EventManager.Instance.acceptFlag = true;
         Backend.Match.OnMatchMakingRoomUserList = (MatchMakingGamerInfoListInRoomEventArgs args) => { //초대받은 유저가 대기방에 입장했을 때, 호출되는 이벤트
             Debug.Log("유저가 참여하였습니다!" + args.UserInfos[1].m_nickName); //여긴 정상적으로 잘 불러와짐.
             //씬 불러온 뒤, 

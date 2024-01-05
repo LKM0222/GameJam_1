@@ -5,6 +5,7 @@ using BackEnd;
 using BackEnd.Tcp;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 public class EventManager : MonoBehaviour
 {
     public static EventManager Instance = null;
@@ -13,6 +14,7 @@ public class EventManager : MonoBehaviour
     public MatchMakingUserInfo matchMakingUserInfo;
     public SessionId roomId;
     public string roomToken;
+    public bool acceptFlag = false;
     
     private void Awake() {
         if(Instance == null){
@@ -36,7 +38,14 @@ public class EventManager : MonoBehaviour
             //수락 시 자동으로 대기방에 접속됨.
             //수락하면 이제 씬도 불러와야제?? 근데 수락했을때 씬을 불러오고, 거절했을땐 씬을 불러오지 않아야 함...
             //이 기준은 어디서..?
-            Debug.Log("초대 수락/ 거절 결과 : " + args.ErrInfo);
+            Debug.Log("초대 수락/ 거절 결과 : " + args.ErrInfo +", "+ args.Reason);
+            if(acceptFlag){//수락 true, 거절 false
+                //수락하면 일단, 
+                
+            }
+            else{
+
+            }
         };
         
 
