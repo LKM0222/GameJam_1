@@ -136,11 +136,15 @@ public class ButtonManager : MonoBehaviour
         SceneManager.LoadScene("MatchingRoom");
         EventManager.Instance.acceptFlag = true;
         Backend.Match.OnMatchMakingRoomUserList = (MatchMakingGamerInfoListInRoomEventArgs args) => { //초대받은 유저가 대기방에 입장했을 때, 호출되는 이벤트
-            Debug.Log("유저가 참여하였습니다!" + args.UserInfos[1].m_nickName); //여긴 정상적으로 잘 불러와짐.
+            Debug.Log("유저가 참여하였습니다!" + args.UserInfos.Count); //여긴 정상적으로 잘 불러와짐. 초대를 받았을때, 인원이 몇명인지 일단 체크
             //씬 불러온 뒤, 
-            MatchingRoomScript.Instance.SetUserListText(args.UserInfos); //매칭룸의 유저 리스트를 업데이트 //여기까지도 잘 됨.
-            //유저가 입장했을때, 유저 리스트에 맨 앞에 들어가는지, 맨 뒤에 들어가는지 모르겠지만, 일단 맨 뒤 요소의 닉네임을 전달함.
-            MatchingRoomScript.Instance.SetMatchingRoomLog(args.UserInfos[args.UserInfos.Count - 1].m_nickName); 
+            
+            //굳이 함수를 호출해서 바꿀 필요가 있나?
+            for(int i=0; i < args.UserInfos.Count; i++){
+                MatchingRoomScript.Instance.userListText.text += args.UserInfos[i].m_nickName;
+            }
+            MatchingRoomScript.Instance.MatchingRoomLogText.text += 
+                args.UserInfos[args.UserInfos.Count - 1].m_nickName + "님이 입장하였습니다. \n";
 
             //여기까지하면, 초대받은 맴버는 매칭룸에 입장했을 때, 로그와 매칭룸의 인원이 표시될것임... 아마도...
         };

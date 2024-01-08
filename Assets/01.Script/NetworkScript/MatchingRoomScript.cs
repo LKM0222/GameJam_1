@@ -10,8 +10,8 @@ using System;
 public class MatchingRoomScript : MonoBehaviour
 {
     [SerializeField] Text roomName;
-    [SerializeField] Text userListText;
-    [SerializeField] Text MatchingRoomLogText;
+    public Text userListText;
+    public Text MatchingRoomLogText;
 
     string matchingRoomLogStr = "";
 
@@ -28,12 +28,12 @@ public class MatchingRoomScript : MonoBehaviour
     }
     
     public void SetUserListText(List<MatchMakingUserInfo> userInfos){
-        Debug.Log("SetUserListText Start");
+        Debug.Log("SetUserListText Start" + userInfos);
         string u_str = "참여한 유저 : ";
         for(int i = 0; i < userInfos.Count; i++){
             u_str += userInfos[i].m_nickName + " , ";
         }
-        print(userListText.text);
+        print("SetUserListText" + userListText.text);
         userListText.text = u_str;
     }
 
@@ -44,20 +44,21 @@ public class MatchingRoomScript : MonoBehaviour
     }
     
     private void Update() {
-        //플레이어가 들어올때마다 플레이어 목록을 추가시켜줘야함.
-        // Backend.Match.OnMatchMakingRoomUserList = (MatchMakingGamerInfoListInRoomEventArgs args) => {
-        //     Debug.Log("유저가 참여하였습니다!");
-        //     string u_str = "";
-        //     for(int i = 0; i < args.UserInfos.Count; i++){
-        //         u_str += args.UserInfos[i].m_nickName + " , ";
-        //     }
-        //     userListText.text = u_str;
-        // };
         Backend.Match.OnMatchMakingRoomJoin = (MatchMakingGamerInfoInRoomEventArgs args) => {
-            //유저가 입장했을때, 대기방에 있는 모든 유저들에게 호출되는 이벤트
+            //유저가 입장했을때, 대기방에 있는 모든 유저들에게 호출되는 이벤트 입장한 유저에게도 호출됨.
+            //대기방을 생성했을땐 호출 안됨.
             matchingRoomLogStr += args.UserInfo.m_nickName + " 님이 입장하였습니다.\n";
             MatchingRoomLogText.text = matchingRoomLogStr;
+            userListText.text += args.UserInfo.m_nickName;
         };
+        // Backend.Match.OnMatchMakingRoomUserList = (MatchMakingGamerInfoListInRoomEventArgs args) => {
+        //     //유저가 초대를 수락하면 호출되는 이벤트
+        //     //입장하는 유저에게만 호출됨. args는 현재 대기방 유저 정보 args. UserInfos
+        //     Debug.Log("OnMatchMakingRoomUserList"+ args.UserInfos);
+        //     for(int i = 0;i< args.UserInfos.Count; i++){
+        //         userListText.text += args.UserInfos[i].m_nickName;
+        //     }
+        // };
     }
 
     // IEnumerator WaitInfoCoroutine(){
