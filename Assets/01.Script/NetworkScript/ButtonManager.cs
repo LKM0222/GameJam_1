@@ -140,10 +140,11 @@ public class ButtonManager : MonoBehaviour
             //씬 불러온 뒤, 
             
             //굳이 함수를 호출해서 바꿀 필요가 있나?
-            for(int i=0; i < args.UserInfos.Count; i++){
+            for(int i=0; i < args.UserInfos.Count; i++){ //현재 입장 유저 리스트 업데이트
+                Debug.Log("add userList : " + args.UserInfos[i].m_nickName);
                 MatchingRoomScript.Instance.userListText.text += args.UserInfos[i].m_nickName;
             }
-            MatchingRoomScript.Instance.MatchingRoomLogText.text += 
+            MatchingRoomScript.Instance.MatchingRoomLogText.text += //유저가 들어오면서 로그 생성
                 args.UserInfos[args.UserInfos.Count - 1].m_nickName + "님이 입장하였습니다. \n";
 
             //여기까지하면, 초대받은 맴버는 매칭룸에 입장했을 때, 로그와 매칭룸의 인원이 표시될것임... 아마도...

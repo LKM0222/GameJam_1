@@ -27,21 +27,21 @@ public class MatchingRoomScript : MonoBehaviour
         }
     }
     
-    public void SetUserListText(List<MatchMakingUserInfo> userInfos){
-        Debug.Log("SetUserListText Start" + userInfos);
-        string u_str = "참여한 유저 : ";
-        for(int i = 0; i < userInfos.Count; i++){
-            u_str += userInfos[i].m_nickName + " , ";
-        }
-        print("SetUserListText" + userListText.text);
-        userListText.text = u_str;
-    }
+    // public void SetUserListText(List<MatchMakingUserInfo> userInfos){
+    //     Debug.Log("SetUserListText Start" + userInfos);
+    //     string u_str = "참여한 유저 : ";
+    //     for(int i = 0; i < userInfos.Count; i++){
+    //         u_str += userInfos[i].m_nickName + " , ";
+    //     }
+    //     print("SetUserListText" + userListText.text);
+    //     userListText.text = u_str;
+    // }
 
-    public void SetMatchingRoomLog(string user_name){ //닉네임이 전달되면 로그에 추가.
-        Debug.Log("SetMatchingRoomLog Start");
-        matchingRoomLogStr += user_name + " 님이 입장하였습니다.\n";
-        MatchingRoomLogText.text = matchingRoomLogStr;
-    }
+    // public void SetMatchingRoomLog(string user_name){ //닉네임이 전달되면 로그에 추가.
+    //     Debug.Log("SetMatchingRoomLog Start");
+    //     matchingRoomLogStr += user_name + " 님이 입장하였습니다.\n";
+    //     MatchingRoomLogText.text = matchingRoomLogStr;
+    // }
     
     private void Update() {
         Backend.Match.OnMatchMakingRoomJoin = (MatchMakingGamerInfoInRoomEventArgs args) => {

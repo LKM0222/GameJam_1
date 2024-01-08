@@ -94,3 +94,8 @@ Backend.Match.OnMatchMakingRoomCreate // Backend.Match.RequestMatchMaking
 흐름에 대해서 좀 더 명확히 알 필요가 있을듯.
 내일 아이템이 들어왔을때 동시에 아이템을 추가하는 인벤토리, 아이템을 삭제하면 동시에 아이템이 삭제되는 인벤토리를 응용해,
 대기방에 위치한 유저들의 이름을 출력하는 기능도 있으면 좋을듯!
+
+
+////////////////////////////////240108
+뭔가 이상함... OnMatchMakingRoomUserList 랑, OnMatchMakingRoomJoin이 뭔가 뒤바뀐것같음....
+두 이벤트를 좀 분리시켜야될듯... 조금 이상함....
