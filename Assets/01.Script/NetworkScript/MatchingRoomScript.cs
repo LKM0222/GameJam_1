@@ -31,12 +31,12 @@ public class MatchingRoomScript : MonoBehaviour
         Backend.Match.OnMatchMakingRoomCreate = (MatchMakingInteractionEventArgs args) => { //매칭룸을 생성했을때 호출되는 이벤트
             Debug.Log("MatchRoom Create1");
             if(matchingRoomUserList != null){
-                matchingRoomUserList += "내가 생성함!";
+                matchingRoomUserList += BackendGameData.userData.nickname + "\n"; //여기다가 방을 생성한 사람의 이름을 넣어야됨...
             } else {
                 Debug.Log("matchingRoomUserList is null");
             }
             if(matchingRoomLogStr != null){
-                matchingRoomLogStr += "방을 생성하였습니다.";
+                matchingRoomLogStr += "방을 생성하였습니다. \n";
             } else {
                 Debug.Log("matchingRoomLogStr is null");
             }
@@ -44,12 +44,10 @@ public class MatchingRoomScript : MonoBehaviour
     }
     
     private void Update() {
-        Backend.Match.OnMatchMakingRoomJoin = (MatchMakingGamerInfoInRoomEventArgs args) => {
-            //유저가 입장했을때, 대기방에 있는 모든 유저들에게 호출되는 이벤트 입장한 유저에게도 호출됨.
-            //대기방을 생성했을땐 호출 안됨.
-            // matchingRoomLogStr += args.UserInfo.m_nickName + " 님이 입장하였습니다.\n";
-            // MatchingRoomLogText.text = matchingRoomLogStr;
-            // userListText.text += args.UserInfo.m_nickName;
+        Backend.Match.OnMatchMakingRoomJoin = (MatchMakingGamerInfoInRoomEventArgs args) => {// 초대받은 유저가 방에 입장했을때, 방에 있는 플레이어들에게 호출되는 이벤트
+            Debug.Log(args.UserInfo.m_nickName + "님이 입장하였습니다.");
+            matchingRoomLogStr += args.UserInfo.m_nickName + "님이 입장하였습니다. \n";
+            matchingRoomUserList += "," + args.UserInfo.m_nickName;
         };
         MatchingRoomLogText.text = matchingRoomLogStr;
         userListText.text = matchingRoomUserList;

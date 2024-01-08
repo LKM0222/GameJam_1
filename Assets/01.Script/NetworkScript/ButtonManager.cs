@@ -149,19 +149,17 @@ public class ButtonManager : MonoBehaviour
         SceneManager.LoadScene("MatchingRoom");
         EventManager.Instance.acceptFlag = true;
         Backend.Match.OnMatchMakingRoomUserList = (MatchMakingGamerInfoListInRoomEventArgs args) => { //초대받은 유저가 대기방에 입장했을 때, 호출되는 이벤트
-            Debug.Log("유저가 참여하였습니다!" + args.UserInfos.Count); //여긴 정상적으로 잘 불러와짐. 초대를 받았을때, 인원이 몇명인지 일단 체크
+            Debug.Log("유저가 참여하였습니다!" + args.UserInfos.Count); 
             //씬 불러온 뒤, 
             
-            //굳이 함수를 호출해서 바꿀 필요가 있나?
             for(int i=0; i < args.UserInfos.Count; i++){ //현재 입장 유저 리스트 업데이트
                 Debug.Log("add userList : " + args.UserInfos[i].m_nickName);
-                // MatchingRoomScript.Instance.userListText.text += args.UserInfos[i].m_nickName;
-                MatchingRoomScript.Instance.matchingRoomUserList += args.UserInfos[i].m_nickName;
+                MatchingRoomScript.Instance.matchingRoomUserList += ", " + args.UserInfos[i].m_nickName;
             }
             MatchingRoomScript.Instance.matchingRoomLogStr += //유저가 들어오면서 로그 생성
                 args.UserInfos[args.UserInfos.Count - 1].m_nickName + "님이 입장하였습니다. \n";
 
-            //여기까지하면, 초대받은 맴버는 매칭룸에 입장했을 때, 로그와 매칭룸의 인원이 표시될것임... 아마도...
+            //여기까지하면, 초대받은 맴버는 매칭룸에 입장했을 때, 로그와 매칭룸의 인원이 표시될것
         };
     }
     //유저 초대 거절
@@ -170,24 +168,5 @@ public class ButtonManager : MonoBehaviour
     }
     
 
-    // IEnumerator MatcingServerCoroutine(){
-    //     //근데 일단, 초당 10kb 만큼만 처리된다 했음
-    //     yield return new WaitForSeconds(0.1f); //0.1f씩 호출함.
-    //     print("코루틴 실행중");
-    //     var poll = 0; //지속적으로 호출됨. poll함수는 처리된 이벤트의 갯수를 반환함.
-    //     while(poll < 1){
-    //         print("poll 수집중");
-            
-    //     }
-    //     print("poll 가져왔고, var poll 에 전달. var poll : " + poll.ToString());
-    //     if(poll > 0){//처리될 이벤트가 존재함
-    //         print("처리될 이벤트 존재!");
-    //         Backend.Match.OnJoinMatchMakingServer = (JoinChannelEventArgs args) => {
-    //             print("매칭서버 이벤트 존재! errorInfo : " + args.ErrInfo.ToString() + ", Session Info : " + args.Session.ToString());
-    //         };
-    //     } else{
-    //         print("이벤트가 존재하지 않음");
-    //     }
-        
-    // }
+    
 }
