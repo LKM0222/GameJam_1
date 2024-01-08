@@ -91,6 +91,19 @@ public class ButtonManager : MonoBehaviour
     //대기방 생성 매칭서버 접속은 여기서 하지 않고, 로그인 시 자동으로 이뤄져야함.
     public void MatchingBtn(){
         MatchTestManager.Instance.CreateMatchingRoom();
+        Backend.Match.OnMatchMakingRoomCreate = (MatchMakingInteractionEventArgs args) => { //매칭룸을 생성했을때 호출되는 이벤트
+            Debug.Log("MatchRoom Create1");
+            // if(MatchingRoomScript.Instance.userListText != null){
+            //     MatchingRoomScript.Instance.userListText.text += "내가 생성함!";
+            // } else {
+            //     Debug.Log("MatchingRoomScript.Instance.userListText is null");
+            // }
+            // if(MatchingRoomScript.Instance.MatchingRoomLogText != null){
+            //     MatchingRoomScript.Instance.MatchingRoomLogText.text += "방을 생성하였습니다.";
+            // } else {
+            //     Debug.Log("MatchingRoomScript.Instance.MatchingRoomLogText is null");
+            // }
+        };
     }
 
     //대기방 참여
@@ -142,9 +155,10 @@ public class ButtonManager : MonoBehaviour
             //굳이 함수를 호출해서 바꿀 필요가 있나?
             for(int i=0; i < args.UserInfos.Count; i++){ //현재 입장 유저 리스트 업데이트
                 Debug.Log("add userList : " + args.UserInfos[i].m_nickName);
-                MatchingRoomScript.Instance.userListText.text += args.UserInfos[i].m_nickName;
+                // MatchingRoomScript.Instance.userListText.text += args.UserInfos[i].m_nickName;
+                MatchingRoomScript.Instance.matchingRoomUserList += args.UserInfos[i].m_nickName;
             }
-            MatchingRoomScript.Instance.MatchingRoomLogText.text += //유저가 들어오면서 로그 생성
+            MatchingRoomScript.Instance.matchingRoomLogStr += //유저가 들어오면서 로그 생성
                 args.UserInfos[args.UserInfos.Count - 1].m_nickName + "님이 입장하였습니다. \n";
 
             //여기까지하면, 초대받은 맴버는 매칭룸에 입장했을 때, 로그와 매칭룸의 인원이 표시될것임... 아마도...
