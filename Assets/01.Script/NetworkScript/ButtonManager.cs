@@ -15,7 +15,6 @@ public class ButtonManager : MonoBehaviour
     [Header("Login")]
     [SerializeField] InputField loginIdInput;
     [SerializeField] InputField loginPwInput;
-
     [Header("SignUp")]
     [SerializeField] InputField signIdInput;
     [SerializeField] InputField signPwInput;
