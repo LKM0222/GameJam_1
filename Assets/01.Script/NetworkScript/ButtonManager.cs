@@ -182,5 +182,21 @@ public class ButtonManager : MonoBehaviour
         Backend.Match.RequestMatchMaking(matchCard.matchType, matchCard.matchModeType, matchCard.inDate);
     }
 
+    /////////////////////통신을 위한 버튼
+    ///
+    //TestSend버튼
+    public void TestSendBtn(){
+        TestClass test = new TestClass(1);
+        string jsonData = JsonUtility.ToJson(test);
+        print(jsonData);
+        // Backend.Match.SendDataToInGameRoom(jsonData);
+    }
     
+}
+
+public class TestClass{
+    int a;
+    public TestClass(int _a){
+        a = _a;
+    }
 }
