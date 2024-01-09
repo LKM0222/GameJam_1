@@ -1133,6 +1133,9 @@ MonoBehaviour:
   signEmailInput: {fileID: 0}
   testNickname: {fileID: 0}
   winBool: 0
+  inviteUserNicknameInput: {fileID: 0}
+  inviteResultPopup: {fileID: 0}
+  inviteResultText: {fileID: 0}
 --- !u!1 &557726785
 GameObject:
   m_ObjectHideFlags: 0
@@ -1320,6 +1323,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbfb6406f942e409ba26f74d42174181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomId: 0
+  roomToken: 
+  acceptFlag: 0
 --- !u!4 &558422190
 Transform:
   m_ObjectHideFlags: 0
@@ -2053,6 +2059,9 @@ MonoBehaviour:
   signEmailInput: {fileID: 964413899}
   testNickname: {fileID: 0}
   winBool: 0
+  inviteUserNicknameInput: {fileID: 0}
+  inviteResultPopup: {fileID: 0}
+  inviteResultText: {fileID: 0}
 --- !u!1 &807728525
 GameObject:
   m_ObjectHideFlags: 0
@@ -3624,7 +3633,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: fddd2bdb0c7011a408b408b02e814290, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3899,7 +3908,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1543373814
 RectTransform:
   m_ObjectHideFlags: 0

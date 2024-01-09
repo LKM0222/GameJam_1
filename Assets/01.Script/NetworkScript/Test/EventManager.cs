@@ -6,6 +6,8 @@ using BackEnd.Tcp;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 public class EventManager : MonoBehaviour
 {
     public static EventManager Instance = null;
@@ -36,7 +38,7 @@ public class EventManager : MonoBehaviour
             if(args.ErrInfo == ErrorCode.Success){//성공적으로 퇴장 성공
                 MatchingRoomScript.Instance.matchingRoomLogStr += args.UserInfo.m_nickName + 
                 "님이 퇴장하였습니다. \n";
-                
+                MatchingRoomScript.Instance.UserListRemove(args.UserInfo.m_nickName);
             }
             if(args.ErrInfo == ErrorCode.InvalidOperation){//매칭중이라 퇴장 실패
                 Debug.Log("매칭중이라 방에서 나갈 수 없습니다.");
