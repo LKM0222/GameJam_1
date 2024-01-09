@@ -172,6 +172,8 @@ public class ButtonManager : MonoBehaviour
     public void GoToLobby(){
         //대기방에서 다시 로비로 돌아가야하는거니깐, 일단 대기방에서 나가는 함수가 있어야함. 그 후 씬을 바꾼다.
         Backend.Match.LeaveMatchRoom(); //대기방을 떠나는 함수
+        SceneManager.LoadScene("MenuScene"); //대기방을 떠났으니 다시 메뉴씬으로
+        //씬 이동 작업은 이벤트에서 하면 안됨. 이벤트는 모두가 같이 실행되니깐.
         //이후 이벤트는 EventManager에서 구현.
     }
     

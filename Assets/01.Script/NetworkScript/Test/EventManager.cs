@@ -36,6 +36,7 @@ public class EventManager : MonoBehaviour
             if(args.ErrInfo == ErrorCode.Success){//성공적으로 퇴장 성공
                 MatchingRoomScript.Instance.matchingRoomLogStr += args.UserInfo.m_nickName + 
                 "님이 퇴장하였습니다. \n";
+                
             }
             if(args.ErrInfo == ErrorCode.InvalidOperation){//매칭중이라 퇴장 실패
                 Debug.Log("매칭중이라 방에서 나갈 수 없습니다.");
@@ -52,8 +53,9 @@ public class EventManager : MonoBehaviour
                     Debug.Log("매칭신청 성공");
                     break;
 
-                case ErrorCode.Success: //매칭이 성사되었을 떄
+                case ErrorCode.Success: //매칭이 성사되었을 떄 여기서 인게임 서버 접속시도
                     Debug.Log("매칭 성사");
+                    
                     break;
 
                 case ErrorCode.Match_MatchMakingCanceled: 

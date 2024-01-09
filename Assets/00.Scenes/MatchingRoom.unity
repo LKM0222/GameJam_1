@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 74115250}
   - component: {fileID: 74115249}
   - component: {fileID: 74115248}
+  - component: {fileID: 74115251}
   m_Layer: 5
   m_Name: GoToLobbyBtn
   m_TagString: Untagged
@@ -206,7 +207,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 74115249}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 74115251}
+        m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
+        m_MethodName: GoToLobby
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &74115249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,6 +258,29 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 74115246}
   m_CullTransparentMesh: 1
+--- !u!114 &74115251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 74115246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c63862070b98148a9b2cc1a2f09c095e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loginIdInput: {fileID: 0}
+  loginPwInput: {fileID: 0}
+  signIdInput: {fileID: 0}
+  signPwInput: {fileID: 0}
+  signNickNameInput: {fileID: 0}
+  signEmailInput: {fileID: 0}
+  testNickname: {fileID: 0}
+  winBool: 0
+  inviteUserNicknameInput: {fileID: 0}
+  inviteResultPopup: {fileID: 0}
+  inviteResultText: {fileID: 0}
 --- !u!1 &126868073
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,6 +1021,7 @@ GameObject:
   - component: {fileID: 529634789}
   - component: {fileID: 529634788}
   - component: {fileID: 529634787}
+  - component: {fileID: 529634790}
   m_Layer: 5
   m_Name: GameStartBtn
   m_TagString: Untagged
@@ -1056,7 +1093,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 529634788}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 529634790}
+        m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
+        m_MethodName: RequestMatchMaking
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &529634788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1095,6 +1144,29 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 529634785}
   m_CullTransparentMesh: 1
+--- !u!114 &529634790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529634785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c63862070b98148a9b2cc1a2f09c095e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loginIdInput: {fileID: 0}
+  loginPwInput: {fileID: 0}
+  signIdInput: {fileID: 0}
+  signPwInput: {fileID: 0}
+  signNickNameInput: {fileID: 0}
+  signEmailInput: {fileID: 0}
+  testNickname: {fileID: 0}
+  winBool: 0
+  inviteUserNicknameInput: {fileID: 0}
+  inviteResultPopup: {fileID: 0}
+  inviteResultText: {fileID: 0}
 --- !u!1 &532242702
 GameObject:
   m_ObjectHideFlags: 0
