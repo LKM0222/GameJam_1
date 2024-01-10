@@ -9,6 +9,7 @@ using System;
 using BackEnd.Tcp;
 using System.Text.RegularExpressions;
 using Unity.VisualScripting;
+using System.Text;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class ButtonManager : MonoBehaviour
     [SerializeField] Text inviteResultText;
 
     // List<>
+    
 
     public async void SignUpBtn(){
         await Task.Run(() => {
@@ -178,7 +180,7 @@ public class ButtonManager : MonoBehaviour
     
     //게임 시작
     public void RequestMatchMaking(){
-        MatchCard matchCard = MatchTestManager.Instance.matchCards[0];
+        MatchCard matchCard = MatchTestManager.Instance.matchCards[0];//이 부분 오류!
         Backend.Match.RequestMatchMaking(matchCard.matchType, matchCard.matchModeType, matchCard.inDate);
     }
 
@@ -189,13 +191,14 @@ public class ButtonManager : MonoBehaviour
         TestClass test = new TestClass(1);
         string jsonData = JsonUtility.ToJson(test);
         print(jsonData);
-        // Backend.Match.SendDataToInGameRoom(jsonData);
+        Backend.Match.SendDataToInGameRoom(Encoding.UTF8.GetBytes(jsonData));
     }
     
 }
 
+[System.Serializable]
 public class TestClass{
-    int a;
+    public int a; //public 선언을 해줘야 Json으로 변환가능..?
     public TestClass(int _a){
         a = _a;
     }

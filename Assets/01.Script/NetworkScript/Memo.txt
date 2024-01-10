@@ -123,3 +123,34 @@ From : 보낸 유저 세션 정보
 BinaryUserData : 보낸 데이터
 와 같고, 그러면 일단 BinaryUserData 파싱이 되어야함. 
 일단 테스트로 초당 1씩 계속 보내는 그걸 해보자..!
+
+/////////////////////////////////////240110
+// byte Array를 String으로 변환 
+        private string ByteToString(byte[] byteVal) 
+        {
+            string str = Encoding.Default.GetString(byteVal);
+            return str;
+        } 
+        // String을 Byte Array로 변환 
+        private byte[] StringToByte(string str) 
+        { 
+            byte[] StrByte = Encoding.UTF8.GetBytes(str); 
+            return StrByte; 
+        }
+        // String을 Double로 변환
+        private double StringToDouble(string str)
+        {
+            double strDouble = Convert.ToDouble(str);
+            return strDouble;
+        }
+        // String을 Int로 변환
+        private int StringToInt(string str)
+        {
+            int strInt;
+            if (int.TryParse(str, out strInt))
+            {
+                strInt = Convert.ToInt32(str);
+            }
+            return strInt;
+        }
+이런걸 찾았다??

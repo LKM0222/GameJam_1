@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using System;
 using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 public class EventManager : MonoBehaviour
 {
     public static EventManager Instance = null;
@@ -112,6 +113,11 @@ public class EventManager : MonoBehaviour
             // 콘솔에서 설정한 매치 시작 대기시간이 지난 이후에 모든 유저에게 게임 시작 이벤트가 호출
             // 게임 시작 이벤트가 호출된 후 게임에서 필요한 데이터 동기화, 유저들 간 로딩 상황 공유 등 다양한 데이터 설정을 진행
             Debug.Log("게임 시작! 이제부터 데이터가 모든 유저에게 브로드캐스팅 가능합니다!");
+        };
+
+        Backend.Match.OnMatchRelay = (MatchRelayEventArgs args) => {
+            byte[] data = args.BinaryUserData;
+            MatchingRoomScript.Instance.matchingRoomLogStr += Encoding.Default.GetString(data);
         };
     }
 
