@@ -52,6 +52,7 @@ public class EventManager : MonoBehaviour
             }
         };
         
+        //매칭신청(인게임서버접속 시작)
         Backend.Match.OnMatchMakingResponse = (MatchMakingResponseEventArgs args) => {
             // 유저가 매칭을 신청, 취소 했을 때 그리고 매칭이 성사되었을 때 호출되는 이벤트
             switch(args.ErrInfo){

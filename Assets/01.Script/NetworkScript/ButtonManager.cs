@@ -180,8 +180,7 @@ public class ButtonManager : MonoBehaviour
     
     //게임 시작
     public void RequestMatchMaking(){
-        MatchCard matchCard = MatchTestManager.Instance.matchCards[0];//이 부분 오류!
-        Backend.Match.RequestMatchMaking(matchCard.matchType, matchCard.matchModeType, matchCard.inDate);
+        MatchTestManager.Instance.RequestMatchMaking();
     }
 
     /////////////////////통신을 위한 버튼

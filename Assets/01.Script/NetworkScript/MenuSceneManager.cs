@@ -16,7 +16,7 @@ public class MenuSceneManager : MonoBehaviour
     [Header("Invite Popup")]
     [SerializeField] GameObject invitePopup; //초대시 띄울 팝업오브젝트
     [SerializeField] Text inviteInfoText; //초대 팝업 오브젝트에서 누가 초대했는지 알려주는 텍스트
-
+    
     private static MenuSceneManager _instance = null;
     public static MenuSceneManager Instance {
         get {

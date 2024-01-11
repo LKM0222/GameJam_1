@@ -24,6 +24,8 @@ public class MatchTestManager : MonoBehaviour
 
     public List<MatchCard> matchCards = new List<MatchCard>();
 
+    public MatchCard matchCard;
+
     public static MatchTestManager Instance { 
         get {
             if(_instance == null){
@@ -39,7 +41,10 @@ public class MatchTestManager : MonoBehaviour
         CreateMatchRoom();//대기방 생성
         GetMatchList(); //추후 매칭신청을 위해 카드 리스트 가져와야함.
         print("matchcards count is " + matchCards.Count);
-        print("matchcard is : " + matchCards[0]);
+        matchCard = matchCards[0];
+        if(matchCard != null){
+            print("MatchTestManager matchcard is : " + matchCard);
+        }
         SceneManager.LoadScene("MatchingRoom");
     }
 
@@ -52,6 +57,13 @@ public class MatchTestManager : MonoBehaviour
     
     void CreateMatchRoom(){ //envent handler는 eventManager에 있음.
         Backend.Match.CreateMatchRoom();
+    }
+
+    //인게임 리퀘스트 함수
+    public void RequestMatchMaking(){
+        GetMatchList();
+        matchCard = matchCards[0]; //왜그런지 모르겠지만, 매치카드를 조회하려면 GetMatchList()를 먼저 호출해야됨...
+        Backend.Match.RequestMatchMaking(matchCard.matchType, matchCard.matchModeType, matchCard.inDate);
     }
 
     
