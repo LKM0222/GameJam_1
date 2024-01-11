@@ -61,12 +61,17 @@ public class EventManager : MonoBehaviour
                     break;
 
                 case ErrorCode.Success: //매칭이 성사되었을 떄 여기서 인게임 서버 접속시도
-                    Debug.Log("매칭 성사");
-                    string serverAddress = args.RoomInfo.m_inGameServerEndPoint.m_address;
-                    ushort serverPort = args.RoomInfo.m_inGameServerEndPoint.m_port;
-                    roomInfo = args.RoomInfo;
-                    IngameServerManager.Instance.JoinGameServer(serverAddress, serverPort); //매칭신청 후 인게임서버 접속
-
+                    Debug.Log("매칭 성사 , 인게임 서버에 접속 시도합니다.");
+                    // string serverAddress = args.RoomInfo.m_inGameServerEndPoint.m_address;
+                    // ushort serverPort = args.RoomInfo.m_inGameServerEndPoint.m_port;
+                    // roomInfo = args.RoomInfo;
+                    // IngameServerManager.Instance.JoinGameServer(serverAddress, serverPort); //매칭신청 후 인게임서버 접속
+                    if(Backend.Match.JoinGameServer(args.RoomInfo.m_inGameServerEndPoint.m_address,
+                    args.RoomInfo.m_inGameServerEndPoint.m_port,
+                    true, out ErrorInfo errorInfo)==false){
+                        //true인 경우, OnSessionJoinInServer 호출.
+                        Debug.Log("errorinfo is" + errorInfo.Reason);
+                    }
                     break;
 
                 case ErrorCode.Match_MatchMakingCanceled: //매칭 신청을 취소했을때
@@ -97,6 +102,10 @@ public class EventManager : MonoBehaviour
                 Debug.Log("인게임서버 접속 성공");
                 Backend.Match.JoinGameRoom(this.roomInfo.m_inGameRoomToken); //OnMatchMakingResponse에서 전달받은 RoomToken을 여기로 전달.
                 //다른 에러 케이스가 많지만 그건 추후에...
+            }
+            else{
+                //ErrorCode출력
+                Debug.Log("error : " + args.ErrInfo.Reason);
             }
         };
 

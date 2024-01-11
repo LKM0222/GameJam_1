@@ -21,6 +21,7 @@ public class IngameServerManager : MonoBehaviour
     public void JoinGameServer(string _serverAdrr, ushort _serverPort){ //게임서버에 접속하기 위한 함수.
         bool isReconnect = true;
         ErrorInfo errorInfo = null;
+        Debug.Log("인게임서버 접속중...");
         if(Backend.Match.JoinGameServer(_serverAdrr, _serverPort, isReconnect, out errorInfo) == false){ //인게임 서버에 접속 시도.
             //리턴이 true라면 서버 연결이 된것이 아닌, 소켓 연결만 된것.
             //인게임 서버 접속 성공확인은 OnSessionJoinInServer 이벤트 핸들러에서 확인. (핸들러가 정상적으로 호출되어야 서버에 접속한것.)
