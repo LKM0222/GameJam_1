@@ -63,10 +63,7 @@ public class EventManager : MonoBehaviour
 
                 case ErrorCode.Success: //매칭이 성사되었을 떄 여기서 인게임 서버 접속시도
                     Debug.Log("매칭 성사 , 인게임 서버에 접속 시도합니다.");
-                    // string serverAddress = args.RoomInfo.m_inGameServerEndPoint.m_address;
-                    // ushort serverPort = args.RoomInfo.m_inGameServerEndPoint.m_port;
-                    // roomInfo = args.RoomInfo;
-                    // IngameServerManager.Instance.JoinGameServer(serverAddress, serverPort); //매칭신청 후 인게임서버 접속
+                    roomInfo = args.RoomInfo; //추후에 roomToken을 써야되기 때문에 따로 저장
                     if(Backend.Match.JoinGameServer(args.RoomInfo.m_inGameServerEndPoint.m_address,
                     args.RoomInfo.m_inGameServerEndPoint.m_port,
                     false, out ErrorInfo errorInfo)==false){
@@ -103,8 +100,9 @@ public class EventManager : MonoBehaviour
 
         Backend.Match.OnSessionJoinInServer += (args) => { //인게임서버에 접속 성공했을 떄 호출되는 이벤트 이 이벤트가 호출되어야 서버에 접속성공한것.
             if(args.ErrInfo == ErrorInfo.Success){
-                Debug.Log("인게임서버 접속 성공");
+                Debug.Log("인게임서버 접속 성공" );//+ this.roomInfo.m_inGameRoomToken);
                 Backend.Match.JoinGameRoom(this.roomInfo.m_inGameRoomToken); //OnMatchMakingResponse에서 전달받은 RoomToken을 여기로 전달.
+                Debug.Log("게임방에 접속시도합니다.");
                 //다른 에러 케이스가 많지만 그건 추후에...
             }
             else{
@@ -128,7 +126,7 @@ public class EventManager : MonoBehaviour
             // 입장한 유저(자기 자신)에게 호출됩니다.
             // 이미 게임방에 접속해있던 모든 유저에게 호출됩니다.
             if(args.ErrInfo == ErrorCode.Success){
-                Debug.Log(args.GameRecord.m_nickname + "접속 완료");
+                Debug.Log(args.GameRecord.m_nickname + "접속 완료"); //여기까지 성공.
             }
         };
 
