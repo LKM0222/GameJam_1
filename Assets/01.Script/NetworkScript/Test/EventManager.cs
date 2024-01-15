@@ -9,6 +9,7 @@ using System;
 using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using Unity.VisualScripting;
 public class EventManager : MonoBehaviour
 {
     public static EventManager Instance = null;
@@ -68,15 +69,18 @@ public class EventManager : MonoBehaviour
                     // IngameServerManager.Instance.JoinGameServer(serverAddress, serverPort); //매칭신청 후 인게임서버 접속
                     if(Backend.Match.JoinGameServer(args.RoomInfo.m_inGameServerEndPoint.m_address,
                     args.RoomInfo.m_inGameServerEndPoint.m_port,
-                    true, out ErrorInfo errorInfo)==false){
+                    false, out ErrorInfo errorInfo)==false){
                         //true인 경우, OnSessionJoinInServer 호출.
                         Debug.Log("errorinfo is" + errorInfo.Reason);
+                    }
+                    else{
+                        Debug.Log("OnSessionJoinInServer Start");
                     }
                     break;
 
                 case ErrorCode.Match_MatchMakingCanceled: //매칭 신청을 취소했을때
                     //매칭이 성사되었으나 서버에서 인게임 룸 생성에 실패했을 경우(다시 매칭을 신청해야 합니다.)
-                    Debug.Log(args.Reason);
+                    Debug.Log("서버 인게임 룸 생성 실패 " + args.Reason);
                     break;
                 
                 case ErrorCode.Match_InvalidModeType: //잘못된 모드 타입으로 신청했을 때
@@ -104,8 +108,19 @@ public class EventManager : MonoBehaviour
                 //다른 에러 케이스가 많지만 그건 추후에...
             }
             else{
-                //ErrorCode출력
-                Debug.Log("error : " + args.ErrInfo.Reason);
+                switch(args.ErrInfo.Category){
+                    case ErrorCode.Exception:
+                        Debug.Log("인게임 서버 접속 실패사유 : " + args.ErrInfo.Reason);
+                        break;
+                    
+                    case ErrorCode.AuthenticationFailed:
+                        Debug.Log("서버에 이전 세션 접속기록이 남아있습니다.");
+                        break;
+                    
+                    default:
+                        Debug.Log("이외의 오류 : " + args.ErrInfo.Reason);
+                        break;
+                }
             }
         };
 
