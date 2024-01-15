@@ -59,10 +59,12 @@ public class EventManager : MonoBehaviour
             switch(args.ErrInfo){
                 case ErrorCode.Match_InProgress: //매칭신청에 성공하였을때
                     Debug.Log("매칭신청 성공");
+                    MatchingRoomScript.Instance.matchingRoomLogStr += "매칭신청 성공\n";
                     break;
 
                 case ErrorCode.Success: //매칭이 성사되었을 떄 여기서 인게임 서버 접속시도
                     Debug.Log("매칭 성사 , 인게임 서버에 접속 시도합니다.");
+                    MatchingRoomScript.Instance.matchingRoomLogStr += "매칭 성사 , 인게임 서버에 접속 시도합니다.\n";
                     roomInfo = args.RoomInfo; //추후에 roomToken을 써야되기 때문에 따로 저장
                     if(Backend.Match.JoinGameServer(args.RoomInfo.m_inGameServerEndPoint.m_address,
                     args.RoomInfo.m_inGameServerEndPoint.m_port,
@@ -101,8 +103,11 @@ public class EventManager : MonoBehaviour
         Backend.Match.OnSessionJoinInServer += (args) => { //인게임서버에 접속 성공했을 떄 호출되는 이벤트 이 이벤트가 호출되어야 서버에 접속성공한것.
             if(args.ErrInfo == ErrorInfo.Success){
                 Debug.Log("인게임서버 접속 성공" );//+ this.roomInfo.m_inGameRoomToken);
+                // MatchingRoomScript.Instance.matchingRoomLogStr += "인게임서버 접속 성공\n"; //주석처리 이유 : 이 구문이 왜 반복적으로 호출되는지 모르겠지만
+                //일단 이 구문이 반복호출되면서 text가 200줄을 넘어가기 때문에 일단 비활성화
                 Backend.Match.JoinGameRoom(this.roomInfo.m_inGameRoomToken); //OnMatchMakingResponse에서 전달받은 RoomToken을 여기로 전달.
                 Debug.Log("게임방에 접속시도합니다.");
+                // MatchingRoomScript.Instance.matchingRoomLogStr += "게임방에 접속 시도합니다.\n"; //여기도 마찬가지
                 //다른 에러 케이스가 많지만 그건 추후에...
             }
             else{
@@ -127,6 +132,7 @@ public class EventManager : MonoBehaviour
             // 이미 게임방에 접속해있던 모든 유저에게 호출됩니다.
             if(args.ErrInfo == ErrorCode.Success){
                 Debug.Log(args.GameRecord.m_nickname + "접속 완료"); //여기까지 성공.
+                MatchingRoomScript.Instance.matchingRoomLogStr += "접속 완료\n";
             }
         };
 

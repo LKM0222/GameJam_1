@@ -180,6 +180,7 @@ public class ButtonManager : MonoBehaviour
     
     //게임 시작
     public void RequestMatchMaking(){
+        MatchingRoomScript.Instance.matchingRoomLogStr += "매칭 신청\n";
         MatchTestManager.Instance.RequestMatchMaking();
     }
 
