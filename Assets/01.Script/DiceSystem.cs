@@ -35,43 +35,26 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
             // EggAnimator가 Finish에 들어가서 애니메이션이 종료됐다면
             if (!EggAnimator.GetCurrentAnimatorStateInfo(0).IsName("Egg"))
             {
-                // 주사위 비활성화, movingFlag을 true로 바꿔서 움직이게함
                 EggObj.SetActive(false);
-                //플레이어 무브 플래그 활성화
-                thePlayer.movingCoroutineFlag = true;
+                thePlayer.canMove = true;
                 animatorFlag = false;
             }
         }
 
     }
 
-    // // 해당 스크립트가 붙은 오브젝트(팻말)를 클릭했을 때 호출
-    // public void OnPointerDown(PointerEventData eventData2)
-    // {
-    //     if (thePlayer.myTurn)
-    //     {
-    //         // 주사위를 굴릴때 cursorPos를 2로 변경
-    //         // OnDrag(eventData2);
-    //     }
-    // }
-
-    // 해당 스크립트가 붙은 오브젝트(팻말)을 드래그했을 때 호출
+    // 팻말을 드래그했을 때 호출
     public void OnDrag(PointerEventData eventData)
     {
         // 투시와 레이저빔의 사용이 모두 끝났을 때 주사위를 굴릴 수 있게(=> 사용중이라면 굴릴 수 없게)
         if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete)
         {
-            // eventData의 position.y가 아니라 마우스를 기준으로 받아오면 좋을듯
-            Vector3 ypos = new Vector3(0f, eventData.position.y, 0f);
-            if (ypos.y < 200f)
-            {
-                ypos = new Vector3(0f, 200f, 0f);
-            }
-            else if (ypos.y > nowPos.y)
-            {
-                ypos = new Vector3(0f, nowPos.y, 0f);
-            }
-            this.transform.localPosition = new Vector3(nowPos.x, ypos.y, nowPos.z);
+            Vector3 yPos = new Vector3(0f, eventData.position.y, 0f);
+
+            if (yPos.y < 200f) yPos = new Vector3(0f, 200f, 0f);
+            else if (yPos.y > nowPos.y) yPos = new Vector3(0f, nowPos.y, 0f);
+
+            this.transform.localPosition = new Vector3(nowPos.x, yPos.y, nowPos.z);
         }
     }
 
@@ -86,35 +69,48 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
 
                 //AudioManager.instance.Play("diceSound");
 
-                // 팻말의 위치를 다시 초기 위치로 돌려놓음
-                this.transform.localPosition = nowPos;
 
-                thePlayer.diceNum = Random.Range(1, 9); //테스트중, 끝나면 다시 변환
-
-                if (thePlayer.lowerDiceFlag)
-                {
-                    theCM.LowerDiceControl();
-                }
-
-                if (thePlayer.higherDiceFlag)
-                {
-                    theCM.HigherDiceControll();
-                }
-
-                // diceFlag를 true로 바꾸고 주사위를 랜덤하게 굴린 다음 text에 적용
-                thePlayer.diceFlag = true;
-                diceNumText.text = thePlayer.diceNum.ToString();
-
-                // 아래로 당기시오 텍스트를 숨기고, 주사위를 활성화하고, animatorFlag를 true로 켜서 업데이트문에 들어가게함
-                thePlayer.downInformationText.gameObject.SetActive(false);
-                EggObj.SetActive(true);
-                animatorFlag = true;
+                StartCoroutine(RollDiceCoroutine());
             }
-            else
+            // 팻말의 위치를 다시 초기 위치로 돌려놓음
+            this.transform.localPosition = nowPos;
+        }
+    }
+
+    public IEnumerator RollDiceCoroutine()
+    {
+        thePlayer.diceNum = Random.Range(1, 9);
+
+        if (thePlayer.lowerDiceFlag)
+        {
+            theCM.LowerDiceControl();
+        }
+
+        if (thePlayer.higherDiceFlag)
+        {
+            theCM.HigherDiceControll();
+        }
+
+        // diceFlag를 true로 바꾸고 주사위를 랜덤하게 굴린 다음 text에 적용
+        thePlayer.diceFlag = true;
+        diceNumText.text = thePlayer.diceNum.ToString();
+
+        // 아래로 당기시오 텍스트를 숨기고, 주사위를 활성화하고, animatorFlag를 true로 켜서 업데이트문에 들어가게함
+        thePlayer.downInformationText.gameObject.SetActive(false);
+        EggObj.SetActive(true);
+        animatorFlag = true;
+
+        if (animatorFlag)
+        {
+            // EggAnimator가 Finish에 들어가서 애니메이션이 종료됐다면
+            if (!EggAnimator.GetCurrentAnimatorStateInfo(0).IsName("Egg"))
             {
-                // 팻말의 위치를 다시 초기 위치로 돌려놓음
-                this.transform.localPosition = nowPos;
+                EggObj.SetActive(false);
+                thePlayer.canMove = true;
+                animatorFlag = false;
             }
         }
+
+        yield return null;
     }
 }

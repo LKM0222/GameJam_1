@@ -139,7 +139,7 @@ public class CardManager : MonoBehaviour
     {
         print("고속이동 사용");
         theGM.nowPlayer.diceNum = theGM.nowPlayer.diceNum * 2;
-        theGM.nowPlayer.speed = 6f;
+        theGM.nowPlayer.moveSpeed = 6f;
     }
 
     public void InvisibleThief()
