@@ -144,7 +144,7 @@ public class EventManager : MonoBehaviour
             Debug.Log("게임 시작! 이제부터 데이터가 모든 유저에게 브로드캐스팅 가능합니다!");
         };
 
-        Backend.Match.OnMatchRelay = (MatchRelayEventArgs args) => {
+        Backend.Match.OnMatchRelay = (MatchRelayEventArgs args) => { //데이터 수신
             byte[] data = args.BinaryUserData;
             MatchingRoomScript.Instance.matchingRoomLogStr += Encoding.Default.GetString(data);
         };
