@@ -1096,7 +1096,7 @@ MonoBehaviour:
   tileFrontFlag: 0
   specialTile: 0
   specialTileType: 0
-  cardActive: 0
+  canTileSelect: 0
   dir: 3
 --- !u!1 &141276519
 GameObject:
@@ -1963,7 +1963,7 @@ MonoBehaviour:
   tileFrontFlag: 1
   specialTile: 0
   specialTileType: 0
-  cardActive: 0
+  canTileSelect: 0
   dir: 2
 --- !u!1 &241255652
 GameObject:
@@ -2056,7 +2056,7 @@ MonoBehaviour:
   tileFrontFlag: 0
   specialTile: 1
   specialTileType: 4
-  cardActive: 0
+  canTileSelect: 0
   dir: 4
 --- !u!1 &243160862
 GameObject:
@@ -3580,7 +3580,7 @@ MonoBehaviour:
   tileFrontFlag: 0
   specialTile: 0
   specialTileType: 0
-  cardActive: 0
+  canTileSelect: 0
   dir: 3
 --- !u!1 &609721501
 GameObject:
@@ -3675,7 +3675,7 @@ MonoBehaviour:
   tileFrontFlag: 1
   specialTile: 0
   specialTileType: 0
-  cardActive: 0
+  canTileSelect: 0
   dir: 2
 --- !u!1 &617987188
 GameObject:
@@ -3768,7 +3768,7 @@ MonoBehaviour:
   tileFrontFlag: 1
   specialTile: 1
   specialTileType: 1
-  cardActive: 0
+  canTileSelect: 0
   dir: 4
 --- !u!1 &626869443
 GameObject:
@@ -4156,7 +4156,7 @@ MonoBehaviour:
   tileFrontFlag: 0
   specialTile: 1
   specialTileType: 1
-  cardActive: 0
+  canTileSelect: 0
   dir: 3
 --- !u!198 &660541764 stripped
 ParticleSystem:
@@ -4527,7 +4527,7 @@ MonoBehaviour:
   tileFrontFlag: 1
   specialTile: 0
   specialTileType: 0
-  cardActive: 0
+  canTileSelect: 0
   dir: 4
 --- !u!1 &798927237
 GameObject:
@@ -4811,7 +4811,7 @@ MonoBehaviour:
   tileFrontFlag: 0
   specialTile: 1
   specialTileType: 3
-  cardActive: 0
+  canTileSelect: 0
   dir: 3
 --- !u!1 &857763380
 GameObject:
@@ -5391,10 +5391,10 @@ MonoBehaviour:
   playerId: 1
   playerMoney: 1000
   playerMoneyText: {fileID: 1674247640}
-  moveSpeed: 0
+  moveSpeed: 4
   diceNum: 1
   diceFlag: 1
-  movingFlag: 0
+  isMoving: 0
   canMove: 0
   tileNum: 0
   nowTile: {fileID: 1693466814}
@@ -5411,10 +5411,9 @@ MonoBehaviour:
   VirtualCamera: {fileID: 1021519568}
   againstPlayer: {fileID: 1511854098}
   tpTile: {fileID: 0}
-  tpBack: {fileID: 453495399}
+  blackBackground: {fileID: 453495399}
   teleportEffect: {fileID: 708215832}
   tpFlag: 0
-  tpMovingFlag: 0
   highSpeedFlag: 0
   invisibleFlag: 0
   toosiFlag: 0
@@ -5423,7 +5422,6 @@ MonoBehaviour:
   lowerDiceFlag: 0
   exemptionFlag: 0
   laserFlag: 0
-  showCardFlag: 0
   theCM: {fileID: 1057635936}
   theSpecialTile: {fileID: 0}
 --- !u!212 &954396770
@@ -5591,7 +5589,7 @@ MonoBehaviour:
   tileFrontFlag: 0
   specialTile: 0
   specialTileType: 0
-  cardActive: 0
+  canTileSelect: 0
   dir: 1
 --- !u!1 &979879834
 GameObject:
@@ -5639,7 +5637,7 @@ MonoBehaviour:
   tileFrontFlag: 0
   specialTile: 0
   specialTileType: 0
-  cardActive: 0
+  canTileSelect: 0
   dir: 1
 --- !u!60 &979879836
 PolygonCollider2D:
@@ -6282,6 +6280,7 @@ MonoBehaviour:
     cardImg: {fileID: 0}
   upPos: 0
   biggerComplete: 0
+  isShowCard: 0
   destroyParticle: {fileID: 660541764}
   laserParticle: {fileID: 1754885353}
   highMoveParticle: {fileID: 2082826368}
@@ -6726,7 +6725,7 @@ MonoBehaviour:
   tileFrontFlag: 1
   specialTile: 0
   specialTileType: 0
-  cardActive: 0
+  canTileSelect: 0
   dir: 4
 --- !u!1 &1126494466
 GameObject:
@@ -7203,7 +7202,7 @@ MonoBehaviour:
   tileFrontFlag: 1
   specialTile: 0
   specialTileType: 0
-  cardActive: 0
+  canTileSelect: 0
   dir: 2
 --- !u!1 &1244230539
 GameObject:
@@ -7506,7 +7505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 518d116bb96bf0a41866e95dabfd97d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardFlag: 0
+  isGetCard: 0
 --- !u!1 &1297390241
 GameObject:
   m_ObjectHideFlags: 0
@@ -7749,7 +7748,7 @@ MonoBehaviour:
   tileFrontFlag: 0
   specialTile: 1
   specialTileType: 1
-  cardActive: 0
+  canTileSelect: 0
   dir: 1
 --- !u!1 &1368351171
 GameObject:
@@ -8264,7 +8263,7 @@ MonoBehaviour:
   tileFrontFlag: 1
   specialTile: 0
   specialTileType: 0
-  cardActive: 0
+  canTileSelect: 0
   dir: 4
 --- !u!1 &1406615652
 GameObject:
@@ -8485,7 +8484,7 @@ MonoBehaviour:
   tileFrontFlag: 1
   specialTile: 0
   specialTileType: 0
-  cardActive: 0
+  canTileSelect: 0
   dir: 2
 --- !u!1 &1431344160
 GameObject:
@@ -8779,7 +8778,7 @@ MonoBehaviour:
   tileFrontFlag: 0
   specialTile: 0
   specialTileType: 0
-  cardActive: 0
+  canTileSelect: 0
   dir: 3
 --- !u!1 &1511854095
 GameObject:
@@ -8888,18 +8887,15 @@ MonoBehaviour:
   playerId: 0
   playerMoney: 1000
   playerMoneyText: {fileID: 1244230541}
-  moveSpeed: 0
+  moveSpeed: 4
   diceNum: 3
   diceFlag: 1
-  movingFlag: 0
+  isMoving: 0
   canMove: 0
   tileNum: 0
   nowTile: {fileID: 1693466814}
   tileToGo: []
-  cards:
-  - card_name: 
-    cardCode: 3
-    cardImg: {fileID: 21300000, guid: 3792c71bf07534e9f9286bfe077f27a3, type: 3}
+  cards: []
   cardPrefab: {fileID: 6451146003781836655, guid: 25207cfdf14f24dae8bcd45a9e382694, type: 3}
   cardParent: {fileID: 1044211839}
   buildingCount: 0
@@ -8911,10 +8907,9 @@ MonoBehaviour:
   VirtualCamera: {fileID: 997630559}
   againstPlayer: {fileID: 954396769}
   tpTile: {fileID: 0}
-  tpBack: {fileID: 453495399}
+  blackBackground: {fileID: 453495399}
   teleportEffect: {fileID: 708215832}
   tpFlag: 0
-  tpMovingFlag: 0
   highSpeedFlag: 0
   invisibleFlag: 0
   toosiFlag: 0
@@ -8923,7 +8918,6 @@ MonoBehaviour:
   lowerDiceFlag: 0
   exemptionFlag: 0
   laserFlag: 0
-  showCardFlag: 0
   theCM: {fileID: 1057635936}
   theSpecialTile: {fileID: 0}
 --- !u!61 &1511854100
@@ -9516,7 +9510,7 @@ MonoBehaviour:
   tileFrontFlag: 0
   specialTile: 1
   specialTileType: 2
-  cardActive: 0
+  canTileSelect: 0
   dir: 2
 --- !u!198 &1617636319 stripped
 ParticleSystem:
@@ -9979,7 +9973,7 @@ MonoBehaviour:
   tileFrontFlag: 0
   specialTile: 1
   specialTileType: 0
-  cardActive: 0
+  canTileSelect: 0
   dir: 1
 --- !u!1 &1696929356
 GameObject:
@@ -10612,7 +10606,7 @@ MonoBehaviour:
   tileFrontFlag: 1
   specialTile: 0
   specialTileType: 0
-  cardActive: 0
+  canTileSelect: 0
   dir: 4
 --- !u!1 &1793234642
 GameObject:
@@ -11073,7 +11067,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 2251793717217502938, guid: cf27e7408929c443abe4eeeeefda3072, type: 3}
   buyedTiles: []
   clickedTile: {fileID: 0}
-  tpTile: {fileID: 0}
+  seletedTile: {fileID: 0}
   tpImg: {fileID: 0}
   showCardListObject: {fileID: 1553124379}
   showCardObject: {fileID: 1322388068}
@@ -11516,7 +11510,7 @@ MonoBehaviour:
   tileFrontFlag: 0
   specialTile: 0
   specialTileType: 0
-  cardActive: 0
+  canTileSelect: 0
   dir: 3
 --- !u!1 &1953869135
 GameObject:
@@ -12360,7 +12354,7 @@ MonoBehaviour:
   tileFrontFlag: 0
   specialTile: 0
   specialTileType: 0
-  cardActive: 0
+  canTileSelect: 0
   dir: 1
 --- !u!1 &2082389204
 GameObject:
@@ -12618,7 +12612,7 @@ MonoBehaviour:
   tileFrontFlag: 1
   specialTile: 1
   specialTileType: 1
-  cardActive: 0
+  canTileSelect: 0
   dir: 2
 --- !u!1 &2102621171
 GameObject:
@@ -13149,5 +13143,5 @@ MonoBehaviour:
   tileFrontFlag: 0
   specialTile: 0
   specialTileType: 0
-  cardActive: 0
+  canTileSelect: 0
   dir: 1

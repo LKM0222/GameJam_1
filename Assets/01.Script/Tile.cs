@@ -17,7 +17,7 @@ public class Tile : MonoBehaviour
     public int specialTileType; //특수타일이라면 어떤 타일인지 구분하기 위한 변수 
     //(0 : 양계장, 1 : 카드, 2 : 워프, 3 : 세금, 4 : 강탈)
 
-    public bool cardActive;
+    public bool canTileSelect;
 
     // 타일의 상하좌우 방향(1,2,3,4)
     public int dir;
@@ -77,20 +77,20 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (cardActive && theGM.nowPlayer.laserFlag)
+        if (canTileSelect && theGM.nowPlayer.laserFlag)
         {
             if (theGM.nowPlayer.playerId != ownPlayer && ownPlayer != -1)
             {
                 //선택된 타일을 gm에 반환
-                theGM.tpTile = this.gameObject;
+                theGM.seletedTile = this.gameObject;
                 print("clicked!");
             }
         }
 
-        if (cardActive && theGM.nowPlayer.theSpecialTile)
+        if (canTileSelect && theGM.nowPlayer.theSpecialTile)
         {
             //선택된 타일을 gm에 반환
-            theGM.tpTile = this.gameObject;
+            theGM.seletedTile = this.gameObject;
             print("clicked!");
         }
     }

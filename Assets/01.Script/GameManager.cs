@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> buyedTiles = new List<GameObject>();
     public GameObject clickedTile;
 
-    public GameObject tpTile; //텔레포트 활성화 시 다음턴에 움질일 위치 정함.
+    public GameObject seletedTile; //텔레포트 활성화 시 다음턴에 움질일 위치 정함.
     public GameObject tpImg; //텔레포트 활성화 시 표시할 그림
 
     // 투시를 사용하면 카드들을 보여줄 오브젝트
@@ -138,6 +138,8 @@ public class GameManager : MonoBehaviour
             player1TurnImg.SetActive(true);
             yield return new WaitForSeconds(1f);
             player1TurnImg.SetActive(false);
+            players[0].downInformationText.gameObject.SetActive(true);
+            players[1].downInformationText.gameObject.SetActive(false);
             players[0].myTurn = true;
             players[1].myTurn = false;
             theTSI.cursorPos = 1;
@@ -149,6 +151,8 @@ public class GameManager : MonoBehaviour
             player2TurnImg.SetActive(true);
             yield return new WaitForSeconds(1f);
             player2TurnImg.SetActive(false);
+            players[0].downInformationText.gameObject.SetActive(false);
+            players[1].downInformationText.gameObject.SetActive(true);
             players[1].myTurn = true;
             players[0].myTurn = false;
             nowPlayer = players[1];

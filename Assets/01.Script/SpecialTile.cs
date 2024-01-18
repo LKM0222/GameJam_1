@@ -5,12 +5,14 @@ using UnityEngine;
 public class SpecialTile : MonoBehaviour
 {
     GameManager theGM;
-    public bool cardFlag;
+    CardManager theCM;
+    public bool isGetCard;
 
     // Start is called before the first frame update
     void Start()
     {
         theGM = FindObjectOfType<GameManager>();
+        theCM = FindObjectOfType<CardManager>();
     }
 
     public void PoultryParm()
@@ -18,14 +20,9 @@ public class SpecialTile : MonoBehaviour
         theGM.nowPlayer.playerMoney += 200;
     }
 
-    public void CardProvide()
+    public IEnumerator CardProvideCoroutine()
     {
-        cardFlag = false;
-        StartCoroutine(CardProvideCoroutine());
-    }
-
-    IEnumerator CardProvideCoroutine()
-    {
+        isGetCard = false;
         if (theGM.nowPlayer.cards.Count < 8)
         {
             // 랜덤하게 카드번호를 추출
@@ -36,9 +33,9 @@ public class SpecialTile : MonoBehaviour
             _card.transform.localPosition = new Vector3(0f, 0f, 0f);
             theGM.nowPlayer.cards.Add(newCard);
 
-            StartCoroutine(theGM.nowPlayer.GetCardShow());
-            yield return new WaitUntil(() => theGM.nowPlayer.showCardFlag);
-            theGM.nowPlayer.showCardFlag = false;
+            StartCoroutine(theCM.ShowGetCard());
+            yield return new WaitUntil(() => theCM.isShowCard);
+            theCM.isShowCard = false;
 
             // 만약 통행료면제 카드라면 카드효과를 즉시 활성화.
             if (newCard == theGM.cards[6])
@@ -49,7 +46,7 @@ public class SpecialTile : MonoBehaviour
                 theGM.textManager.HideText();
             }
         }
-        cardFlag = true;
+        isGetCard = true;
     }
 
     public void Teleport()
