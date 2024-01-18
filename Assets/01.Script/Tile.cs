@@ -87,7 +87,7 @@ public class Tile : MonoBehaviour
             }
         }
 
-        if (cardActive && theGM.nowPlayer.theSpecialTile)
+        // if (cardActive && theGM.nowPlayer.theSpecialTile)
         {
             //선택된 타일을 gm에 반환
             theGM.tpTile = this.gameObject;

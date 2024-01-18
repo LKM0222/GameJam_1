@@ -206,8 +206,8 @@ public class PlayerManager : MonoBehaviour
             if (theGM.nowPlayer.biggerFlag)
             {
                 theCM.BiggerChicken();
-                yield return new WaitUntil(() => theCM.completeFlag);
-                theCM.completeFlag = false;
+                // yield return new WaitUntil(() => theCM.completeFlag);
+                // theCM.completeFlag = false;
             }
 
             if (tileNum + diceNum > theTM.tiles.Length)

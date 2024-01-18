@@ -36,9 +36,9 @@ public class SpecialTile : MonoBehaviour
             _card.transform.localPosition = new Vector3(0f, 0f, 0f);
             theGM.nowPlayer.cards.Add(newCard);
 
-            StartCoroutine(theGM.nowPlayer.GetCardShow());
-            yield return new WaitUntil(() => theGM.nowPlayer.showCardFlag);
-            theGM.nowPlayer.showCardFlag = false;
+            // StartCoroutine(theGM.nowPlayer.GetCardShow());
+            // yield return new WaitUntil(() => theGM.nowPlayer.showCardFlag);
+            // theGM.nowPlayer.showCardFlag = false;
 
             // 만약 통행료면제 카드라면 카드효과를 즉시 활성화.
             if (newCard == theGM.cards[6])
