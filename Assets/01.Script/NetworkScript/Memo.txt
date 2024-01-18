@@ -1,0 +1,156 @@
+개발자 문서
+
+일단 해야될 것
+
+통신을 구현하기 위해서
+
+1. 로그인 및 회원가입 // 구현완료  
+    구현을 완료하고, 로그인 시 MENU씬으로 넘어가게 된다. 추가로 로그인 후, 로그인 정보가 연동이 되어,
+    로그인 한 플레이어의 정보를 불러오는걸 확인하였다.
+
+2. 매칭 시스템 만들기
+    뒤끝의 매칭 시스템은 다음과 같이 작동한다.
+    - 1. 뒤끝에 로그인
+    - 2. 매치서버 접속
+    - 3. 매칭 신청 (매치 타입을 결정해서 신청 랜덤 1:1, 랜덤/ 팀전, 랜덤 개인전 등)
+    - 4. 매칭중
+    - 5. 매칭 성사
+    
+    정상적으로 매칭이 성사되면 매칭 서버에서 접속할 인게임 정보와 접속할 방의 정보를 송신한다.
+
+3. 그렇다면 매칭 시스템은 어떻게 만드는가?
+    1) 매칭 서버에 접속
+    2) 대기방 생성 (혼자 신청하던, 다른 유저와 함께 신청하던 무조건 방은 생성되어야 한다...)
+    3) 매칭 신청
+    4) 매칭 성사 (매칭이 성사되면, 모든 유저들에게 다음과 같은 정보가 송신된다.)
+        - 성사된 매칭 정보(매칭카드 inDate)
+        - 샌드박스 매칭 유무
+        - 접속할 인게임 서버 주소
+        - 접속할 게임방 정보
+
+4. 매칭 서버 접속하기
+    매칭 서버에 접속하려면
+    JoinMathcMakingServer를 호출해야한다.
+    함수는 호출이 되면 서버 접속에 성공한것이 아닌, 단순히 소켓에 연결된것.
+    실제 서버 연동은 매칭서버에 유저 인증을 완료한 후 이루어지며, 매칭서버의 접속 성공/실패 여부는 OnJoinMatchMakingServer이벤트를 통해 확인할 수 있다.
+
+    //사용방법
+    ErrorInfo errorInfo;
+    Backend.Match.JoinMatchMakingServer(out errorInfo); 
+
+    //이벤트
+    Backend.Match.OnJoinMatchMakingServer = (JoinChannelEventArgs args) =>
+    {
+        // TODO
+    };
+    이 이벤트를 사용하려면, 반드시 메시지 송, 수신 함수가 호출되어야 한다.
+
+    //메시지 송 수신 함수
+    public int Poll();
+    Backend.Match.Poll();
+    클라이언트의 메세지를 서버로 송신하고, 수신한 데이터를 이벤트 형태로 호출한다.
+    - 서버에서 송신한 데이터는 SDK에서 재가공 후 이벤트를 발생시킨다.
+    - 항상 메시지를 송수신하기 위해 Poll 함수는 주기적으로 호출되어야 한다.
+        Poll함수를 호출하기 위한 코루틴을 생성하고,
+        해당 코루틴 내에서 Poll함수를 주기적으로 호출하기위해 별도의 스레드를 생성하고, 
+        해당 스레드 내에서 Poll함수를 주기적으로 생성하기
+        ->결국, 스레드가 포함된 코루틴 함수 내에서 Poll함수를 주기적으로 호출하여야 한다는 말...
+    
+    그럼 스레드는 어떻게 만들어야 하나..?
+
+////// 구조적 고찰
+일단, 구조적으로 봤을때, poll함수를 반복적으로 호출해, 이벤트 갯수를 파악한다.
+이벤트가 일어난 갯수를 poll에 저장하긴 하는데...
+
+On이 붙은 필드들, OnJoinMatchMakingServer같은 필드들의 구조는 다음과 같다.
+Backend.Match.OnJoinMatchMakingServer = (JoinChannelEventArgs args) => {
+    //Todo
+};
+와 같은 구조를 가지는데, 이 Todo에 뭘 넣어야할까...
+
+///// 매칭 카드 리스트
+매칭 카드들을 비교해서 매칭하려고 하는 곳을 찾아야한다..?
+매칭 정보를 갖고 있는 MatchCard 클래스를 MatchManager에 구현완료.
+
+
+
+///함수의 흐름
+JoinMatchMakingServer() -> CreateMatchRoom() -> 
+Backend.Match.OnMatchMakingRoomCreate // Backend.Match.RequestMatchMaking 
+-> Backend.Match.CreateMatchRoom(); -> GetMatchList();
+-> RequestMatchMaking(); -> Backend.Match.OnMatchMakingResponse
+-> Backend.Match.RequestMatchMaking(); 요렇게 인데..
+
+
+
+뭔가 대기방에 들어갈때 보면, 데이터 불러오는게 되게 느려서 일단, 로딩창이 필요할것 같긴 허다,...
+
+
+//////////////////////////////////240102
+코드를 대충 읽어봤는데,,,, 이벤트 핸들러가 꼭 필요한가? 그냥 함수만 호출하면 되는거 아닌가...?
+
+/////////////////////////////////240103
+이벤트 핸들러는 따로 둬도 일단 이벤트가 들어오면 작동하는 형식이다. 
+흐름에 대해서 좀 더 명확히 알 필요가 있을듯.
+내일 아이템이 들어왔을때 동시에 아이템을 추가하는 인벤토리, 아이템을 삭제하면 동시에 아이템이 삭제되는 인벤토리를 응용해,
+대기방에 위치한 유저들의 이름을 출력하는 기능도 있으면 좋을듯!
+
+
+////////////////////////////////240108
+뭔가 이상함... OnMatchMakingRoomUserList 랑, OnMatchMakingRoomJoin이 뭔가 뒤바뀐것같음....
+두 이벤트를 좀 분리시켜야될듯... 조금 이상함....
+
+왜 그런지 모르겠는데 싱글톤 구현할때 new 스크립트 이름 이렇게 하니까 자꾸 경고가 뜨면서 불러와지지 않는다.
+FindObjectOfType(typeof(T)) as T; 처럼 T에 타입을 적어주면서 하니깐 잘 된다... 뭔 차이지...
+설명은 이쪽에 https://blog.naver.com/os2dr/221536778783
+
+////////////////////////////////240109
+일단 어느정도 구현은 완료됐는데...
+이제는 브로드캐스팅 시 필요한 기능을 추가해야함...
+일단 이거 테스트부터 해보고 잘 되면 이제 게임 안으로 넣으면 될듯....
+브로드캐스팅은 게임시작 핸들러가 실행된 후 시작됨.
+브로드캐스팅을 호출하는 방법은 Backend.Match.SendDataToInGameRoom(data); 를 사용하고,
+data에 바이트 배열을 전달하면 됨.
+근데 이제 문제가 data에 전달할 바이트 배열이 문제임...
+브로드캐스팅을 한 후, 모든 클라이언트에서 
+Backend.Match.OnMatchRelay = (MatchRelayEventArgs args) => {
+    // TODO
+};
+와 같은 형태로, 브로드캐스팅된 값을 받아서 다들 처리하는데
+ArgumentCase
+바이너리 데이터를 수신 받았을 때
+From : 보낸 유저 세션 정보
+BinaryUserData : 보낸 데이터
+와 같고, 그러면 일단 BinaryUserData 파싱이 되어야함. 
+일단 테스트로 초당 1씩 계속 보내는 그걸 해보자..!
+
+/////////////////////////////////////240110
+// byte Array를 String으로 변환 
+        private string ByteToString(byte[] byteVal) 
+        {
+            string str = Encoding.Default.GetString(byteVal);
+            return str;
+        } 
+        // String을 Byte Array로 변환 
+        private byte[] StringToByte(string str) 
+        { 
+            byte[] StrByte = Encoding.UTF8.GetBytes(str); 
+            return StrByte; 
+        }
+        // String을 Double로 변환
+        private double StringToDouble(string str)
+        {
+            double strDouble = Convert.ToDouble(str);
+            return strDouble;
+        }
+        // String을 Int로 변환
+        private int StringToInt(string str)
+        {
+            int strInt;
+            if (int.TryParse(str, out strInt))
+            {
+                strInt = Convert.ToInt32(str);
+            }
+            return strInt;
+        }
+이런걸 찾았다??

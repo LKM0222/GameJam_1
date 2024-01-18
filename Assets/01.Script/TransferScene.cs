@@ -16,20 +16,20 @@ public class TransferScene : MonoBehaviour
     {
 
     }
+    public void ClickBtnSound(){
+        AudioManager.instance.Play("buttonSound");
+    }
 
     public void LoadingScene()
     {
+        AudioManager.instance.Play("buttonSound");
         AudioManager.instance.Stop("titleBGM");
-        SceneManager.LoadScene("LoadingScene");
+
+        // SceneManager.LoadScene("LoadingScene");
     }
 
     public void Exit()
     {
         Application.Quit();
-    }
-
-    public void ButtonClickSound()
-    {
-        AudioManager.instance.Play("buttonSound");
     }
 }

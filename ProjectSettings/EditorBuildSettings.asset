@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/00.Scenes/TestScene.unity
     guid: 30e1b7d80d293421580303fad3a20d1e
+  - enabled: 1
+    path: Assets/00.Scenes/MenuScene.unity
+    guid: b65393ac999bc455785dbe9993c32a4f
+  - enabled: 1
+    path: Assets/00.Scenes/MatchingRoom.unity
+    guid: 657f49b65e8985e4d9aeb53b7af6483f
   m_configObjects: {}
