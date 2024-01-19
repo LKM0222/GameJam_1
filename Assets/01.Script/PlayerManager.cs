@@ -274,15 +274,12 @@ public class PlayerManager : MonoBehaviour
                             // 농장
                             case 0:
                                 break;
-
                             // 제단
                             case 1:
                                 break;
-
                             // 특별상점
                             case 2:
                                 break;
-
                             // 랜드마크
                             case 3:
                                 if (nowTile.building.visitCount < 5)
@@ -290,13 +287,9 @@ public class PlayerManager : MonoBehaviour
                                 playerMoney -= nowTile.building.visitCount * 100;
                                 againstPlayer.playerMoney += nowTile.building.visitCount * 100;
                                 break;
-
-                            default:
-                                playerMoney -= 100;
-                                againstPlayer.playerMoney += 100;
-                                break;
                         }
-
+                        playerMoney -= 100;
+                        againstPlayer.playerMoney += 100;
                     }
                     // 건물이 없다면 기본 토지 통행료만 징수
                     else
