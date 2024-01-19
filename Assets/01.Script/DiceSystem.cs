@@ -46,7 +46,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     public void OnDrag(PointerEventData eventData)
     {
         // 투시와 레이저빔의 사용이 모두 끝났을 때 주사위를 굴릴 수 있게(=> 사용중이라면 굴릴 수 없게)
-        if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete)
+        if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
         {
             Vector3 yPos = new Vector3(0f, eventData.position.y, 0f);
 
@@ -61,7 +61,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     public void OnEndDrag(PointerEventData eventData1)
     {
         // 투시와 레이저빔의 사용이 모두 끝났을 때 주사위를 굴릴 수 있게(=> 사용중이라면 굴릴 수 없게)
-        if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete)
+        if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
         {
             // 팻말이 일청 위치 좌표를 넘어서면 주사위를 굴림
             if (this.transform.localPosition.y < 470)

@@ -420,7 +420,7 @@ public class PlayerManager : MonoBehaviour
             if (alpha.a >= 1f) break;
         }
 
-        // StartCoroutine(CheckArriveTile());
+        StartCoroutine(CheckArriveTile());
     }
 
     public IEnumerator SetPlayerTransparency(string _parameter)
