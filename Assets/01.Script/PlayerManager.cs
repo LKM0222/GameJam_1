@@ -420,6 +420,7 @@ public class PlayerManager : MonoBehaviour
             if (alpha.a >= 1f) break;
         }
 
+        VirtualCamera.SetActive(false);
         StartCoroutine(CheckArriveTile());
     }
 
