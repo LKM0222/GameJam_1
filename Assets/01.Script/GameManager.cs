@@ -54,9 +54,9 @@ public class GameManager : MonoBehaviour
     // 카드 이미지만 담은 프리팹
     public GameObject onlyCardImg;
 
-
     [SerializeField] GameObject player1TurnImg, player2TurnImg;
-    // [SerializeField] bool turnImgFlag;
+    public bool isActiveTrunImage;
+    public GameObject player1TeleportEffect, player2TeleportEffect;
 
     // Start is called before the first frame update
     void Start()
@@ -78,7 +78,6 @@ public class GameManager : MonoBehaviour
                 players[0].myTurn = true;
                 players[1].myTurn = false;
                 nowPlayer = players[0];
-                theTSI.cursorPos = 1;
                 CardListUpdate();
             }
             else
@@ -87,15 +86,11 @@ public class GameManager : MonoBehaviour
                 players[1].myTurn = true;
                 players[0].myTurn = false;
                 nowPlayer = players[1];
-                theTSI.cursorPos = 1;
                 CardListUpdate();
             }
-
-            if (nextTurn)
-            {//턴 넘기기
-                StartCoroutine(TurnImgCoroutine(turnCount % 2));
-                nextTurn = false;
-            }
+            nextTurn = false;
+            theTSI.cursorPos = 1;
+            StartCoroutine(TurnImgCoroutine(turnCount % 2));
         }
     }
 
@@ -107,7 +102,6 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < cardsObj.transform.childCount; i++)
             {
-                // Destroy로 왜 전부 지우는거지?
                 Destroy(cardsObj.transform.GetChild(i).gameObject);
             }
         }
@@ -131,8 +125,10 @@ public class GameManager : MonoBehaviour
         turnCount += 1;//턴넘김
         nextTurn = true;
     }
+
     IEnumerator TurnImgCoroutine(int turn)
     {
+        isActiveTrunImage = true;
         if (turn == 1)
         {
             player1TurnImg.SetActive(true);
@@ -140,11 +136,6 @@ public class GameManager : MonoBehaviour
             player1TurnImg.SetActive(false);
             players[0].downInformationText.gameObject.SetActive(true);
             players[1].downInformationText.gameObject.SetActive(false);
-            players[0].myTurn = true;
-            players[1].myTurn = false;
-            theTSI.cursorPos = 1;
-            nowPlayer = players[0];
-            CardListUpdate(); //추후 통신 구현하면 이 코드는 다른곳으로 옮겨야함.
         }
         if (turn == 0)
         {
@@ -153,11 +144,7 @@ public class GameManager : MonoBehaviour
             player2TurnImg.SetActive(false);
             players[0].downInformationText.gameObject.SetActive(false);
             players[1].downInformationText.gameObject.SetActive(true);
-            players[1].myTurn = true;
-            players[0].myTurn = false;
-            nowPlayer = players[1];
-            theTSI.cursorPos = 1;
-            CardListUpdate();
         }
+        isActiveTrunImage = false;
     }
 }

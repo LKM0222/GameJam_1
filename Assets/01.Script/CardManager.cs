@@ -178,7 +178,7 @@ public class CardManager : MonoBehaviour
 
     public void EndInvisibleThief()
     {
-        StartCoroutine(theGM.nowPlayer.SetPlaeyrTransparency("Visible"));
+        StartCoroutine(theGM.nowPlayer.SetPlayerTransparency("Visible"));
         InvisibleParticle.Stop();
         InvisibleParticle.gameObject.SetActive(false);
         theGM.nowPlayer.invisibleFlag = false;

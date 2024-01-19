@@ -16,8 +16,6 @@ public class PlayerManager : MonoBehaviour
     public int diceNum;
     public bool isMoving;
     public bool canMove;
-    public bool isEndMove;
-    public bool isCheckTile;
 
     [Header("Tile")]
     [SerializeField] int tileNum; //플레이어가 서있는 칸의 번호
@@ -85,16 +83,6 @@ public class PlayerManager : MonoBehaviour
             StartCoroutine(ReadyToMovePlayerCoroutine());
         }
 
-        if (isEndMove)
-        {
-            StartCoroutine(EndMovePlayerCoroutine());
-        }
-
-        if (isCheckTile)
-        {
-            StartCoroutine(CheckArriveTile());
-        }
-
         if (toosiFlag && myTurn)
         {
             toosiFlag = false;
@@ -109,9 +97,7 @@ public class PlayerManager : MonoBehaviour
 
         if (tpFlag && myTurn)
         {
-            StartCoroutine(TeleportCoroutine());
-            //waitcoroutine 추가로 자신의 턴이 끝나기 전에 상대방이 움직이는 버그 해결
-            // StartCoroutine(NextTrunWait());
+            StartCoroutine(TeleportCoroutine(playerId));
         }
     }
 
@@ -127,7 +113,7 @@ public class PlayerManager : MonoBehaviour
 
         if (theGM.nowPlayer.invisibleFlag)
         {
-            StartCoroutine(SetPlaeyrTransparency("Invisible"));
+            StartCoroutine(SetPlayerTransparency("Invisible"));
         }
 
         if (theGM.nowPlayer.biggerFlag)
@@ -167,7 +153,7 @@ public class PlayerManager : MonoBehaviour
             CheckPassTile();
         }
 
-        isEndMove = true;
+        StartCoroutine(EndMovePlayerCoroutine());
     }
 
     // 플레이어 이동시 지나치는 타일 체크
@@ -216,8 +202,6 @@ public class PlayerManager : MonoBehaviour
 
     IEnumerator EndMovePlayerCoroutine()
     {
-        isEndMove = false;
-
         this.gameObject.GetComponent<Animator>().SetBool("FlyFlag", false);
         this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", false);
 
@@ -246,7 +230,7 @@ public class PlayerManager : MonoBehaviour
 
         VirtualCamera.SetActive(false);
 
-        isCheckTile = true;
+        StartCoroutine(CheckArriveTile());
     }
 
     // 도착한 땅의 타일을 체크하여 상호작용하는 기능
@@ -387,31 +371,67 @@ public class PlayerManager : MonoBehaviour
         theGM.seletedTile = null;
         myTurn = false;
         tpFlag = true;
-        theGM.NextTurnFunc();
+        // theGM.NextTurnFunc();
     }
 
-    IEnumerator TeleportCoroutine()
+    IEnumerator TeleportCoroutine(int _playerId)
     {
         tpFlag = false;
+        myTurn = false;
+
+        // 턴을 알리는 텍스트가 사라질때까지 대기
+        yield return new WaitUntil(() => !theGM.isActiveTrunImage);
+
+
+        theGM.players[_playerId].downInformationText.gameObject.SetActive(false);
+        VirtualCamera.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+
+        Color alpha = new Color(1, 1, 1, 0);
+        this.GetComponent<SpriteRenderer>().color = alpha;
+
+        if (_playerId == 0)
+        {
+            theGM.player1TeleportEffect.transform.position = theTM.tiles[5].transform.GetChild(0).position;
+            theGM.player1TeleportEffect.SetActive(true);
+            yield return new WaitForSeconds(3f);
+            theGM.player1TeleportEffect.SetActive(false);
+        }
+        else if (_playerId == 1)
+        {
+            theGM.player2TeleportEffect.transform.position = theTM.tiles[5].transform.GetChild(0).position;
+            theGM.player2TeleportEffect.SetActive(true);
+            yield return new WaitForSeconds(3f);
+            theGM.player2TeleportEffect.SetActive(false);
+        }
+
+        // player가 서있는 타일의 정보를 갱신함
         this.tileNum = int.Parse(tpTile.gameObject.name);
-        this.tileToGo.Add(tpTile);
-        this.transform.position = tileToGo[0].transform.TransformDirection(tileToGo[0].transform.Find("Pos").transform.position);
-        nowTile = tileToGo[0].GetComponent<Tile>();
+        this.transform.position = tpTile.transform.Find("Pos").position;
+        nowTile = tpTile.GetComponent<Tile>();
         this.GetComponent<Animator>().SetInteger("Dir", nowTile.dir);
-        this.tileToGo.RemoveAt(0);
-        // theGM.NextTurnFunc();
-        yield return null;
+        yield return new WaitForSeconds(0.5f);
+
+        while (true)
+        {
+            alpha.a += 0.1f;
+            this.GetComponent<SpriteRenderer>().color = alpha;
+            yield return new WaitForSeconds(0.1f);
+            if (alpha.a >= 1f) break;
+        }
+
+        // StartCoroutine(CheckArriveTile());
     }
 
-    public IEnumerator SetPlaeyrTransparency(string _parameter)
+    public IEnumerator SetPlayerTransparency(string _parameter)
     {
         if (_parameter == "Invisible")
         {
             Color alpha = new(1, 1, 1, 1);
             while (true)
             {
-                theGM.nowPlayer.GetComponent<SpriteRenderer>().color = alpha;
                 alpha.a -= 0.1f;
+                theGM.nowPlayer.GetComponent<SpriteRenderer>().color = alpha;
                 yield return new WaitForSeconds(0.1f);
 
                 if (alpha.a <= 0.5f)
@@ -423,8 +443,8 @@ public class PlayerManager : MonoBehaviour
             Color alpha = new(1, 1, 1, 0.5f);
             while (true)
             {
-                theGM.nowPlayer.GetComponent<SpriteRenderer>().color = alpha;
                 alpha.a += 0.1f;
+                theGM.nowPlayer.GetComponent<SpriteRenderer>().color = alpha;
                 yield return new WaitForSeconds(0.1f);
 
                 if (alpha.a >= 1f)
