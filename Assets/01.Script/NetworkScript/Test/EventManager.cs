@@ -133,6 +133,9 @@ public class EventManager : MonoBehaviour
             if(args.ErrInfo == ErrorCode.Success){
                 Debug.Log(args.GameRecord.m_nickname + "접속 완료"); //여기까지 성공.
                 MatchingRoomScript.Instance.matchingRoomLogStr += "접속 완료\n";
+                SceneManager.LoadScene("LoadTestScene");
+                //방에 접속하면 누가 접속완료하였는지 닉네임이 표시된다.
+                //이를 활용해 모두 접속 완료라면 씬을 옮겨서도 데이터를 주고받을 수 있을까?
             }
         };
 
@@ -142,11 +145,12 @@ public class EventManager : MonoBehaviour
             // 콘솔에서 설정한 매치 시작 대기시간이 지난 이후에 모든 유저에게 게임 시작 이벤트가 호출
             // 게임 시작 이벤트가 호출된 후 게임에서 필요한 데이터 동기화, 유저들 간 로딩 상황 공유 등 다양한 데이터 설정을 진행
             Debug.Log("게임 시작! 이제부터 데이터가 모든 유저에게 브로드캐스팅 가능합니다!");
+            //이후부터 게임 시작되었다는 뭔가가 필요할듯.
         };
 
         Backend.Match.OnMatchRelay = (MatchRelayEventArgs args) => { //데이터 수신
             byte[] data = args.BinaryUserData;
-            MatchingRoomScript.Instance.matchingRoomLogStr += Encoding.Default.GetString(data);
+            InGameScript.Instance.testStr += Encoding.Default.GetString(data);
         };
     }
 

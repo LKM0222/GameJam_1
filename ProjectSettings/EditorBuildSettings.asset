@@ -19,5 +19,8 @@ EditorBuildSettings:
     guid: b65393ac999bc455785dbe9993c32a4f
   - enabled: 1
     path: Assets/00.Scenes/MatchingRoom.unity
-    guid: 657f49b65e8985e4d9aeb53b7af6483f
+    guid: 350bd9931e85e4c17bb37970acf20a1f
+  - enabled: 1
+    path: Assets/00.Scenes/LoadTestScene.unity
+    guid: 2185050ccc60b4e31bc24f1243fa2e29
   m_configObjects: {}
