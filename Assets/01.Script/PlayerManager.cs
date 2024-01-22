@@ -58,6 +58,7 @@ public class PlayerManager : MonoBehaviour
     public bool laserFlag;
     public bool isSetTransparent;
     public bool isSetScale;
+    public bool isCheckingCard;
 
     [Header("ScriptReperence")]
     public CardManager theCM;
@@ -127,6 +128,27 @@ public class PlayerManager : MonoBehaviour
         VirtualCamera.SetActive(true);
         yield return new WaitForSeconds(1f);
 
+        StartCoroutine(CheckUsedCardCoroutine());
+        yield return new WaitUntil(() => !isCheckingCard);
+
+        while (tileToGo.Count != 0)
+        {
+            // Player 실제 이동 코루틴 실행
+            isMoving = true;
+            Vector3 targetPos = tileToGo[0].transform.Find("Pos").transform.position;
+            StartCoroutine(MovingPlayerCoroutine(targetPos));
+            yield return new WaitUntil(() => isMoving == false);
+
+            nowTile = tileToGo[0].GetComponent<Tile>();
+            tileToGo.RemoveAt(0);
+            CheckPassTile();
+        }
+        StartCoroutine(EndMovePlayerCoroutine());
+    }
+
+    public IEnumerator CheckUsedCardCoroutine()
+    {
+        isCheckingCard = true;
         if (theGM.nowPlayer.highSpeedFlag)
         {
             theCM.HighSpeedMove();
@@ -143,20 +165,7 @@ public class PlayerManager : MonoBehaviour
             StartCoroutine(SetPlayerScale("Larger"));
             yield return new WaitUntil(() => !isSetScale);
         }
-
-        while (tileToGo.Count != 0)
-        {
-            // Player 실제 이동 코루틴 실행
-            isMoving = true;
-            Vector3 targetPos = tileToGo[0].transform.Find("Pos").transform.position;
-            StartCoroutine(MovingPlayerCoroutine(targetPos));
-            yield return new WaitUntil(() => isMoving == false);
-
-            nowTile = tileToGo[0].GetComponent<Tile>();
-            tileToGo.RemoveAt(0);
-            CheckPassTile();
-        }
-        StartCoroutine(EndMovePlayerCoroutine());
+        isCheckingCard = false;
     }
 
     // 플레이어 이동시 지나치는 타일 체크
