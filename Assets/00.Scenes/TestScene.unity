@@ -2019,6 +2019,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trunNum: 0
+  turncardIdx: 0
 --- !u!1 &236160209
 GameObject:
   m_ObjectHideFlags: 0
@@ -8877,6 +8878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trunNum: 0
+  turncardIdx: 1
 --- !u!1 &1429399483
 GameObject:
   m_ObjectHideFlags: 0
