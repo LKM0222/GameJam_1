@@ -158,7 +158,7 @@ public class EventManager : MonoBehaviour
 
         Backend.Match.OnMatchRelay = (MatchRelayEventArgs args) => { //데이터 수신
             byte[] data = args.BinaryUserData;
-            Debug.Log(data);
+            Debug.Log(Encoding.Default.GetString(data));
         };
     }
 
