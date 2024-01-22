@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance{
         get {
             if(_instance == null)
-                _instance = new GameManager();
+                _instance = FindObjectOfType(typeof(GameManager)) as GameManager;
             return _instance;
         }
     }
@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
 
 
     #region Test
-    public int playerCount = 0;
+    public List<int> playerCount = new List<int>();
     #endregion
 
     [SerializeField] GameObject player1TurnImg, player2TurnImg;

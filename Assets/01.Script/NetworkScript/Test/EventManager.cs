@@ -149,7 +149,7 @@ public class EventManager : MonoBehaviour
             Debug.Log("게임 시작! 이제부터 데이터가 모든 유저에게 브로드캐스팅 가능합니다!");
             //이후부터 게임 시작되었다는 뭔가가 필요할듯.
             //턴이 시작되었다는 뭔가가 필요...!
-            GameManager.Instance.playerCount += 1;
+            GameManager.Instance.playerCount.Add(1);
         };
 
         Backend.Match.OnMatchRelay = (MatchRelayEventArgs args) => { //데이터 수신
