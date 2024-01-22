@@ -139,8 +139,8 @@ public class CardManager : MonoBehaviour
 
     public void EndHighSpeedMove()
     {
-        theGM.nowPlayer.moveSpeed = 4f;
         theGM.nowPlayer.highSpeedFlag = false;
+        theGM.nowPlayer.moveSpeed = 4f;
         highMoveParticle.Stop();
         highMoveParticle.gameObject.SetActive(false);
     }
@@ -178,10 +178,10 @@ public class CardManager : MonoBehaviour
 
     public void EndInvisibleThief()
     {
-        StartCoroutine(theGM.nowPlayer.SetPlayerTransparency("Visible"));
+        theGM.nowPlayer.invisibleFlag = false;
         InvisibleParticle.Stop();
         InvisibleParticle.gameObject.SetActive(false);
-        theGM.nowPlayer.invisibleFlag = false;
+        StartCoroutine(theGM.nowPlayer.SetPlayerTransparency("Visible"));
     }
 
     public void LowerDiceControl()
@@ -214,6 +214,7 @@ public class CardManager : MonoBehaviour
     // 거대화 사용효과 및 애니메이션 코루틴
     public IEnumerator BiggerCoroutine()
     {
+        theGM.nowPlayer.biggerFlag = false;
         // 현재 타일이 빈 땅도 아니고, 현재 플레이어 id와 ownPlayer가 다르다면 상대방의 땅
         if (theGM.nowPlayer.nowTile.ownPlayer != -1 && theGM.nowPlayer.playerId != theGM.nowPlayer.nowTile.ownPlayer)
         {
@@ -250,10 +251,7 @@ public class CardManager : MonoBehaviour
             tileColor.a = 1f;
             theGM.nowPlayer.nowTile.buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
             theGM.nowPlayer.nowTile.signImg.GetComponent<SpriteRenderer>().color = tileColor;
-
         }
-
-        theGM.nowPlayer.biggerFlag = false;
         biggerComplete = true;
     }
 

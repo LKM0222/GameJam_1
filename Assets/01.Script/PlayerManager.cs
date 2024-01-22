@@ -56,6 +56,8 @@ public class PlayerManager : MonoBehaviour
     public bool lowerDiceFlag;
     public bool exemptionFlag;
     public bool laserFlag;
+    public bool isSetTransparent;
+    public bool isSetScale;
 
     [Header("ScriptReperence")]
     public CardManager theCM;
@@ -106,21 +108,6 @@ public class PlayerManager : MonoBehaviour
     {
         canMove = false;
 
-        if (theGM.nowPlayer.highSpeedFlag)
-        {
-            theCM.HighSpeedMove();
-        }
-
-        if (theGM.nowPlayer.invisibleFlag)
-        {
-            StartCoroutine(SetPlayerTransparency("Invisible"));
-        }
-
-        if (theGM.nowPlayer.biggerFlag)
-        {
-            StartCoroutine(SetPlayerScale("Larger"));
-        }
-
         // 주사위 수만큼 tileToGo 리스트에 추가
         for (int i = 0; i < diceNum; i++)
         {
@@ -140,6 +127,23 @@ public class PlayerManager : MonoBehaviour
         VirtualCamera.SetActive(true);
         yield return new WaitForSeconds(1f);
 
+        if (theGM.nowPlayer.highSpeedFlag)
+        {
+            theCM.HighSpeedMove();
+        }
+
+        if (theGM.nowPlayer.invisibleFlag)
+        {
+            StartCoroutine(SetPlayerTransparency("Invisible"));
+            yield return new WaitUntil(() => !isSetTransparent);
+        }
+
+        if (theGM.nowPlayer.biggerFlag)
+        {
+            StartCoroutine(SetPlayerScale("Larger"));
+            yield return new WaitUntil(() => !isSetScale);
+        }
+
         while (tileToGo.Count != 0)
         {
             // Player 실제 이동 코루틴 실행
@@ -152,7 +156,6 @@ public class PlayerManager : MonoBehaviour
             tileToGo.RemoveAt(0);
             CheckPassTile();
         }
-
         StartCoroutine(EndMovePlayerCoroutine());
     }
 
@@ -209,6 +212,7 @@ public class PlayerManager : MonoBehaviour
         if (theGM.nowPlayer.invisibleFlag)
         {
             theCM.EndInvisibleThief();
+            yield return new WaitUntil(() => !isSetTransparent);
         }
 
         // 고속이동이 끝났다면 스피드를 원상복구 시키고 플래그를 비활성화시킴
@@ -222,8 +226,10 @@ public class PlayerManager : MonoBehaviour
         {
             StartCoroutine(theCM.BiggerCoroutine());
             yield return new WaitUntil(() => theCM.biggerComplete);
-            StartCoroutine(SetPlayerScale("Smaller"));
             theCM.biggerComplete = false;
+
+            StartCoroutine(SetPlayerScale("Smaller"));
+            yield return new WaitUntil(() => !isSetScale);
         }
 
         tileNum = int.Parse(nowTile.gameObject.name);
@@ -419,6 +425,7 @@ public class PlayerManager : MonoBehaviour
 
     public IEnumerator SetPlayerTransparency(string _parameter)
     {
+        isSetTransparent = true;
         if (_parameter == "Invisible")
         {
             Color alpha = new(1, 1, 1, 1);
@@ -445,10 +452,12 @@ public class PlayerManager : MonoBehaviour
                     break;
             }
         }
+        isSetTransparent = false;
     }
 
     public IEnumerator SetPlayerScale(string _parameter)
     {
+        isSetScale = true;
         if (_parameter == "Larger")
         {
             Vector3 scale = new Vector3(1.5f, 1.5f, 0);
@@ -479,5 +488,6 @@ public class PlayerManager : MonoBehaviour
                 }
             }
         }
+        isSetScale = false;
     }
 }
