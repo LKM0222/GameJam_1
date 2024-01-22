@@ -70,7 +70,10 @@ public class GameManager : MonoBehaviour
 
     #region Test
     public List<int> playerCount = new List<int>();
-    public int turnNum; //자신이 몇번째 턴인지 정보 저장.
+    public int turnIndex; //자신이 몇번째 턴인지 정보 저장.
+
+    public List<GameObject> turnCards = new List<GameObject>();
+    
     #endregion
 
     [SerializeField] GameObject player1TurnImg, player2TurnImg;
@@ -81,6 +84,15 @@ public class GameManager : MonoBehaviour
     {
         theTSI = FindObjectOfType<TurnSignScript>();
         //AudioManager.instance.Play("mainSound");
+        //턴 선택 카드 번호 랜덤으로 설정
+        if(Random.Range(0,2) == 0){
+            turnCards[0].GetComponent<TurnCard>().trunNum = 1;
+            turnCards[1].GetComponent<TurnCard>().trunNum = 2;
+        }
+        else{
+            turnCards[0].GetComponent<TurnCard>().trunNum = 2;
+            turnCards[1].GetComponent<TurnCard>().trunNum = 1;
+        }
     }
 
     // Update is called once per frame
@@ -175,3 +187,5 @@ public class GameManager : MonoBehaviour
         }
     }
 }
+
+

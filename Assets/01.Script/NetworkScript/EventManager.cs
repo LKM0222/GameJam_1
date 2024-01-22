@@ -1,3 +1,4 @@
+#region using
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Unity.VisualScripting;
+#endregion
 public class EventManager : MonoBehaviour
 {
     public static EventManager Instance = null;
@@ -133,13 +135,9 @@ public class EventManager : MonoBehaviour
             if(args.ErrInfo == ErrorCode.Success){
                 Debug.Log(args.GameRecord.m_nickname + "접속 완료"); //여기까지 성공.
                 MatchingRoomScript.Instance.matchingRoomLogStr += "접속 완료\n";
-                GameManager.Instance.turnNum = GameManager.Instance.playerCount.Count;
-                Debug.Log(args.GameRecord.m_nickname + "'s turn is " + GameManager.Instance.turnNum);
                 SceneManager.LoadScene("TestScene");
                 //방에 접속하면 누가 접속완료하였는지 닉네임이 표시된다.
                 //이를 활용해 모두 접속 완료라면 씬을 옮겨서도 데이터를 주고받을 수 있을까?
-                // GameManager.Instance.turnNum = GameManager.Instance.playerCount.Count;
-                // Debug.Log(args.GameRecord.m_nickname + "'s turn is " + GameManager.Instance.turnNum);
             }
         };
 
@@ -156,19 +154,17 @@ public class EventManager : MonoBehaviour
             //ParsingData의 클래스 인스턴스를 생성하여, 선언된 data를 json으로 파싱 후 string데이터를 다시 byte[]로 변환해서 전송.
             ParsingData data = new ParsingData(ParsingType.Turn, (GameManager.Instance.playerCount.Count).ToString());
             string jsonData = JsonUtility.ToJson(data);
-            // Debug.Log(jsonData);
             Backend.Match.SendDataToInGameRoom(Encoding.UTF8.GetBytes(jsonData));
         };
 
         Backend.Match.OnMatchRelay = (MatchRelayEventArgs args) => { //데이터 수신
             //수신받은 Json데이터를 다시 ParsingData클래스로 변환 후 처리.
             byte[] data = args.BinaryUserData;
-            // Debug.Log(Encoding.Default.GetString(data));
             ParsingData pData = JsonUtility.FromJson<ParsingData>(Encoding.Default.GetString(data));
             switch(pData.type){
-                case ParsingType.Turn: //턴에 대한 정보일경우, playercount를 증가.
-                    GameManager.Instance.playerCount.Add(1);
-                    Debug.Log("PlayerCount : " + GameManager.Instance.playerCount.Count);
+                case ParsingType.Turn: //턴에 대한 정보일경우
+                    //선택된 카드를 유저 둘 다 비활성화시킴.
+                    GameManager.Instance.turnCards[int.Parse(pData.data)].SetActive(false); 
                 break;
             }
         };
