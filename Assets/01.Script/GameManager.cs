@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour
 
     #region Test
     public List<int> playerCount = new List<int>();
+    public int turnNum; //자신이 몇번째 턴인지 정보 저장.
     #endregion
 
     [SerializeField] GameObject player1TurnImg, player2TurnImg;
@@ -89,7 +90,7 @@ public class GameManager : MonoBehaviour
         if (nextTurn)
         {
             //나머지가 1이면 1플레이어, 0이면 2플레이어
-            if (turnCount % 2 == 1)
+                 if (turnCount % 2 == 1)
             {
                 // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
                 players[0].myTurn = true;
