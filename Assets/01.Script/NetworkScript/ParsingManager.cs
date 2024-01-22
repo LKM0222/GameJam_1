@@ -24,8 +24,8 @@ public class ParsingManager : MonoBehaviour
 }
 
 public class ParsingData{
-    ParsingType type;
-    string data;
+    public ParsingType type;
+    public string data;
 
     public ParsingData(ParsingType _type, string _data){
         type = _type;
