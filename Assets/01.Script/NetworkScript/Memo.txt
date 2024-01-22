@@ -154,3 +154,13 @@ BinaryUserData : 보낸 데이터
             return strInt;
         }
 이런걸 찾았다??
+
+/////////////////////////////////240122 
+public void TestSendBtn(){
+        TestClass test = new TestClass(1);
+        string jsonData = JsonUtility.ToJson(test);
+        print(jsonData);
+        Backend.Match.SendDataToInGameRoom(Encoding.UTF8.GetBytes(jsonData));
+    }
+
+    이런식으로 데이터 파싱 필요.

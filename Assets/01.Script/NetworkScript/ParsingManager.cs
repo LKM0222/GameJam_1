@@ -2,17 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//데이터가 송신될때의 클래스 및 데이터 파싱형태를 지정합니다.
+
 public class ParsingManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    #region Instance_Parsing
+    private static ParsingManager _instance;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public static ParsingManager Instance{
+        get{
+            if(_instance == null)
+                _instance = FindObjectOfType(typeof(ParsingManager)) as ParsingManager;
+
+            return _instance;
+        }
     }
+    #endregion
+
+
+}
+
+public class ParsingData{
+    ParsingType type;
+    string data;
+
+    public ParsingData(ParsingType _type, string _data){
+        type = _type;
+        data = _data;
+    }
+}
+
+public enum ParsingType{
+    Turn,
+    Data
 }
