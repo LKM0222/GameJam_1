@@ -11,7 +11,8 @@ public class TurnCard : MonoBehaviour
     [SerializeField] public int turncardIdx;
 
     public void TurnCardClick(){
-        GameManager.Instance.turnIndex = trunNum; //나의 턴을 저장.
+        if(GameManager.Instance.turnIndex == 0) //턴 인덱스가 0이면 아직 내 턴카드를 선택하지 않은것.
+            GameManager.Instance.turnIndex = trunNum; //나의 턴을 저장.
         this.gameObject.SetActive(false); 
         ParsingData data = new ParsingData(ParsingType.Turn,turncardIdx.ToString()); //선택 시 데이터 전송(비활성화 위해)
         string jsonData = JsonUtility.ToJson(data);
