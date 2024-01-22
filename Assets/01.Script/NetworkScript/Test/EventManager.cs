@@ -18,7 +18,7 @@ public class EventManager : MonoBehaviour
     public MatchMakingUserInfo matchMakingUserInfo;
     public SessionId roomId;
     public string roomToken;
-    public bool acceptFlag = false;
+    public bool acceptFlag = false; //초대수락 플래그
 
     [Header("InGameServer")]
     MatchInGameRoomInfo roomInfo; //인게임에서 방 정보를 전달하기위해 선언해둔 변수
@@ -148,6 +148,8 @@ public class EventManager : MonoBehaviour
             //데이터를 넘길 수는 있지만, 이제부터 누가 선 플레이어고, 게임 진행에 대하여 데이터 전송이 이뤄져야한다....
             Debug.Log("게임 시작! 이제부터 데이터가 모든 유저에게 브로드캐스팅 가능합니다!");
             //이후부터 게임 시작되었다는 뭔가가 필요할듯.
+            //턴이 시작되었다는 뭔가가 필요...!
+            GameManager.Instance.playerCount += 1;
         };
 
         Backend.Match.OnMatchRelay = (MatchRelayEventArgs args) => { //데이터 수신

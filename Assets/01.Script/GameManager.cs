@@ -1,10 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    #region instance
+    private static GameManager _instance;
+
+    public static GameManager Instance{
+        get {
+            if(_instance == null)
+                _instance = new GameManager();
+            return _instance;
+        }
+    }
+    #endregion
+
     // 플레이어 이미지 스프라이트
     public Sprite[] signSprites = new Sprite[2];
     // public BuildingType[] buildingSprite = new BuildingType[1];
@@ -54,6 +67,10 @@ public class GameManager : MonoBehaviour
     // 카드 이미지만 담은 프리팹
     public GameObject onlyCardImg;
 
+
+    #region Test
+    public int playerCount = 0;
+    #endregion
 
     [SerializeField] GameObject player1TurnImg, player2TurnImg;
     // [SerializeField] bool turnImgFlag;
