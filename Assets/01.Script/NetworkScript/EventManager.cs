@@ -152,9 +152,9 @@ public class EventManager : MonoBehaviour
             //이후부터 게임 시작되었다는 뭔가가 필요할듯.
             //턴이 시작되었다는 뭔가가 필요...!
             //ParsingData의 클래스 인스턴스를 생성하여, 선언된 data를 json으로 파싱 후 string데이터를 다시 byte[]로 변환해서 전송.
-            ParsingData data = new ParsingData(ParsingType.Turn, (GameManager.Instance.playerCount.Count).ToString());
-            string jsonData = JsonUtility.ToJson(data);
-            Backend.Match.SendDataToInGameRoom(Encoding.UTF8.GetBytes(jsonData));
+            // ParsingData data = new ParsingData(ParsingType.Turn, (GameManager.Instance.playerCount.Count).ToString());
+            // string jsonData = JsonUtility.ToJson(data);
+            // Backend.Match.SendDataToInGameRoom(Encoding.UTF8.GetBytes(jsonData));
         };
 
         Backend.Match.OnMatchRelay = (MatchRelayEventArgs args) => { //데이터 수신
