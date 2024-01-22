@@ -150,17 +150,24 @@ public class EventManager : MonoBehaviour
             Debug.Log("게임 시작! 이제부터 데이터가 모든 유저에게 브로드캐스팅 가능합니다!");
             //이후부터 게임 시작되었다는 뭔가가 필요할듯.
             //턴이 시작되었다는 뭔가가 필요...!
+            //ParsingData의 클래스 인스턴스를 생성하여, 선언된 data를 json으로 파싱 후 string데이터를 다시 byte[]로 변환해서 전송.
             ParsingData data = new ParsingData(ParsingType.Turn, (GameManager.Instance.playerCount.Count).ToString());
             string jsonData = JsonUtility.ToJson(data);
-            Debug.Log(jsonData);
+            // Debug.Log(jsonData);
             Backend.Match.SendDataToInGameRoom(Encoding.UTF8.GetBytes(jsonData));
         };
 
         Backend.Match.OnMatchRelay = (MatchRelayEventArgs args) => { //데이터 수신
+            //수신받은 Json데이터를 다시 ParsingData클래스로 변환 후 처리.
             byte[] data = args.BinaryUserData;
-            Debug.Log(Encoding.Default.GetString(data));
+            // Debug.Log(Encoding.Default.GetString(data));
             ParsingData pData = JsonUtility.FromJson<ParsingData>(Encoding.Default.GetString(data));
-            print(pData.data + " " + pData.type);
+            switch(pData.type){
+                case ParsingType.Turn: //턴에 대한 정보일경우, playercount를 증가.
+                    GameManager.Instance.playerCount.Add(1);
+                    Debug.Log("PlayerCount : " + GameManager.Instance.playerCount.Count);
+                break;
+            }
         };
     }
 

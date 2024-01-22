@@ -164,3 +164,7 @@ public void TestSendBtn(){
     }
 
     이런식으로 데이터 파싱 필요.
+
+    수신 시 InGameScript.Instance.testStr += Encoding.Default.GetString(data);함수
+    를 ParsingData pData = JsonUtility.FromJson<ParsingData>(Encoding.Default.GetString(data));
+    와 같은 형식으로 원래의 클래스로 변환해줘야함.
