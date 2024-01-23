@@ -46,6 +46,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject blackBackground; //tp활성화 시 맵 이외의 주변이 어둡게 변함.
     public GameObject teleportEffect;
     public bool tpFlag;
+    public bool isSelectingTeleport;
 
     [Header("CardFlag")]
     public bool highSpeedFlag;
@@ -62,7 +63,6 @@ public class PlayerManager : MonoBehaviour
 
     [Header("ScriptReperence")]
     public CardManager theCM;
-    public SpecialTile theSpecialTile;
     GameManager theGM;
     TileManager theTM;
     TurnSignScript theTSI;
@@ -73,7 +73,6 @@ public class PlayerManager : MonoBehaviour
         theTM = FindObjectOfType<TileManager>();
         theGM = FindObjectOfType<GameManager>();
         theTSI = FindObjectOfType<TurnSignScript>();
-        theSpecialTile = FindObjectOfType<SpecialTile>();
     }
 
     // Update is called once per frame
@@ -174,7 +173,7 @@ public class PlayerManager : MonoBehaviour
         // 시작지점을 지나쳐간다면 월급 지급
         if (nowTile.transform.name == "0")
         {
-            theSpecialTile.PoultryParm();
+            playerMoney += 200;
         }
 
         // 투명도둑을 사용하고 나와 상대방이 겹쳐질때, 상대방의 카드가 있을 때 투명도둑 효과 발동
@@ -331,8 +330,8 @@ public class PlayerManager : MonoBehaviour
 
                 // 카드지급
                 case 1:
-                    StartCoroutine(theSpecialTile.CardProvideCoroutine());
-                    yield return new WaitUntil(() => theSpecialTile.isGetCard);
+                    StartCoroutine(theCM.CardProvideCoroutine());
+                    yield return new WaitUntil(() => theCM.isGetCard);
                     break;
 
                 // 텔레포트
@@ -362,6 +361,7 @@ public class PlayerManager : MonoBehaviour
     IEnumerator TeleportSetCoroutine()
     {
         blackBackground.SetActive(true);
+        isSelectingTeleport = true;
         for (int i = 0; i < theTM.tiles.Length; i++)
         {
             if (i != 6) theTM.tiles[i].canTileSelect = true; //모든 카드(텔레포트 타일 제외) 클릭 가능하도록 미리 클릭하고 다음턴에 해당 위치로 이동.
@@ -369,6 +369,7 @@ public class PlayerManager : MonoBehaviour
 
         yield return new WaitUntil(() => theGM.seletedTile != null);
 
+        isSelectingTeleport = false;
         for (int i = 0; i < theTM.tiles.Length; i++)
         {
             theTM.tiles[i].canTileSelect = false; //다시 클릭 못하도록 변경

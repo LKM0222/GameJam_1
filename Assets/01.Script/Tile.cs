@@ -77,21 +77,19 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
+        // 레이저빔 사용 시
         if (canTileSelect && theGM.nowPlayer.laserFlag)
         {
             if (theGM.nowPlayer.playerId != ownPlayer && ownPlayer != -1)
             {
-                //선택된 타일을 gm에 반환
                 theGM.seletedTile = this.gameObject;
-                print("clicked!");
             }
         }
 
-        if (canTileSelect && theGM.nowPlayer.theSpecialTile)
+        // 텔레포트 사용시
+        if (canTileSelect && theGM.nowPlayer.isSelectingTeleport)
         {
-            //선택된 타일을 gm에 반환
             theGM.seletedTile = this.gameObject;
-            print("clicked!");
         }
     }
 }
