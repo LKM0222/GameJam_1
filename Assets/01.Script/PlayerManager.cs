@@ -265,7 +265,7 @@ public class PlayerManager : MonoBehaviour
                 // 건물이 있으면 건물 방문 효과 활성화
                 else
                 {
-
+                    theGM.NextTurnFunc();
                 }
             }
             // 일반 타일 중 아무도 구매하지 않은 타일이라면 땅 구매 UI 활성화
