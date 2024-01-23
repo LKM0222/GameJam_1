@@ -265,6 +265,21 @@ public class PlayerManager : MonoBehaviour
                 // 건물이 있으면 건물 방문 효과 활성화
                 else
                 {
+                    switch (nowTile.building.type)
+                    {
+                        // 농장
+                        case 0:
+                            break;
+                        // 제단
+                        case 1:
+                            break;
+                        // 특별상점
+                        case 2:
+                            break;
+                        // 랜드마크
+                        case 3:
+                            break;
+                    }
                     theGM.NextTurnFunc();
                 }
             }
@@ -280,32 +295,8 @@ public class PlayerManager : MonoBehaviour
                 // 통행료 카드가 없는 경우 통행료 징수
                 if (!exemptionFlag)
                 {
-                    // 건물이 있는 경우 건물에 따른 통행료 징수
-                    if (nowTile.building != null)
-                    {
-                        switch (nowTile.building.type)
-                        {
-                            // 농장
-                            case 0:
-                                break;
-                            // 제단
-                            case 1:
-                                break;
-                            // 특별상점
-                            case 2:
-                                break;
-                            // 랜드마크
-                            case 3:
-                                break;
-                        }
-                        playerMoney -= 100;
-                        againstPlayer.playerMoney += 100;
-                    }
-                    // 건물이 없다면 기본 토지 통행료만 징수
-                    else
-                    {
-                        playerMoney -= 50;
-                    }
+                    playerMoney -= nowTile.price;
+                    againstPlayer.playerMoney += nowTile.price;
                 }
                 // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
                 else

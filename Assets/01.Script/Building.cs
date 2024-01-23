@@ -17,4 +17,5 @@ public class Building
 
     // 건물의 타입(은행, 닭장, 부화장 등)
     public int type; //0부터 시작
+    public int toll;
 }

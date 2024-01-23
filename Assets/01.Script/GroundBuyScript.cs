@@ -38,6 +38,8 @@ public class GroundBuyScript : MonoBehaviour
             theGM.buyedTiles.Add(theGM.nowPlayer.nowTile.gameObject); //구매한 타일을 저장
             groundBuyFlag = false; //재반복 막기 위해 false;
             this.transform.parent.gameObject.SetActive(false);//현재 UI 닫기
+
+            theGM.nowPlayer.nowTile.price = 50;
         }
     }
 }

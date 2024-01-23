@@ -42,6 +42,7 @@ public class PurchaseSystem : MonoBehaviour
 
         theGM.nowPlayer.buildingCount += 1;
         theGM.nowPlayer.playerMoney -= 50;
+        theGM.nowPlayer.nowTile.price = theGM.buildings[cur].toll;
 
         theGM.UIFlag = false; // UI를 끄기 위해 UIFlag False;
         theGM.NextTurnFunc(); //next turn 호출

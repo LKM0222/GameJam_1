@@ -1172,7 +1172,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -2039,7 +2039,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -2132,7 +2132,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -3740,7 +3740,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -3835,7 +3835,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -3928,7 +3928,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -4232,7 +4232,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -4494,7 +4494,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -4778,7 +4778,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -5388,6 +5388,7 @@ MonoBehaviour:
   blackBackground: {fileID: 453495399}
   teleportEffect: {fileID: 0}
   tpFlag: 0
+  isSelectingTeleport: 0
   highSpeedFlag: 0
   invisibleFlag: 0
   toosiFlag: 0
@@ -5398,8 +5399,8 @@ MonoBehaviour:
   laserFlag: 0
   isSetTransparent: 0
   isSetScale: 0
+  isCheckingCard: 0
   theCM: {fileID: 1057635936}
-  theSpecialTile: {fileID: 0}
 --- !u!212 &954396770
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5557,7 +5558,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -5605,7 +5606,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -6341,6 +6342,7 @@ MonoBehaviour:
   upPos: 0
   biggerComplete: 0
   isShowCard: 0
+  isGetCard: 0
   destroyParticle: {fileID: 660541764}
   laserParticle: {fileID: 1754885353}
   highMoveParticle: {fileID: 2082826368}
@@ -6777,7 +6779,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -7254,7 +7256,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -7469,7 +7471,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1295471227}
   - component: {fileID: 1295471228}
-  - component: {fileID: 1295471229}
   m_Layer: 0
   m_Name: TileManager
   m_TagString: Untagged
@@ -7553,19 +7554,6 @@ MonoBehaviour:
   - {fileID: 1401323775}
   - {fileID: 730861397}
   - {fileID: 1693466814}
---- !u!114 &1295471229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1295471226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 518d116bb96bf0a41866e95dabfd97d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGetCard: 0
 --- !u!1 &1297390241
 GameObject:
   m_ObjectHideFlags: 0
@@ -7800,7 +7788,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -8315,7 +8303,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -8536,7 +8524,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -8746,7 +8734,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -8888,6 +8876,7 @@ MonoBehaviour:
   blackBackground: {fileID: 453495399}
   teleportEffect: {fileID: 0}
   tpFlag: 0
+  isSelectingTeleport: 0
   highSpeedFlag: 0
   invisibleFlag: 0
   toosiFlag: 0
@@ -8898,8 +8887,8 @@ MonoBehaviour:
   laserFlag: 0
   isSetTransparent: 0
   isSetScale: 0
+  isCheckingCard: 0
   theCM: {fileID: 1057635936}
-  theSpecialTile: {fileID: 0}
 --- !u!61 &1511854100
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9591,7 +9580,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -10110,7 +10099,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -10911,7 +10900,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -11337,35 +11326,35 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   - buildingImg:
       building_front: {fileID: 21300000, guid: 37f495e51523d4155be2c8b06ac83126, type: 3}
       building_left: {fileID: 21300000, guid: 94f8cda90ed874a89935ef9e20aa4415, type: 3}
     buildingName: "\uB18D\uC7A5"
     animator: {fileID: 0}
     type: 0
-    visitCount: 0
+    toll: 100
   - buildingImg:
       building_front: {fileID: 21300000, guid: a1af7f3515fed4ab383b3abd29958c47, type: 3}
       building_left: {fileID: 21300000, guid: e79cb0391a3444be1a0fe02407737ef9, type: 3}
     buildingName: "\uC7AC\uB2E8"
     animator: {fileID: 0}
     type: 1
-    visitCount: 0
+    toll: 100
   - buildingImg:
       building_front: {fileID: 21300000, guid: 321f2b42d43b04a9b8f5dc1ea71869ed, type: 3}
       building_left: {fileID: 21300000, guid: 6208f577b5bc2472ab6e6cf62dc0a0f6, type: 3}
     buildingName: "\uD2B9\uBCC4\uC0C1\uC810"
     animator: {fileID: 0}
     type: 2
-    visitCount: 0
+    toll: 100
   - buildingImg:
       building_front: {fileID: 21300000, guid: 1e9065a0504dd436bba0f2434fdaf3ee, type: 3}
       building_left: {fileID: 21300000, guid: 573c6b270fd1c402db24c31777ac3ffb, type: 3}
     buildingName: "\uB79C\uB4DC\uB9C8\uD06C"
     animator: {fileID: 0}
     type: 3
-    visitCount: 0
+    toll: 200
   players:
   - {fileID: 1511854098}
   - {fileID: 954396769}
@@ -11387,7 +11376,7 @@ MonoBehaviour:
   onlyCardImg: {fileID: 6734135712915195262, guid: f0c8e962b9bb6944f8cd518915fe3f3f, type: 3}
   player1TurnImg: {fileID: 2138027891}
   player2TurnImg: {fileID: 1406615652}
-  isActiveTrunImage: 0
+  isActiveTurnImage: 0
   player1TeleportEffect: {fileID: 1623167384}
   player2TeleportEffect: {fileID: 1589605834}
 --- !u!1 &1883762171
@@ -11818,7 +11807,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -12746,7 +12735,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -13004,7 +12993,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
@@ -13535,7 +13524,7 @@ MonoBehaviour:
     buildingName: 
     animator: {fileID: 0}
     type: -1
-    visitCount: 0
+    toll: 0
   price: 0
   ownPlayer: -1
   buildingImg: {fileID: 0}
