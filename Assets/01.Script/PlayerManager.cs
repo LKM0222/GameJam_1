@@ -296,10 +296,6 @@ public class PlayerManager : MonoBehaviour
                                 break;
                             // 랜드마크
                             case 3:
-                                if (nowTile.building.visitCount < 5)
-                                    nowTile.building.visitCount += 1;
-                                playerMoney -= nowTile.building.visitCount * 100;
-                                againstPlayer.playerMoney += nowTile.building.visitCount * 100;
                                 break;
                         }
                         playerMoney -= 100;
