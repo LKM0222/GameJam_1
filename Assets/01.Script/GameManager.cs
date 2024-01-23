@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
     public GameObject onlyCardImg;
 
     [SerializeField] GameObject player1TurnImg, player2TurnImg;
-    public bool isActiveTrunImage;
+    public bool isActiveTurnImage;
     public GameObject player1TeleportEffect, player2TeleportEffect;
 
     // Start is called before the first frame update
@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator TurnImgCoroutine(int turn)
     {
-        isActiveTrunImage = true;
+        isActiveTurnImage = true;
         if (turn == 1)
         {
             player1TurnImg.SetActive(true);
@@ -145,6 +145,6 @@ public class GameManager : MonoBehaviour
             players[0].downInformationText.gameObject.SetActive(false);
             players[1].downInformationText.gameObject.SetActive(true);
         }
-        isActiveTrunImage = false;
+        isActiveTurnImage = false;
     }
 }

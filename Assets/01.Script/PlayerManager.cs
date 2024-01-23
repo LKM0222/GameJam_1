@@ -388,7 +388,7 @@ public class PlayerManager : MonoBehaviour
         myTurn = false;
 
         // 턴을 알리는 텍스트가 사라질때까지 대기
-        yield return new WaitUntil(() => !theGM.isActiveTrunImage);
+        yield return new WaitUntil(() => !theGM.isActiveTurnImage);
 
 
         theGM.players[_playerId].downInformationText.gameObject.SetActive(false);
