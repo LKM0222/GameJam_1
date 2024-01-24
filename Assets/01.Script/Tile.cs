@@ -91,5 +91,10 @@ public class Tile : MonoBehaviour
         {
             theGM.seletedTile = this.gameObject;
         }
+
+        if (canTileSelect && theGM.nowPlayer.isExtortioning)
+        {
+            theGM.seletedTile = this.gameObject;
+        }
     }
 }

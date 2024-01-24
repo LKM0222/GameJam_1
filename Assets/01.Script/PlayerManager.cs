@@ -47,6 +47,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject teleportEffect;
     public bool tpFlag;
     public bool isSelectingTeleport;
+    public bool isExtortioning;
 
     [Header("CardFlag")]
     public bool highSpeedFlag;
@@ -323,8 +324,12 @@ public class PlayerManager : MonoBehaviour
         {
             switch (nowTile.specialTileType)
             {
-                // 양계장(출발점)
-                case 0: //양계장 
+                // 양계장
+                case 0:
+                    for (int i = 0; i < theTM.tiles.Length; i++)
+                    {
+                        if (theTM.tiles[i].ownPlayer == playerId && theTM.tiles[i].building.type == 0) playerMoney += 100;
+                    }
                     break;
 
                 // 카드지급
@@ -335,22 +340,40 @@ public class PlayerManager : MonoBehaviour
 
                 // 텔레포트
                 case 2:
-                    // tpSelectFlag = true;
                     StartCoroutine(TeleportSetCoroutine());
                     yield return new WaitUntil(() => tpFlag);
                     break;
 
-                // 세금징수
-                case 3: //세금
-                        //상대방 땅 갯수 *5 + 건물 갯수 * 10
-                        //세금 징수하는 애니메이션이나, 영수증 띄워주면 좋을듯
-                    playerMoney -= (groundCount * 5) + (buildingCount * 10);
+                // 올림픽
+                case 3:
+                    for (int i = 0; i < theTM.tiles.Length; i++)
+                    {
+                        if (theTM.tiles[i].ownPlayer == playerId) theTM.tiles[i].price *= 2;
+                    }
                     break;
 
-                // 룰렛
+                // 건물강탈
                 case 4:
-                    GameObject dCard = againstPlayer.cardParent.GetChild(UnityEngine.Random.Range(0, againstPlayer.cardParent.childCount)).gameObject;
-                    dCard.transform.parent = cardParent;
+                    blackBackground.SetActive(true);
+                    isExtortioning = true;
+
+                    for (int i = 0; i < theTM.tiles.Length; i++)
+                    {
+                        if (theTM.tiles[i].ownPlayer == againstPlayer.playerId) theTM.tiles[i].canTileSelect = true;
+                    }
+
+                    yield return new WaitUntil(() => theGM.seletedTile != null);
+
+                    isExtortioning = false;
+                    for (int i = 0; i < theTM.tiles.Length; i++)
+                    {
+                        theTM.tiles[i].canTileSelect = false;
+                    }
+
+                    blackBackground.SetActive(false);
+                    theGM.seletedTile.GetComponent<Tile>().ownPlayer = playerId;
+                    theGM.seletedTile = null;
+
                     break;
             }
             theGM.NextTurnFunc();
@@ -363,7 +386,7 @@ public class PlayerManager : MonoBehaviour
         isSelectingTeleport = true;
         for (int i = 0; i < theTM.tiles.Length; i++)
         {
-            if (i != 6) theTM.tiles[i].canTileSelect = true; //모든 카드(텔레포트 타일 제외) 클릭 가능하도록 미리 클릭하고 다음턴에 해당 위치로 이동.
+            if (i != 6) theTM.tiles[i].canTileSelect = true;
         }
 
         yield return new WaitUntil(() => theGM.seletedTile != null);
@@ -371,7 +394,7 @@ public class PlayerManager : MonoBehaviour
         isSelectingTeleport = false;
         for (int i = 0; i < theTM.tiles.Length; i++)
         {
-            theTM.tiles[i].canTileSelect = false; //다시 클릭 못하도록 변경
+            theTM.tiles[i].canTileSelect = false;
         }
 
         blackBackground.SetActive(false);
