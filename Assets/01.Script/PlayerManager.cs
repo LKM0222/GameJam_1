@@ -269,12 +269,24 @@ public class PlayerManager : MonoBehaviour
                     {
                         // 농장
                         case 0:
+                            playerMoney += 200;
+                            print(playerMoney);
                             break;
                         // 제단
                         case 1:
+                            nowTile.price *= 2;
+                            print(nowTile.price);
                             break;
                         // 특별상점
                         case 2:
+                            for (int i = 0; i < 2; i++)
+                            {
+                                if (cards.Count < 8)
+                                {
+                                    StartCoroutine(theCM.CardProvideCoroutine());
+                                    yield return new WaitUntil(() => theCM.isGetCard);
+                                }
+                            }
                             break;
                         // 랜드마크
                         case 3:
