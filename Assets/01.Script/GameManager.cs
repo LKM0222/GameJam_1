@@ -9,9 +9,11 @@ public class GameManager : MonoBehaviour
     #region instance
     private static GameManager _instance;
 
-    public static GameManager Instance{
-        get {
-            if(_instance == null)
+    public static GameManager Instance
+    {
+        get
+        {
+            if (_instance == null)
                 _instance = FindObjectOfType(typeof(GameManager)) as GameManager;
             return _instance;
         }
@@ -57,7 +59,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> buyedTiles = new List<GameObject>();
     public GameObject clickedTile;
 
-    public GameObject tpTile; //텔레포트 활성화 시 다음턴에 움질일 위치 정함.
+    public GameObject seletedTile; //텔레포트 활성화 시 다음턴에 움질일 위치 정함.
     public GameObject tpImg; //텔레포트 활성화 시 표시할 그림
 
     // 투시를 사용하면 카드들을 보여줄 오브젝트
@@ -73,11 +75,12 @@ public class GameManager : MonoBehaviour
     public int turnIndex; //자신이 몇번째 턴인지 정보 저장.
 
     public List<GameObject> turnCards = new List<GameObject>();
-    
+
     #endregion
 
     [SerializeField] GameObject player1TurnImg, player2TurnImg;
-    // [SerializeField] bool turnImgFlag;
+    public bool isActiveTurnImage;
+    public GameObject player1TeleportEffect, player2TeleportEffect;
 
     // Start is called before the first frame update
     void Start()
@@ -85,11 +88,13 @@ public class GameManager : MonoBehaviour
         theTSI = FindObjectOfType<TurnSignScript>();
         //AudioManager.instance.Play("mainSound");
         //턴 선택 카드 번호 랜덤으로 설정
-        if(Random.Range(0,2) == 0){
+        if (Random.Range(0, 2) == 0)
+        {
             turnCards[0].GetComponent<TurnCard>().trunNum = 1;
             turnCards[1].GetComponent<TurnCard>().trunNum = 2;
         }
-        else{
+        else
+        {
             turnCards[0].GetComponent<TurnCard>().trunNum = 2;
             turnCards[1].GetComponent<TurnCard>().trunNum = 1;
         }
@@ -102,13 +107,12 @@ public class GameManager : MonoBehaviour
         if (nextTurn)
         {
             //나머지가 1이면 1플레이어, 0이면 2플레이어
-                 if (turnCount % 2 == 1)
+            if (turnCount % 2 == 1)
             {
                 // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
                 players[0].myTurn = true;
                 players[1].myTurn = false;
                 nowPlayer = players[0];
-                theTSI.cursorPos = 1;
                 CardListUpdate();
             }
             else
@@ -117,15 +121,11 @@ public class GameManager : MonoBehaviour
                 players[1].myTurn = true;
                 players[0].myTurn = false;
                 nowPlayer = players[1];
-                theTSI.cursorPos = 1;
                 CardListUpdate();
             }
-
-            if (nextTurn)
-            {//턴 넘기기
-                StartCoroutine(TurnImgCoroutine(turnCount % 2));
-                nextTurn = false;
-            }
+            nextTurn = false;
+            theTSI.cursorPos = 1;
+            StartCoroutine(TurnImgCoroutine(turnCount % 2));
         }
     }
 
@@ -137,7 +137,6 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < cardsObj.transform.childCount; i++)
             {
-                // Destroy로 왜 전부 지우는거지?
                 Destroy(cardsObj.transform.GetChild(i).gameObject);
             }
         }
@@ -161,30 +160,27 @@ public class GameManager : MonoBehaviour
         turnCount += 1;//턴넘김
         nextTurn = true;
     }
+
     IEnumerator TurnImgCoroutine(int turn)
     {
+        isActiveTurnImage = true;
         if (turn == 1)
         {
             player1TurnImg.SetActive(true);
             yield return new WaitForSeconds(1f);
             player1TurnImg.SetActive(false);
-            players[0].myTurn = true;
-            players[1].myTurn = false;
-            theTSI.cursorPos = 1;
-            nowPlayer = players[0];
-            CardListUpdate(); //추후 통신 구현하면 이 코드는 다른곳으로 옮겨야함.
+            players[0].downInformationText.gameObject.SetActive(true);
+            players[1].downInformationText.gameObject.SetActive(false);
         }
         if (turn == 0)
         {
             player2TurnImg.SetActive(true);
             yield return new WaitForSeconds(1f);
             player2TurnImg.SetActive(false);
-            players[1].myTurn = true;
-            players[0].myTurn = false;
-            nowPlayer = players[1];
-            theTSI.cursorPos = 1;
-            CardListUpdate();
+            players[0].downInformationText.gameObject.SetActive(false);
+            players[1].downInformationText.gameObject.SetActive(true);
         }
+        isActiveTurnImage = false;
     }
 }
 

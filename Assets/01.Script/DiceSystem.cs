@@ -40,14 +40,13 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
                 animatorFlag = false;
             }
         }
-
     }
 
     // 팻말을 드래그했을 때 호출
     public void OnDrag(PointerEventData eventData)
     {
         // 투시와 레이저빔의 사용이 모두 끝났을 때 주사위를 굴릴 수 있게(=> 사용중이라면 굴릴 수 없게)
-        if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete)
+        if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
         {
             Vector3 yPos = new Vector3(0f, eventData.position.y, 0f);
 
@@ -58,29 +57,32 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
         }
     }
 
+    // 팻말을 드롭했을 때 호출
     public void OnEndDrag(PointerEventData eventData1)
     {
         // 투시와 레이저빔의 사용이 모두 끝났을 때 주사위를 굴릴 수 있게(=> 사용중이라면 굴릴 수 없게)
-        if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete)
+        if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
         {
+            // 팻말이 일청 위치 좌표를 넘어서면 주사위를 굴림
             if (this.transform.localPosition.y < 470)
             {
                 theTSI.cursorPos = 2;
 
                 //AudioManager.instance.Play("diceSound");
 
-
-                StartCoroutine(RollDiceCoroutine());
+                RollDice();
             }
+
             // 팻말의 위치를 다시 초기 위치로 돌려놓음
             this.transform.localPosition = nowPos;
         }
     }
 
-    public IEnumerator RollDiceCoroutine()
+    public void RollDice()
     {
         thePlayer.diceNum = Random.Range(1, 9);
 
+        // 주사위컨트롤 카드 사용 시, 해당 함수 호출
         if (thePlayer.lowerDiceFlag)
         {
             theCM.LowerDiceControl();
@@ -91,26 +93,12 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
             theCM.HigherDiceControll();
         }
 
-        // diceFlag를 true로 바꾸고 주사위를 랜덤하게 굴린 다음 text에 적용
-        thePlayer.diceFlag = true;
+        // 주사위를 랜덤하게 굴린 다음 text에 적용
         diceNumText.text = thePlayer.diceNum.ToString();
 
         // 아래로 당기시오 텍스트를 숨기고, 주사위를 활성화하고, animatorFlag를 true로 켜서 업데이트문에 들어가게함
         thePlayer.downInformationText.gameObject.SetActive(false);
         EggObj.SetActive(true);
         animatorFlag = true;
-
-        if (animatorFlag)
-        {
-            // EggAnimator가 Finish에 들어가서 애니메이션이 종료됐다면
-            if (!EggAnimator.GetCurrentAnimatorStateInfo(0).IsName("Egg"))
-            {
-                EggObj.SetActive(false);
-                // thePlayer.canMove = true;
-                animatorFlag = false;
-            }
-        }
-
-        yield return null;
     }
 }
