@@ -164,6 +164,7 @@ public class EventManager : MonoBehaviour
             switch(pData.type){
                 case ParsingType.Turn: //턴에 대한 정보일경우
                     //선택된 카드를 유저 둘 다 비활성화시킴.
+                    GameManager.Instance.playerCount.Add(1);
                     GameManager.Instance.turnCards[int.Parse(pData.data)].SetActive(false); 
                 break;
             }

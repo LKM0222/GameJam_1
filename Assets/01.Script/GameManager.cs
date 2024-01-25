@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
 
 
     #region Test
-    public List<int> playerCount = new List<int>();
+    public List<int> playerCount = new();
     public int turnIndex; //자신이 몇번째 턴인지 정보 저장.
 
     public List<GameObject> turnCards = new List<GameObject>();
@@ -103,30 +103,35 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 턴을 종료하고 상대 턴으로 넘어갔다면
-        if (nextTurn)
-        {
-            //나머지가 1이면 1플레이어, 0이면 2플레이어
-            if (turnCount % 2 == 1)
+        //이 모든 과정을 턴 카드를 뽑았을때 실행되도록 수정.
+        //턴카드를 뽑았을 때, palyerCount가 1씩 증가. 길이가 2가 됐다면 플레이어가 모두 카드를 뽑았다는 뜻. 이때부터 게임 시작.
+        if(playerCount.Count > 1){
+            // 턴을 종료하고 상대 턴으로 넘어갔다면
+            if (nextTurn)
             {
-                // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
-                players[0].myTurn = true;
-                players[1].myTurn = false;
-                nowPlayer = players[0];
-                CardListUpdate();
+                //나머지가 1이면 1플레이어, 0이면 2플레이어
+                if (turnCount % 2 == 1)
+                {
+                    // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
+                    players[0].myTurn = true;
+                    players[1].myTurn = false;
+                    nowPlayer = players[0];
+                    CardListUpdate();
+                }
+                else
+                {
+                    // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
+                    players[1].myTurn = true;
+                    players[0].myTurn = false;
+                    nowPlayer = players[1];
+                    CardListUpdate();
+                }
+                nextTurn = false;
+                theTSI.cursorPos = 1;
+                StartCoroutine(TurnImgCoroutine(turnCount % 2));
             }
-            else
-            {
-                // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
-                players[1].myTurn = true;
-                players[0].myTurn = false;
-                nowPlayer = players[1];
-                CardListUpdate();
-            }
-            nextTurn = false;
-            theTSI.cursorPos = 1;
-            StartCoroutine(TurnImgCoroutine(turnCount % 2));
         }
+        
     }
 
     // 플레이어가 가진 카드의 목록 업데이트
