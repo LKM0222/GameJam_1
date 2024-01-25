@@ -2104,7 +2104,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trunNum: 0
   turncardIdx: 0
-  parent: {fileID: 731565981}
 --- !u!1 &236160209
 GameObject:
   m_ObjectHideFlags: 0
@@ -8930,7 +8929,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trunNum: 0
   turncardIdx: 1
-  parent: {fileID: 731565981}
 --- !u!1 &1429399483
 GameObject:
   m_ObjectHideFlags: 0
@@ -11949,6 +11947,7 @@ MonoBehaviour:
   turnCards:
   - {fileID: 228348586}
   - {fileID: 1420386648}
+  turnCardParent: {fileID: 883349527}
   player1TurnImg: {fileID: 2138027891}
   player2TurnImg: {fileID: 1406615652}
   isActiveTurnImage: 0
