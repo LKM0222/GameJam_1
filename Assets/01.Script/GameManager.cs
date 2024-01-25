@@ -71,10 +71,13 @@ public class GameManager : MonoBehaviour
 
 
     #region Test
+    [Header("TurnCard")]
     public List<int> playerCount = new();
     public int turnIndex; //자신이 몇번째 턴인지 정보 저장.
 
     public List<GameObject> turnCards = new List<GameObject>();
+
+    public GameObject turnCardParent;
 
     #endregion
 

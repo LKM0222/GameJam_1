@@ -166,6 +166,9 @@ public class EventManager : MonoBehaviour
                     //선택된 카드를 유저 둘 다 비활성화시킴.
                     GameManager.Instance.playerCount.Add(1);
                     GameManager.Instance.turnCards[int.Parse(pData.data)].SetActive(false); 
+                    if(GameManager.Instance.playerCount.Count > 1){
+                        GameManager.Instance.turnCardParent.SetActive(false);
+                    }
                 break;
             }
         };

@@ -19,11 +19,4 @@ public class TurnCard : MonoBehaviour
         string jsonData = JsonUtility.ToJson(data);
         Backend.Match.SendDataToInGameRoom(Encoding.UTF8.GetBytes(jsonData));
     }
-
-    private void Update() {
-        if(GameManager.Instance.playerCount.Count > 1){
-            //둘 다 카드를 뽑았다면 부모 객체를 안보이게 설정한다.
-            this.transform.parent.gameObject.SetActive(false); 
-        }
-    }
 }
