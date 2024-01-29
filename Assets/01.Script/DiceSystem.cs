@@ -80,7 +80,10 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void RollDice()
     {
-        thePlayer.diceNum = Random.Range(1, 9);
+        //원래는 다이스를 굴리면 플레이어에게 저장했지만, 이제는 게임매니저에 저장되어서 현재 턴의 플레이어에게 할당할것.
+        GameManager.Instance.diceNum = Random.Range(1,9);
+        //if() //내 순서라면 플레이어 다이스 넘에 저장.
+            thePlayer.diceNum = GameManager.Instance.diceNum;
 
         // 주사위컨트롤 카드 사용 시, 해당 함수 호출
         if (thePlayer.lowerDiceFlag)

@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
     public GameObject onlyCardImg;
 
 
-    #region Test
+    #region Turn
     [Header("TurnCard")]
     public List<int> playerCount = new();
     public int turnIndex; //자신이 몇번째 턴인지 정보 저장.
@@ -79,6 +79,10 @@ public class GameManager : MonoBehaviour
 
     public GameObject turnCardParent;
 
+    #endregion
+
+    #region Dice
+    public int diceNum;
     #endregion
 
     [SerializeField] GameObject player1TurnImg, player2TurnImg;
