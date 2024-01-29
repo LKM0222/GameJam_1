@@ -155,6 +155,7 @@ public class EventManager : MonoBehaviour
             // ParsingData data = new ParsingData(ParsingType.Turn, (GameManager.Instance.playerCount.Count).ToString());
             // string jsonData = JsonUtility.ToJson(data);
             // Backend.Match.SendDataToInGameRoom(Encoding.UTF8.GetBytes(jsonData));
+            UIManager.Instance.SetUI();
         };
 
         Backend.Match.OnMatchRelay = (MatchRelayEventArgs args) => { //데이터 수신
