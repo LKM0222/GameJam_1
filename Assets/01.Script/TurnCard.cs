@@ -22,10 +22,11 @@ public class TurnCard : MonoBehaviour
             GameManager.Instance.turnIndex = turnNum; //나의 턴을 저장.
         this.gameObject.SetActive(false); 
         TurnCard tCard = new TurnCard(turnNum, turncardIdx);
+        string jsonData = JsonUtility.ToJson(tCard);
+        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Turn, jsonData);
+        Backend.Match.SendDataToInGameRoom(data);
         // string tJson = JsonUtility.ToJson(tCard);
         // ParsingData data = new ParsingData(ParsingType.Turn,tJson); //선택 시 데이터 전송(비활성화 위해)
         // string jsonData = JsonUtility.ToJson(data);
-        string jsonData = JsonUtility.ToJson(tCard);
-        Backend.Match.SendDataToInGameRoom(ParsingManager.Instance.ParsingSendData(ParsingType.Turn, jsonData));
     }
 }
