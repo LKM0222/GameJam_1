@@ -160,19 +160,22 @@ public class EventManager : MonoBehaviour
 
         Backend.Match.OnMatchRelay = (MatchRelayEventArgs args) => { //데이터 수신
             //수신받은 Json데이터를 다시 ParsingData클래스로 변환 후 처리.
-            byte[] data = args.BinaryUserData;
-            ParsingData pData = JsonUtility.FromJson<ParsingData>(Encoding.Default.GetString(data));
-            switch(pData.type){
-                case ParsingType.Turn: //턴에 대한 정보일경우
-                    //선택된 카드를 유저 둘 다 비활성화시킴.
-                    GameManager.Instance.playerCount.Add(1);
-                    GameManager.Instance.turnCards[int.Parse(pData.data)].SetActive(false); 
-                    if(GameManager.Instance.playerCount.Count > 1){
-                        GameManager.Instance.turnCardParent.SetActive(false);
-                    }
-                break;
-            }
+            // byte[] data = args.BinaryUserData;
+            // ParsingData pData = JsonUtility.FromJson<ParsingData>(Encoding.Default.GetString(data));
+            // switch(pData.type){
+            //     case ParsingType.Turn: //턴에 대한 정보일경우
+            //         //선택된 카드를 유저 둘 다 비활성화시킴.
+            //         GameManager.Instance.playerCount.Add(1);
+            //         GameManager.Instance.turnCards[int.Parse(pData.data)].SetActive(false); 
+            //         if(GameManager.Instance.playerCount.Count > 1){
+            //             GameManager.Instance.turnCardParent.SetActive(false);
+            //         }
+            //     break;
+            // }
+            ParsingManager.Instance.ParisngRecvData(args);
         };
+
+        
     }
 
 
