@@ -77,7 +77,8 @@ public class ButtonScript : MonoBehaviour
             
             TurnCard tCard = new(turnNum, turncardIdx);
             string jsonData = JsonUtility.ToJson(tCard);
-            byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Turn, jsonData);
+            byte[] data;
+            data = ParsingManager.Instance.ParsingSendData(ParsingType.Turn, jsonData);
             Backend.Match.SendDataToInGameRoom(data);
 
             this.gameObject.SetActive(false); 
