@@ -12,6 +12,9 @@ public class ButtonScript : MonoBehaviour
     public PurchaseSystem thePS;
     public GroundBuyScript theGBS;
 
+    [Header("TurnCard")]
+    public int turnNum, turncardIdx;
+
     private void Start()
     {
         theGM = FindObjectOfType<GameManager>();
@@ -67,13 +70,18 @@ public class ButtonScript : MonoBehaviour
         // theGM.nowPlayer.againstPlayer_Tile.Add(theGM.nowPlayer.nowTile.gameObject);
     }
     
-    /////////////////////통신을 위한 버튼
-    ///
-    //TestSend버튼
-    public void TestSendBtn(){
-        int data = 1;
-        string jsonData = JsonUtility.ToJson(data);
-        print(jsonData);
-        // Backend.Match.SendDataToInGameRoom(jsonData);
+     public void TurnCardClick(){
+        if(GameManager.Instance.turnIndex == 0) { //묶어주지 않으면 계속 선택이 가능함...
+            //턴 인덱스가 0이면 아직 내 턴카드를 선택하지 않은것.
+            GameManager.Instance.turnIndex = turnNum; //나의 턴을 저장.
+            this.gameObject.SetActive(false); 
+            TurnCard tCard = new(turnNum, turncardIdx);
+            string jsonData = JsonUtility.ToJson(tCard);
+            byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Turn, jsonData);
+            Backend.Match.SendDataToInGameRoom(data);
+        }
+        // string tJson = JsonUtility.ToJson(tCard);
+        // ParsingData data = new ParsingData(ParsingType.Turn,tJson); //선택 시 데이터 전송(비활성화 위해)
+        // string jsonData = JsonUtility.ToJson(data);
     }
 }

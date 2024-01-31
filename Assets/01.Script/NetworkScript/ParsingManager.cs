@@ -18,6 +18,16 @@ public class ParsingData{
     }
 }
 
+public class TurnCard{
+    public int turnNum;
+    public int turncardIdx;
+
+    public TurnCard(int _turnNum, int _turnCardIdx){
+        turnNum = _turnNum;
+        turncardIdx = _turnCardIdx;
+    }
+}
+
 public class DicePosData{
     public ParsingType type;
     public Vector3 data;

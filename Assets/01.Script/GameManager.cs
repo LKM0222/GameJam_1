@@ -97,13 +97,13 @@ public class GameManager : MonoBehaviour
         //턴 선택 카드 번호 랜덤으로 설정
         if (Random.Range(0, 2) == 0)
         {
-            turnCards[0].GetComponent<TurnCard>().turnNum = 1;
-            turnCards[1].GetComponent<TurnCard>().turnNum = 2;
+            turnCards[0].GetComponent<ButtonScript>().turnNum = 1;
+            turnCards[1].GetComponent<ButtonScript>().turnNum = 2;
         }
         else
         {
-            turnCards[0].GetComponent<TurnCard>().turnNum = 2;
-            turnCards[1].GetComponent<TurnCard>().turnNum = 1;
+            turnCards[0].GetComponent<ButtonScript>().turnNum = 2;
+            turnCards[1].GetComponent<ButtonScript>().turnNum = 1;
         }
     }
 
