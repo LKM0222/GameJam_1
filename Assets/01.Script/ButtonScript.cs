@@ -74,11 +74,13 @@ public class ButtonScript : MonoBehaviour
         if(GameManager.Instance.turnIndex == 0) { //묶어주지 않으면 계속 선택이 가능함...
             //턴 인덱스가 0이면 아직 내 턴카드를 선택하지 않은것.
             GameManager.Instance.turnIndex = turnNum; //나의 턴을 저장.
-            this.gameObject.SetActive(false); 
+            
             TurnCard tCard = new(turnNum, turncardIdx);
             string jsonData = JsonUtility.ToJson(tCard);
             byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Turn, jsonData);
             Backend.Match.SendDataToInGameRoom(data);
+
+            this.gameObject.SetActive(false); 
         }
         // string tJson = JsonUtility.ToJson(tCard);
         // ParsingData data = new ParsingData(ParsingType.Turn,tJson); //선택 시 데이터 전송(비활성화 위해)
