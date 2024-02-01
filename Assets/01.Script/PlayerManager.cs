@@ -79,6 +79,15 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        //의외로 쉬울지도??
+        //내 턴을 알 수만 있다면 내 턴에서 하는것과 상대방턴에서 하는것을 구분할 수 있다.
+        //예를들어서 내 턴이면 내 캐릭터의 PlayerManager를 사용하면 되고,
+        //상대방턴이면 상대방의 PlayerManager를 사용하면 된다.
+        //즉, 턴 구분만 완벽하게 이뤄지면 스크립트의 수정이 거의 없을것.
+
+        //단, 플레이어가 구매하는 행동, 건물을 짓는 행동은 구별해줄 필요가 있다.
+        
         playerMoneyText.text = playerMoney.ToString();
 
         if (canMove)
