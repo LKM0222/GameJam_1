@@ -27,7 +27,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     public static DiceSystem Instance{
         get {
             if(_instance == null)
-                _instance = new();
+                _instance = FindObjectOfType(typeof(DiceSystem)) as DiceSystem;
             
             return _instance;
         }

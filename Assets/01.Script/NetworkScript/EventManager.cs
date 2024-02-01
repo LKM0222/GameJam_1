@@ -180,6 +180,7 @@ public class EventManager : MonoBehaviour
                 break;
 
                 case ParsingType.Dice:
+                    print("dice type");
                     DiceData dData = JsonUtility.FromJson<DiceData>(pData.data);
                     GameManager.Instance.diceNum = dData.diceNum;
                     DiceSystem.Instance.diceFlag = true;
