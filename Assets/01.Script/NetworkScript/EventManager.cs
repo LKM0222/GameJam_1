@@ -181,6 +181,7 @@ public class EventManager : MonoBehaviour
 
                 case ParsingType.Dice:
                     print("dice type");
+                    StartCoroutine(DiceSystem.Instance.RollDiceCoroutine());
                     DiceData dData = JsonUtility.FromJson<DiceData>(pData.data);
                     GameManager.Instance.diceNum = dData.diceNum;
                     DiceSystem.Instance.diceFlag = true;

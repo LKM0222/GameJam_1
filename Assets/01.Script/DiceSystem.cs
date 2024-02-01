@@ -55,6 +55,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
                 animatorFlag = false;
             }
         }
+
     }
 
     // 팻말을 드래그했을 때 호출
@@ -93,8 +94,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
         }
 
 
-        //서버에서 값이 도착할때까지 기다려야하니깐, 코루틴으로 다시 설정함.
-        StartCoroutine(RollDiceCoroutine());
+        
     }
 
     public void RollDice()
@@ -103,11 +103,9 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
         DiceData dData = new(dNum, GameManager.Instance.turnIndex); //서버로 전송하기 위해 데이터 클래스화
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Dice, JsonUtility.ToJson(dData));
         Backend.Match.SendDataToInGameRoom(data);
-        diceFlag = false;
-        
     }
 
-    IEnumerator RollDiceCoroutine(){
+    public IEnumerator RollDiceCoroutine(){
         print("diceCoroutine Start");
         yield return new WaitUntil(() => diceFlag == true); //서버에서 주사위값을 저장할때까지 기다림.
 
@@ -136,5 +134,6 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
         thePlayer.downInformationText.gameObject.SetActive(false);
         EggObj.SetActive(true);
         animatorFlag = true;
+        diceFlag = false;
     }
 }
