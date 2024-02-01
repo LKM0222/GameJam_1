@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Unity.VisualScripting;
+using System.Security.Cryptography;
 #endregion
 public class EventManager : MonoBehaviour
 {
@@ -176,6 +177,12 @@ public class EventManager : MonoBehaviour
                     if(GameManager.Instance.playerCount.Count > 1){
                         GameManager.Instance.turnCardParent.SetActive(false);
                     }
+                break;
+
+                case ParsingType.Dice:
+                    DiceData dData = JsonUtility.FromJson<DiceData>(pData.data);
+                    GameManager.Instance.diceNum = dData.diceNum;
+                    DiceSystem.Instance.diceFlag = true;
                 break;
             }
             // ParsingManager.Instance.ParisngRecvData(args);

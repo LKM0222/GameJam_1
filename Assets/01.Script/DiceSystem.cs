@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using BackEnd;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,6 +19,20 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     [SerializeField] Text diceNumText; //주사위 눈금 택스트
     [SerializeField] Animator EggAnimator; //애니메이터 상태 체크 위한 변수
     [SerializeField] bool animatorFlag; //애니메이터가 시작되고부터 Update의 로직을 실행시키기위해 추가.
+
+    public bool diceFlag; //주사위가 굴려졋는지 확인하는 플래그
+
+    #region Instance
+    private static DiceSystem _instance;
+    public static DiceSystem Instance{
+        get {
+            if(_instance == null)
+                _instance = new();
+            
+            return _instance;
+        }
+    }
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -76,14 +91,32 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
             // 팻말의 위치를 다시 초기 위치로 돌려놓음
             this.transform.localPosition = nowPos;
         }
+
+
+        //서버에서 값이 도착할때까지 기다려야하니깐, 코루틴으로 다시 설정함.
+        StartCoroutine(RollDiceCoroutine());
     }
 
     public void RollDice()
     {
+        int dNum = Random.Range(1,9);
+        DiceData dData = new(dNum, GameManager.Instance.turnIndex); //서버로 전송하기 위해 데이터 클래스화
+        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Dice, JsonUtility.ToJson(dData));
+        Backend.Match.SendDataToInGameRoom(data);
+        diceFlag = false;
+        
+    }
+
+    IEnumerator RollDiceCoroutine(){
+        print("diceCoroutine Start");
+        yield return new WaitUntil(() => diceFlag == true); //서버에서 주사위값을 저장할때까지 기다림.
+
+
         //원래는 다이스를 굴리면 플레이어에게 저장했지만, 이제는 게임매니저에 저장되어서 현재 턴의 플레이어에게 할당할것.
-        GameManager.Instance.diceNum = Random.Range(1,9);
+        // GameManager.Instance.diceNum = Random.Range(1,9);
+        // 게임매니저에 저장시킬 변수는 EventManager로 이동.
         //if() //내 순서라면 플레이어 다이스 넘에 저장.
-            thePlayer.diceNum = GameManager.Instance.diceNum;
+        thePlayer.diceNum = GameManager.Instance.diceNum;
 
         // 주사위컨트롤 카드 사용 시, 해당 함수 호출
         if (thePlayer.lowerDiceFlag)

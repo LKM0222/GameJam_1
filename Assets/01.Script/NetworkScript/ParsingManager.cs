@@ -28,14 +28,15 @@ public class TurnCard{
     }
 }
 
-public class DicePosData{
-    public ParsingType type;
-    public Vector3 data;
+public class DiceData{
+    public int diceNum; //어느 플레이어든 던진 주사위 값
+    public int playerNum; //어떤 플레이어가 주사위를 던진건지
 
-    public DicePosData(ParsingType _type, Vector3 _data){
-        type = _type;
-        data = _data;
+    public DiceData(int _diceNum, int _playerNum){
+        diceNum = _diceNum;
+        playerNum = _playerNum;
     }
+    
 }
 
 #endregion
@@ -65,7 +66,24 @@ public class ParsingManager : MonoBehaviour
     }
     #endregion
 
-    public void ParisngRecvData(MatchRelayEventArgs args){
+    public byte[] ParsingSendData(ParsingType _type, string _jsonData){
+        //전달하는 함수. 전달값은 byte[]로 전달.
+        //클래스를 선언한 다음 이 함수 사용
+        //string jsonData = JsonUtility.ToJson(data);로 바뀐 데이터를 전달.
+        ParsingData data = new(_type, _jsonData);
+        string jsonData = JsonUtility.ToJson(data);
+        print("ParsingSendData is " + jsonData);
+        return Encoding.UTF8.GetBytes(jsonData); //반환값을 Backend.Match.SendDataToinGameRoom으로 전달.
+    }
+
+
+
+
+}
+
+
+/*
+public void ParisngRecvData(MatchRelayEventArgs args){
         //받는 함수(받는 데이터는 byte[]로 받음.
         //수신이벤트에서 각 클래스로 변환하는 함수.
         print("Recv!");
@@ -84,18 +102,5 @@ public class ParsingManager : MonoBehaviour
                 }
             break;
         }
-    }
-
-    public byte[] ParsingSendData(ParsingType _type, string _jsonData){
-        //전달하는 함수. 전달값은 byte[]로 전달.
-        //클래스를 선언한 다음 이 함수 사용
-        //string jsonData = JsonUtility.ToJson(data);로 바뀐 데이터를 전달.
-        ParsingData data = new(_type, _jsonData);
-        string jsonData = JsonUtility.ToJson(data);
-        print("ParsingSendData is " + jsonData);
-        return Encoding.UTF8.GetBytes(jsonData); //반환값을 Backend.Match.SendDataToinGameRoom으로 전달.
-    }
-
-
-}
+    }*/
 
