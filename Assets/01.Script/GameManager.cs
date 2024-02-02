@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject player1TurnImg, player2TurnImg;
     public bool isActiveTurnImage;
     public GameObject player1TeleportEffect, player2TeleportEffect;
+    public GameObject gameOverUI;
 
     // Start is called before the first frame update
     void Start()
@@ -123,6 +124,7 @@ public class GameManager : MonoBehaviour
     {
         if (CheckGameOver())
         {
+            gameOverUI.SetActive(true);
             print(nowPlayer.againstPlayer.playerId + " 승리!");
             print("Game Over!");
         }
