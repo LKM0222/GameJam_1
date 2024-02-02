@@ -55,8 +55,11 @@ public class ButtonScript : MonoBehaviour
     //취소버튼
     public void OnPurchaseCloseBtn()
     {
-        theGM.NextTurnFunc();
-        theGM.UIFlag = false;
+        //턴그냥 넘김
+        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
+        Backend.Match.SendDataToInGameRoom(data);
+        // theGM.NextTurnFunc(); //이 함수로
+        // theGM.UIFlag = false;
     }
 
     //땅 구매 버튼

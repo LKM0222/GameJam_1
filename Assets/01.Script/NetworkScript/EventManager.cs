@@ -186,6 +186,11 @@ public class EventManager : MonoBehaviour
                     GameManager.Instance.diceNum = dData.diceNum;
                     DiceSystem.Instance.diceFlag = true;
                 break;
+
+                case ParsingType.NextTurn:
+                    GameManager.Instance.NextTurnFunc(); //이 함수로
+                    GameManager.Instance.UIFlag = false;
+                break;
             }
             // ParsingManager.Instance.ParisngRecvData(args);
         };
