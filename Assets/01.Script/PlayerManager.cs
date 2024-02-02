@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -68,12 +69,16 @@ public class PlayerManager : MonoBehaviour
     TileManager theTM;
     TurnSignScript theTSI;
 
+    [Header("Test")]
+    [SerializeField] Vector3 targetPos;
+
     // Start is called before the first frame update
     void Start()
     {
         theTM = FindObjectOfType<TileManager>();
         theGM = FindObjectOfType<GameManager>();
         theTSI = FindObjectOfType<TurnSignScript>();
+        moveSpeed = 4f;
     }
 
     // Update is called once per frame
@@ -144,7 +149,7 @@ public class PlayerManager : MonoBehaviour
         {
             // Player 실제 이동 코루틴 실행
             isMoving = true;
-            Vector3 targetPos = tileToGo[0].transform.Find("Pos").transform.position;
+            targetPos = tileToGo[0].transform.Find("Pos").transform.position;
             StartCoroutine(MovingPlayerCoroutine(targetPos));
             yield return new WaitUntil(() => isMoving == false);
 
@@ -211,11 +216,15 @@ public class PlayerManager : MonoBehaviour
 
         while (isMoving)
         {
+            print("is moving Check");
+            //무한루프가 문제임.
             this.transform.position = Vector3.MoveTowards(this.transform.position, target, Time.deltaTime * moveSpeed);
             yield return new WaitForEndOfFrame();
             if (this.transform.position == target)
             {
+                print("positioncheck");
                 isMoving = false;
+                break;
             }
         }
         yield return null;
