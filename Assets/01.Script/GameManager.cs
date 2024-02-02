@@ -121,9 +121,17 @@ public class GameManager : MonoBehaviour
     }
 
     public void NextTurnFunc()
-    { //턴 종료일때 호출하는 메서드. 공통으로 들어가는 요소만 넣었음.
-        turnCount += 1;//턴넘김
-        nextTurn = true;
+    {
+        if (CheckGameOver())
+        {
+            print(nowPlayer.againstPlayer.playerId + " 승리!");
+            print("Game Over!");
+        }
+        else
+        {
+            turnCount += 1;
+            nextTurn = true;
+        }
     }
 
     IEnumerator TurnImgCoroutine(int turn)
@@ -146,5 +154,11 @@ public class GameManager : MonoBehaviour
             players[1].downInformationText.gameObject.SetActive(true);
         }
         isActiveTurnImage = false;
+    }
+
+    bool CheckGameOver()
+    {
+        if (nowPlayer.playerMoney < 0) return true;
+        else return false;
     }
 }
