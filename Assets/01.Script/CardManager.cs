@@ -18,6 +18,7 @@ public class CardManager : MonoBehaviour
 
     public bool isShowCard;
     public bool isGetCard;
+    public bool isSelectingLaser;
 
     public ParticleSystem destroyParticle;
     public ParticleSystem laserParticle;
@@ -327,12 +328,17 @@ public class CardManager : MonoBehaviour
         theGM.laserComplete = false;
 
         theGM.nowPlayer.blackBackground.SetActive(true);
+
+        isSelectingLaser = true;
+
         for (int i = 0; i < theTile.tiles.Length; i++)
         {
             theTile.tiles[i].canTileSelect = true; //모든 카드 클릭 가능하도록 미리 클릭하고 다음턴에 해당 위치로 이동.
         }
 
         yield return new WaitUntil(() => theGM.seletedTile != null);
+
+        isSelectingLaser = false;
 
         for (int i = 0; i < theTile.tiles.Length; i++)
         {

@@ -307,9 +307,6 @@ public class PlayerManager : MonoBehaviour
                 }
                 else
                 {
-                    theText.ShowText("땅을 구매하기 위한 알이 부족합니다.");
-                    yield return new WaitForSeconds(1f);
-                    theText.HideText();
                     theGM.NextTurnFunc();
                 }
             }

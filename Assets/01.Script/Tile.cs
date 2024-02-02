@@ -23,10 +23,12 @@ public class Tile : MonoBehaviour
     public int dir;
 
     GameManager theGM;
+    CardManager theCM;
 
     private void Start()
     {
         theGM = FindObjectOfType<GameManager>();
+        theCM = FindObjectOfType<CardManager>();
 
         // 모든 타일을 주인 없는 상태로 초기화
         ownPlayer = -1;
@@ -78,7 +80,7 @@ public class Tile : MonoBehaviour
     private void OnMouseDown()
     {
         // 레이저빔 사용 시
-        if (canTileSelect && theGM.nowPlayer.laserFlag)
+        if (canTileSelect && theCM.isSelectingLaser)
         {
             if (theGM.nowPlayer.playerId != ownPlayer && ownPlayer != -1)
             {
