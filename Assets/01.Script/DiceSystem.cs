@@ -51,7 +51,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
             if (!EggAnimator.GetCurrentAnimatorStateInfo(0).IsName("Egg"))
             {
                 EggObj.SetActive(false);
-                // thePlayer.canMove = true;
+                thePlayer.canMove = true;
                 animatorFlag = false;
             }
         }
