@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
 
     TurnSignScript theTSI;
 
-    public List<GameObject> buyedTiles = new List<GameObject>();
     public GameObject clickedTile;
 
     public GameObject seletedTile; //텔레포트 활성화 시 다음턴에 움질일 위치 정함.
