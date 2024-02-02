@@ -15,7 +15,6 @@ public class GroundBuyScript : MonoBehaviour
     // 땅을 구매하면 건물 구매창을 띄우기 위한 플래그
     public bool groundBuyFlag;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -43,3 +42,4 @@ public class GroundBuyScript : MonoBehaviour
         }
     }
 }
+

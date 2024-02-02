@@ -67,13 +67,14 @@ public class PlayerManager : MonoBehaviour
     GameManager theGM;
     TileManager theTM;
     TurnSignScript theTSI;
-
+    TextManager theText;
     // Start is called before the first frame update
     void Start()
     {
         theTM = FindObjectOfType<TileManager>();
         theGM = FindObjectOfType<GameManager>();
         theTSI = FindObjectOfType<TurnSignScript>();
+        theText = FindObjectOfType<TextManager>();
     }
 
     // Update is called once per frame
@@ -299,8 +300,18 @@ public class PlayerManager : MonoBehaviour
             // 일반 타일 중 아무도 구매하지 않은 타일이라면 땅 구매 UI 활성화
             else if (nowTile.ownPlayer == -1)
             {
-                groundBuyUi.SetActive(true);
-                theGM.UIFlag = true;
+                if (playerMoney >= 50)
+                {
+                    groundBuyUi.SetActive(true);
+                    theGM.UIFlag = true;
+                }
+                else
+                {
+                    theText.ShowText("땅을 구매하기 위한 알이 부족합니다.");
+                    yield return new WaitForSeconds(1f);
+                    theText.HideText();
+                    theGM.NextTurnFunc();
+                }
             }
             // 일반 타일 중 상대방이 구매한 타일이라면
             else
