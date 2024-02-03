@@ -72,12 +72,21 @@ public class ButtonScript : MonoBehaviour
         // 땅만 샀을 경우 해당 타일을 추가하고 상대방이 밟았을 때 50골드만 감소시키는 것 구현 아직 안됨
         // theGM.nowPlayer.againstPlayer_Tile.Add(theGM.nowPlayer.nowTile.gameObject);
     }
-    
+
+
+    //게임시작때, 자기 턴을 클릭하는 버튼
      public void TurnCardClick(){
         if(GameManager.Instance.turnIndex == 0) { //묶어주지 않으면 계속 선택이 가능함...
             //턴 인덱스가 0이면 아직 내 턴카드를 선택하지 않은것.
             GameManager.Instance.turnIndex = turnNum; //나의 턴을 저장.
             
+            if(GameManager.Instance.turnIndex == 1){
+                GameManager.Instance.myCharactor = GameObject.Find("Player1").GetComponent<PlayerManager>();
+            }
+            else{
+                GameManager.Instance.myCharactor = GameObject.Find("Player2").GetComponent<PlayerManager>();
+            }
+
             TurnCard tCard = new(turnNum, turncardIdx);
             string jsonData = JsonUtility.ToJson(tCard);
             byte[] data;

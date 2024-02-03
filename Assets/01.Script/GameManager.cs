@@ -79,6 +79,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject turnCardParent;
 
+    public PlayerManager myCharactor;
+
     #endregion
 
     #region Dice
@@ -116,9 +118,11 @@ public class GameManager : MonoBehaviour
             // 턴을 종료하고 상대 턴으로 넘어갔다면
             if (nextTurn)
             {
+                /*
                 //나머지가 1이면 1플레이어, 0이면 2플레이어
                 if (turnCount % 2 == 1)
                 {
+                    //player의 myturn을 하나로 만들어야될듯....
                     // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
                     players[0].myTurn = true;
                     players[1].myTurn = false;
@@ -131,6 +135,22 @@ public class GameManager : MonoBehaviour
                     players[1].myTurn = true;
                     players[0].myTurn = false;
                     nowPlayer = players[1];
+                    CardListUpdate();
+                }
+                */
+                if (turnCount % 2 == turnIndex)
+                {
+                    //player의 myturn을 하나로 만들어야될듯....
+                    // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
+                    myCharactor.myTurn = true;
+                    nowPlayer = myCharactor;
+                    CardListUpdate();
+                }
+                else
+                {
+                    // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
+                    myCharactor.myTurn = false;
+                    nowPlayer = myCharactor.againstPlayer;
                     CardListUpdate();
                 }
                 nextTurn = false;
@@ -194,6 +214,11 @@ public class GameManager : MonoBehaviour
         }
         isActiveTurnImage = false;
     }
+
+    // IEnumerator ChoiceCharactorCoroutine(){
+    //     yield return WaitUntill(() => playerCount.Count > 1);
+        
+    // }
 }
 
 
