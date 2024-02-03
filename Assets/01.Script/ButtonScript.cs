@@ -83,7 +83,7 @@ public class ButtonScript : MonoBehaviour
             //턴 인덱스가 0이면 아직 내 턴카드를 선택하지 않은것.
             GameManager.Instance.turnIndex = turnNum; //나의 턴을 저장.
             
-            if(turnNum == 1){
+            if(GameManager.Instance.turnIndex == 1){
                 GameManager.Instance.myCharactor = GameObject.Find("Player1").GetComponent<PlayerManager>();
             }
             else{
