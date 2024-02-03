@@ -203,7 +203,9 @@ public class EventManager : MonoBehaviour
 
                 case ParsingType.GroundBuy:
                     if(GameManager.Instance.myCharactor.myTurn){
+                        print("GroundBuy");
                         theGBS.GroundBuy();
+                        print("GroundBuySuccess");
                         GameManager.Instance.myCharactor.groundCount += 1;
                         GameManager.Instance.myCharactor.playerMoney -= 50;
                     }
