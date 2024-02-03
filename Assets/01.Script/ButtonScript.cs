@@ -71,7 +71,7 @@ public class ButtonScript : MonoBehaviour
 
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.GroundBuy, "");
         Backend.Match.SendDataToInGameRoom(data);
-
+        theGBS.GroundBuy();
         // 땅만 샀을 경우 해당 타일을 추가하고 상대방이 밟았을 때 50골드만 감소시키는 것 구현 아직 안됨
         // theGM.nowPlayer.againstPlayer_Tile.Add(theGM.nowPlayer.nowTile.gameObject);
     }

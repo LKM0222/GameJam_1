@@ -31,6 +31,7 @@ public class GroundBuyScript : MonoBehaviour
         // }
     }
     public void GroundBuy(){
+        print("groundbuy func");
         thePS.cur = 1;
         thePS.buildingImg.sprite = theGM.buildings[1].buildingImg.building_front;
         thePS.buildingText.text = theGM.buildings[1].buildingName;
