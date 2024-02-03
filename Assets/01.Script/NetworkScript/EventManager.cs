@@ -178,7 +178,7 @@ public class EventManager : MonoBehaviour
             //pData.type : 데이터의 타입, pData.data : string데이터 (클래스별 데이터라 각 클래스에 맞는 파싱과정 필요)
             //데이터의 타입으로 스위치문 결정, 데이터를 다시 위와 같은 과정으로 알맞은 클래스로 변환 후 사용.
             switch(pData.type){
-                case ParsingType.Turn:
+                case ParsingType.Turn: //턴 선택 분기
                     print("turn case");
                     TurnCard tData = JsonUtility.FromJson<TurnCard>(pData.data);
                     GameManager.Instance.playerCount.Add(1);
@@ -188,7 +188,7 @@ public class EventManager : MonoBehaviour
                     }
                 break;
 
-                case ParsingType.Dice:
+                case ParsingType.Dice: //주사위 데이터
                     print("dice type");
                     StartCoroutine(DiceSystem.Instance.RollDiceCoroutine());
                     DiceData dData = JsonUtility.FromJson<DiceData>(pData.data);
@@ -196,16 +196,16 @@ public class EventManager : MonoBehaviour
                     DiceSystem.Instance.diceFlag = true;
                 break;
 
-                case ParsingType.NextTurn:
+                case ParsingType.NextTurn: //다음턴으로 넘기기
                     GameManager.Instance.NextTurnFunc(); //이 함수로
                     GameManager.Instance.UIFlag = false;
                 break;
 
-                case ParsingType.GroundBuy:
+                case ParsingType.GroundBuy: //땅 구매
                     if(GameManager.Instance.myCharactor.myTurn){
-                        print("GroundBuy");
-                        theGBS.GroundBuy();
-                        print("GroundBuySuccess");
+                        // print("GroundBuy");
+                        // theGBS.GroundBuy();
+                        // print("GroundBuySuccess");
                         GameManager.Instance.myCharactor.groundCount += 1;
                         GameManager.Instance.myCharactor.playerMoney -= 50;
                     }
@@ -217,6 +217,38 @@ public class EventManager : MonoBehaviour
                         GameManager.Instance.myCharactor.againstPlayer.groundCount += 1;
                         GameManager.Instance.myCharactor.againstPlayer.playerMoney -= 50;
                     }
+                break;
+
+                case ParsingType.BuildingBuy: //건물건설
+                    if(GameManager.Instance.myCharactor.myTurn){
+                        BuildingData bdata = JsonUtility.FromJson<BuildingData>(pData.data);
+
+    
+                        //건물 UI표시는 어떻게?
+                        // theGM.nowPlayer.nowTile.building = theGM.buildings[cur];
+                        GameManager.Instance.myCharactor.nowTile.building =
+                            GameManager.Instance.buildings[bdata.buildingNum];
+
+                        GameManager.Instance.myCharactor.buildingCount += 1;
+                        GameManager.Instance.myCharactor.playerMoney -= 50; //건물 건설비용
+                        GameManager.Instance.myCharactor.nowTile.price = 
+                        GameManager.Instance.buildings[bdata.buildingNum].toll;
+
+                    }
+                    else{
+                        BuildingData bdata = JsonUtility.FromJson<BuildingData>(pData.data);
+
+                        GameManager.Instance.myCharactor.againstPlayer.nowTile.building = 
+                            GameManager.Instance.buildings[bdata.buildingNum];
+
+                        GameManager.Instance.myCharactor.againstPlayer.buildingCount += 1;
+                        GameManager.Instance.myCharactor.againstPlayer.playerMoney -= 50; //건물 건설비용
+                        GameManager.Instance.myCharactor.againstPlayer.nowTile.price = 
+                        GameManager.Instance.buildings[bdata.buildingNum].toll;
+                    }
+                    // theGM.nowPlayer.buildingCount += 1;
+                    // theGM.nowPlayer.playerMoney -= 50;
+                    // theGM.nowPlayer.nowTile.price = theGM.buildings[cur].toll;
                 break;
             }
             // ParsingManager.Instance.ParisngRecvData(args);

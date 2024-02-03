@@ -39,6 +39,13 @@ public class DiceData{
     
 }
 
+public class BuildingData{
+    public int buildingNum;
+    public BuildingData(int _buildingNum){
+        buildingNum = _buildingNum;
+    }
+}
+
 
 
 #endregion
@@ -48,7 +55,8 @@ public enum ParsingType{
     Turn,
     Dice,
     NextTurn,
-    GroundBuy
+    GroundBuy,
+    BuildingBuy
 }
 #endregion
 
