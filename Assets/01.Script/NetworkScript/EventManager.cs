@@ -178,6 +178,18 @@ public class EventManager : MonoBehaviour
             //pData.type : 데이터의 타입, pData.data : string데이터 (클래스별 데이터라 각 클래스에 맞는 파싱과정 필요)
             //데이터의 타입으로 스위치문 결정, 데이터를 다시 위와 같은 과정으로 알맞은 클래스로 변환 후 사용.
             switch(pData.type){
+                case ParsingType.TurnCardSet:
+                    TurnCardSet tsData = JsonUtility.FromJson<TurnCardSet>(pData.data);
+                    if(tsData.randomNum == 0){
+                        GameManager.Instance.turnCards[0].GetComponent<ButtonScript>().turnNum = 1;
+                        GameManager.Instance.turnCards[1].GetComponent<ButtonScript>().turnNum = 0;
+                    } else{
+                        GameManager.Instance.turnCards[0].GetComponent<ButtonScript>().turnNum = 0;
+                        GameManager.Instance.turnCards[1].GetComponent<ButtonScript>().turnNum = 1;
+                    }
+
+                break;
+
                 case ParsingType.Turn: //턴 선택 분기
                     print("turn case");
                     TurnCard tData = JsonUtility.FromJson<TurnCard>(pData.data);

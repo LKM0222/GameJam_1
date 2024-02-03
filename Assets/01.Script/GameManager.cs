@@ -94,19 +94,23 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        TurnCardSet tsdata = new(Random.Range(0,2));
+        string jsonData = JsonUtility.ToJson(tsdata);
+        ParsingManager.Instance.ParsingSendData(ParsingType.TurnCardSet, jsonData);
+
         theTSI = FindObjectOfType<TurnSignScript>();
         //AudioManager.instance.Play("mainSound");
         //턴 선택 카드 번호 랜덤으로 설정
-        if (Random.Range(0, 2) == 0)
-        {
-            turnCards[0].GetComponent<ButtonScript>().turnNum = 1;
-            turnCards[1].GetComponent<ButtonScript>().turnNum = 0;
-        }
-        else
-        {
-            turnCards[0].GetComponent<ButtonScript>().turnNum = 0;
-            turnCards[1].GetComponent<ButtonScript>().turnNum = 1;
-        }
+        // if (Random.Range(0, 2) == 0)
+        // {
+        //     turnCards[0].GetComponent<ButtonScript>().turnNum = 1;
+        //     turnCards[1].GetComponent<ButtonScript>().turnNum = 0;
+        // }
+        // else
+        // {
+        //     turnCards[0].GetComponent<ButtonScript>().turnNum = 0;
+        //     turnCards[1].GetComponent<ButtonScript>().turnNum = 1;
+        // }
     }
 
     // Update is called once per frame

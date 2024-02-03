@@ -18,12 +18,19 @@ public class ParsingData{
     }
 }
 
+public class TurnCardSet{
+    public int randomNum;
+
+    public TurnCardSet(int _randomNum){
+        randomNum = _randomNum;
+    }
+}
+
 public class TurnCard{
-    public int turnNum;
+    // public int turnNum;
     public int turncardIdx;
 
-    public TurnCard(int _turnNum, int _turnCardIdx){
-        turnNum = _turnNum;
+    public TurnCard(int _turnCardIdx){
         turncardIdx = _turnCardIdx;
     }
 }
@@ -52,6 +59,7 @@ public class BuildingData{
 
 #region Enum_ParsingType
 public enum ParsingType{
+    TurnCardSet,
     Turn,
     Dice,
     NextTurn,

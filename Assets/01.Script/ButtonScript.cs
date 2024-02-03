@@ -90,7 +90,7 @@ public class ButtonScript : MonoBehaviour
                 GameManager.Instance.myCharactor = GameObject.Find("Player2").GetComponent<PlayerManager>();
             }
 
-            TurnCard tCard = new(turnNum, turncardIdx);
+            TurnCard tCard = new(turncardIdx);
             string jsonData = JsonUtility.ToJson(tCard);
             byte[] data;
             data = ParsingManager.Instance.ParsingSendData(ParsingType.Turn, jsonData);
