@@ -6071,7 +6071,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerId: 1
-  playerMoney: 100
+  playerMoney: 1000
   playerMoneyText: {fileID: 1674247640}
   moveSpeed: 4
   diceNum: 1
@@ -6080,7 +6080,10 @@ MonoBehaviour:
   tileNum: 0
   nowTile: {fileID: 1693466814}
   tileToGo: []
-  cards: []
+  cards:
+  - card_name: 
+    cardCode: 8
+    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
   cardPrefab: {fileID: 512139286912891607, guid: c228b954db53a4beab116a5d0893c68a, type: 3}
   cardParent: {fileID: 1038877134}
   buildingCount: 0
@@ -7127,6 +7130,7 @@ MonoBehaviour:
   biggerComplete: 0
   isShowCard: 0
   isGetCard: 0
+  isSelectingLaser: 0
   destroyParticle: {fileID: 660541764}
   laserParticle: {fileID: 1754885353}
   highMoveParticle: {fileID: 2082826368}
@@ -9979,7 +9983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerId: 0
-  playerMoney: 50
+  playerMoney: 1000
   playerMoneyText: {fileID: 1244230541}
   moveSpeed: 4
   diceNum: 3
@@ -9988,7 +9992,10 @@ MonoBehaviour:
   tileNum: 0
   nowTile: {fileID: 1693466814}
   tileToGo: []
-  cards: []
+  cards:
+  - card_name: 
+    cardCode: 8
+    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
   cardPrefab: {fileID: 6451146003781836655, guid: 25207cfdf14f24dae8bcd45a9e382694, type: 3}
   cardParent: {fileID: 1044211839}
   buildingCount: 0

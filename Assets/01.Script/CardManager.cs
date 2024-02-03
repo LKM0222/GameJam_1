@@ -373,6 +373,7 @@ public class CardManager : MonoBehaviour
         // 현재 타일의 소유주와 건물을 없앰
         theGM.seletedTile.GetComponent<Tile>().ownPlayer = -1;
         theGM.seletedTile.GetComponent<Tile>().building = theGM.buildings[0];
+        theGM.seletedTile.GetComponent<Tile>().price = 0;
 
         yield return new WaitForEndOfFrame();
 
