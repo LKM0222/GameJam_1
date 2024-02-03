@@ -5952,6 +5952,7 @@ MonoBehaviour:
   isSetScale: 0
   isCheckingCard: 0
   theCM: {fileID: 1057635936}
+  targetPos: {x: 0, y: 0, z: 0}
 --- !u!212 &954396770
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9589,6 +9590,7 @@ MonoBehaviour:
   isSetScale: 0
   isCheckingCard: 0
   theCM: {fileID: 1057635936}
+  targetPos: {x: 0, y: 0, z: 0}
 --- !u!61 &1511854100
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9736,6 +9738,7 @@ MonoBehaviour:
   diceNumText: {fileID: 1626855499}
   EggAnimator: {fileID: 2110583021}
   animatorFlag: 0
+  diceFlag: 0
 --- !u!50 &1522404783
 Rigidbody2D:
   serializedVersion: 4
@@ -12157,11 +12160,12 @@ MonoBehaviour:
   showCardObject: {fileID: 1322388068}
   onlyCardImg: {fileID: 6734135712915195262, guid: f0c8e962b9bb6944f8cd518915fe3f3f, type: 3}
   playerCount: 
-  turnIndex: 0
+  turnIndex: -1
   turnCards:
   - {fileID: 228348586}
   - {fileID: 1420386648}
   turnCardParent: {fileID: 883349527}
+  myCharactor: {fileID: 0}
   diceNum: 0
   player1TurnImg: {fileID: 2138027891}
   player2TurnImg: {fileID: 1406615652}
@@ -12789,6 +12793,7 @@ MonoBehaviour:
   diceNumText: {fileID: 1626855499}
   EggAnimator: {fileID: 2110583021}
   animatorFlag: 0
+  diceFlag: 0
 --- !u!50 &1962510039
 Rigidbody2D:
   serializedVersion: 4
