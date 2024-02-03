@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using BackEnd;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -94,9 +95,11 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //턴 선택 카드 번호 랜덤으로 설정
         TurnCardSet tsdata = new(Random.Range(0,2));
         string jsonData = JsonUtility.ToJson(tsdata);
-        ParsingManager.Instance.ParsingSendData(ParsingType.TurnCardSet, jsonData);
+        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.TurnCardSet, jsonData);
+        Backend.Match.SendDataToInGameRoom(data);
 
         theTSI = FindObjectOfType<TurnSignScript>();
         //AudioManager.instance.Play("mainSound");
