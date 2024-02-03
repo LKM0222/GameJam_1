@@ -25,6 +25,11 @@ public class EventManager : MonoBehaviour
 
     [Header("InGameServer")]
     MatchInGameRoomInfo roomInfo; //인게임에서 방 정보를 전달하기위해 선언해둔 변수
+
+
+    #region FindObjectArea
+    GroundBuyScript theGBS;
+    #endregion
     
     private void Awake() {
         if(Instance == null){
@@ -34,6 +39,10 @@ public class EventManager : MonoBehaviour
         else{
             Destroy(this.gameObject);
         }
+    }
+
+    private void Start() {
+        theGBS = FindObjectOfType<GroundBuyScript>();
     }
 
     // Update is called once per frame
@@ -190,6 +199,22 @@ public class EventManager : MonoBehaviour
                 case ParsingType.NextTurn:
                     GameManager.Instance.NextTurnFunc(); //이 함수로
                     GameManager.Instance.UIFlag = false;
+                break;
+
+                case ParsingType.GroundBuy:
+                    if(GameManager.Instance.myCharactor.myTurn){
+                        theGBS.GroundBuy();
+                        GameManager.Instance.myCharactor.groundCount += 1;
+                        GameManager.Instance.myCharactor.playerMoney -= 50;
+                    }
+                    else{
+                        //상대방이 땅을 구매했을 때, 상대방 땅 색깔로 구매되었다는걸 알려줘야함.
+                        // theGM.nowPlayer.nowTile.ownPlayer = theGM.nowPlayer.playerId; 
+                        GameManager.Instance.myCharactor.againstPlayer.nowTile.ownPlayer 
+                            = GameManager.Instance.myCharactor.againstPlayer.playerId;
+                        GameManager.Instance.myCharactor.againstPlayer.groundCount += 1;
+                        GameManager.Instance.myCharactor.againstPlayer.playerMoney -= 50;
+                    }
                 break;
             }
             // ParsingManager.Instance.ParisngRecvData(args);

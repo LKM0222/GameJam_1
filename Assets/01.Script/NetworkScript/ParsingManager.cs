@@ -40,13 +40,15 @@ public class DiceData{
 }
 
 
+
 #endregion
 
 #region Enum_ParsingType
 public enum ParsingType{
     Turn,
     Dice,
-    NextTurn
+    NextTurn,
+    GroundBuy
 }
 #endregion
 
