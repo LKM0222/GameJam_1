@@ -234,6 +234,12 @@ public class EventManager : MonoBehaviour
                         GameManager.Instance.myCharactor.nowTile.price = 
                         GameManager.Instance.buildings[bdata.buildingNum].toll;
 
+
+                        //모든 작업 완료 후 턴 넘기기
+                        //턴 넘기기 Enum이 있지만, 일단 이렇게 구현
+                        GameManager.Instance.NextTurnFunc();
+                        GameManager.Instance.UIFlag = false;
+
                     }
                     else{
                         BuildingData bdata = JsonUtility.FromJson<BuildingData>(pData.data);
@@ -245,6 +251,9 @@ public class EventManager : MonoBehaviour
                         GameManager.Instance.myCharactor.againstPlayer.playerMoney -= 50; //건물 건설비용
                         GameManager.Instance.myCharactor.againstPlayer.nowTile.price = 
                         GameManager.Instance.buildings[bdata.buildingNum].toll;
+
+                        GameManager.Instance.NextTurnFunc();
+                        GameManager.Instance.UIFlag = false;
                     }
                     // theGM.nowPlayer.buildingCount += 1;
                     // theGM.nowPlayer.playerMoney -= 50;
