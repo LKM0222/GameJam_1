@@ -12144,7 +12144,7 @@ MonoBehaviour:
   - {fileID: 954396769}
   nowPlayer: {fileID: 0}
   textManager: {fileID: 465093533}
-  turnCount: 1
+  turnCount: 3
   nextTurn: 1
   UIFlag: 0
   penetrateComplete: 1
