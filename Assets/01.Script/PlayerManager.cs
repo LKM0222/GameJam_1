@@ -84,7 +84,7 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
         //의외로 쉬울지도??
         //내 턴을 알 수만 있다면 내 턴에서 하는것과 상대방턴에서 하는것을 구분할 수 있다.
         //예를들어서 내 턴이면 내 캐릭터의 PlayerManager를 사용하면 되고,
@@ -262,8 +262,13 @@ public class PlayerManager : MonoBehaviour
         tileNum = int.Parse(nowTile.gameObject.name);
 
         VirtualCamera.SetActive(false);
+        
 
-        StartCoroutine(CheckArriveTile());
+        //내 턴일때만 UI상호작용
+        if(GameManager.Instance.myCharactor.myTurn){
+            StartCoroutine(CheckArriveTile());
+        }
+        
     }
 
     // 도착한 땅의 타일을 체크하여 상호작용하는 기능
