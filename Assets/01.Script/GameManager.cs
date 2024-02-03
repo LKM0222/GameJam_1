@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -57,6 +58,8 @@ public class GameManager : MonoBehaviour
     public bool isActiveTurnImage;
     public GameObject player1TeleportEffect, player2TeleportEffect;
     public GameObject gameOverUI;
+
+    public GameObject player1_floatingObject, player2_floatingObject;
 
     // Start is called before the first frame update
     void Start()
@@ -161,5 +164,44 @@ public class GameManager : MonoBehaviour
     {
         if (nowPlayer.playerMoney < 0) return true;
         else return false;
+    }
+
+    public IEnumerator SetFloatingText(PlayerManager _player, int _value, bool sign)
+    {
+        if (_player.playerId == 0)
+        {
+            player1_floatingObject.gameObject.SetActive(true);
+            if (sign)
+            {
+                player1_floatingObject.transform.GetChild(0).GetComponent<TMP_Text>().text = "+" + _value.ToString();
+                player1_floatingObject.transform.GetChild(1).GetComponent<TMP_Text>().text = "+" + _value.ToString();
+                player1_floatingObject.transform.GetChild(1).GetComponent<TMP_Text>().color = Color.green;
+            }
+            else
+            {
+                player1_floatingObject.transform.GetChild(0).GetComponent<TMP_Text>().text = "-" + _value.ToString();
+                player1_floatingObject.transform.GetChild(1).GetComponent<TMP_Text>().text = "-" + _value.ToString();
+                player1_floatingObject.transform.GetChild(1).GetComponent<TMP_Text>().color = Color.red;
+            }
+        }
+        else if (_player.playerId == 1)
+        {
+            player2_floatingObject.gameObject.SetActive(true);
+            if (sign)
+            {
+                player2_floatingObject.transform.GetChild(0).GetComponent<TMP_Text>().text = "+" + _value.ToString();
+                player2_floatingObject.transform.GetChild(1).GetComponent<TMP_Text>().text = "+" + _value.ToString();
+                player2_floatingObject.transform.GetChild(1).GetComponent<TMP_Text>().color = Color.green;
+            }
+            else
+            {
+                player2_floatingObject.transform.GetChild(0).GetComponent<TMP_Text>().text = "-" + _value.ToString();
+                player2_floatingObject.transform.GetChild(1).GetComponent<TMP_Text>().text = "-" + _value.ToString();
+                player2_floatingObject.transform.GetChild(1).GetComponent<TMP_Text>().color = Color.red;
+            }
+        }
+        yield return new WaitForSeconds(1f);
+        player1_floatingObject.gameObject.SetActive(false);
+        player2_floatingObject.gameObject.SetActive(false);
     }
 }

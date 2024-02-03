@@ -317,7 +317,9 @@ public class PlayerManager : MonoBehaviour
                 if (!exemptionFlag)
                 {
                     playerMoney -= nowTile.price;
+                    StartCoroutine(theGM.SetFloatingText(theGM.nowPlayer, nowTile.price, false));
                     againstPlayer.playerMoney += nowTile.price;
+                    StartCoroutine(theGM.SetFloatingText(theGM.nowPlayer.againstPlayer, nowTile.price, true));
                 }
                 // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
                 else
