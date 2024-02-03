@@ -63,14 +63,17 @@ public class ButtonScript : MonoBehaviour
         theGM.nowPlayer.groundCount += 1;
         theGM.nowPlayer.playerMoney -= 50;
 
+        theGM.SetFloatingText(theGM.nowPlayer, 50, false);
+
         // 땅만 샀을 경우 해당 타일을 추가하고 상대방이 밟았을 때 50골드만 감소시키는 것 구현 아직 안됨
         // theGM.nowPlayer.againstPlayer_Tile.Add(theGM.nowPlayer.nowTile.gameObject);
     }
-    
+
     /////////////////////통신을 위한 버튼
     ///
     //TestSend버튼
-    public void TestSendBtn(){
+    public void TestSendBtn()
+    {
         int data = 1;
         string jsonData = JsonUtility.ToJson(data);
         print(jsonData);

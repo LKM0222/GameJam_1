@@ -176,6 +176,7 @@ public class PlayerManager : MonoBehaviour
         if (nowTile.transform.name == "0")
         {
             playerMoney += 200;
+            theGM.SetFloatingText(theGM.nowPlayer, 200, true);
         }
 
         // 투명도둑을 사용하고 나와 상대방이 겹쳐질때, 상대방의 카드가 있을 때 투명도둑 효과 발동
@@ -272,6 +273,7 @@ public class PlayerManager : MonoBehaviour
                         // 농장
                         case 0:
                             playerMoney += 200;
+                            theGM.SetFloatingText(theGM.nowPlayer, 200, true);
                             print(playerMoney);
                             break;
                         // 제단
@@ -317,9 +319,9 @@ public class PlayerManager : MonoBehaviour
                 if (!exemptionFlag)
                 {
                     playerMoney -= nowTile.price;
-                    StartCoroutine(theGM.SetFloatingText(theGM.nowPlayer, nowTile.price, false));
+                    theGM.SetFloatingText(theGM.nowPlayer, nowTile.price, false);
                     againstPlayer.playerMoney += nowTile.price;
-                    StartCoroutine(theGM.SetFloatingText(theGM.nowPlayer.againstPlayer, nowTile.price, true));
+                    theGM.SetFloatingText(theGM.nowPlayer.againstPlayer, nowTile.price, true);
                 }
                 // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
                 else
@@ -336,10 +338,13 @@ public class PlayerManager : MonoBehaviour
             {
                 // 양계장
                 case 0:
+                    int totalMoney = 0;
                     for (int i = 0; i < theTM.tiles.Length; i++)
                     {
-                        if (theTM.tiles[i].ownPlayer == playerId && theTM.tiles[i].building.type == 0) playerMoney += 100;
+                        if (theTM.tiles[i].ownPlayer == playerId && theTM.tiles[i].building.type == 0) totalMoney += 100;
                     }
+                    playerMoney += totalMoney;
+                    theGM.SetFloatingText(theGM.nowPlayer, totalMoney, true);
                     break;
 
                 // 카드지급

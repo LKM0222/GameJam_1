@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -60,6 +61,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverUI;
 
     public GameObject player1_floatingObject, player2_floatingObject;
+    public GameObject floatingTextPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -166,42 +168,49 @@ public class GameManager : MonoBehaviour
         else return false;
     }
 
-    public IEnumerator SetFloatingText(PlayerManager _player, int _value, bool sign)
+    public void SetFloatingText(PlayerManager _player, int _value, bool sign)
     {
         if (_player.playerId == 0)
         {
-            player1_floatingObject.gameObject.SetActive(true);
+            // 플로팅 텍스트 프리팹 복제 및 텍스트 정렬
+            GameObject prefab = Instantiate(floatingTextPrefab, player1_floatingObject.transform);
+            prefab.transform.GetChild(0).GetComponent<TMP_Text>().alignment = TextAlignmentOptions.Left;
+            prefab.transform.GetChild(1).GetComponent<TMP_Text>().alignment = TextAlignmentOptions.Left;
+
+            // 부호에 따라 텍스트 내용과 색상을 바꿔줌
             if (sign)
             {
-                player1_floatingObject.transform.GetChild(0).GetComponent<TMP_Text>().text = "+" + _value.ToString();
-                player1_floatingObject.transform.GetChild(1).GetComponent<TMP_Text>().text = "+" + _value.ToString();
-                player1_floatingObject.transform.GetChild(1).GetComponent<TMP_Text>().color = Color.green;
+                prefab.transform.GetChild(0).GetComponent<TMP_Text>().text = "+" + _value.ToString();
+                prefab.transform.GetChild(1).GetComponent<TMP_Text>().text = "+" + _value.ToString();
+                prefab.transform.GetChild(1).GetComponent<TMP_Text>().color = Color.green;
             }
             else
             {
-                player1_floatingObject.transform.GetChild(0).GetComponent<TMP_Text>().text = "-" + _value.ToString();
-                player1_floatingObject.transform.GetChild(1).GetComponent<TMP_Text>().text = "-" + _value.ToString();
-                player1_floatingObject.transform.GetChild(1).GetComponent<TMP_Text>().color = Color.red;
+                prefab.transform.GetChild(0).GetComponent<TMP_Text>().text = "-" + _value.ToString();
+                prefab.transform.GetChild(1).GetComponent<TMP_Text>().text = "-" + _value.ToString();
+                prefab.transform.GetChild(1).GetComponent<TMP_Text>().color = Color.red;
             }
         }
         else if (_player.playerId == 1)
         {
-            player2_floatingObject.gameObject.SetActive(true);
+            // 플로팅 텍스트 프리팹 복제 및 텍스트 정렬
+            GameObject prefab = Instantiate(floatingTextPrefab, player2_floatingObject.transform);
+            prefab.transform.GetChild(0).GetComponent<TMP_Text>().alignment = TextAlignmentOptions.Right;
+            prefab.transform.GetChild(1).GetComponent<TMP_Text>().alignment = TextAlignmentOptions.Right;
+
+            // 부호에 따라 텍스트 내용과 색상을 바꿔줌
             if (sign)
             {
-                player2_floatingObject.transform.GetChild(0).GetComponent<TMP_Text>().text = "+" + _value.ToString();
-                player2_floatingObject.transform.GetChild(1).GetComponent<TMP_Text>().text = "+" + _value.ToString();
-                player2_floatingObject.transform.GetChild(1).GetComponent<TMP_Text>().color = Color.green;
+                prefab.transform.GetChild(0).GetComponent<TMP_Text>().text = "+" + _value.ToString();
+                prefab.transform.GetChild(1).GetComponent<TMP_Text>().text = "+" + _value.ToString();
+                prefab.transform.GetChild(1).GetComponent<TMP_Text>().color = Color.green;
             }
             else
             {
-                player2_floatingObject.transform.GetChild(0).GetComponent<TMP_Text>().text = "-" + _value.ToString();
-                player2_floatingObject.transform.GetChild(1).GetComponent<TMP_Text>().text = "-" + _value.ToString();
-                player2_floatingObject.transform.GetChild(1).GetComponent<TMP_Text>().color = Color.red;
+                prefab.transform.GetChild(0).GetComponent<TMP_Text>().text = "-" + _value.ToString();
+                prefab.transform.GetChild(1).GetComponent<TMP_Text>().text = "-" + _value.ToString();
+                prefab.transform.GetChild(1).GetComponent<TMP_Text>().color = Color.red;
             }
         }
-        yield return new WaitForSeconds(1f);
-        player1_floatingObject.gameObject.SetActive(false);
-        player2_floatingObject.gameObject.SetActive(false);
     }
 }
