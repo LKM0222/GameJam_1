@@ -401,7 +401,7 @@ public class PlayerManager : MonoBehaviour
         isSelectingTeleport = true;
         for (int i = 0; i < theTM.tiles.Length; i++)
         {
-            if (i != 6) theTM.tiles[i].canTileSelect = true;
+            if (i != 5) theTM.tiles[i].canTileSelect = true;
         }
 
         yield return new WaitUntil(() => theGM.seletedTile != null);
