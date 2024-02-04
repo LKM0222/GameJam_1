@@ -18,6 +18,7 @@ public class ButtonScript : MonoBehaviour
     private void Start()
     {
         theGM = FindObjectOfType<GameManager>();
+        thePS = FindObjectOfType<PurchaseSystem>();
     }
 
     //Right버튼
@@ -49,6 +50,12 @@ public class ButtonScript : MonoBehaviour
     //건물 구매버튼
     public void OnPurchaseBtn()
     {
+        BuildingData bdata = new(thePS.cur);
+        string jsonData = JsonUtility.ToJson(bdata);
+
+        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.BuildingBuy,jsonData);
+        Backend.Match.SendDataToInGameRoom(data);
+        
         thePS.BuildingPurchase();
     }
 

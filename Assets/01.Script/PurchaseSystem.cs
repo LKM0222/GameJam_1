@@ -39,21 +39,22 @@ public class PurchaseSystem : MonoBehaviour
     public void BuildingPurchase()
     {
         //여기서 구매버튼 커서 전송...?
-        BuildingData bdata = new(cur);
-        string jsonData = JsonUtility.ToJson(bdata);
+        //이거 버튼 누를때로 바꿔야되나.?
+        // BuildingData bdata = new(cur);
+        // string jsonData = JsonUtility.ToJson(bdata);
 
-        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.BuildingBuy,jsonData);
-        Backend.Match.SendDataToInGameRoom(data);
+        // byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.BuildingBuy,jsonData);
+        // Backend.Match.SendDataToInGameRoom(data);
 
         theGM.nowPlayer.nowTile.building = theGM.buildings[cur]; //타일의 건물 정보를 현재 커서에서 선택한 건물로 변경
 
         this.transform.parent.gameObject.SetActive(false);//모든 작업 끝났으니 현재 UI종료
 
-        // theGM.nowPlayer.buildingCount += 1;
-        // theGM.nowPlayer.playerMoney -= 50;
-        // theGM.nowPlayer.nowTile.price = theGM.buildings[cur].toll;
+        theGM.nowPlayer.buildingCount += 1;
+        theGM.nowPlayer.playerMoney -= 50;
+        theGM.nowPlayer.nowTile.price = theGM.buildings[cur].toll;
 
-        theGM.UIFlag = false; // UI를 끄기 위해 UIFlag False;
-        theGM.NextTurnFunc(); //next turn 호출
+        // theGM.UIFlag = false; // UI를 끄기 위해 UIFlag False;
+        // theGM.NextTurnFunc(); //next turn 호출
     }
 }

@@ -233,24 +233,26 @@ public class EventManager : MonoBehaviour
 
                 case ParsingType.BuildingBuy: //건물건설
                     if(GameManager.Instance.myCharactor.myTurn){
-                        BuildingData bdata = JsonUtility.FromJson<BuildingData>(pData.data);
+                        // BuildingData bdata = JsonUtility.FromJson<BuildingData>(pData.data);
 
     
-                        //건물 UI표시는 어떻게?
-                        // theGM.nowPlayer.nowTile.building = theGM.buildings[cur];
-                        GameManager.Instance.myCharactor.nowTile.building =
-                            GameManager.Instance.buildings[bdata.buildingNum];
+                        // //건물 UI표시는 어떻게?
+                        // // theGM.nowPlayer.nowTile.building = theGM.buildings[cur];
+                        // GameManager.Instance.myCharactor.nowTile.building =
+                        //     GameManager.Instance.buildings[bdata.buildingNum];
 
-                        GameManager.Instance.myCharactor.buildingCount += 1;
-                        GameManager.Instance.myCharactor.playerMoney -= 50; //건물 건설비용
-                        GameManager.Instance.myCharactor.nowTile.price = 
-                        GameManager.Instance.buildings[bdata.buildingNum].toll;
+                        // GameManager.Instance.myCharactor.buildingCount += 1;
+                        // GameManager.Instance.myCharactor.playerMoney -= 50; //건물 건설비용
+                        // GameManager.Instance.myCharactor.nowTile.price = 
+                        // GameManager.Instance.buildings[bdata.buildingNum].toll;
 
 
-                        //모든 작업 완료 후 턴 넘기기
-                        //턴 넘기기 Enum이 있지만, 일단 이렇게 구현
-                        GameManager.Instance.NextTurnFunc();
-                        GameManager.Instance.UIFlag = false;
+                        // //모든 작업 완료 후 턴 넘기기
+                        // //턴 넘기기 Enum이 있지만, 일단 이렇게 구현
+                        // GameManager.Instance.NextTurnFunc();
+                        // GameManager.Instance.UIFlag = false;
+                        // 여기는 그냥 버튼 눌렀을때 처리해주면 됨. 자기턴이니깐.
+                        // 상대방에게는 아래와 같이 전달해주면 될듯.
 
                     }
                     else{
