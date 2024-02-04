@@ -54,10 +54,12 @@ public class BuildingData{
 }
 
 public class TeleportData{
-    public bool tpflag;
+    public bool tpFlag;
+    public GameObject tpTile;
     
-    public TeleportData(bool _tpflag){
-        tpflag = _tpflag;
+    public TeleportData(bool _tpFlag,GameObject _tpTile){
+        tpFlag = _tpFlag;
+        tpTile = _tpTile;
     }
 }
 

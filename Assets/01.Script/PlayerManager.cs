@@ -431,7 +431,7 @@ public class PlayerManager : MonoBehaviour
         myTurn = false;
         tpFlag = true;
 
-        TeleportData tpData = new(tpFlag);
+        TeleportData tpData = new(tpFlag,tpTile);
 
         string jsonData = JsonUtility.ToJson(tpData);
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Teleport, jsonData);
