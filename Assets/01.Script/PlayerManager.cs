@@ -278,7 +278,8 @@ public class PlayerManager : MonoBehaviour
 
     // 도착한 땅의 타일을 체크하여 상호작용하는 기능
     public IEnumerator CheckArriveTile()
-    {   if(myTurn) //이게 없으면 상대방이 특수타일 동작 후 나 자신도 같은 UI를 띄우게 됨...! 중요
+    {   
+        if(myTurn) //이게 없으면 상대방이 특수타일 동작 후 나 자신도 같은 UI를 띄우게 됨...! 중요
         // 이동이 끝난 후, 일반 타일에 도착했다면
         if (!nowTile.specialTile)
         {
