@@ -145,6 +145,7 @@ public class GameManager : MonoBehaviour
                     CardListUpdate();
                 }
                 */
+                print("turnCount is " + turnCount % 2);
                 if (turnCount % 2 == turnIndex)
                 {
                     //player의 myturn을 하나로 만들어야될듯....
@@ -158,6 +159,9 @@ public class GameManager : MonoBehaviour
                     // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
                     myCharactor.myTurn = false;
                     nowPlayer = myCharactor.againstPlayer;
+                    if(nowPlayer.tpFlag){
+                        nowPlayer.myTurn = true;
+                    }
                     CardListUpdate();
                 }
                 nextTurn = false;

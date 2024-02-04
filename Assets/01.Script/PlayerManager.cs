@@ -113,7 +113,8 @@ public class PlayerManager : MonoBehaviour
             StartCoroutine(theCM.LaserBeamCoroutine());
         }
 
-        if (tpFlag && myTurn)
+        if(tpFlag && myTurn)
+        //if (tpFlag && GameManager.Instance.turnCount % 2 == GameManager.Instance.turnIndex)
         {
             StartCoroutine(TeleportCoroutine(playerId));
         }
@@ -427,23 +428,25 @@ public class PlayerManager : MonoBehaviour
 
         blackBackground.SetActive(false);
         tpTile = theGM.seletedTile;
-        theGM.seletedTile = null;
+        
         myTurn = false;
         tpFlag = true;
-
-        TeleportData tpData = new(tpFlag,tpTile);
+        
+        print("tpTileName is " + tpTile.name);
+        print("and, TPTile Find Name is "+ GameObject.Find(tpTile.name).name);
+        TeleportData tpData = new(tpFlag, tpTile.name);
 
         string jsonData = JsonUtility.ToJson(tpData);
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Teleport, jsonData);
         Backend.Match.SendDataToInGameRoom(data);
-
+        theGM.seletedTile = null;
         // theGM.NextTurnFunc();
     }
 
     IEnumerator TeleportCoroutine(int _playerId)
     {
         tpFlag = false;
-        myTurn = false;
+        // myTurn = false;
 
         // 턴을 알리는 텍스트가 사라질때까지 대기
         yield return new WaitUntil(() => !theGM.isActiveTurnImage);

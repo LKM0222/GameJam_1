@@ -280,7 +280,7 @@ public class EventManager : MonoBehaviour
                     TeleportData tpData = JsonUtility.FromJson<TeleportData>(pData.data);
 
                     GameManager.Instance.nowPlayer.tpFlag = tpData.tpFlag; //전달받은 값을 현재 턴의 플레이어에 할당.
-                    GameManager.Instance.nowPlayer.tpTile = tpData.tpTile;
+                    GameManager.Instance.nowPlayer.tpTile = GameObject.Find(tpData.tpTileNum); //땅이 계속 0으로만 들어감.
 
                     //이후 턴 넘기기.
                     GameManager.Instance.NextTurnFunc();
