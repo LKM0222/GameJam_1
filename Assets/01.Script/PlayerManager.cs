@@ -446,7 +446,7 @@ public class PlayerManager : MonoBehaviour
     IEnumerator TeleportCoroutine(int _playerId)
     {
         tpFlag = false;
-        // myTurn = false;
+        myTurn = false;
 
         // 턴을 알리는 텍스트가 사라질때까지 대기
         yield return new WaitUntil(() => !theGM.isActiveTurnImage);
