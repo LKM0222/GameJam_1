@@ -253,6 +253,8 @@ public class EventManager : MonoBehaviour
                         // GameManager.Instance.UIFlag = false;
                         // 여기는 그냥 버튼 눌렀을때 처리해주면 됨. 자기턴이니깐.
                         // 상대방에게는 아래와 같이 전달해주면 될듯.
+                        GameManager.Instance.NextTurnFunc();
+                        GameManager.Instance.UIFlag = false;
 
                     }
                     else{
