@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using BackEnd;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -399,7 +400,11 @@ public class PlayerManager : MonoBehaviour
 
                     break;
             }
-            theGM.NextTurnFunc();
+            //모든 특수타일들은 끝났을때 턴 넘김을 여기서 처리함.
+            
+            byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
+            Backend.Match.SendDataToInGameRoom(data);
+            // theGM.NextTurnFunc();
         }
     }
 
