@@ -275,6 +275,17 @@ public class EventManager : MonoBehaviour
                     // theGM.nowPlayer.playerMoney -= 50;
                     // theGM.nowPlayer.nowTile.price = theGM.buildings[cur].toll;
                 break;
+
+                case ParsingType.Teleport:
+                    TeleportData tpData = JsonUtility.FromJson<TeleportData>(pData.data);
+
+                    GameManager.Instance.nowPlayer.tpFlag = tpData.tpflag; //전달받은 값을 현재 턴의 플레이어에 할당.
+
+
+                    //이후 턴 넘기기.
+                    GameManager.Instance.NextTurnFunc();
+                    GameManager.Instance.UIFlag = false;
+                break;
             }
             // ParsingManager.Instance.ParisngRecvData(args);
         };

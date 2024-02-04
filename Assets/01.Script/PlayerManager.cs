@@ -402,8 +402,8 @@ public class PlayerManager : MonoBehaviour
             }
             //모든 특수타일들은 끝났을때 턴 넘김을 여기서 처리함.
             
-            byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
-            Backend.Match.SendDataToInGameRoom(data);
+            // byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
+            // Backend.Match.SendDataToInGameRoom(data);
             // theGM.NextTurnFunc();
         }
     }
@@ -430,6 +430,13 @@ public class PlayerManager : MonoBehaviour
         theGM.seletedTile = null;
         myTurn = false;
         tpFlag = true;
+
+        TeleportData tpData = new(tpFlag);
+
+        string jsonData = JsonUtility.ToJson(tpData);
+        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Teleport, jsonData);
+        Backend.Match.SendDataToInGameRoom(data);
+
         // theGM.NextTurnFunc();
     }
 

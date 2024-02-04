@@ -53,6 +53,14 @@ public class BuildingData{
     }
 }
 
+public class TeleportData{
+    public bool tpflag;
+    
+    public TeleportData(bool _tpflag){
+        tpflag = _tpflag;
+    }
+}
+
 
 
 #endregion
@@ -64,7 +72,8 @@ public enum ParsingType{
     Dice,
     NextTurn,
     GroundBuy,
-    BuildingBuy
+    BuildingBuy,
+    Teleport
 }
 #endregion
 
