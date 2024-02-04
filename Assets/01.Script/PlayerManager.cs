@@ -67,14 +67,15 @@ public class PlayerManager : MonoBehaviour
     GameManager theGM;
     TileManager theTM;
     TurnSignScript theTSI;
-    TextManager theText;
+    AudioManager theAudio;
+
     // Start is called before the first frame update
     void Start()
     {
         theTM = FindObjectOfType<TileManager>();
         theGM = FindObjectOfType<GameManager>();
         theTSI = FindObjectOfType<TurnSignScript>();
-        theText = FindObjectOfType<TextManager>();
+        theAudio = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame

@@ -7,6 +7,7 @@ public class CardManager : MonoBehaviour
     GameManager theGM;
     TileManager theTile;
     TurnSignScript theTSI;
+    AudioManager theAudio;
 
     // 카드의 정보
     public Card cardInfo;
@@ -31,6 +32,7 @@ public class CardManager : MonoBehaviour
         theGM = FindObjectOfType<GameManager>();
         theTile = FindObjectOfType<TileManager>();
         theTSI = FindObjectOfType<TurnSignScript>();
+        theAudio = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -346,6 +348,7 @@ public class CardManager : MonoBehaviour
         }
         theGM.nowPlayer.blackBackground.SetActive(false);
 
+        theAudio.Play("Laser_Sound");
         // 건물과 타일의 컬러를 받아옴
         Color buildingColor = theGM.seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color;
         Color tileColor = theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;

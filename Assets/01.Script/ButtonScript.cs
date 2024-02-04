@@ -11,15 +11,18 @@ public class ButtonScript : MonoBehaviour
     GameManager theGM;
     public PurchaseSystem thePS;
     public GroundBuyScript theGBS;
+    AudioManager theAudio;
 
     private void Start()
     {
         theGM = FindObjectOfType<GameManager>();
+        theAudio = FindObjectOfType<AudioManager>();
     }
 
     //Right버튼
     public void OnRightBtn()
     {
+        theAudio.Play("Click_Sound");
         thePS.cur += 1;
         // 커서가 리스트의 길이를 넘기면 0으로 초기화
         if (thePS.cur > theGM.buildings.Length - 1)
@@ -33,6 +36,8 @@ public class ButtonScript : MonoBehaviour
     //Left버튼
     public void OnLeftBtn()
     {
+        theAudio.Play("Click_Sound");
+
         thePS.cur -= 1;
         // 커서가 1보다 작다면 마지막 건물 리스트로 초기화
         if (thePS.cur == 0)
@@ -46,12 +51,16 @@ public class ButtonScript : MonoBehaviour
     //건물 구매버튼
     public void OnPurchaseBtn()
     {
+        theAudio.Play("Build_Sound");
+
         thePS.BuildingPurchase();
     }
 
     //취소버튼
     public void OnPurchaseCloseBtn()
     {
+        theAudio.Play("Click_Sound");
+
         theGM.NextTurnFunc();
         theGM.UIFlag = false;
     }
@@ -59,6 +68,8 @@ public class ButtonScript : MonoBehaviour
     //땅 구매 버튼
     public void OnGroundBuyBtn()
     {
+        theAudio.Play("Click_Sound");
+
         theGBS.groundBuyFlag = true;
         theGM.nowPlayer.groundCount += 1;
         theGM.nowPlayer.playerMoney -= 50;
