@@ -72,6 +72,7 @@ public class PlayerManager : MonoBehaviour
 
     [Header("Test")]
     [SerializeField] Vector3 targetPos;
+    public bool specialTurn;
 
     // Start is called before the first frame update
     void Start()
@@ -117,6 +118,9 @@ public class PlayerManager : MonoBehaviour
         //if (tpFlag && GameManager.Instance.turnCount % 2 == GameManager.Instance.turnIndex)
         {
             StartCoroutine(TeleportCoroutine(playerId));
+            if(GameManager.Instance.turnCount % 2 != GameManager.Instance.turnIndex){
+                myTurn = false;
+            }
         }
     }
 
@@ -219,7 +223,6 @@ public class PlayerManager : MonoBehaviour
         while (isMoving)
         {
             print("is moving Check");
-            //무한루프가 문제임.
             this.transform.position = Vector3.MoveTowards(this.transform.position, target, Time.deltaTime * moveSpeed);
             yield return new WaitForEndOfFrame();
             if (this.transform.position == target)
@@ -275,7 +278,7 @@ public class PlayerManager : MonoBehaviour
 
     // 도착한 땅의 타일을 체크하여 상호작용하는 기능
     public IEnumerator CheckArriveTile()
-    {
+    {   if(myTurn) //이게 없으면 상대방이 특수타일 동작 후 나 자신도 같은 UI를 띄우게 됨...! 중요
         // 이동이 끝난 후, 일반 타일에 도착했다면
         if (!nowTile.specialTile)
         {
@@ -446,7 +449,7 @@ public class PlayerManager : MonoBehaviour
     IEnumerator TeleportCoroutine(int _playerId)
     {
         tpFlag = false;
-        myTurn = false;
+        // myTurn = false;
 
         // 턴을 알리는 텍스트가 사라질때까지 대기
         yield return new WaitUntil(() => !theGM.isActiveTurnImage);
