@@ -73,6 +73,8 @@ public class CardManager : MonoBehaviour
     {
         if (theTSI.cursorPos == 1)
         {
+            theAudio.Play("UseCard_Sound");
+
             // cardCode가 1이라면 고속이동(중복사용 방지를 위해 플래그가 꺼져있을때만)
             if (cardInfo.cardCode == 1 && !theGM.nowPlayer.highSpeedFlag)
             {
@@ -159,6 +161,7 @@ public class CardManager : MonoBehaviour
             int randomCard = UnityEngine.Random.Range(0, theGM.nowPlayer.againstPlayer.cards.Count);
 
             // 효과음 추가하기
+            theAudio.Play("InvisibleThief_Sound");
 
             // 만약 뺏어온 카드가 통행료면제 카드라면 플래그를 서로 바꿔줌
             if (theGM.nowPlayer.againstPlayer.cards[randomCard] == theGM.cards[6])

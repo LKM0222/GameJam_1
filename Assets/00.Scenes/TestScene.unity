@@ -1368,6 +1368,21 @@ MonoBehaviour:
     name: Step_Sound
     volume: 1
     loop: 0
+  - clip: {fileID: 8300000, guid: 774743ee37e848e4aaadf82bcacf6d2d, type: 3}
+    source: {fileID: 0}
+    name: Salary_Sound
+    volume: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: c00fba629d9fcb44c932d7114e8acbc2, type: 3}
+    source: {fileID: 0}
+    name: UseCard_Sound
+    volume: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: 5158155e6301bef40bfc1f8e20ce1459, type: 3}
+    source: {fileID: 0}
+    name: InvisibleThief_Sound
+    volume: 1
+    loop: 0
 --- !u!4 &145781561
 Transform:
   m_ObjectHideFlags: 0
@@ -6198,7 +6213,7 @@ MonoBehaviour:
   tileToGo: []
   cards:
   - card_name: 
-    cardCode: 3
+    cardCode: 2
     cardImg: {fileID: 21300000, guid: 3792c71bf07534e9f9286bfe077f27a3, type: 3}
   cardPrefab: {fileID: 512139286912891607, guid: c228b954db53a4beab116a5d0893c68a, type: 3}
   cardParent: {fileID: 1038877134}

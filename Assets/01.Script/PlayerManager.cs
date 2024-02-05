@@ -176,6 +176,7 @@ public class PlayerManager : MonoBehaviour
         // 시작지점을 지나쳐간다면 월급 지급
         if (nowTile.transform.name == "0")
         {
+            theAudio.Play("Salary_Sound");
             playerMoney += 200;
             theGM.SetFloatingText(theGM.nowPlayer, 200, true);
         }
