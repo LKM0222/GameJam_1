@@ -46,6 +46,8 @@ public class CardManager : MonoBehaviour
     {
         if (theTSI.cursorPos == 1)
         {
+            theAudio.Play("SelectCard_Sound");
+
             // upPos만큼 Position을 올리고 Scale을 늘림
             this.transform.localScale = new Vector3(14f, 14f, 1f);
             this.transform.position += Vector3.up * upPos;

@@ -1358,6 +1358,11 @@ MonoBehaviour:
     name: BuildingDestroy_Sound
     volume: 1
     loop: 0
+  - clip: {fileID: 8300000, guid: 5ff562b7ac0fa7b47bdd53aa70740bb6, type: 3}
+    source: {fileID: 0}
+    name: SelectCard_Sound
+    volume: 0.5
+    loop: 0
 --- !u!4 &145781561
 Transform:
   m_ObjectHideFlags: 0
@@ -2796,7 +2801,7 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 80, y: 100}
-  m_Spacing: {x: 20, y: 0}
+  m_Spacing: {x: 70, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!1 &309934138
@@ -10098,7 +10103,31 @@ MonoBehaviour:
   tileNum: 0
   nowTile: {fileID: 1693466814}
   tileToGo: []
-  cards: []
+  cards:
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
+  - card_name: 
+    cardCode: 0
+    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
   cardPrefab: {fileID: 6451146003781836655, guid: 25207cfdf14f24dae8bcd45a9e382694, type: 3}
   cardParent: {fileID: 1044211839}
   buildingCount: 0
