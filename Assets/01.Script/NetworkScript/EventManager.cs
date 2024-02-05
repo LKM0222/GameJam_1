@@ -12,6 +12,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Unity.VisualScripting;
 using System.Security.Cryptography;
+using Unity.Mathematics;
 #endregion
 public class EventManager : MonoBehaviour
 {
@@ -332,6 +333,12 @@ public class EventManager : MonoBehaviour
                         case 8:
                         break;
                     }
+                break;
+
+                case ParsingType.CardListAdd:
+                    var _card = Instantiate(GameManager.Instance.nowPlayer.cardPrefab, 
+                        Vector3.zero, Quaternion.identity, GameManager.Instance.nowPlayer.cardParent);
+                    _card.transform.localPosition = new Vector3(0f,0f,0f);
                 break;
             }
             // ParsingManager.Instance.ParisngRecvData(args);

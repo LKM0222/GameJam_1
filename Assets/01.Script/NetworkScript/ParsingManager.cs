@@ -82,6 +82,8 @@ public class CardData{
 
 
 
+
+
 #endregion
 
 #region Enum_ParsingType
@@ -94,7 +96,8 @@ public enum ParsingType{
     BuildingBuy,
     Teleport,
     CardClick,
-    Card
+    Card,
+    CardListAdd
 }
 #endregion
 

@@ -325,10 +325,16 @@ public class CardManager : MonoBehaviour
             // 랜덤하게 카드번호를 추출
             Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
 
-            // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
-            var _card = Instantiate(theGM.nowPlayer.cardPrefab, Vector3.zero, Quaternion.identity, theGM.nowPlayer.cardParent);
-            _card.transform.localPosition = new Vector3(0f, 0f, 0f);
-            theGM.nowPlayer.cards.Add(newCard);
+            // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함 (EventManager로 이동)
+            // var _card = Instantiate(theGM.nowPlayer.cardPrefab, Vector3.zero, Quaternion.identity, theGM.nowPlayer.cardParent);
+            // _card.transform.localPosition = new Vector3(0f, 0f, 0f);
+            // CardData cardData = new(newCard);
+            // string jsonData = JsonUtility.ToJson(cardData);
+            byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.CardListAdd,"");
+            Backend.Match.SendDataToInGameRoom(sendData);
+
+            theGM.nowPlayer.cards.Add(newCard); //팻말 아래 카드리스트 추가하는곳. ? 여기에 이거 들어가는거 맞나?
+
 
             StartCoroutine(ShowGetCard());
             yield return new WaitUntil(() => isShowCard);
