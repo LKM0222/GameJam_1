@@ -286,6 +286,53 @@ public class EventManager : MonoBehaviour
                     GameManager.Instance.NextTurnFunc();
                     GameManager.Instance.UIFlag = false;
                 break;
+
+                case ParsingType.Card:
+                    CardData cardData = JsonUtility.FromJson<CardData>(pData.data);
+                    GameManager.Instance.nowPlayer.cards.Add(cardData.card);
+                break;
+
+                case ParsingType.CardClick:
+                    CardClickData cData = JsonUtility.FromJson<CardClickData>(pData.data);
+
+                    switch(cData.cardNum){
+                        case 1: //고속이동
+                            GameManager.Instance.nowPlayer.highSpeedFlag = true;
+                            // theGM.nowPlayer.highSpeedFlag = true;
+                        break;
+
+                        case 2://투명도둑
+                            GameManager.Instance.nowPlayer.invisibleFlag = true;
+                            // theGM.nowPlayer.invisibleFlag = true;
+                        break;
+
+                        case 3://거대화 꼬꼬
+                            GameManager.Instance.nowPlayer.biggerFlag = true;
+                            // theGM.nowPlayer.biggerFlag = true;
+                        break;
+
+                        case 4: //투시
+                            GameManager.Instance.nowPlayer.toosiFlag = true;
+                            // theGM.nowPlayer.toosiFlag = true;
+                        break;
+
+                        case 5: //주사위컨트롤 하
+                            GameManager.Instance.nowPlayer.lowerDiceFlag = true;
+                            // theGM.nowPlayer.lowerDiceFlag = true;
+                        break;
+
+                        case 6: //주사위컨트롤 상
+                            GameManager.Instance.nowPlayer.higherDiceFlag = true;
+                            // theGM.nowPlayer.higherDiceFlag = true;
+                        break;
+
+                        case 7:
+                        break;
+
+                        case 8:
+                        break;
+                    }
+                break;
             }
             // ParsingManager.Instance.ParisngRecvData(args);
         };

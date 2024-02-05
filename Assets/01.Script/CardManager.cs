@@ -72,37 +72,63 @@ public class CardManager : MonoBehaviour
             // cardCode가 1이라면 고속이동(중복사용 방지를 위해 플래그가 꺼져있을때만)
             if (cardInfo.cardCode == 1 && !theGM.nowPlayer.highSpeedFlag)
             {
-                theGM.nowPlayer.highSpeedFlag = true;
+                CardClickData cData = new(1,GameManager.Instance.nowPlayer.playerId);
+                string jsonData = JsonUtility.ToJson(cData);
+                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                Backend.Match.SendDataToInGameRoom(data);
+
+                // theGM.nowPlayer.highSpeedFlag = true;
                 DestroyCard();
             }
             // cardCode가 2라면 투명도둑
             else if (cardInfo.cardCode == 2 && !theGM.nowPlayer.invisibleFlag)
             {
-                theGM.nowPlayer.invisibleFlag = true;
+                CardClickData cData = new(2,GameManager.Instance.nowPlayer.playerId);
+                string jsonData = JsonUtility.ToJson(cData);
+                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                Backend.Match.SendDataToInGameRoom(data);
+
+                // theGM.nowPlayer.invisibleFlag = true;
                 DestroyCard();
             }
             // cardCode가 3이라면 거대화꼬꼬
             else if (cardInfo.cardCode == 3 && !theGM.nowPlayer.biggerFlag)
             {
-                theGM.nowPlayer.biggerFlag = true;
+                CardClickData cData = new(3,GameManager.Instance.nowPlayer.playerId);
+                string jsonData = JsonUtility.ToJson(cData);
+                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                Backend.Match.SendDataToInGameRoom(data);
+                // theGM.nowPlayer.biggerFlag = true;
                 DestroyCard();
             }
             // cardCode가 4라면 투시(투시카드 사용이 완료되었고, 레이저빔도 완료되어야만 사용 가능 => 둘 중 하나라도 발동중이면 사용불가)
             else if (cardInfo.cardCode == 4 && !theGM.nowPlayer.toosiFlag && theGM.penetrateComplete && theGM.laserComplete)
             {
-                theGM.nowPlayer.toosiFlag = true;
+                CardClickData cData = new(4,GameManager.Instance.nowPlayer.playerId);
+                string jsonData = JsonUtility.ToJson(cData);
+                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                Backend.Match.SendDataToInGameRoom(data);
+                // theGM.nowPlayer.toosiFlag = true;
                 DestroyCard();
             }
             // cardCode가 5라면 주사위컨트롤(하)
             else if (cardInfo.cardCode == 5 && !theGM.nowPlayer.lowerDiceFlag)
             {
-                theGM.nowPlayer.lowerDiceFlag = true;
+                CardClickData cData = new(5,GameManager.Instance.nowPlayer.playerId);
+                string jsonData = JsonUtility.ToJson(cData);
+                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                Backend.Match.SendDataToInGameRoom(data);
+                // theGM.nowPlayer.lowerDiceFlag = true;
                 DestroyCard();
             }
             // cardCode가 6이라면 주사위컨트롤(상)
             else if (cardInfo.cardCode == 6 && !theGM.nowPlayer.higherDiceFlag)
             {
-                theGM.nowPlayer.higherDiceFlag = true;
+                CardClickData cData = new(6,GameManager.Instance.nowPlayer.playerId);
+                string jsonData = JsonUtility.ToJson(cData);
+                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                Backend.Match.SendDataToInGameRoom(data);
+                // theGM.nowPlayer.higherDiceFlag = true;
                 DestroyCard();
             }
             // cardCode가 8이라면 레이저빔(레이저빔 사용이 완료되었고, 투시 완료되어야만 사용 가능 => 둘 중 하나라도 발동중이면 사용불가)
@@ -389,6 +415,7 @@ public class CardManager : MonoBehaviour
         GameObject _card = Instantiate(theGM.onlyCardImg, Vector3.zero, Quaternion.identity, theGM.showCardObject.transform);
         _card.transform.localPosition = new Vector3(0f, 0f, 0f);
         _card.transform.localScale = new Vector3(20f, 20f, 20f);
+        yield return new WaitUntil(()=> theGM.nowPlayer.cards.Count > 0);
         _card.GetComponent<SpriteRenderer>().sprite = theGM.nowPlayer.cards[theGM.nowPlayer.cards.Count - 1].cardImg;
 
         // 3초 대기 이후 보여줬던 카드를 파괴하고 코루틴 탈출
@@ -409,7 +436,13 @@ public class CardManager : MonoBehaviour
             // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
             var _card = Instantiate(theGM.nowPlayer.cardPrefab, Vector3.zero, Quaternion.identity, theGM.nowPlayer.cardParent);
             _card.transform.localPosition = new Vector3(0f, 0f, 0f);
-            theGM.nowPlayer.cards.Add(newCard);
+            
+            //여기부터 일단 수정.
+            CardData cData = new(newCard);
+            string jsonData = JsonUtility.ToJson(cData);
+            byte[] carddata = ParsingManager.Instance.ParsingSendData(ParsingType.Card, jsonData);
+            Backend.Match.SendDataToInGameRoom(carddata);
+            // theGM.nowPlayer.cards.Add(newCard);
 
             StartCoroutine(ShowGetCard());
             yield return new WaitUntil(() => isShowCard);

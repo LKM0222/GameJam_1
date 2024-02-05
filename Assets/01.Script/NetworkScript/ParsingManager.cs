@@ -63,6 +63,23 @@ public class TeleportData{
     }
 }
 
+public class CardClickData{
+    public int cardNum;
+    public int playerId;
+
+    public CardClickData(int _cardNum, int _playerId){
+        cardNum = _cardNum;
+        playerId = _playerId;
+    }
+}
+
+public class CardData{
+    public Card card;
+    public CardData(Card _card){
+        card = _card;
+    }
+}
+
 
 
 #endregion
@@ -75,7 +92,9 @@ public enum ParsingType{
     NextTurn,
     GroundBuy,
     BuildingBuy,
-    Teleport
+    Teleport,
+    CardClick,
+    Card
 }
 #endregion
 
