@@ -28,7 +28,7 @@ public class PlayerManager : MonoBehaviour
     public List<Card> cards = new List<Card>(); //플레이어가 가진 카드
     public GameObject cardPrefab; // 플레이어의 카드 뒷면 프리팹
     public Transform cardParent; // 플레이어의 카드 갯수만큼 복제하여 넣을 부모 오브젝트
-    
+
     [Header("Building")]
     public int buildingCount = 0;
     public int groundCount = 0;
@@ -102,13 +102,13 @@ public class PlayerManager : MonoBehaviour
             StartCoroutine(ReadyToMovePlayerCoroutine());
         }
 
-        if (toosiFlag && myTurn)
+        if (toosiFlag && myTurn) //card
         {
             toosiFlag = false;
             StartCoroutine(theCM.PenetrateCoroutine());
         }
 
-        if (laserFlag && myTurn)
+        if (laserFlag && myTurn) //card
         {
             laserFlag = false;
             StartCoroutine(theCM.LaserBeamCoroutine());

@@ -340,6 +340,14 @@ public class EventManager : MonoBehaviour
                         Vector3.zero, Quaternion.identity, GameManager.Instance.nowPlayer.cardParent);
                     _card.transform.localPosition = new Vector3(0f,0f,0f);
                 break;
+
+                case ParsingType.CardDestory:
+                    CardDestroyData destroyData = JsonUtility.FromJson<CardDestroyData>(pData.data);
+                    
+                    Destroy(destroyData.destoryCard);
+                    Destroy(GameManager.Instance.nowPlayer.cardParent.GetChild(0).gameObject);
+                    GameManager.Instance.nowPlayer.cards.Remove(destroyData.cardInfo);
+                break;
             }
             // ParsingManager.Instance.ParisngRecvData(args);
         };

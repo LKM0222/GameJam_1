@@ -80,6 +80,17 @@ public class CardData{
     }
 }
 
+public class CardDestroyData{
+    public GameObject destoryCard;
+    public Card cardInfo;
+
+    public CardDestroyData(GameObject _destroyCard, Card _cardInfo){
+        destoryCard = _destroyCard;
+        cardInfo = _cardInfo;
+    }
+    
+}
+
 
 
 
@@ -97,7 +108,8 @@ public enum ParsingType{
     Teleport,
     CardClick,
     Card,
-    CardListAdd
+    CardListAdd,
+    CardDestory
 }
 #endregion
 

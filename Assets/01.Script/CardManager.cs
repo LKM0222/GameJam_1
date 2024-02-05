@@ -77,7 +77,7 @@ public class CardManager : MonoBehaviour
                 byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
                 Backend.Match.SendDataToInGameRoom(data);
 
-                // theGM.nowPlayer.highSpeedFlag = true;
+                // // theGM.nowPlayer.highSpeedFlag = true;
                 DestroyCard();
             }
             // cardCode가 2라면 투명도둑
@@ -151,10 +151,15 @@ public class CardManager : MonoBehaviour
 
     public void DestroyCard()
     {
+        CardDestroyData destroyData = new(this.gameObject,this.cardInfo);
+        string jsonData = JsonUtility.ToJson(destroyData);
+        byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.CardDestory, jsonData);
+        Backend.Match.SendDataToInGameRoom(sendData);
+
         // 카드 오브젝트 삭제 및 플레이어가 가지고 있는 카드 리스트에서도 삭제
-        Destroy(this.gameObject);
-        Destroy(theGM.nowPlayer.cardParent.GetChild(0).gameObject);
-        theGM.nowPlayer.cards.Remove(this.cardInfo);
+        // Destroy(this.gameObject);
+        // Destroy(theGM.nowPlayer.cardParent.GetChild(0).gameObject);
+        // theGM.nowPlayer.cards.Remove(this.cardInfo);
     }
 
     public void HighSpeedMove()
