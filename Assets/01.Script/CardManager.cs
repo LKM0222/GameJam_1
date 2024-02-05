@@ -439,20 +439,18 @@ public class CardManager : MonoBehaviour
         {
             // 랜덤하게 카드번호를 추출
             // Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
-            Card newCard = theGM.cards[UnityEngine.Random.Range(2,3)];
+            Card newCard = theGM.cards[UnityEngine.Random.Range(1,2)];
 
             // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
-            // var _card = Instantiate(theGM.nowPlayer.cardPrefab, Vector3.zero, Quaternion.identity, theGM.nowPlayer.cardParent);
-            // _card.transform.localPosition = new Vector3(0f, 0f, 0f);
-            byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.CardListAdd,"");
+
+            // var _card = Instantiate(theGM.nowPlayer.cardPrefab, Vector3.zero, Quaternion.identity, theGM.nowPlayer.cardParent); //EventManager로 이동.
+            // _card.transform.localPosition = new Vector3(0f, 0f, 0f); //EventManager로 이동.
+
+            CardData cardData = new(newCard);
+            string jsonData = JsonUtility.ToJson(cardData);
+            byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.CardListAdd,jsonData);
             Backend.Match.SendDataToInGameRoom(sendData);
-            
-            //여기부터 일단 수정.
-            // CardData cData = new(newCard);
-            // string jsonData = JsonUtility.ToJson(cData);
-            // byte[] carddata = ParsingManager.Instance.ParsingSendData(ParsingType.Card, jsonData);
-            // Backend.Match.SendDataToInGameRoom(carddata);
-            theGM.nowPlayer.cards.Add(newCard);
+            // theGM.nowPlayer.cards.Add(newCard); (EventManager로 이동.)
 
             StartCoroutine(ShowGetCard());
             yield return new WaitUntil(() => isShowCard);

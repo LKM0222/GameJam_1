@@ -336,14 +336,18 @@ public class EventManager : MonoBehaviour
                 break;
 
                 case ParsingType.CardListAdd:
+                    CardData cardData1 = JsonUtility.FromJson<CardData>(pData.data);
+
                     var _card = Instantiate(GameManager.Instance.nowPlayer.cardPrefab, 
                         Vector3.zero, Quaternion.identity, GameManager.Instance.nowPlayer.cardParent);
                     _card.transform.localPosition = new Vector3(0f,0f,0f);
+
+                    GameManager.Instance.nowPlayer.cards.Add(cardData1.card); //카드를 뽑았다면 현재 플레이어 카드리스트에 값 추가.
                 break;
 
                 case ParsingType.CardDestory:
                     CardDestroyData destroyData = JsonUtility.FromJson<CardDestroyData>(pData.data);
-                    
+
                     Destroy(destroyData.destoryCard);
                     Destroy(GameManager.Instance.nowPlayer.cardParent.GetChild(0).gameObject);
                     GameManager.Instance.nowPlayer.cards.Remove(destroyData.cardInfo);
