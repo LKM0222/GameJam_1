@@ -226,6 +226,8 @@ public class CardManager : MonoBehaviour
             Color buildingColor = theGM.nowPlayer.nowTile.buildingImg.GetComponent<SpriteRenderer>().color;
             Color tileColor = theGM.nowPlayer.nowTile.signImg.GetComponent<SpriteRenderer>().color;
 
+            theAudio.Play("BuildingDestroy_Sound");
+
             // 건물파괴 파티클을 활성화하고 위치를 현재 타일의 건물 위치로 옮긴 다음 파티클 실행
             destroyParticle.gameObject.SetActive(true);
             destroyParticle.transform.position = theGM.nowPlayer.nowTile.transform.GetChild(0).position;

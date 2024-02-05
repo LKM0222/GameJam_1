@@ -59,7 +59,7 @@ public class ButtonScript : MonoBehaviour
     //취소버튼
     public void OnPurchaseCloseBtn()
     {
-        theAudio.Play("Click_Sound");
+        theAudio.Play("Cancel_Sound");
 
         theGM.NextTurnFunc();
         theGM.UIFlag = false;
