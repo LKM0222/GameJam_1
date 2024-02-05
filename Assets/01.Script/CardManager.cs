@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using BackEnd;
 using UnityEngine;
 
 public class CardManager : MonoBehaviour
@@ -422,6 +423,8 @@ public class CardManager : MonoBehaviour
                 yield return new WaitForSeconds(3f);
                 theGM.textManager.HideText();
             }
+            byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
+            Backend.Match.SendDataToInGameRoom(data);
         }
         isGetCard = true;
     }
