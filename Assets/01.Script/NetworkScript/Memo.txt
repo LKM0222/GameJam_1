@@ -190,3 +190,4 @@ public void TestSendBtn(){
 카드를 눌렀을때 함수가 작동하게?
 
 1번 고속이동 완료
+cardmanager에 InvisibleThief 수정해야함!
