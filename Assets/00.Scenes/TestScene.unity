@@ -1363,6 +1363,11 @@ MonoBehaviour:
     name: SelectCard_Sound
     volume: 0.5
     loop: 0
+  - clip: {fileID: 8300000, guid: 940bc998dc9ce724c96eed450f487ee7, type: 3}
+    source: {fileID: 0}
+    name: Step_Sound
+    volume: 1
+    loop: 0
 --- !u!4 &145781561
 Transform:
   m_ObjectHideFlags: 0
@@ -3648,7 +3653,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 301937071
   m_SortingLayer: 1
-  m_SortingOrder: -1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0.4}
   m_FlipX: 0
@@ -10103,31 +10108,7 @@ MonoBehaviour:
   tileNum: 0
   nowTile: {fileID: 1693466814}
   tileToGo: []
-  cards:
-  - card_name: 
-    cardCode: 0
-    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
-  - card_name: 
-    cardCode: 0
-    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
-  - card_name: 
-    cardCode: 0
-    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
-  - card_name: 
-    cardCode: 0
-    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
-  - card_name: 
-    cardCode: 0
-    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
-  - card_name: 
-    cardCode: 0
-    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
-  - card_name: 
-    cardCode: 0
-    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
-  - card_name: 
-    cardCode: 0
-    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
+  cards: []
   cardPrefab: {fileID: 6451146003781836655, guid: 25207cfdf14f24dae8bcd45a9e382694, type: 3}
   cardParent: {fileID: 1044211839}
   buildingCount: 0

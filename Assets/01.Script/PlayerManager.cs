@@ -192,6 +192,7 @@ public class PlayerManager : MonoBehaviour
 
     IEnumerator MovingPlayerCoroutine(Vector3 target)
     {
+        float waitTime = 0f;
 
         this.gameObject.GetComponent<Animator>().SetInteger("Dir", nowTile.dir);
         this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", true);
@@ -205,6 +206,20 @@ public class PlayerManager : MonoBehaviour
 
         while (isMoving)
         {
+            // 걷는 중일 때만 0.5초 간격으로 StepSound 재생
+            if (!theGM.nowPlayer.highSpeedFlag)
+            {
+                if (waitTime >= 0.5f)
+                {
+                    theAudio.Play("Step_Sound");
+                    waitTime = 0f;
+                }
+                else
+                {
+                    waitTime += Time.deltaTime;
+                }
+            }
+
             this.transform.position = Vector3.MoveTowards(this.transform.position, target, Time.deltaTime * moveSpeed);
             yield return new WaitForEndOfFrame();
             if (this.transform.position == target)
