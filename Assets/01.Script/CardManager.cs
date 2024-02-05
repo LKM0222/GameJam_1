@@ -325,14 +325,9 @@ public class CardManager : MonoBehaviour
             // 랜덤하게 카드번호를 추출
             Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
 
-            // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함 (EventManager로 이동)
-            // var _card = Instantiate(theGM.nowPlayer.cardPrefab, Vector3.zero, Quaternion.identity, theGM.nowPlayer.cardParent);
-            // _card.transform.localPosition = new Vector3(0f, 0f, 0f);
-            // CardData cardData = new(newCard);
-            // string jsonData = JsonUtility.ToJson(cardData);
-            byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.CardListAdd,"");
-            Backend.Match.SendDataToInGameRoom(sendData);
-
+            // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
+            var _card = Instantiate(theGM.nowPlayer.cardPrefab, Vector3.zero, Quaternion.identity, theGM.nowPlayer.cardParent);
+            _card.transform.localPosition = new Vector3(0f, 0f, 0f);
             theGM.nowPlayer.cards.Add(newCard); //팻말 아래 카드리스트 추가하는곳. ? 여기에 이거 들어가는거 맞나?
 
 
@@ -417,6 +412,7 @@ public class CardManager : MonoBehaviour
     public IEnumerator ShowGetCard()
     {
         // GameManager에 만들어놓은 카드이미지 프리팹을 카드를 띄워줄 위치에 있는 오브젝트에 복제
+        // 플레이 화면 좌측하단에 표시하는 함수
         // 이후 위치값, 스케일값, 스프라이트 이미지를 변경함
         GameObject _card = Instantiate(theGM.onlyCardImg, Vector3.zero, Quaternion.identity, theGM.showCardObject.transform);
         _card.transform.localPosition = new Vector3(0f, 0f, 0f);
@@ -440,15 +436,17 @@ public class CardManager : MonoBehaviour
             Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
 
             // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
-            var _card = Instantiate(theGM.nowPlayer.cardPrefab, Vector3.zero, Quaternion.identity, theGM.nowPlayer.cardParent);
-            _card.transform.localPosition = new Vector3(0f, 0f, 0f);
+            // var _card = Instantiate(theGM.nowPlayer.cardPrefab, Vector3.zero, Quaternion.identity, theGM.nowPlayer.cardParent);
+            // _card.transform.localPosition = new Vector3(0f, 0f, 0f);
+            byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.CardListAdd,"");
+            Backend.Match.SendDataToInGameRoom(sendData);
             
             //여기부터 일단 수정.
-            CardData cData = new(newCard);
-            string jsonData = JsonUtility.ToJson(cData);
-            byte[] carddata = ParsingManager.Instance.ParsingSendData(ParsingType.Card, jsonData);
-            Backend.Match.SendDataToInGameRoom(carddata);
-            // theGM.nowPlayer.cards.Add(newCard);
+            // CardData cData = new(newCard);
+            // string jsonData = JsonUtility.ToJson(cData);
+            // byte[] carddata = ParsingManager.Instance.ParsingSendData(ParsingType.Card, jsonData);
+            // Backend.Match.SendDataToInGameRoom(carddata);
+            theGM.nowPlayer.cards.Add(newCard);
 
             StartCoroutine(ShowGetCard());
             yield return new WaitUntil(() => isShowCard);
@@ -462,6 +460,7 @@ public class CardManager : MonoBehaviour
                 yield return new WaitForSeconds(3f);
                 theGM.textManager.HideText();
             }
+            //카드 받고나서 턴 넘기는 부분
             byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
             Backend.Match.SendDataToInGameRoom(data);
         }
