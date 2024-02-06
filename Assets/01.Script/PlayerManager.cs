@@ -16,6 +16,8 @@ public class PlayerManager : MonoBehaviour
     public int diceNum;
     public bool isMoving;
     public bool canMove;
+    float movingWaitTime;
+
 
     [Header("Tile")]
     [SerializeField] int tileNum; //플레이어가 서있는 칸의 번호
@@ -40,6 +42,7 @@ public class PlayerManager : MonoBehaviour
     public Text downInformationText;
     public GameObject VirtualCamera;
     public PlayerManager againstPlayer;
+
 
     [Header("SpecialEffect")]
     public GameObject tpTile; //다음 이동할곳 저장
@@ -133,6 +136,8 @@ public class PlayerManager : MonoBehaviour
         StartCoroutine(CheckUsedCardCoroutine());
         yield return new WaitUntil(() => !isCheckingCard);
 
+        movingWaitTime = 0f;
+
         while (tileToGo.Count != 0)
         {
             // Player 실제 이동 코루틴 실행
@@ -145,6 +150,8 @@ public class PlayerManager : MonoBehaviour
             tileToGo.RemoveAt(0);
             CheckPassTile();
         }
+
+        movingWaitTime = 0f;
 
         StartCoroutine(EndMovePlayerCoroutine());
     }
@@ -194,7 +201,6 @@ public class PlayerManager : MonoBehaviour
 
     IEnumerator MovingPlayerCoroutine(Vector3 target)
     {
-        float waitTime = 0f;
 
         this.gameObject.GetComponent<Animator>().SetInteger("Dir", nowTile.dir);
         this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", true);
@@ -211,14 +217,14 @@ public class PlayerManager : MonoBehaviour
             // 걷는 중일 때만 0.5초 간격으로 StepSound 재생
             if (!theGM.nowPlayer.highSpeedFlag)
             {
-                if (waitTime >= 0.5f)
+                if (movingWaitTime >= 0.5f)
                 {
                     theAudio.Play("Step_Sound");
-                    waitTime = 0f;
+                    movingWaitTime = 0f;
                 }
                 else
                 {
-                    waitTime += Time.deltaTime;
+                    movingWaitTime += Time.deltaTime;
                 }
             }
 
