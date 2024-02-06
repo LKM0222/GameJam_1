@@ -202,6 +202,8 @@ public class CardManager : MonoBehaviour
             InvisibleParticle.Play();
 
             // 상대방 카드 UI를 내 카드 UI로 옮겨오고 스프라이트 이미지도 변경
+            //여기에 통신적으로 기술이 들어가야될거같은데 서로의 스크립트에서 작동하는거라 상관이 없나...?
+            //여기는 어차피 뒤집어진 카드 UI를 가져오는거라 크게 상관 없을듯.
             GameObject dCard = theGM.nowPlayer.againstPlayer.cardParent.GetChild(0).gameObject;
             dCard.transform.SetParent(theGM.nowPlayer.cardParent);
             dCard.GetComponent<SpriteRenderer>().sprite = theGM.nowPlayer.cardPrefab.GetComponent<SpriteRenderer>().sprite;
@@ -439,7 +441,7 @@ public class CardManager : MonoBehaviour
         {
             // 랜덤하게 카드번호를 추출
             // Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
-            Card newCard = theGM.cards[UnityEngine.Random.Range(1,2)];
+            Card newCard = theGM.cards[UnityEngine.Random.Range(2,3)];
 
             // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
 
