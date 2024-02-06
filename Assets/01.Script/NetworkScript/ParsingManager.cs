@@ -91,6 +91,14 @@ public class CardDestroyData{
     
 }
 
+public class InvisibleData{
+    public int cardNum;
+
+    public InvisibleData(int _cardNum){
+        cardNum = _cardNum;
+    }
+}
+
 
 
 
@@ -109,7 +117,8 @@ public enum ParsingType{
     CardClick,
     Card,
     CardListAdd,
-    CardDestory
+    CardDestory,
+    InvisibleThief
 }
 #endregion
 

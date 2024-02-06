@@ -92,6 +92,12 @@ public class GameManager : MonoBehaviour
     public bool isActiveTurnImage;
     public GameObject player1TeleportEffect, player2TeleportEffect;
 
+    //server
+    public bool successFalg = false;
+
+    //Invisible
+    public int invisibleCardNum = -1;
+
     // Start is called before the first frame update
     void Start()
     {

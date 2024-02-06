@@ -178,32 +178,46 @@ public class CardManager : MonoBehaviour
         highMoveParticle.gameObject.SetActive(false);
     }
 
-    public void InvisibleThief()
+    IEnumerator InvisibleThief()//여기 수정해야됨.
     {
         if (theGM.nowPlayer.cards.Count < 8)
         {
             // 상대가 가진 카드를 랜덤으로 골라서 현재 플레이어 카드에 추가하고 상대 플레이어 카드에는 삭제
-            int randomCard = UnityEngine.Random.Range(0, theGM.nowPlayer.againstPlayer.cards.Count);
+            //여기 통신 필요
+            //랜덤값을 서로 전송해서 받아와야됨.
+            // int randomCard = UnityEngine.Random.Range(0, theGM.nowPlayer.againstPlayer.cards.Count);
+            //통신을 한다면 속도를 맞출 수 있을까?
+            byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.InvisibleThief, "");
+            Backend.Match.SendDataToInGameRoom(sendData);
 
+            yield return new WaitUntil(()=> GameManager.Instance.invisibleCardNum != -1);
+            
             // 효과음 추가하기
 
-            // 만약 뺏어온 카드가 통행료면제 카드라면 플래그를 서로 바꿔줌
-            if (theGM.nowPlayer.againstPlayer.cards[randomCard] == theGM.cards[6])
+            // // 만약 뺏어온 카드가 통행료면제 카드라면 플래그를 서로 바꿔줌 GameManager.Instance.invisibleCardNum
+            // if (theGM.nowPlayer.againstPlayer.cards[randomCard] == theGM.cards[6])
+            // {
+            //     theGM.nowPlayer.exemptionFlag = true;
+            //     theGM.nowPlayer.againstPlayer.exemptionFlag = false;
+            // }
+
+            // theGM.nowPlayer.cards.Add(theGM.nowPlayer.againstPlayer.cards[randomCard]);
+            // theGM.nowPlayer.againstPlayer.cards.RemoveAt(randomCard);
+
+            if (theGM.nowPlayer.againstPlayer.cards[GameManager.Instance.invisibleCardNum] == theGM.cards[6])
             {
                 theGM.nowPlayer.exemptionFlag = true;
                 theGM.nowPlayer.againstPlayer.exemptionFlag = false;
             }
 
-            theGM.nowPlayer.cards.Add(theGM.nowPlayer.againstPlayer.cards[randomCard]);
-            theGM.nowPlayer.againstPlayer.cards.RemoveAt(randomCard);
+            theGM.nowPlayer.cards.Add(theGM.nowPlayer.againstPlayer.cards[GameManager.Instance.invisibleCardNum]);
+            theGM.nowPlayer.againstPlayer.cards.RemoveAt(GameManager.Instance.invisibleCardNum);
 
             InvisibleParticle.gameObject.SetActive(true);
             InvisibleParticle.transform.position = theGM.nowPlayer.transform.position;
             InvisibleParticle.Play();
 
             // 상대방 카드 UI를 내 카드 UI로 옮겨오고 스프라이트 이미지도 변경
-            //여기에 통신적으로 기술이 들어가야될거같은데 서로의 스크립트에서 작동하는거라 상관이 없나...?
-            //여기는 어차피 뒤집어진 카드 UI를 가져오는거라 크게 상관 없을듯.
             GameObject dCard = theGM.nowPlayer.againstPlayer.cardParent.GetChild(0).gameObject;
             dCard.transform.SetParent(theGM.nowPlayer.cardParent);
             dCard.GetComponent<SpriteRenderer>().sprite = theGM.nowPlayer.cardPrefab.GetComponent<SpriteRenderer>().sprite;
@@ -441,7 +455,7 @@ public class CardManager : MonoBehaviour
         {
             // 랜덤하게 카드번호를 추출
             // Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
-            Card newCard = theGM.cards[UnityEngine.Random.Range(3,4)];
+            Card newCard = theGM.cards[UnityEngine.Random.Range(1,2)];
 
             // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
 

@@ -346,11 +346,18 @@ public class EventManager : MonoBehaviour
                 break;
 
                 case ParsingType.CardDestory:
+                    print("Destroy");
                     CardDestroyData destroyData = JsonUtility.FromJson<CardDestroyData>(pData.data);
 
                     Destroy(destroyData.destoryCard);
                     Destroy(GameManager.Instance.nowPlayer.cardParent.GetChild(0).gameObject);
                     GameManager.Instance.nowPlayer.cards.Remove(destroyData.cardInfo);
+                break;
+
+                case ParsingType.InvisibleThief:
+                    GameManager.Instance.invisibleCardNum = UnityEngine.Random.Range(0,
+                        GameManager.Instance.nowPlayer.againstPlayer.cards.Count);
+                    //랜덤으로 뽑았으니 함수 계속.
                 break;
             }
             // ParsingManager.Instance.ParisngRecvData(args);
