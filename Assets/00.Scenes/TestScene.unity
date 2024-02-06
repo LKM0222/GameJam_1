@@ -1378,7 +1378,7 @@ MonoBehaviour:
     name: UseCard_Sound
     volume: 1
     loop: 0
-  - clip: {fileID: 8300000, guid: 5158155e6301bef40bfc1f8e20ce1459, type: 3}
+  - clip: {fileID: 8300000, guid: a76a8b032bfc9b140b40397a8f374089, type: 3}
     source: {fileID: 0}
     name: InvisibleThief_Sound
     volume: 1
@@ -10125,10 +10125,7 @@ MonoBehaviour:
   tileNum: 0
   nowTile: {fileID: 1693466814}
   tileToGo: []
-  cards:
-  - card_name: 
-    cardCode: 2
-    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
+  cards: []
   cardPrefab: {fileID: 6451146003781836655, guid: 25207cfdf14f24dae8bcd45a9e382694, type: 3}
   cardParent: {fileID: 1044211839}
   buildingCount: 0
