@@ -342,7 +342,8 @@ public class CardManager : MonoBehaviour
 
         for (int i = 0; i < theTile.tiles.Length; i++)
         {
-            theTile.tiles[i].canTileSelect = true; //모든 카드 클릭 가능하도록 미리 클릭하고 다음턴에 해당 위치로 이동.
+            if (theGM.nowPlayer.playerId != theTile.tiles[i].ownPlayer && theTile.tiles[i].ownPlayer != -1)
+                theTile.tiles[i].canTileSelect = true; //모든 카드 클릭 가능하도록 미리 클릭하고 다음턴에 해당 위치로 이동.
         }
 
         yield return new WaitUntil(() => theGM.seletedTile != null);

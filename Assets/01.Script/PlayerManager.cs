@@ -145,6 +145,7 @@ public class PlayerManager : MonoBehaviour
             tileToGo.RemoveAt(0);
             CheckPassTile();
         }
+
         StartCoroutine(EndMovePlayerCoroutine());
     }
 
