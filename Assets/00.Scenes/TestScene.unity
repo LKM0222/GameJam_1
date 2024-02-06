@@ -1388,6 +1388,11 @@ MonoBehaviour:
     name: SelectTile_Sound
     volume: 1
     loop: 0
+  - clip: {fileID: 8300000, guid: c843a052771c2ad4a807f5281fde5522, type: 3}
+    source: {fileID: 0}
+    name: RollDice_Sound
+    volume: 0.5
+    loop: 0
 --- !u!4 &145781561
 Transform:
   m_ObjectHideFlags: 0

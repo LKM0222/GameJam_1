@@ -68,7 +68,6 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
             {
                 theTSI.cursorPos = 2;
 
-                //AudioManager.instance.Play("diceSound");
 
                 RollDice();
             }
@@ -80,6 +79,8 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void RollDice()
     {
+        AudioManager.instance.Play("RollDice_Sound");
+
         thePlayer.diceNum = Random.Range(1, 9);
 
         // 주사위컨트롤 카드 사용 시, 해당 함수 호출
