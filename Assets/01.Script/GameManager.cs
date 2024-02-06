@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         theTSI = FindObjectOfType<TurnSignScript>();
-        // AudioManager.instance.Play("mainSound");
+        AudioManager.instance.Play("MainGame_Sound");
     }
 
     // Update is called once per frame

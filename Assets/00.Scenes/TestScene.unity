@@ -1391,8 +1391,13 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: c843a052771c2ad4a807f5281fde5522, type: 3}
     source: {fileID: 0}
     name: RollDice_Sound
-    volume: 0.5
+    volume: 0.3
     loop: 0
+  - clip: {fileID: 8300000, guid: 764ab8064abd6594eb93a4dc53add09b, type: 3}
+    source: {fileID: 0}
+    name: MainGame_Sound
+    volume: 0.5
+    loop: 1
 --- !u!4 &145781561
 Transform:
   m_ObjectHideFlags: 0
