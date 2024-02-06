@@ -1353,7 +1353,7 @@ MonoBehaviour:
     name: Cancel_Sound
     volume: 1
     loop: 0
-  - clip: {fileID: 8300000, guid: 39a44ecc99cb29248b50f6e8139bf54d, type: 3}
+  - clip: {fileID: 8300000, guid: 6fb7e39a914a29c4eaece0575e41c8fa, type: 3}
     source: {fileID: 0}
     name: BuildingDestroy_Sound
     volume: 1

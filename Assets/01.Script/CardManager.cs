@@ -257,7 +257,9 @@ public class CardManager : MonoBehaviour
 
             // 현재 타일의 소유주와 건물을 없앰
             theGM.nowPlayer.nowTile.ownPlayer = -1;
-            theGM.nowPlayer.nowTile.building.type = -1;
+            // theGM.nowPlayer.nowTile.building.type = -1;
+            // theGM.nowPlayer.nowTile.buildingImg.sprite = null;
+            theGM.nowPlayer.nowTile.building = theGM.buildings[0];
 
             // 0으로 감소시켰던 건물과 타일의 Alpha 값을 원상복구
             buildingColor.a = 1f;
