@@ -181,6 +181,8 @@ public class CardManager : MonoBehaviour
             GameObject dCard = theGM.nowPlayer.againstPlayer.cardParent.GetChild(0).gameObject;
             dCard.transform.SetParent(theGM.nowPlayer.cardParent);
             dCard.GetComponent<SpriteRenderer>().sprite = theGM.nowPlayer.cardPrefab.GetComponent<SpriteRenderer>().sprite;
+
+            theGM.CardListUpdate();
         }
 
     }
