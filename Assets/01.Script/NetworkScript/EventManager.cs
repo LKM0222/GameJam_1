@@ -327,10 +327,10 @@ public class EventManager : MonoBehaviour
                             // theGM.nowPlayer.higherDiceFlag = true;
                         break;
 
-                        case 7:
-                        break;
+                        // 7번 통행료 면제는 사용카드가 아니라 패시브 카드라서 패스.
 
-                        case 8:
+                        case 8: //레이저빔
+                            GameManager.Instance.nowPlayer.laserFlag = true;
                         break;
                     }
                 break;

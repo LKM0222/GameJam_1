@@ -91,7 +91,7 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
         //의외로 쉬울지도??
         //내 턴을 알 수만 있다면 내 턴에서 하는것과 상대방턴에서 하는것을 구분할 수 있다.
         //예를들어서 내 턴이면 내 캐릭터의 PlayerManager를 사용하면 되고,
@@ -99,7 +99,7 @@ public class PlayerManager : MonoBehaviour
         //즉, 턴 구분만 완벽하게 이뤄지면 스크립트의 수정이 거의 없을것.
 
         //단, 플레이어가 구매하는 행동, 건물을 짓는 행동은 구별해줄 필요가 있다.
-
+        
         playerMoneyText.text = playerMoney.ToString();
 
         if (canMove)
@@ -119,12 +119,11 @@ public class PlayerManager : MonoBehaviour
             StartCoroutine(theCM.LaserBeamCoroutine());
         }
 
-        if (tpFlag && myTurn)
+        if(tpFlag && myTurn)
         //if (tpFlag && GameManager.Instance.turnCount % 2 == GameManager.Instance.turnIndex)
         {
             StartCoroutine(TeleportCoroutine(playerId));
-            if (GameManager.Instance.turnCount % 2 != GameManager.Instance.turnIndex)
-            {
+            if(GameManager.Instance.turnCount % 2 != GameManager.Instance.turnIndex){
                 myTurn = false;
             }
         }
@@ -207,7 +206,7 @@ public class PlayerManager : MonoBehaviour
         {
             theAudio.Play("Salary_Sound");
             playerMoney += 200;
-            theGM.SetFloatingText(theGM.nowPlayer, 200, true);
+            // theGM.SetFloatingText(theGM.nowPlayer, 200, true);
         }
 
         // 투명도둑을 사용하고 나와 상대방이 겹쳐질때, 상대방의 카드가 있을 때 투명도둑 효과 발동
@@ -215,7 +214,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (againstPlayer.nowTile == nowTile && againstPlayer.cards.Count != 0)
             {
-                StartCoroutine(theCM.InvisibleThief());
+                theCM.InvisibleThief();
             }
         }
     }
@@ -294,164 +293,163 @@ public class PlayerManager : MonoBehaviour
         tileNum = int.Parse(nowTile.gameObject.name);
 
         VirtualCamera.SetActive(false);
-
+        
 
         //내 턴일때만 UI상호작용
-        if (GameManager.Instance.myCharactor.myTurn)
-        {
+        if(GameManager.Instance.myCharactor.myTurn){
             StartCoroutine(CheckArriveTile());
         }
-
+        
     }
 
     // 도착한 땅의 타일을 체크하여 상호작용하는 기능
     public IEnumerator CheckArriveTile()
-    {
-        if (myTurn) //이게 없으면 상대방이 특수타일 동작 후 나 자신도 같은 UI를 띄우게 됨...! 중요
-                    // 이동이 끝난 후, 일반 타일에 도착했다면
-            if (!nowTile.specialTile)
+    {   
+        if(myTurn) //이게 없으면 상대방이 특수타일 동작 후 나 자신도 같은 UI를 띄우게 됨...! 중요
+        // 이동이 끝난 후, 일반 타일에 도착했다면
+        if (!nowTile.specialTile)
+        {
+            // 일반 타일 중 자신이 구매한 타일이라면
+            if (nowTile.ownPlayer == playerId)
             {
-                // 일반 타일 중 자신이 구매한 타일이라면
-                if (nowTile.ownPlayer == playerId)
+                // 건물이 없으면 건물 구매 UI 활성화
+                if (nowTile.building == null)
                 {
-                    // 건물이 없으면 건물 구매 UI 활성화
-                    if (nowTile.building == null)
-                    {
-                        purchaseUi.SetActive(true);
-                        theGM.UIFlag = true;
-                    }
-                    // 건물이 있으면 건물 방문 효과 활성화
-                    else
-                    {
-                        switch (nowTile.building.type)
-                        {
-                            // 농장
-                            case 0:
-                                playerMoney += 200;
-                                theGM.SetFloatingText(theGM.nowPlayer, 200, true);
-                                print(playerMoney);
-                                break;
-                            // 제단
-                            case 1:
-                                nowTile.price *= 2;
-                                print(nowTile.price);
-                                break;
-                            // 특별상점
-                            case 2:
-                                for (int i = 0; i < 2; i++)
-                                {
-                                    if (cards.Count < 8)
-                                    {
-                                        StartCoroutine(theCM.CardProvideCoroutine());
-                                        yield return new WaitUntil(() => theCM.isGetCard);
-                                    }
-                                }
-                                break;
-                            // 랜드마크
-                            case 3:
-                                break;
-                        }
-                        theGM.NextTurnFunc();
-                    }
+                    purchaseUi.SetActive(true);
+                    theGM.UIFlag = true;
                 }
-                // 일반 타일 중 아무도 구매하지 않은 타일이라면 땅 구매 UI 활성화
-                else if (nowTile.ownPlayer == -1)
-                {
-                    if (playerMoney >= 50)
-                    {
-                        groundBuyUi.SetActive(true);
-                        theGM.UIFlag = true;
-                    }
-                    else
-                    {
-                        theGM.NextTurnFunc();
-                    }
-                }
-                // 일반 타일 중 상대방이 구매한 타일이라면
+                // 건물이 있으면 건물 방문 효과 활성화
                 else
                 {
-                    // 통행료 카드가 없는 경우 통행료 징수
-                    if (!exemptionFlag)
+                    switch (nowTile.building.type)
                     {
-                        playerMoney -= nowTile.price;
-                        theGM.SetFloatingText(theGM.nowPlayer, nowTile.price, false);
-                        againstPlayer.playerMoney += nowTile.price;
-                        theGM.SetFloatingText(theGM.nowPlayer.againstPlayer, nowTile.price, true);
-                    }
-                    // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
-                    else
-                    {
-                        theCM.TollExemption();
+                        // 농장
+                        case 0:
+                            playerMoney += 200;
+                            // theGM.SetFloatingText(theGM.nowPlayer, 200, true);
+                            print(playerMoney);
+                            break;
+                        // 제단
+                        case 1:
+                            nowTile.price *= 2;
+                            print(nowTile.price);
+                            break;
+                        // 특별상점
+                        case 2:
+                            for (int i = 0; i < 2; i++)
+                            {
+                                if (cards.Count < 8)
+                                {
+                                    StartCoroutine(theCM.CardProvideCoroutine());
+                                    yield return new WaitUntil(() => theCM.isGetCard);
+                                }
+                            }
+                            break;
+                        // 랜드마크
+                        case 3:
+                            break;
                     }
                     theGM.NextTurnFunc();
                 }
             }
-            // 일반 타일이 아니라, 특수 타일일 경우
+            // 일반 타일 중 아무도 구매하지 않은 타일이라면 땅 구매 UI 활성화
+            else if (nowTile.ownPlayer == -1)
+            {
+                if (playerMoney >= 50)
+                {
+                    groundBuyUi.SetActive(true);
+                    theGM.UIFlag = true;
+                }
+                else
+                {
+                    theGM.NextTurnFunc();
+                }
+            }
+            // 일반 타일 중 상대방이 구매한 타일이라면
             else
             {
-                switch (nowTile.specialTileType)
+                // 통행료 카드가 없는 경우 통행료 징수
+                if (!exemptionFlag)
                 {
-                    // 양계장
-                    case 0:
-                        int totalMoney = 0;
-                        for (int i = 0; i < theTM.tiles.Length; i++)
-                        {
-                            if (theTM.tiles[i].ownPlayer == playerId && theTM.tiles[i].building.type == 0) totalMoney += 100;
-                        }
-                        playerMoney += totalMoney;
-                        theGM.SetFloatingText(theGM.nowPlayer, totalMoney, true);
-                        break;
-
-                    // 카드지급
-                    case 1:
-                        StartCoroutine(theCM.CardProvideCoroutine());
-                        yield return new WaitUntil(() => theCM.isGetCard);
-                        break;
-
-                    // 텔레포트
-                    case 2:
-                        StartCoroutine(TeleportSetCoroutine());
-                        yield return new WaitUntil(() => tpFlag);
-                        break;
-
-                    // 올림픽
-                    case 3:
-                        for (int i = 0; i < theTM.tiles.Length; i++)
-                        {
-                            if (theTM.tiles[i].ownPlayer == playerId) theTM.tiles[i].price *= 2;
-                        }
-                        break;
-
-                    // 건물강탈
-                    case 4:
-                        blackBackground.SetActive(true);
-                        isExtortioning = true;
-
-                        for (int i = 0; i < theTM.tiles.Length; i++)
-                        {
-                            if (theTM.tiles[i].ownPlayer == againstPlayer.playerId) theTM.tiles[i].canTileSelect = true;
-                        }
-
-                        yield return new WaitUntil(() => theGM.seletedTile != null);
-
-                        isExtortioning = false;
-                        for (int i = 0; i < theTM.tiles.Length; i++)
-                        {
-                            theTM.tiles[i].canTileSelect = false;
-                        }
-
-                        blackBackground.SetActive(false);
-                        theGM.seletedTile.GetComponent<Tile>().ownPlayer = playerId;
-                        theGM.seletedTile = null;
-
-                        break;
+                    playerMoney -= nowTile.price;
+                    // theGM.SetFloatingText(theGM.nowPlayer, nowTile.price, false);
+                    againstPlayer.playerMoney += nowTile.price;
+                    // theGM.SetFloatingText(theGM.nowPlayer.againstPlayer, nowTile.price, true);
                 }
-                //모든 특수타일들은 끝났을때 턴 넘김을 여기서 처리함.
-
-                // byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
-                // Backend.Match.SendDataToInGameRoom(data);
-                // theGM.NextTurnFunc();
+                // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
+                else
+                {
+                    theCM.TollExemption();
+                }
+                theGM.NextTurnFunc();
             }
+        }
+        // 일반 타일이 아니라, 특수 타일일 경우
+        else
+        {
+            switch (nowTile.specialTileType)
+            {
+                // 양계장
+                case 0:
+                    int totalMoney = 0;
+                    for (int i = 0; i < theTM.tiles.Length; i++)
+                    {
+                        if (theTM.tiles[i].ownPlayer == playerId && theTM.tiles[i].building.type == 0) totalMoney += 100;
+                    }
+                    playerMoney += totalMoney;
+                    // theGM.SetFloatingText(theGM.nowPlayer, totalMoney, true);
+                    break;
+
+                // 카드지급
+                case 1:
+                    StartCoroutine(theCM.CardProvideCoroutine());
+                    yield return new WaitUntil(() => theCM.isGetCard);
+                    break;
+
+                // 텔레포트
+                case 2:
+                    StartCoroutine(TeleportSetCoroutine());
+                    yield return new WaitUntil(() => tpFlag);
+                    break;
+
+                // 올림픽
+                case 3:
+                    for (int i = 0; i < theTM.tiles.Length; i++)
+                    {
+                        if (theTM.tiles[i].ownPlayer == playerId) theTM.tiles[i].price *= 2;
+                    }
+                    break;
+
+                // 건물강탈
+                case 4:
+                    blackBackground.SetActive(true);
+                    isExtortioning = true;
+
+                    for (int i = 0; i < theTM.tiles.Length; i++)
+                    {
+                        if (theTM.tiles[i].ownPlayer == againstPlayer.playerId) theTM.tiles[i].canTileSelect = true;
+                    }
+
+                    yield return new WaitUntil(() => theGM.seletedTile != null);
+
+                    isExtortioning = false;
+                    for (int i = 0; i < theTM.tiles.Length; i++)
+                    {
+                        theTM.tiles[i].canTileSelect = false;
+                    }
+
+                    blackBackground.SetActive(false);
+                    theGM.seletedTile.GetComponent<Tile>().ownPlayer = playerId;
+                    theGM.seletedTile = null;
+
+                    break;
+            }
+            //모든 특수타일들은 끝났을때 턴 넘김을 여기서 처리함.
+            
+            // byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
+            // Backend.Match.SendDataToInGameRoom(data);
+            // theGM.NextTurnFunc();
+        }
     }
 
     IEnumerator TeleportSetCoroutine()
@@ -473,12 +471,12 @@ public class PlayerManager : MonoBehaviour
 
         blackBackground.SetActive(false);
         tpTile = theGM.seletedTile;
-
+        
         myTurn = false;
         tpFlag = true;
-
+        
         print("tpTileName is " + tpTile.name);
-        print("and, TPTile Find Name is " + GameObject.Find(tpTile.name).name);
+        print("and, TPTile Find Name is "+ GameObject.Find(tpTile.name).name);
         TeleportData tpData = new(tpFlag, tpTile.name);
 
         string jsonData = JsonUtility.ToJson(tpData);

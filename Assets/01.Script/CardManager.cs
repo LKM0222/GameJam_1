@@ -147,7 +147,11 @@ public class CardManager : MonoBehaviour
                     // 타일의 주인이 상대플레이어의 ID와 일치하면 카드 사용 가능
                     if (theTile.tiles[i].ownPlayer == theGM.nowPlayer.againstPlayer.playerId)
                     {
-                        theGM.nowPlayer.laserFlag = true;
+                        CardClickData cData = new(8, GameManager.Instance.nowPlayer.playerId);
+                        string jsonData = JsonUtility.ToJson(cData);
+                        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                        Backend.Match.SendDataToInGameRoom(data);
+                        // theGM.nowPlayer.laserFlag = true;
                         DestroyCard();
                         break;
                     }
