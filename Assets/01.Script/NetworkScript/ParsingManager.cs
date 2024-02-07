@@ -18,12 +18,19 @@ public class ParsingData{
     }
 }
 
+public class TurnCardSet{
+    public int randomNum;
+
+    public TurnCardSet(int _randomNum){
+        randomNum = _randomNum;
+    }
+}
+
 public class TurnCard{
-    public int turnNum;
+    // public int turnNum;
     public int turncardIdx;
 
-    public TurnCard(int _turnNum, int _turnCardIdx){
-        turnNum = _turnNum;
+    public TurnCard(int _turnCardIdx){
         turncardIdx = _turnCardIdx;
     }
 }
@@ -39,12 +46,79 @@ public class DiceData{
     
 }
 
+public class BuildingData{
+    public int buildingNum;
+    public BuildingData(int _buildingNum){
+        buildingNum = _buildingNum;
+    }
+}
+
+public class TeleportData{
+    public bool tpFlag;
+    public string tpTileNum;
+    
+    public TeleportData(bool _tpFlag,string _tpTileNum){
+        tpFlag = _tpFlag;
+        tpTileNum = _tpTileNum;
+    }
+}
+
+public class CardClickData{
+    public int cardNum;
+    public int playerId;
+
+    public CardClickData(int _cardNum, int _playerId){
+        cardNum = _cardNum;
+        playerId = _playerId;
+    }
+}
+
+public class CardData{
+    public Card card;
+    public CardData(Card _card){
+        card = _card;
+    }
+}
+
+public class CardDestroyData{
+    public GameObject destoryCard;
+    public Card cardInfo;
+
+    public CardDestroyData(GameObject _destroyCard, Card _cardInfo){
+        destoryCard = _destroyCard;
+        cardInfo = _cardInfo;
+    }
+    
+}
+
+public class InvisibleData{
+    public int cardNum;
+
+    public InvisibleData(int _cardNum){
+        cardNum = _cardNum;
+    }
+}
+
+
+
+
+
 #endregion
 
 #region Enum_ParsingType
 public enum ParsingType{
+    TurnCardSet,
     Turn,
-    Dice
+    Dice,
+    NextTurn,
+    GroundBuy,
+    BuildingBuy,
+    Teleport,
+    CardClick,
+    Card,
+    CardListAdd,
+    CardDestory,
+    InvisibleThief
 }
 #endregion
 

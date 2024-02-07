@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using BackEnd;
@@ -13,14 +14,14 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     CardManager theCM;
     GameManager theGM;
 
-    [SerializeField] PlayerManager thePlayer; //?”Œ? ˆ?´?–´?˜ ? •ë³?
-    [SerializeField] Vector3 nowPos;//?˜„?¬ ?Œ»ë§ì˜ ?œ„ì¹? ????¥
-    [SerializeField] GameObject EggObj; //ì£¼ì‚¬?œ„ ?˜¤ë¸Œì ?Š¸
-    [SerializeField] Text diceNumText; //ì£¼ì‚¬?œ„ ?ˆˆê¸? ?ƒ?Š¤?Š¸
-    [SerializeField] Animator EggAnimator; //?• ?‹ˆë©”ì´?„° ?ƒ?ƒœ ì²´í¬ ?œ„?•œ ë³??ˆ˜
-    [SerializeField] bool animatorFlag; //?• ?‹ˆë©”ì´?„°ê°? ?‹œ?‘?˜ê³ ë???„° Update?˜ ë¡œì§?„ ?‹¤?–‰?‹œ?‚¤ê¸°ìœ„?•´ ì¶”ê??.
+    [SerializeField] PlayerManager thePlayer; //í”Œë ˆì´ì–´ì˜ ì •ë³´
+    [SerializeField] Vector3 nowPos;//í˜„ì¬ íŒ»ë§ì˜ ìœ„ì¹˜ ì €ì¥
+    [SerializeField] GameObject EggObj; //ì£¼ì‚¬ìœ„ ì˜¤ë¸Œì íŠ¸
+    [SerializeField] Text diceNumText; //ì£¼ì‚¬ìœ„ ëˆˆê¸ˆ íƒìŠ¤íŠ¸
+    [SerializeField] Animator EggAnimator; //ì• ë‹ˆë©”ì´í„° ìƒíƒœ ì²´í¬ ìœ„í•œ ë³€ìˆ˜
+    [SerializeField] bool animatorFlag; //ì• ë‹ˆë©”ì´í„°ê°€ ì‹œì‘ë˜ê³ ë¶€í„° Updateì˜ ë¡œì§ì„ ì‹¤í–‰ì‹œí‚¤ê¸°ìœ„í•´ ì¶”ê°€.
 
-    public bool diceFlag; //ì£¼ì‚¬?œ„ê°? êµ´ë ¤ì¡‹ëŠ”ì§? ?™•?¸?•˜?Š” ?”Œ?˜ê·?
+    public bool diceFlag; //ì£¼ì‚¬ìœ„ê°€ êµ´ë ¤ì¡‹ëŠ”ì§€ í™•ì¸í•˜ëŠ” í”Œë˜ê·¸
 
     #region Instance
     private static DiceSystem _instance;
@@ -47,24 +48,33 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
 
     void Update()
     {
+        try
+        {
+            thePlayer = GameManager.Instance.nowPlayer.GetComponent<PlayerManager>();
+        }
+        catch (NullReferenceException)
+        {
+
+        }
         if (animatorFlag)
         {
-            // EggAnimatorê°? Finish?— ?“¤?–´ê°??„œ ?• ?‹ˆë©”ì´?…˜?´ ì¢…ë£Œ??‹¤ë©?
+            // EggAnimatorê°€ Finishì— ë“¤ì–´ê°€ì„œ ì• ë‹ˆë©”ì´ì…˜ì´ ì¢…ë£Œëë‹¤ë©´
             if (!EggAnimator.GetCurrentAnimatorStateInfo(0).IsName("Egg"))
             {
                 EggObj.SetActive(false);
-                // thePlayer.canMove = true;
+                thePlayer.canMove = true;
                 animatorFlag = false;
             }
         }
 
     }
 
-    // ?Œ»ë§ì„ ?“œ?˜ê·¸í–ˆ?„ ?•Œ ?˜¸ì¶?
+    // íŒ»ë§ì„ ë“œë˜ê·¸í–ˆì„ ë•Œ í˜¸ì¶œ
     public void OnDrag(PointerEventData eventData)
     {
-        // ?ˆ¬?‹œ??? ? ˆ?´???ë¹”ì˜ ?‚¬?š©?´ ëª¨ë‘ ??‚¬?„ ?•Œ ì£¼ì‚¬?œ„ë¥? êµ´ë¦´ ?ˆ˜ ?ˆê²?(=> ?‚¬?š©ì¤‘ì´?¼ë©? êµ´ë¦´ ?ˆ˜ ?—†ê²?)
-        if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
+        // íˆ¬ì‹œì™€ ë ˆì´ì €ë¹”ì˜ ì‚¬ìš©ì´ ëª¨ë‘ ëë‚¬ì„ ë•Œ ì£¼ì‚¬ìœ„ë¥¼ êµ´ë¦´ ìˆ˜ ìˆê²Œ(=> ì‚¬ìš©ì¤‘ì´ë¼ë©´ êµ´ë¦´ ìˆ˜ ì—†ê²Œ)
+        //if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
+        if (GameManager.Instance.myCharactor.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
         {
             Vector3 yPos = new Vector3(0f, eventData.position.y, 0f);
 
@@ -75,13 +85,14 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
         }
     }
 
-    // ?Œ»ë§ì„ ?“œë¡??–ˆ?„ ?•Œ ?˜¸ì¶?
+    // íŒ»ë§ì„ ë“œë¡­í–ˆì„ ë•Œ í˜¸ì¶œ
     public void OnEndDrag(PointerEventData eventData1)
     {
-        // ?ˆ¬?‹œ??? ? ˆ?´???ë¹”ì˜ ?‚¬?š©?´ ëª¨ë‘ ??‚¬?„ ?•Œ ì£¼ì‚¬?œ„ë¥? êµ´ë¦´ ?ˆ˜ ?ˆê²?(=> ?‚¬?š©ì¤‘ì´?¼ë©? êµ´ë¦´ ?ˆ˜ ?—†ê²?)
-        if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
+        // íˆ¬ì‹œì™€ ë ˆì´ì €ë¹”ì˜ ì‚¬ìš©ì´ ëª¨ë‘ ëë‚¬ì„ ë•Œ ì£¼ì‚¬ìœ„ë¥¼ êµ´ë¦´ ìˆ˜ ìˆê²Œ(=> ì‚¬ìš©ì¤‘ì´ë¼ë©´ êµ´ë¦´ ìˆ˜ ì—†ê²Œ)
+        //if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
+        if (GameManager.Instance.myCharactor.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
         {
-            // ?Œ»ë§ì´ ?¼ì²? ?œ„ì¹? ì¢Œí‘œë¥? ?„˜?–´?„œë©? ì£¼ì‚¬?œ„ë¥? êµ´ë¦¼
+            // íŒ»ë§ì´ ì¼ì²­ ìœ„ì¹˜ ì¢Œí‘œë¥¼ ë„˜ì–´ì„œë©´ ì£¼ì‚¬ìœ„ë¥¼ êµ´ë¦¼
             if (this.transform.localPosition.y < 470)
             {
                 theTSI.cursorPos = 2;
@@ -90,7 +101,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
                 RollDice();
             }
 
-            // ?Œ»ë§ì˜ ?œ„ì¹˜ë?? ?‹¤?‹œ ì´ˆê¸° ?œ„ì¹˜ë¡œ ?Œ? ¤?†“?Œ
+            // íŒ»ë§ì˜ ìœ„ì¹˜ë¥¼ ë‹¤ì‹œ ì´ˆê¸° ìœ„ì¹˜ë¡œ ëŒë ¤ë†“ìŒ
             this.transform.localPosition = nowPos;
         }
 
@@ -100,8 +111,8 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void RollDice()
     {
-        int dNum = Random.Range(1, 9);
-        DiceData dData = new(dNum, GameManager.Instance.turnIndex); //?„œë²„ë¡œ ? „?†¡?•˜ê¸? ?œ„?•´ ?°?´?„° ?´?˜?Š¤?™”
+        int dNum = UnityEngine.Random.Range(1, 9);
+        DiceData dData = new(dNum, GameManager.Instance.turnIndex); //ì„œë²„ë¡œ ì „ì†¡í•˜ê¸° ìœ„í•´ ë°ì´í„° í´ë˜ìŠ¤í™”
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Dice, JsonUtility.ToJson(dData));
         Backend.Match.SendDataToInGameRoom(data);
     }
@@ -109,19 +120,19 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     public IEnumerator RollDiceCoroutine()
     {
         print("diceCoroutine Start");
-        yield return new WaitUntil(() => diceFlag == true); //?„œë²„ì—?„œ ì£¼ì‚¬?œ„ê°’ì„ ????¥?• ?•Œê¹Œì?? ê¸°ë‹¤ë¦?.
+        yield return new WaitUntil(() => diceFlag == true); //ì„œë²„ì—ì„œ ì£¼ì‚¬ìœ„ê°’ì„ ì €ì¥í• ë•Œê¹Œì§€ ê¸°ë‹¤ë¦¼.
 
 
-        //?›?˜?Š” ?‹¤?´?Š¤ë¥? êµ´ë¦¬ë©? ?”Œ? ˆ?´?–´?—ê²? ????¥?–ˆì§?ë§?, ?´? œ?Š” ê²Œì„ë§¤ë‹ˆ????— ????¥?˜?–´?„œ ?˜„?¬ ?„´?˜ ?”Œ? ˆ?´?–´?—ê²? ?• ?‹¹?• ê²?.
+        //ì›ë˜ëŠ” ë‹¤ì´ìŠ¤ë¥¼ êµ´ë¦¬ë©´ í”Œë ˆì´ì–´ì—ê²Œ ì €ì¥í–ˆì§€ë§Œ, ì´ì œëŠ” ê²Œì„ë§¤ë‹ˆì €ì— ì €ì¥ë˜ì–´ì„œ í˜„ì¬ í„´ì˜ í”Œë ˆì´ì–´ì—ê²Œ í• ë‹¹í• ê²ƒ.
         // GameManager.Instance.diceNum = Random.Range(1,9);
-        // ê²Œì„ë§¤ë‹ˆ????— ????¥?‹œ?‚¬ ë³??ˆ˜?Š” EventManagerë¡? ?´?™.
-        //if() //?‚´ ?ˆœ?„œ?¼ë©? ?”Œ? ˆ?´?–´ ?‹¤?´?Š¤ ?„˜?— ????¥.
+        // ê²Œì„ë§¤ë‹ˆì €ì— ì €ì¥ì‹œí‚¬ ë³€ìˆ˜ëŠ” EventManagerë¡œ ì´ë™.
+        //if() //ë‚´ ìˆœì„œë¼ë©´ í”Œë ˆì´ì–´ ë‹¤ì´ìŠ¤ ë„˜ì— ì €ì¥.
         thePlayer.diceNum = GameManager.Instance.diceNum;
         AudioManager.instance.Play("RollDice_Sound");
 
-        thePlayer.diceNum = Random.Range(1, 9);
+        thePlayer.diceNum = UnityEngine.Random.Range(1, 9);
 
-        // ì£¼ì‚¬?œ„ì»¨íŠ¸ë¡? ì¹´ë“œ ?‚¬?š© ?‹œ, ?•´?‹¹ ?•¨?ˆ˜ ?˜¸ì¶?
+        // ì£¼ì‚¬ìœ„ì»¨íŠ¸ë¡¤ ì¹´ë“œ ì‚¬ìš© ì‹œ, í•´ë‹¹ í•¨ìˆ˜ í˜¸ì¶œ
         if (thePlayer.lowerDiceFlag)
         {
             theCM.LowerDiceControl();
@@ -132,10 +143,10 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
             theCM.HigherDiceControll();
         }
 
-        // ì£¼ì‚¬?œ„ë¥? ?œ?¤?•˜ê²? êµ´ë¦° ?‹¤?Œ text?— ? ?š©
+        // ì£¼ì‚¬ìœ„ë¥¼ ëœë¤í•˜ê²Œ êµ´ë¦° ë‹¤ìŒ textì— ì ìš©
         diceNumText.text = thePlayer.diceNum.ToString();
 
-        // ?•„?˜ë¡? ?‹¹ê¸°ì‹œ?˜¤ ?…?Š¤?Š¸ë¥? ?ˆ¨ê¸°ê³ , ì£¼ì‚¬?œ„ë¥? ?™œ?„±?™”?•˜ê³?, animatorFlagë¥? trueë¡? ì¼œì„œ ?—…?°?´?Š¸ë¬¸ì— ?“¤?–´ê°?ê²Œí•¨
+        // ì•„ë˜ë¡œ ë‹¹ê¸°ì‹œì˜¤ í…ìŠ¤íŠ¸ë¥¼ ìˆ¨ê¸°ê³ , ì£¼ì‚¬ìœ„ë¥¼ í™œì„±í™”í•˜ê³ , animatorFlagë¥¼ trueë¡œ ì¼œì„œ ì—…ë°ì´íŠ¸ë¬¸ì— ë“¤ì–´ê°€ê²Œí•¨
         thePlayer.downInformationText.gameObject.SetActive(false);
         EggObj.SetActive(true);
         animatorFlag = true;

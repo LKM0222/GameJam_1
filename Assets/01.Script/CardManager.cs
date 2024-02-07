@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using BackEnd;
 using UnityEngine;
 
 public class CardManager : MonoBehaviour
@@ -78,37 +79,63 @@ public class CardManager : MonoBehaviour
             // cardCode가 1이라면 고속이동(중복사용 방지를 위해 플래그가 꺼져있을때만)
             if (cardInfo.cardCode == 1 && !theGM.nowPlayer.highSpeedFlag)
             {
-                theGM.nowPlayer.highSpeedFlag = true;
+                CardClickData cData = new(1, GameManager.Instance.nowPlayer.playerId);
+                string jsonData = JsonUtility.ToJson(cData);
+                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                Backend.Match.SendDataToInGameRoom(data);
+
+                // // theGM.nowPlayer.highSpeedFlag = true;
                 DestroyCard();
             }
             // cardCode가 2라면 투명도둑
             else if (cardInfo.cardCode == 2 && !theGM.nowPlayer.invisibleFlag)
             {
-                theGM.nowPlayer.invisibleFlag = true;
+                CardClickData cData = new(2, GameManager.Instance.nowPlayer.playerId);
+                string jsonData = JsonUtility.ToJson(cData);
+                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                Backend.Match.SendDataToInGameRoom(data);
+
+                // theGM.nowPlayer.invisibleFlag = true;
                 DestroyCard();
             }
             // cardCode가 3이라면 거대화꼬꼬
             else if (cardInfo.cardCode == 3 && !theGM.nowPlayer.biggerFlag)
             {
-                theGM.nowPlayer.biggerFlag = true;
+                CardClickData cData = new(3, GameManager.Instance.nowPlayer.playerId);
+                string jsonData = JsonUtility.ToJson(cData);
+                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                Backend.Match.SendDataToInGameRoom(data);
+                // theGM.nowPlayer.biggerFlag = true;
                 DestroyCard();
             }
             // cardCode가 4라면 투시(투시카드 사용이 완료되었고, 레이저빔도 완료되어야만 사용 가능 => 둘 중 하나라도 발동중이면 사용불가)
             else if (cardInfo.cardCode == 4 && !theGM.nowPlayer.toosiFlag && theGM.penetrateComplete && theGM.laserComplete)
             {
-                theGM.nowPlayer.toosiFlag = true;
+                CardClickData cData = new(4, GameManager.Instance.nowPlayer.playerId);
+                string jsonData = JsonUtility.ToJson(cData);
+                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                Backend.Match.SendDataToInGameRoom(data);
+                // theGM.nowPlayer.toosiFlag = true;
                 DestroyCard();
             }
             // cardCode가 5라면 주사위컨트롤(하)
             else if (cardInfo.cardCode == 5 && !theGM.nowPlayer.lowerDiceFlag)
             {
-                theGM.nowPlayer.lowerDiceFlag = true;
+                CardClickData cData = new(5, GameManager.Instance.nowPlayer.playerId);
+                string jsonData = JsonUtility.ToJson(cData);
+                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                Backend.Match.SendDataToInGameRoom(data);
+                // theGM.nowPlayer.lowerDiceFlag = true;
                 DestroyCard();
             }
             // cardCode가 6이라면 주사위컨트롤(상)
             else if (cardInfo.cardCode == 6 && !theGM.nowPlayer.higherDiceFlag)
             {
-                theGM.nowPlayer.higherDiceFlag = true;
+                CardClickData cData = new(6, GameManager.Instance.nowPlayer.playerId);
+                string jsonData = JsonUtility.ToJson(cData);
+                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                Backend.Match.SendDataToInGameRoom(data);
+                // theGM.nowPlayer.higherDiceFlag = true;
                 DestroyCard();
             }
             // cardCode가 8이라면 레이저빔(레이저빔 사용이 완료되었고, 투시 완료되어야만 사용 가능 => 둘 중 하나라도 발동중이면 사용불가)
@@ -131,10 +158,15 @@ public class CardManager : MonoBehaviour
 
     public void DestroyCard()
     {
+        CardDestroyData destroyData = new(this.gameObject, this.cardInfo);
+        string jsonData = JsonUtility.ToJson(destroyData);
+        byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.CardDestory, jsonData);
+        Backend.Match.SendDataToInGameRoom(sendData);
+
         // 카드 오브젝트 삭제 및 플레이어가 가지고 있는 카드 리스트에서도 삭제
-        Destroy(this.gameObject);
-        Destroy(theGM.nowPlayer.cardParent.GetChild(0).gameObject);
-        theGM.nowPlayer.cards.Remove(this.cardInfo);
+        // Destroy(this.gameObject);
+        // Destroy(theGM.nowPlayer.cardParent.GetChild(0).gameObject);
+        // theGM.nowPlayer.cards.Remove(this.cardInfo);
     }
 
     public void HighSpeedMove()
@@ -153,25 +185,41 @@ public class CardManager : MonoBehaviour
         highMoveParticle.gameObject.SetActive(false);
     }
 
-    public void InvisibleThief()
+    public IEnumerator InvisibleThief()//여기 수정해야됨.
     {
         if (theGM.nowPlayer.cards.Count < 8)
         {
             // 상대가 가진 카드를 랜덤으로 골라서 현재 플레이어 카드에 추가하고 상대 플레이어 카드에는 삭제
-            int randomCard = UnityEngine.Random.Range(0, theGM.nowPlayer.againstPlayer.cards.Count);
+            //여기 통신 필요
+            //랜덤값을 서로 전송해서 받아와야됨.
+            // int randomCard = UnityEngine.Random.Range(0, theGM.nowPlayer.againstPlayer.cards.Count);
+            //통신을 한다면 속도를 맞출 수 있을까?
+            byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.InvisibleThief, "");
+            Backend.Match.SendDataToInGameRoom(sendData);
+
+            yield return new WaitUntil(() => GameManager.Instance.invisibleCardNum != -1);
 
             // 효과음 추가하기
             theAudio.Play("InvisibleThief_Sound");
 
-            // 만약 뺏어온 카드가 통행료면제 카드라면 플래그를 서로 바꿔줌
-            if (theGM.nowPlayer.againstPlayer.cards[randomCard] == theGM.cards[6])
+            // // 만약 뺏어온 카드가 통행료면제 카드라면 플래그를 서로 바꿔줌 GameManager.Instance.invisibleCardNum
+            // if (theGM.nowPlayer.againstPlayer.cards[randomCard] == theGM.cards[6])
+            // {
+            //     theGM.nowPlayer.exemptionFlag = true;
+            //     theGM.nowPlayer.againstPlayer.exemptionFlag = false;
+            // }
+
+            // theGM.nowPlayer.cards.Add(theGM.nowPlayer.againstPlayer.cards[randomCard]);
+            // theGM.nowPlayer.againstPlayer.cards.RemoveAt(randomCard);
+
+            if (theGM.nowPlayer.againstPlayer.cards[GameManager.Instance.invisibleCardNum] == theGM.cards[6])
             {
                 theGM.nowPlayer.exemptionFlag = true;
                 theGM.nowPlayer.againstPlayer.exemptionFlag = false;
             }
 
-            theGM.nowPlayer.cards.Add(theGM.nowPlayer.againstPlayer.cards[randomCard]);
-            theGM.nowPlayer.againstPlayer.cards.RemoveAt(randomCard);
+            theGM.nowPlayer.cards.Add(theGM.nowPlayer.againstPlayer.cards[GameManager.Instance.invisibleCardNum]);
+            theGM.nowPlayer.againstPlayer.cards.RemoveAt(GameManager.Instance.invisibleCardNum);
 
             InvisibleParticle.gameObject.SetActive(true);
             InvisibleParticle.transform.position = theGM.nowPlayer.transform.position;
@@ -315,7 +363,8 @@ public class CardManager : MonoBehaviour
             // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
             var _card = Instantiate(theGM.nowPlayer.cardPrefab, Vector3.zero, Quaternion.identity, theGM.nowPlayer.cardParent);
             _card.transform.localPosition = new Vector3(0f, 0f, 0f);
-            theGM.nowPlayer.cards.Add(newCard);
+            theGM.nowPlayer.cards.Add(newCard); //팻말 아래 카드리스트 추가하는곳. ? 여기에 이거 들어가는거 맞나?
+
 
             StartCoroutine(ShowGetCard());
             yield return new WaitUntil(() => isShowCard);
@@ -406,10 +455,12 @@ public class CardManager : MonoBehaviour
     public IEnumerator ShowGetCard()
     {
         // GameManager에 만들어놓은 카드이미지 프리팹을 카드를 띄워줄 위치에 있는 오브젝트에 복제
+        // 플레이 화면 좌측하단에 표시하는 함수
         // 이후 위치값, 스케일값, 스프라이트 이미지를 변경함
         GameObject _card = Instantiate(theGM.onlyCardImg, Vector3.zero, Quaternion.identity, theGM.showCardObject.transform);
         _card.transform.localPosition = new Vector3(0f, 0f, 0f);
         _card.transform.localScale = new Vector3(20f, 20f, 20f);
+        yield return new WaitUntil(() => theGM.nowPlayer.cards.Count > 0);
         _card.GetComponent<SpriteRenderer>().sprite = theGM.nowPlayer.cards[theGM.nowPlayer.cards.Count - 1].cardImg;
 
         // 3초 대기 이후 보여줬던 카드를 파괴하고 코루틴 탈출
@@ -425,12 +476,19 @@ public class CardManager : MonoBehaviour
         if (theGM.nowPlayer.cards.Count < 8)
         {
             // 랜덤하게 카드번호를 추출
-            Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
+            // Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
+            Card newCard = theGM.cards[UnityEngine.Random.Range(1, 2)];
 
             // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
-            var _card = Instantiate(theGM.nowPlayer.cardPrefab, Vector3.zero, Quaternion.identity, theGM.nowPlayer.cardParent);
-            _card.transform.localPosition = new Vector3(0f, 0f, 0f);
-            theGM.nowPlayer.cards.Add(newCard);
+
+            // var _card = Instantiate(theGM.nowPlayer.cardPrefab, Vector3.zero, Quaternion.identity, theGM.nowPlayer.cardParent); //EventManager로 이동.
+            // _card.transform.localPosition = new Vector3(0f, 0f, 0f); //EventManager로 이동.
+
+            CardData cardData = new(newCard);
+            string jsonData = JsonUtility.ToJson(cardData);
+            byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.CardListAdd, jsonData);
+            Backend.Match.SendDataToInGameRoom(sendData);
+            // theGM.nowPlayer.cards.Add(newCard); (EventManager로 이동.)
 
             StartCoroutine(ShowGetCard());
             yield return new WaitUntil(() => isShowCard);
@@ -444,6 +502,9 @@ public class CardManager : MonoBehaviour
                 yield return new WaitForSeconds(3f);
                 theGM.textManager.HideText();
             }
+            //카드 받고나서 턴 넘기는 부분
+            byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
+            Backend.Match.SendDataToInGameRoom(data);
         }
         isGetCard = true;
     }
