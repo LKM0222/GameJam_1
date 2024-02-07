@@ -114,6 +114,14 @@ public class PlayerManager : MonoBehaviour
     {
         canMove = false;
 
+        theTSI.cursorPos = 3;
+
+        VirtualCamera.SetActive(true);
+        yield return new WaitForSeconds(1f);
+
+        StartCoroutine(CheckUsedCardCoroutine());
+        yield return new WaitUntil(() => !isCheckingCard);
+
         // 주사위 수만큼 tileToGo 리스트에 추가
         for (int i = 0; i < diceNum; i++)
         {
@@ -127,14 +135,6 @@ public class PlayerManager : MonoBehaviour
                 tileToGo.Add(theTM.tiles[tileNum + i].gameObject);
             }
         }
-
-        theTSI.cursorPos = 3;
-
-        VirtualCamera.SetActive(true);
-        yield return new WaitForSeconds(1f);
-
-        StartCoroutine(CheckUsedCardCoroutine());
-        yield return new WaitUntil(() => !isCheckingCard);
 
         movingWaitTime = 0f;
 
