@@ -1686,7 +1686,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5805557588694647685, guid: c186772ae5292174aa05edefad5d6909, type: 3}
       propertyPath: m_Name
-      value: Particles_Basic_V1
+      value: InvisibleThiefParticle
       objectReference: {fileID: 0}
     - target: {fileID: 5805557588694647685, guid: c186772ae5292174aa05edefad5d6909, type: 3}
       propertyPath: m_IsActive
@@ -2079,7 +2079,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 458098296294749932, guid: 174c5dc53fd3d0447bfa97c91f4c7794, type: 3}
       propertyPath: m_Name
-      value: Wind_Ground_Alpha_0.5
+      value: HighSpeedMoveParticle
       objectReference: {fileID: 0}
     - target: {fileID: 458098296294749932, guid: 174c5dc53fd3d0447bfa97c91f4c7794, type: 3}
       propertyPath: m_IsActive
@@ -3642,7 +3642,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &453495400
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7107,7 +7107,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8827511557453898195, guid: f206072cbb42a1d478f15f3cd2577439, type: 3}
       propertyPath: m_Name
-      value: Smoke_Cloud_Burst_v3
+      value: BiggerParticle
       objectReference: {fileID: 0}
     - target: {fileID: 8827511557453898195, guid: f206072cbb42a1d478f15f3cd2577439, type: 3}
       propertyPath: m_IsActive
@@ -11814,7 +11814,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3198923806287051063, guid: 442486026d7ae68428087e1cf03543fe, type: 3}
       propertyPath: m_Name
-      value: Explosion_Lightning
+      value: LaserBeamParticle
       objectReference: {fileID: 0}
     - target: {fileID: 3198923806287051063, guid: 442486026d7ae68428087e1cf03543fe, type: 3}
       propertyPath: m_IsActive
