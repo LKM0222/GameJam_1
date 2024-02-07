@@ -118,7 +118,8 @@ public enum ParsingType{
     Card,
     CardListAdd,
     CardDestory,
-    InvisibleThief
+    InvisibleThief,
+    ExemptionFlag
 }
 #endregion
 

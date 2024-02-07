@@ -359,6 +359,15 @@ public class EventManager : MonoBehaviour
                         GameManager.Instance.nowPlayer.againstPlayer.cards.Count);
                     //랜덤으로 뽑았으니 함수 계속.
                 break;
+
+                case ParsingType.ExemptionFlag:
+                    PlayerManager nPlayer = GameManager.Instance.nowPlayer;
+                    nPlayer.playerMoney -= nPlayer.nowTile.price;
+                    GameManager.Instance.SetFloatingText(nPlayer,nPlayer.nowTile.price, false);
+                    nPlayer.againstPlayer.playerMoney += nPlayer.nowTile.price;
+                    GameManager.Instance.SetFloatingText(nPlayer.againstPlayer, nPlayer.nowTile.price, true);
+
+                break;
             }
             // ParsingManager.Instance.ParisngRecvData(args);
         };
