@@ -390,72 +390,73 @@ public class PlayerManager : MonoBehaviour
                     // theGM.NextTurnFunc();
                 }
             }
-        }
-        // 일반 타일이 아니라, 특수 타일일 경우
-        else
-        {
-            switch (nowTile.specialTileType)
+        
+            // 일반 타일이 아니라, 특수 타일일 경우
+            else
             {
-                // 양계장
-                case 0:
-                    int totalMoney = 0;
-                    for (int i = 0; i < theTM.tiles.Length; i++)
-                    {
-                        if (theTM.tiles[i].ownPlayer == playerId && theTM.tiles[i].building.type == 0) totalMoney += 100;
-                    }
-                    playerMoney += totalMoney;
-                    // theGM.SetFloatingText(theGM.nowPlayer, totalMoney, true);
-                    break;
+                switch (nowTile.specialTileType)
+                {
+                    // 양계장
+                    case 0:
+                        int totalMoney = 0;
+                        for (int i = 0; i < theTM.tiles.Length; i++)
+                        {
+                            if (theTM.tiles[i].ownPlayer == playerId && theTM.tiles[i].building.type == 0) totalMoney += 100;
+                        }
+                        playerMoney += totalMoney;
+                        // theGM.SetFloatingText(theGM.nowPlayer, totalMoney, true);
+                        break;
 
-                // 카드지급
-                case 1:
-                    StartCoroutine(theCM.CardProvideCoroutine());
-                    yield return new WaitUntil(() => theCM.isGetCard);
-                    break;
+                    // 카드지급
+                    case 1:
+                        StartCoroutine(theCM.CardProvideCoroutine());
+                        yield return new WaitUntil(() => theCM.isGetCard);
+                        break;
 
-                // 텔레포트
-                case 2:
-                    StartCoroutine(TeleportSetCoroutine());
-                    yield return new WaitUntil(() => tpFlag);
-                    break;
+                    // 텔레포트
+                    case 2:
+                        StartCoroutine(TeleportSetCoroutine());
+                        yield return new WaitUntil(() => tpFlag);
+                        break;
 
-                // 올림픽
-                case 3:
-                    for (int i = 0; i < theTM.tiles.Length; i++)
-                    {
-                        if (theTM.tiles[i].ownPlayer == playerId) theTM.tiles[i].price *= 2;
-                    }
-                    break;
+                    // 올림픽
+                    case 3:
+                        for (int i = 0; i < theTM.tiles.Length; i++)
+                        {
+                            if (theTM.tiles[i].ownPlayer == playerId) theTM.tiles[i].price *= 2;
+                        }
+                        break;
 
-                // 건물강탈
-                case 4:
-                    blackBackground.SetActive(true);
-                    isExtortioning = true;
+                    // 건물강탈
+                    case 4:
+                        blackBackground.SetActive(true);
+                        isExtortioning = true;
 
-                    for (int i = 0; i < theTM.tiles.Length; i++)
-                    {
-                        if (theTM.tiles[i].ownPlayer == againstPlayer.playerId) theTM.tiles[i].canTileSelect = true;
-                    }
+                        for (int i = 0; i < theTM.tiles.Length; i++)
+                        {
+                            if (theTM.tiles[i].ownPlayer == againstPlayer.playerId) theTM.tiles[i].canTileSelect = true;
+                        }
 
-                    yield return new WaitUntil(() => theGM.seletedTile != null);
+                        yield return new WaitUntil(() => theGM.seletedTile != null);
 
-                    isExtortioning = false;
-                    for (int i = 0; i < theTM.tiles.Length; i++)
-                    {
-                        theTM.tiles[i].canTileSelect = false;
-                    }
+                        isExtortioning = false;
+                        for (int i = 0; i < theTM.tiles.Length; i++)
+                        {
+                            theTM.tiles[i].canTileSelect = false;
+                        }
 
-                    blackBackground.SetActive(false);
-                    theGM.seletedTile.GetComponent<Tile>().ownPlayer = playerId;
-                    theGM.seletedTile = null;
+                        blackBackground.SetActive(false);
+                        theGM.seletedTile.GetComponent<Tile>().ownPlayer = playerId;
+                        theGM.seletedTile = null;
 
-                    break;
+                        break;
+                }
+                //모든 특수타일들은 끝났을때 턴 넘김을 여기서 처리함.
+                
+                // byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
+                // Backend.Match.SendDataToInGameRoom(data);
+                // theGM.NextTurnFunc();
             }
-            //모든 특수타일들은 끝났을때 턴 넘김을 여기서 처리함.
-            
-            // byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
-            // Backend.Match.SendDataToInGameRoom(data);
-            // theGM.NextTurnFunc();
         }
     }
 
