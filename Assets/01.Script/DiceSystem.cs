@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using BackEnd;
@@ -47,13 +48,21 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
 
     void Update()
     {
+        try
+        {
+            thePlayer = GameManager.Instance.nowPlayer.GetComponent<PlayerManager>();
+        }
+        catch (NullReferenceException)
+        {
+
+        }
         if (animatorFlag)
         {
             // EggAnimator가 Finish에 들어가서 애니메이션이 종료됐다면
             if (!EggAnimator.GetCurrentAnimatorStateInfo(0).IsName("Egg"))
             {
                 EggObj.SetActive(false);
-                // thePlayer.canMove = true;
+                thePlayer.canMove = true;
                 animatorFlag = false;
             }
         }
@@ -64,7 +73,8 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     public void OnDrag(PointerEventData eventData)
     {
         // 투시와 레이저빔의 사용이 모두 끝났을 때 주사위를 굴릴 수 있게(=> 사용중이라면 굴릴 수 없게)
-        if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
+        //if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
+        if (GameManager.Instance.myCharactor.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
         {
             Vector3 yPos = new Vector3(0f, eventData.position.y, 0f);
 
@@ -79,7 +89,8 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     public void OnEndDrag(PointerEventData eventData1)
     {
         // 투시와 레이저빔의 사용이 모두 끝났을 때 주사위를 굴릴 수 있게(=> 사용중이라면 굴릴 수 없게)
-        if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
+        //if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
+        if (GameManager.Instance.myCharactor.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
         {
             // 팻말이 일청 위치 좌표를 넘어서면 주사위를 굴림
             if (this.transform.localPosition.y < 470)
@@ -100,7 +111,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void RollDice()
     {
-        int dNum = Random.Range(1, 9);
+        int dNum = UnityEngine.Random.Range(1, 9);
         DiceData dData = new(dNum, GameManager.Instance.turnIndex); //서버로 전송하기 위해 데이터 클래스화
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Dice, JsonUtility.ToJson(dData));
         Backend.Match.SendDataToInGameRoom(data);
@@ -119,7 +130,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
         thePlayer.diceNum = GameManager.Instance.diceNum;
         AudioManager.instance.Play("RollDice_Sound");
 
-        thePlayer.diceNum = Random.Range(1, 9);
+        thePlayer.diceNum = UnityEngine.Random.Range(1, 9);
 
         // 주사위컨트롤 카드 사용 시, 해당 함수 호출
         if (thePlayer.lowerDiceFlag)

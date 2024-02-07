@@ -20,6 +20,7 @@ public class ButtonScript : MonoBehaviour
     {
         theGM = FindObjectOfType<GameManager>();
         theAudio = FindObjectOfType<AudioManager>();
+        thePS = FindObjectOfType<PurchaseSystem>();
     }
 
     //Right버튼
@@ -56,6 +57,12 @@ public class ButtonScript : MonoBehaviour
     {
         theAudio.Play("Build_Sound");
 
+        BuildingData bdata = new(thePS.cur);
+        string jsonData = JsonUtility.ToJson(bdata);
+
+        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.BuildingBuy, jsonData);
+        Backend.Match.SendDataToInGameRoom(data);
+
         thePS.BuildingPurchase();
     }
 
@@ -66,6 +73,11 @@ public class ButtonScript : MonoBehaviour
 
         theGM.NextTurnFunc();
         theGM.UIFlag = false;
+        //턴그냥 넘김
+        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
+        Backend.Match.SendDataToInGameRoom(data);
+        // theGM.NextTurnFunc(); //이 함수로
+        // theGM.UIFlag = false;
     }
 
     //땅 구매 버튼
@@ -73,24 +85,38 @@ public class ButtonScript : MonoBehaviour
     {
         theAudio.Play("Click_Sound");
 
-        theGBS.groundBuyFlag = true;
-        theGM.nowPlayer.groundCount += 1;
-        theGM.nowPlayer.playerMoney -= 50;
-
         theGM.SetFloatingText(theGM.nowPlayer, 50, false);
 
+        // theGBS.groundBuyFlag = true;
+        // theGM.nowPlayer.groundCount += 1;
+        // theGM.nowPlayer.playerMoney -= 50;
+
+        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.GroundBuy, "");
+        Backend.Match.SendDataToInGameRoom(data);
+        theGBS.GroundBuy();
         // 땅만 샀을 경우 해당 타일을 추가하고 상대방이 밟았을 때 50골드만 감소시키는 것 구현 아직 안됨
         // theGM.nowPlayer.againstPlayer_Tile.Add(theGM.nowPlayer.nowTile.gameObject);
     }
 
+
+    //게임시작때, 자기 턴을 클릭하는 버튼
     public void TurnCardClick()
     {
-        if (GameManager.Instance.turnIndex == 0)
+        if (GameManager.Instance.turnIndex == -1)
         { //묶어주지 않으면 계속 선택이 가능함...
             //턴 인덱스가 0이면 아직 내 턴카드를 선택하지 않은것.
             GameManager.Instance.turnIndex = turnNum; //나의 턴을 저장.
 
-            TurnCard tCard = new(turnNum, turncardIdx);
+            if (GameManager.Instance.turnIndex == 1)
+            {
+                GameManager.Instance.myCharactor = GameObject.Find("Player1").GetComponent<PlayerManager>();
+            }
+            else
+            {
+                GameManager.Instance.myCharactor = GameObject.Find("Player2").GetComponent<PlayerManager>();
+            }
+
+            TurnCard tCard = new(turncardIdx);
             string jsonData = JsonUtility.ToJson(tCard);
             byte[] data;
             data = ParsingManager.Instance.ParsingSendData(ParsingType.Turn, jsonData);

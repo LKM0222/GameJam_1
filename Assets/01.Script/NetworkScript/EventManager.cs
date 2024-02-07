@@ -12,6 +12,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Unity.VisualScripting;
 using System.Security.Cryptography;
+using Unity.Mathematics;
 #endregion
 public class EventManager : MonoBehaviour
 {
@@ -25,6 +26,11 @@ public class EventManager : MonoBehaviour
 
     [Header("InGameServer")]
     MatchInGameRoomInfo roomInfo; //인게임에서 방 정보를 전달하기위해 선언해둔 변수
+
+
+    #region FindObjectArea
+    GroundBuyScript theGBS;
+    #endregion
     
     private void Awake() {
         if(Instance == null){
@@ -34,6 +40,10 @@ public class EventManager : MonoBehaviour
         else{
             Destroy(this.gameObject);
         }
+    }
+
+    private void Start() {
+        theGBS = FindObjectOfType<GroundBuyScript>();
     }
 
     // Update is called once per frame
@@ -169,7 +179,19 @@ public class EventManager : MonoBehaviour
             //pData.type : 데이터의 타입, pData.data : string데이터 (클래스별 데이터라 각 클래스에 맞는 파싱과정 필요)
             //데이터의 타입으로 스위치문 결정, 데이터를 다시 위와 같은 과정으로 알맞은 클래스로 변환 후 사용.
             switch(pData.type){
-                case ParsingType.Turn:
+                case ParsingType.TurnCardSet:
+                    TurnCardSet tsData = JsonUtility.FromJson<TurnCardSet>(pData.data);
+                    if(tsData.randomNum == 0){
+                        GameManager.Instance.turnCards[0].GetComponent<ButtonScript>().turnNum = 1;
+                        GameManager.Instance.turnCards[1].GetComponent<ButtonScript>().turnNum = 0;
+                    } else{
+                        GameManager.Instance.turnCards[0].GetComponent<ButtonScript>().turnNum = 0;
+                        GameManager.Instance.turnCards[1].GetComponent<ButtonScript>().turnNum = 1;
+                    }
+
+                break;
+
+                case ParsingType.Turn: //턴 선택 분기
                     print("turn case");
                     TurnCard tData = JsonUtility.FromJson<TurnCard>(pData.data);
                     GameManager.Instance.playerCount.Add(1);
@@ -179,12 +201,163 @@ public class EventManager : MonoBehaviour
                     }
                 break;
 
-                case ParsingType.Dice:
+                case ParsingType.Dice: //주사위 데이터
                     print("dice type");
                     StartCoroutine(DiceSystem.Instance.RollDiceCoroutine());
                     DiceData dData = JsonUtility.FromJson<DiceData>(pData.data);
                     GameManager.Instance.diceNum = dData.diceNum;
                     DiceSystem.Instance.diceFlag = true;
+                break;
+
+                case ParsingType.NextTurn: //다음턴으로 넘기기
+                    GameManager.Instance.NextTurnFunc(); //이 함수로
+                    GameManager.Instance.UIFlag = false;
+                break;
+
+                case ParsingType.GroundBuy: //땅 구매
+                    if(GameManager.Instance.myCharactor.myTurn){
+                        // print("GroundBuy");
+                        // theGBS.GroundBuy();
+                        // print("GroundBuySuccess");
+                        GameManager.Instance.myCharactor.groundCount += 1;
+                        GameManager.Instance.myCharactor.playerMoney -= 50;
+                    }
+                    else{
+                        //상대방이 땅을 구매했을 때, 상대방 땅 색깔로 구매되었다는걸 알려줘야함.
+                        // theGM.nowPlayer.nowTile.ownPlayer = theGM.nowPlayer.playerId; 
+                        GameManager.Instance.myCharactor.againstPlayer.nowTile.ownPlayer 
+                            = GameManager.Instance.myCharactor.againstPlayer.playerId;
+                        GameManager.Instance.myCharactor.againstPlayer.groundCount += 1;
+                        GameManager.Instance.myCharactor.againstPlayer.playerMoney -= 50;
+                    }
+                break;
+
+                case ParsingType.BuildingBuy: //건물건설
+                    if(GameManager.Instance.myCharactor.myTurn){
+                        // BuildingData bdata = JsonUtility.FromJson<BuildingData>(pData.data);
+
+    
+                        // //건물 UI표시는 어떻게?
+                        // // theGM.nowPlayer.nowTile.building = theGM.buildings[cur];
+                        // GameManager.Instance.myCharactor.nowTile.building =
+                        //     GameManager.Instance.buildings[bdata.buildingNum];
+
+                        // GameManager.Instance.myCharactor.buildingCount += 1;
+                        // GameManager.Instance.myCharactor.playerMoney -= 50; //건물 건설비용
+                        // GameManager.Instance.myCharactor.nowTile.price = 
+                        // GameManager.Instance.buildings[bdata.buildingNum].toll;
+
+
+                        // //모든 작업 완료 후 턴 넘기기
+                        // //턴 넘기기 Enum이 있지만, 일단 이렇게 구현
+                        // GameManager.Instance.NextTurnFunc();
+                        // GameManager.Instance.UIFlag = false;
+                        // 여기는 그냥 버튼 눌렀을때 처리해주면 됨. 자기턴이니깐.
+                        // 상대방에게는 아래와 같이 전달해주면 될듯.
+                        GameManager.Instance.NextTurnFunc();
+                        GameManager.Instance.UIFlag = false;
+
+                    }
+                    else{
+                        BuildingData bdata = JsonUtility.FromJson<BuildingData>(pData.data);
+
+                        GameManager.Instance.myCharactor.againstPlayer.nowTile.building = 
+                            GameManager.Instance.buildings[bdata.buildingNum];
+
+                        GameManager.Instance.myCharactor.againstPlayer.buildingCount += 1;
+                        GameManager.Instance.myCharactor.againstPlayer.playerMoney -= 50; //건물 건설비용
+                        GameManager.Instance.myCharactor.againstPlayer.nowTile.price = 
+                        GameManager.Instance.buildings[bdata.buildingNum].toll;
+
+                        GameManager.Instance.NextTurnFunc();
+                        GameManager.Instance.UIFlag = false;
+                    }
+                    // theGM.nowPlayer.buildingCount += 1;
+                    // theGM.nowPlayer.playerMoney -= 50;
+                    // theGM.nowPlayer.nowTile.price = theGM.buildings[cur].toll;
+                break;
+
+                case ParsingType.Teleport:
+                    TeleportData tpData = JsonUtility.FromJson<TeleportData>(pData.data);
+
+                    GameManager.Instance.nowPlayer.tpFlag = tpData.tpFlag; //전달받은 값을 현재 턴의 플레이어에 할당.
+                    GameManager.Instance.nowPlayer.tpTile = GameObject.Find(tpData.tpTileNum); //땅이 계속 0으로만 들어감.
+
+                    //이후 턴 넘기기.
+                    GameManager.Instance.NextTurnFunc();
+                    GameManager.Instance.UIFlag = false;
+                break;
+
+                case ParsingType.Card:
+                    CardData cardData = JsonUtility.FromJson<CardData>(pData.data);
+                    GameManager.Instance.nowPlayer.cards.Add(cardData.card);
+                break;
+
+                case ParsingType.CardClick:
+                    CardClickData cData = JsonUtility.FromJson<CardClickData>(pData.data);
+
+                    switch(cData.cardNum){
+                        case 1: //고속이동
+                            GameManager.Instance.nowPlayer.highSpeedFlag = true;
+                            // theGM.nowPlayer.highSpeedFlag = true;
+                        break;
+
+                        case 2://투명도둑
+                            GameManager.Instance.nowPlayer.invisibleFlag = true;
+                            // theGM.nowPlayer.invisibleFlag = true;
+                        break;
+
+                        case 3://거대화 꼬꼬
+                            GameManager.Instance.nowPlayer.biggerFlag = true;
+                            // theGM.nowPlayer.biggerFlag = true;
+                        break;
+
+                        case 4: //투시
+                            GameManager.Instance.nowPlayer.toosiFlag = true;
+                            // theGM.nowPlayer.toosiFlag = true;
+                        break;
+
+                        case 5: //주사위컨트롤 하
+                            GameManager.Instance.nowPlayer.lowerDiceFlag = true;
+                            // theGM.nowPlayer.lowerDiceFlag = true;
+                        break;
+
+                        case 6: //주사위컨트롤 상
+                            GameManager.Instance.nowPlayer.higherDiceFlag = true;
+                            // theGM.nowPlayer.higherDiceFlag = true;
+                        break;
+
+                        case 7:
+                        break;
+
+                        case 8:
+                        break;
+                    }
+                break;
+
+                case ParsingType.CardListAdd:
+                    CardData cardData1 = JsonUtility.FromJson<CardData>(pData.data);
+
+                    var _card = Instantiate(GameManager.Instance.nowPlayer.cardPrefab, 
+                        Vector3.zero, Quaternion.identity, GameManager.Instance.nowPlayer.cardParent);
+                    _card.transform.localPosition = new Vector3(0f,0f,0f);
+
+                    GameManager.Instance.nowPlayer.cards.Add(cardData1.card); //카드를 뽑았다면 현재 플레이어 카드리스트에 값 추가.
+                break;
+
+                case ParsingType.CardDestory:
+                    print("Destroy");
+                    CardDestroyData destroyData = JsonUtility.FromJson<CardDestroyData>(pData.data);
+
+                    Destroy(destroyData.destoryCard);
+                    Destroy(GameManager.Instance.nowPlayer.cardParent.GetChild(0).gameObject);
+                    GameManager.Instance.nowPlayer.cards.Remove(destroyData.cardInfo);
+                break;
+
+                case ParsingType.InvisibleThief:
+                    GameManager.Instance.invisibleCardNum = UnityEngine.Random.Range(0,
+                        GameManager.Instance.nowPlayer.againstPlayer.cards.Count);
+                    //랜덤으로 뽑았으니 함수 계속.
                 break;
             }
             // ParsingManager.Instance.ParisngRecvData(args);
