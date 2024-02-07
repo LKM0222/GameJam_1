@@ -13,22 +13,24 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     CardManager theCM;
     GameManager theGM;
 
-    [SerializeField] PlayerManager thePlayer; //플레이어의 정보
-    [SerializeField] Vector3 nowPos;//현재 팻말의 위치 저장
-    [SerializeField] GameObject EggObj; //주사위 오브젝트
-    [SerializeField] Text diceNumText; //주사위 눈금 택스트
-    [SerializeField] Animator EggAnimator; //애니메이터 상태 체크 위한 변수
-    [SerializeField] bool animatorFlag; //애니메이터가 시작되고부터 Update의 로직을 실행시키기위해 추가.
+    [SerializeField] PlayerManager thePlayer; //?��?��?��?��?�� ?���?
+    [SerializeField] Vector3 nowPos;//?��?�� ?��말의 ?���? ????��
+    [SerializeField] GameObject EggObj; //주사?�� ?��브젝?��
+    [SerializeField] Text diceNumText; //주사?�� ?���? ?��?��?��
+    [SerializeField] Animator EggAnimator; //?��?��메이?�� ?��?�� 체크 ?��?�� �??��
+    [SerializeField] bool animatorFlag; //?��?��메이?���? ?��?��?��고�???�� Update?�� 로직?�� ?��?��?��?��기위?�� 추�??.
 
-    public bool diceFlag; //주사위가 굴려졋는지 확인하는 플래그
+    public bool diceFlag; //주사?���? 굴려졋는�? ?��?��?��?�� ?��?���?
 
     #region Instance
     private static DiceSystem _instance;
-    public static DiceSystem Instance{
-        get {
-            if(_instance == null)
+    public static DiceSystem Instance
+    {
+        get
+        {
+            if (_instance == null)
                 _instance = FindObjectOfType(typeof(DiceSystem)) as DiceSystem;
-            
+
             return _instance;
         }
     }
@@ -47,7 +49,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         if (animatorFlag)
         {
-            // EggAnimator가 Finish에 들어가서 애니메이션이 종료됐다면
+            // EggAnimator�? Finish?�� ?��?���??�� ?��?��메이?��?�� 종료?��?���?
             if (!EggAnimator.GetCurrentAnimatorStateInfo(0).IsName("Egg"))
             {
                 EggObj.SetActive(false);
@@ -58,10 +60,10 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
 
     }
 
-    // 팻말을 드래그했을 때 호출
+    // ?��말을 ?��?��그했?�� ?�� ?���?
     public void OnDrag(PointerEventData eventData)
     {
-        // 투시와 레이저빔의 사용이 모두 끝났을 때 주사위를 굴릴 수 있게(=> 사용중이라면 굴릴 수 없게)
+        // ?��?��??? ?��?��???빔의 ?��?��?�� 모두 ?��?��?�� ?�� 주사?���? 굴릴 ?�� ?���?(=> ?��?��중이?���? 굴릴 ?�� ?���?)
         if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
         {
             Vector3 yPos = new Vector3(0f, eventData.position.y, 0f);
@@ -73,50 +75,53 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
         }
     }
 
-    // 팻말을 드롭했을 때 호출
+    // ?��말을 ?���??��?�� ?�� ?���?
     public void OnEndDrag(PointerEventData eventData1)
     {
-        // 투시와 레이저빔의 사용이 모두 끝났을 때 주사위를 굴릴 수 있게(=> 사용중이라면 굴릴 수 없게)
+        // ?��?��??? ?��?��???빔의 ?��?��?�� 모두 ?��?��?�� ?�� 주사?���? 굴릴 ?�� ?���?(=> ?��?��중이?���? 굴릴 ?�� ?���?)
         if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
         {
-            // 팻말이 일청 위치 좌표를 넘어서면 주사위를 굴림
+            // ?��말이 ?���? ?���? 좌표�? ?��?��?���? 주사?���? 굴림
             if (this.transform.localPosition.y < 470)
             {
                 theTSI.cursorPos = 2;
 
-                //AudioManager.instance.Play("diceSound");
 
                 RollDice();
             }
 
-            // 팻말의 위치를 다시 초기 위치로 돌려놓음
+            // ?��말의 ?��치�?? ?��?�� 초기 ?��치로 ?��?��?��?��
             this.transform.localPosition = nowPos;
         }
 
 
-        
+
     }
 
     public void RollDice()
     {
-        int dNum = Random.Range(1,9);
-        DiceData dData = new(dNum, GameManager.Instance.turnIndex); //서버로 전송하기 위해 데이터 클래스화
+        int dNum = Random.Range(1, 9);
+        DiceData dData = new(dNum, GameManager.Instance.turnIndex); //?��버로 ?��?��?���? ?��?�� ?��?��?�� ?��?��?��?��
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Dice, JsonUtility.ToJson(dData));
         Backend.Match.SendDataToInGameRoom(data);
     }
 
-    public IEnumerator RollDiceCoroutine(){
+    public IEnumerator RollDiceCoroutine()
+    {
         print("diceCoroutine Start");
-        yield return new WaitUntil(() => diceFlag == true); //서버에서 주사위값을 저장할때까지 기다림.
+        yield return new WaitUntil(() => diceFlag == true); //?��버에?�� 주사?��값을 ????��?��?��까�?? 기다�?.
 
 
-        //원래는 다이스를 굴리면 플레이어에게 저장했지만, 이제는 게임매니저에 저장되어서 현재 턴의 플레이어에게 할당할것.
+        //?��?��?�� ?��?��?���? 굴리�? ?��?��?��?��?���? ????��?���?�?, ?��?��?�� 게임매니????�� ????��?��?��?�� ?��?�� ?��?�� ?��?��?��?��?���? ?��?��?���?.
         // GameManager.Instance.diceNum = Random.Range(1,9);
-        // 게임매니저에 저장시킬 변수는 EventManager로 이동.
-        //if() //내 순서라면 플레이어 다이스 넘에 저장.
+        // 게임매니????�� ????��?��?�� �??��?�� EventManager�? ?��?��.
+        //if() //?�� ?��?��?���? ?��?��?��?�� ?��?��?�� ?��?�� ????��.
         thePlayer.diceNum = GameManager.Instance.diceNum;
+        AudioManager.instance.Play("RollDice_Sound");
 
-        // 주사위컨트롤 카드 사용 시, 해당 함수 호출
+        thePlayer.diceNum = Random.Range(1, 9);
+
+        // 주사?��컨트�? 카드 ?��?�� ?��, ?��?�� ?��?�� ?���?
         if (thePlayer.lowerDiceFlag)
         {
             theCM.LowerDiceControl();
@@ -127,10 +132,10 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
             theCM.HigherDiceControll();
         }
 
-        // 주사위를 랜덤하게 굴린 다음 text에 적용
+        // 주사?���? ?��?��?���? 굴린 ?��?�� text?�� ?��?��
         diceNumText.text = thePlayer.diceNum.ToString();
 
-        // 아래로 당기시오 텍스트를 숨기고, 주사위를 활성화하고, animatorFlag를 true로 켜서 업데이트문에 들어가게함
+        // ?��?���? ?��기시?�� ?��?��?���? ?��기고, 주사?���? ?��?��?��?���?, animatorFlag�? true�? 켜서 ?��?��?��?��문에 ?��?���?게함
         thePlayer.downInformationText.gameObject.SetActive(false);
         EggObj.SetActive(true);
         animatorFlag = true;

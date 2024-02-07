@@ -7,6 +7,7 @@ public class CardManager : MonoBehaviour
     GameManager theGM;
     TileManager theTile;
     TurnSignScript theTSI;
+    AudioManager theAudio;
 
     // 카드의 정보
     public Card cardInfo;
@@ -18,6 +19,7 @@ public class CardManager : MonoBehaviour
 
     public bool isShowCard;
     public bool isGetCard;
+    public bool isSelectingLaser;
 
     public ParticleSystem destroyParticle;
     public ParticleSystem laserParticle;
@@ -30,6 +32,7 @@ public class CardManager : MonoBehaviour
         theGM = FindObjectOfType<GameManager>();
         theTile = FindObjectOfType<TileManager>();
         theTSI = FindObjectOfType<TurnSignScript>();
+        theAudio = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -43,6 +46,8 @@ public class CardManager : MonoBehaviour
     {
         if (theTSI.cursorPos == 1)
         {
+            theAudio.Play("SelectCard_Sound");
+
             // upPos만큼 Position을 올리고 Scale을 늘림
             this.transform.localScale = new Vector3(14f, 14f, 1f);
             this.transform.position += Vector3.up * upPos;
@@ -68,6 +73,8 @@ public class CardManager : MonoBehaviour
     {
         if (theTSI.cursorPos == 1)
         {
+            theAudio.Play("UseCard_Sound");
+
             // cardCode가 1이라면 고속이동(중복사용 방지를 위해 플래그가 꺼져있을때만)
             if (cardInfo.cardCode == 1 && !theGM.nowPlayer.highSpeedFlag)
             {
@@ -154,6 +161,7 @@ public class CardManager : MonoBehaviour
             int randomCard = UnityEngine.Random.Range(0, theGM.nowPlayer.againstPlayer.cards.Count);
 
             // 효과음 추가하기
+            theAudio.Play("InvisibleThief_Sound");
 
             // 만약 뺏어온 카드가 통행료면제 카드라면 플래그를 서로 바꿔줌
             if (theGM.nowPlayer.againstPlayer.cards[randomCard] == theGM.cards[6])
@@ -173,6 +181,8 @@ public class CardManager : MonoBehaviour
             GameObject dCard = theGM.nowPlayer.againstPlayer.cardParent.GetChild(0).gameObject;
             dCard.transform.SetParent(theGM.nowPlayer.cardParent);
             dCard.GetComponent<SpriteRenderer>().sprite = theGM.nowPlayer.cardPrefab.GetComponent<SpriteRenderer>().sprite;
+
+            theGM.CardListUpdate();
         }
 
     }
@@ -223,6 +233,8 @@ public class CardManager : MonoBehaviour
             Color buildingColor = theGM.nowPlayer.nowTile.buildingImg.GetComponent<SpriteRenderer>().color;
             Color tileColor = theGM.nowPlayer.nowTile.signImg.GetComponent<SpriteRenderer>().color;
 
+            theAudio.Play("BuildingDestroy_Sound");
+
             // 건물파괴 파티클을 활성화하고 위치를 현재 타일의 건물 위치로 옮긴 다음 파티클 실행
             destroyParticle.gameObject.SetActive(true);
             destroyParticle.transform.position = theGM.nowPlayer.nowTile.transform.GetChild(0).position;
@@ -245,7 +257,9 @@ public class CardManager : MonoBehaviour
 
             // 현재 타일의 소유주와 건물을 없앰
             theGM.nowPlayer.nowTile.ownPlayer = -1;
-            theGM.nowPlayer.nowTile.building.type = -1;
+            // theGM.nowPlayer.nowTile.building.type = -1;
+            // theGM.nowPlayer.nowTile.buildingImg.sprite = null;
+            theGM.nowPlayer.nowTile.building = theGM.buildings[0];
 
             // 0으로 감소시켰던 건물과 타일의 Alpha 값을 원상복구
             buildingColor.a = 1f;
@@ -327,12 +341,18 @@ public class CardManager : MonoBehaviour
         theGM.laserComplete = false;
 
         theGM.nowPlayer.blackBackground.SetActive(true);
+
+        isSelectingLaser = true;
+
         for (int i = 0; i < theTile.tiles.Length; i++)
         {
-            theTile.tiles[i].canTileSelect = true; //모든 카드 클릭 가능하도록 미리 클릭하고 다음턴에 해당 위치로 이동.
+            if (theGM.nowPlayer.playerId != theTile.tiles[i].ownPlayer && theTile.tiles[i].ownPlayer != -1)
+                theTile.tiles[i].canTileSelect = true; //모든 카드 클릭 가능하도록 미리 클릭하고 다음턴에 해당 위치로 이동.
         }
 
         yield return new WaitUntil(() => theGM.seletedTile != null);
+
+        isSelectingLaser = false;
 
         for (int i = 0; i < theTile.tiles.Length; i++)
         {
@@ -340,6 +360,7 @@ public class CardManager : MonoBehaviour
         }
         theGM.nowPlayer.blackBackground.SetActive(false);
 
+        theAudio.Play("Laser_Sound");
         // 건물과 타일의 컬러를 받아옴
         Color buildingColor = theGM.seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color;
         Color tileColor = theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
@@ -367,6 +388,7 @@ public class CardManager : MonoBehaviour
         // 현재 타일의 소유주와 건물을 없앰
         theGM.seletedTile.GetComponent<Tile>().ownPlayer = -1;
         theGM.seletedTile.GetComponent<Tile>().building = theGM.buildings[0];
+        theGM.seletedTile.GetComponent<Tile>().price = 0;
 
         yield return new WaitForEndOfFrame();
 
