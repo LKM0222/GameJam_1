@@ -130,7 +130,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
         thePlayer.diceNum = GameManager.Instance.diceNum;
         AudioManager.instance.Play("RollDice_Sound");
 
-        thePlayer.diceNum = UnityEngine.Random.Range(1, 9);
+        // thePlayer.diceNum = UnityEngine.Random.Range(1, 9);
 
         // 주사위컨트롤 카드 사용 시, 해당 함수 호출
         if (thePlayer.lowerDiceFlag)
