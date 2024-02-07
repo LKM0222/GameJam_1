@@ -30,6 +30,7 @@ public class EventManager : MonoBehaviour
 
     #region FindObjectArea
     GroundBuyScript theGBS;
+    CardManager theCM;
     #endregion
     
     private void Awake() {
@@ -44,6 +45,7 @@ public class EventManager : MonoBehaviour
 
     private void Start() {
         theGBS = FindObjectOfType<GroundBuyScript>();
+        theCM = FindObjectOfType<CardManager>();
     }
 
     // Update is called once per frame
@@ -356,20 +358,34 @@ public class EventManager : MonoBehaviour
 
                 case ParsingType.InvisibleThief: //카드 투명도둑
                     GameManager.Instance.invisibleCardNum = UnityEngine.Random.Range(0,
-                        GameManager.Instance.nowPlayer.againstPlayer.cards.Count);
+                    GameManager.Instance.nowPlayer.againstPlayer.cards.Count);
                     //랜덤으로 뽑았으니 함수 계속.
                 break;
 
                 case ParsingType.ExemptionFlag: //상대방 땅에 걸린경우
-                    PlayerManager nPlayer = GameManager.Instance.nowPlayer;
-                    nPlayer.playerMoney -= nPlayer.nowTile.price;
-                    GameManager.Instance.SetFloatingText(nPlayer,nPlayer.nowTile.price, false);
-                    nPlayer.againstPlayer.playerMoney += nPlayer.nowTile.price;
-                    GameManager.Instance.SetFloatingText(nPlayer.againstPlayer, nPlayer.nowTile.price, true);
+                    // PlayerManager nPlayer = GameManager.Instance.nowPlayer;
+                    // nPlayer.playerMoney -= nPlayer.nowTile.price;
+                    // GameManager.Instance.SetFloatingText(nPlayer,nPlayer.nowTile.price, false);
+                    // nPlayer.againstPlayer.playerMoney += nPlayer.nowTile.price;
+                    // GameManager.Instance.SetFloatingText(nPlayer.againstPlayer, nPlayer.nowTile.price, true);
 
 
+                    // GameManager.Instance.NextTurnFunc();
+                    // GameManager.Instance.UIFlag = false;
+                    if (!GameManager.Instance.nowPlayer.exemptionFlag)
+                    {
+                        GameManager.Instance.nowPlayer.playerMoney -= GameManager.Instance.nowPlayer.nowTile.price;
+                        GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, GameManager.Instance.nowPlayer.nowTile.price, false);
+                        GameManager.Instance.nowPlayer.againstPlayer.playerMoney += GameManager.Instance.nowPlayer.nowTile.price;
+                        GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer.againstPlayer, GameManager.Instance.nowPlayer.nowTile.price, true);
+                    }
+                    // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
+                    else
+                    {
+                        theCM.TollExemption();
+                        // theGM.NextTurnFunc();
+                    }
                     GameManager.Instance.NextTurnFunc();
-                    GameManager.Instance.UIFlag = false;
                 break;
             }
             // ParsingManager.Instance.ParisngRecvData(args);

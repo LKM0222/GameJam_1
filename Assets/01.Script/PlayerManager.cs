@@ -306,86 +306,89 @@ public class PlayerManager : MonoBehaviour
     public IEnumerator CheckArriveTile()
     {   
         if(myTurn) //이게 없으면 상대방이 특수타일 동작 후 나 자신도 같은 UI를 띄우게 됨...! 중요
-        // 이동이 끝난 후, 일반 타일에 도착했다면
-        if (!nowTile.specialTile)
         {
-            // 일반 타일 중 자신이 구매한 타일이라면
-            if (nowTile.ownPlayer == playerId)
+        // 이동이 끝난 후, 일반 타일에 도착했다면
+            if (!nowTile.specialTile)
             {
-                // 건물이 없으면 건물 구매 UI 활성화
-                if (nowTile.building == null)
+                // 일반 타일 중 자신이 구매한 타일이라면
+                if (nowTile.ownPlayer == playerId)
                 {
-                    purchaseUi.SetActive(true);
-                    theGM.UIFlag = true;
-                }
-                // 건물이 있으면 건물 방문 효과 활성화
-                else
-                {
-                    switch (nowTile.building.type)
+                    // 건물이 없으면 건물 구매 UI 활성화
+                    if (nowTile.building == null)
                     {
-                        // 농장
-                        case 0:
-                            playerMoney += 200;
-                            // theGM.SetFloatingText(theGM.nowPlayer, 200, true);
-                            print(playerMoney);
-                            break;
-                        // 제단
-                        case 1:
-                            nowTile.price *= 2;
-                            print(nowTile.price);
-                            break;
-                        // 특별상점
-                        case 2:
-                            for (int i = 0; i < 2; i++)
-                            {
-                                if (cards.Count < 8)
-                                {
-                                    StartCoroutine(theCM.CardProvideCoroutine());
-                                    yield return new WaitUntil(() => theCM.isGetCard);
-                                }
-                            }
-                            break;
-                        // 랜드마크
-                        case 3:
-                            break;
+                        purchaseUi.SetActive(true);
+                        theGM.UIFlag = true;
                     }
-                    theGM.NextTurnFunc();
+                    // 건물이 있으면 건물 방문 효과 활성화
+                    else
+                    {
+                        switch (nowTile.building.type)
+                        {
+                            // 농장
+                            case 0:
+                                playerMoney += 200;
+                                // theGM.SetFloatingText(theGM.nowPlayer, 200, true);
+                                print(playerMoney);
+                                break;
+                            // 제단
+                            case 1:
+                                nowTile.price *= 2;
+                                print(nowTile.price);
+                                break;
+                            // 특별상점
+                            case 2:
+                                for (int i = 0; i < 2; i++)
+                                {
+                                    if (cards.Count < 8)
+                                    {
+                                        StartCoroutine(theCM.CardProvideCoroutine());
+                                        yield return new WaitUntil(() => theCM.isGetCard);
+                                    }
+                                }
+                                break;
+                            // 랜드마크
+                            case 3:
+                                break;
+                        }
+                        theGM.NextTurnFunc();
+                    }
                 }
-            }
-            // 일반 타일 중 아무도 구매하지 않은 타일이라면 땅 구매 UI 활성화
-            else if (nowTile.ownPlayer == -1)
-            {
-                if (playerMoney >= 50)
+                // 일반 타일 중 아무도 구매하지 않은 타일이라면 땅 구매 UI 활성화
+                else if (nowTile.ownPlayer == -1)
                 {
-                    groundBuyUi.SetActive(true);
-                    theGM.UIFlag = true;
+                    if (playerMoney >= 50)
+                    {
+                        groundBuyUi.SetActive(true);
+                        theGM.UIFlag = true;
+                    }
+                    else
+                    {
+                        theGM.NextTurnFunc();
+                    }
                 }
+                // 일반 타일 중 상대방이 구매한 타일이라면
                 else
                 {
-                    theGM.NextTurnFunc();
-                }
-            }
-            // 일반 타일 중 상대방이 구매한 타일이라면
-            else
-            {
-                // 통행료 카드가 없는 경우 통행료 징수
-                if (!exemptionFlag)
-                {
-                    // byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.ExemptionFlag, "");
-                    // Backend.Match.SendDataToInGameRoom(sendData);
-                    //모두 EventManager로 이동.
-                    playerMoney -= nowTile.price;
-                    theGM.SetFloatingText(theGM.nowPlayer, nowTile.price, false);
-                    againstPlayer.playerMoney += nowTile.price;
-                    theGM.SetFloatingText(theGM.nowPlayer.againstPlayer, nowTile.price, true);
-                }
-                // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
-                else
-                {
-                    theCM.TollExemption();
+                    byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.ExemptionFlag, "");
+                    Backend.Match.SendDataToInGameRoom(sendData);
+                    // // 통행료 카드가 없는 경우 통행료 징수
+                    // if (!exemptionFlag)
+                    // {
+                        
+                    //     //모두 EventManager로 이동.
+                    //     playerMoney -= nowTile.price;
+                    //     theGM.SetFloatingText(theGM.nowPlayer, nowTile.price, false);
+                    //     againstPlayer.playerMoney += nowTile.price;
+                    //     theGM.SetFloatingText(theGM.nowPlayer.againstPlayer, nowTile.price, true);
+                    // }
+                    // // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
+                    // else
+                    // {
+                    //     theCM.TollExemption();
+                    //     // theGM.NextTurnFunc();
+                    // }
                     // theGM.NextTurnFunc();
                 }
-                theGM.NextTurnFunc();
             }
         }
         // 일반 타일이 아니라, 특수 타일일 경우
