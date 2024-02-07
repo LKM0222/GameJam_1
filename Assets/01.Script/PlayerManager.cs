@@ -371,18 +371,19 @@ public class PlayerManager : MonoBehaviour
                 // 통행료 카드가 없는 경우 통행료 징수
                 if (!exemptionFlag)
                 {
-                    byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.ExemptionFlag, "");
-                    Backend.Match.SendDataToInGameRoom(sendData);
+                    // byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.ExemptionFlag, "");
+                    // Backend.Match.SendDataToInGameRoom(sendData);
                     //모두 EventManager로 이동.
-                    // playerMoney -= nowTile.price;
-                    // theGM.SetFloatingText(theGM.nowPlayer, nowTile.price, false);
-                    // againstPlayer.playerMoney += nowTile.price;
-                    // theGM.SetFloatingText(theGM.nowPlayer.againstPlayer, nowTile.price, true);
+                    playerMoney -= nowTile.price;
+                    theGM.SetFloatingText(theGM.nowPlayer, nowTile.price, false);
+                    againstPlayer.playerMoney += nowTile.price;
+                    theGM.SetFloatingText(theGM.nowPlayer.againstPlayer, nowTile.price, true);
                 }
                 // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
                 else
                 {
                     theCM.TollExemption();
+                    // theGM.NextTurnFunc();
                 }
                 theGM.NextTurnFunc();
             }
