@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -56,7 +57,6 @@ public class GameManager : MonoBehaviour
 
     TurnSignScript theTSI;
 
-    public List<GameObject> buyedTiles = new List<GameObject>();
     public GameObject clickedTile;
 
     public GameObject seletedTile; //텔레포트 활성화 시 다음턴에 움질일 위치 정함.
@@ -88,6 +88,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject player1TurnImg, player2TurnImg;
     public bool isActiveTurnImage;
     public GameObject player1TeleportEffect, player2TeleportEffect;
+    public GameObject gameOverUI;
+
+    public GameObject player1_floatingObject, player2_floatingObject;
+    public GameObject floatingTextPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -105,6 +109,7 @@ public class GameManager : MonoBehaviour
             turnCards[0].GetComponent<ButtonScript>().turnNum = 2;
             turnCards[1].GetComponent<ButtonScript>().turnNum = 1;
         }
+        AudioManager.instance.Play("MainGame_Sound");
     }
 
     // Update is called once per frame
@@ -112,7 +117,8 @@ public class GameManager : MonoBehaviour
     {
         //이 모든 과정을 턴 카드를 뽑았을때 실행되도록 수정.
         //턴카드를 뽑았을 때, palyerCount가 1씩 증가. 길이가 2가 됐다면 플레이어가 모두 카드를 뽑았다는 뜻. 이때부터 게임 시작.
-        if(playerCount.Count > 1){
+        if (playerCount.Count > 1)
+        {
             // 턴을 종료하고 상대 턴으로 넘어갔다면
             if (nextTurn)
             {
@@ -138,7 +144,7 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(TurnImgCoroutine(turnCount % 2));
             }
         }
-        
+
     }
 
     // 플레이어가 가진 카드의 목록 업데이트
@@ -168,9 +174,18 @@ public class GameManager : MonoBehaviour
     }
 
     public void NextTurnFunc()
-    { //턴 종료일때 호출하는 메서드. 공통으로 들어가는 요소만 넣었음.
-        turnCount += 1;//턴넘김
-        nextTurn = true;
+    {
+        if (CheckGameOver())
+        {
+            gameOverUI.SetActive(true);
+            print(nowPlayer.againstPlayer.playerId + " 승리!");
+            print("Game Over!");
+        }
+        else
+        {
+            turnCount += 1;
+            nextTurn = true;
+        }
     }
 
     IEnumerator TurnImgCoroutine(int turn)
@@ -193,6 +208,58 @@ public class GameManager : MonoBehaviour
             players[1].downInformationText.gameObject.SetActive(true);
         }
         isActiveTurnImage = false;
+    }
+
+    bool CheckGameOver()
+    {
+        if (nowPlayer.playerMoney < 0) return true;
+        else return false;
+    }
+
+    public void SetFloatingText(PlayerManager _player, int _value, bool sign)
+    {
+        if (_player.playerId == 0)
+        {
+            // 플로팅 텍스트 프리팹 복제 및 텍스트 정렬
+            GameObject prefab = Instantiate(floatingTextPrefab, player1_floatingObject.transform);
+            prefab.transform.GetChild(0).GetComponent<TMP_Text>().alignment = TextAlignmentOptions.Left;
+            prefab.transform.GetChild(1).GetComponent<TMP_Text>().alignment = TextAlignmentOptions.Left;
+
+            // 부호에 따라 텍스트 내용과 색상을 바꿔줌
+            if (sign)
+            {
+                prefab.transform.GetChild(0).GetComponent<TMP_Text>().text = "+" + _value.ToString();
+                prefab.transform.GetChild(1).GetComponent<TMP_Text>().text = "+" + _value.ToString();
+                prefab.transform.GetChild(1).GetComponent<TMP_Text>().color = Color.green;
+            }
+            else
+            {
+                prefab.transform.GetChild(0).GetComponent<TMP_Text>().text = "-" + _value.ToString();
+                prefab.transform.GetChild(1).GetComponent<TMP_Text>().text = "-" + _value.ToString();
+                prefab.transform.GetChild(1).GetComponent<TMP_Text>().color = Color.red;
+            }
+        }
+        else if (_player.playerId == 1)
+        {
+            // 플로팅 텍스트 프리팹 복제 및 텍스트 정렬
+            GameObject prefab = Instantiate(floatingTextPrefab, player2_floatingObject.transform);
+            prefab.transform.GetChild(0).GetComponent<TMP_Text>().alignment = TextAlignmentOptions.Right;
+            prefab.transform.GetChild(1).GetComponent<TMP_Text>().alignment = TextAlignmentOptions.Right;
+
+            // 부호에 따라 텍스트 내용과 색상을 바꿔줌
+            if (sign)
+            {
+                prefab.transform.GetChild(0).GetComponent<TMP_Text>().text = "+" + _value.ToString();
+                prefab.transform.GetChild(1).GetComponent<TMP_Text>().text = "+" + _value.ToString();
+                prefab.transform.GetChild(1).GetComponent<TMP_Text>().color = Color.green;
+            }
+            else
+            {
+                prefab.transform.GetChild(0).GetComponent<TMP_Text>().text = "-" + _value.ToString();
+                prefab.transform.GetChild(1).GetComponent<TMP_Text>().text = "-" + _value.ToString();
+                prefab.transform.GetChild(1).GetComponent<TMP_Text>().color = Color.red;
+            }
+        }
     }
 }
 

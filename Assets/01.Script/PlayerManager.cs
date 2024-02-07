@@ -16,6 +16,8 @@ public class PlayerManager : MonoBehaviour
     public int diceNum;
     public bool isMoving;
     public bool canMove;
+    float movingWaitTime;
+
 
     [Header("Tile")]
     [SerializeField] int tileNum; //플레이어가 서있는 칸의 번호
@@ -40,6 +42,7 @@ public class PlayerManager : MonoBehaviour
     public Text downInformationText;
     public GameObject VirtualCamera;
     public PlayerManager againstPlayer;
+
 
     [Header("SpecialEffect")]
     public GameObject tpTile; //다음 이동할곳 저장
@@ -67,6 +70,7 @@ public class PlayerManager : MonoBehaviour
     GameManager theGM;
     TileManager theTM;
     TurnSignScript theTSI;
+    AudioManager theAudio;
 
     // Start is called before the first frame update
     void Start()
@@ -74,6 +78,7 @@ public class PlayerManager : MonoBehaviour
         theTM = FindObjectOfType<TileManager>();
         theGM = FindObjectOfType<GameManager>();
         theTSI = FindObjectOfType<TurnSignScript>();
+        theAudio = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -131,6 +136,8 @@ public class PlayerManager : MonoBehaviour
         StartCoroutine(CheckUsedCardCoroutine());
         yield return new WaitUntil(() => !isCheckingCard);
 
+        movingWaitTime = 0f;
+
         while (tileToGo.Count != 0)
         {
             // Player 실제 이동 코루틴 실행
@@ -143,6 +150,9 @@ public class PlayerManager : MonoBehaviour
             tileToGo.RemoveAt(0);
             CheckPassTile();
         }
+
+        movingWaitTime = 0f;
+
         StartCoroutine(EndMovePlayerCoroutine());
     }
 
@@ -174,7 +184,9 @@ public class PlayerManager : MonoBehaviour
         // 시작지점을 지나쳐간다면 월급 지급
         if (nowTile.transform.name == "0")
         {
+            theAudio.Play("Salary_Sound");
             playerMoney += 200;
+            theGM.SetFloatingText(theGM.nowPlayer, 200, true);
         }
 
         // 투명도둑을 사용하고 나와 상대방이 겹쳐질때, 상대방의 카드가 있을 때 투명도둑 효과 발동
@@ -202,6 +214,20 @@ public class PlayerManager : MonoBehaviour
 
         while (isMoving)
         {
+            // 걷는 중일 때만 0.5초 간격으로 StepSound 재생
+            if (!theGM.nowPlayer.highSpeedFlag)
+            {
+                if (movingWaitTime >= 0.5f)
+                {
+                    theAudio.Play("Step_Sound");
+                    movingWaitTime = 0f;
+                }
+                else
+                {
+                    movingWaitTime += Time.deltaTime;
+                }
+            }
+
             this.transform.position = Vector3.MoveTowards(this.transform.position, target, Time.deltaTime * moveSpeed);
             yield return new WaitForEndOfFrame();
             if (this.transform.position == target)
@@ -271,6 +297,7 @@ public class PlayerManager : MonoBehaviour
                         // 농장
                         case 0:
                             playerMoney += 200;
+                            theGM.SetFloatingText(theGM.nowPlayer, 200, true);
                             print(playerMoney);
                             break;
                         // 제단
@@ -299,8 +326,15 @@ public class PlayerManager : MonoBehaviour
             // 일반 타일 중 아무도 구매하지 않은 타일이라면 땅 구매 UI 활성화
             else if (nowTile.ownPlayer == -1)
             {
-                groundBuyUi.SetActive(true);
-                theGM.UIFlag = true;
+                if (playerMoney >= 50)
+                {
+                    groundBuyUi.SetActive(true);
+                    theGM.UIFlag = true;
+                }
+                else
+                {
+                    theGM.NextTurnFunc();
+                }
             }
             // 일반 타일 중 상대방이 구매한 타일이라면
             else
@@ -309,7 +343,9 @@ public class PlayerManager : MonoBehaviour
                 if (!exemptionFlag)
                 {
                     playerMoney -= nowTile.price;
+                    theGM.SetFloatingText(theGM.nowPlayer, nowTile.price, false);
                     againstPlayer.playerMoney += nowTile.price;
+                    theGM.SetFloatingText(theGM.nowPlayer.againstPlayer, nowTile.price, true);
                 }
                 // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
                 else
@@ -326,10 +362,13 @@ public class PlayerManager : MonoBehaviour
             {
                 // 양계장
                 case 0:
+                    int totalMoney = 0;
                     for (int i = 0; i < theTM.tiles.Length; i++)
                     {
-                        if (theTM.tiles[i].ownPlayer == playerId && theTM.tiles[i].building.type == 0) playerMoney += 100;
+                        if (theTM.tiles[i].ownPlayer == playerId && theTM.tiles[i].building.type == 0) totalMoney += 100;
                     }
+                    playerMoney += totalMoney;
+                    theGM.SetFloatingText(theGM.nowPlayer, totalMoney, true);
                     break;
 
                 // 카드지급
@@ -386,7 +425,7 @@ public class PlayerManager : MonoBehaviour
         isSelectingTeleport = true;
         for (int i = 0; i < theTM.tiles.Length; i++)
         {
-            if (i != 6) theTM.tiles[i].canTileSelect = true;
+            if (i != 5) theTM.tiles[i].canTileSelect = true;
         }
 
         yield return new WaitUntil(() => theGM.seletedTile != null);
