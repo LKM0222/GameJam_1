@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - particles
   layers:
   - Default
   - TransparentFX
@@ -53,6 +54,9 @@ TagManager:
     locked: 0
   - name: TopBuilding
     uniqueID: 2004998345
+    locked: 0
+  - name: ParticleSystem
+    uniqueID: 3025477029
     locked: 0
   - name: UI
     uniqueID: 207275519
