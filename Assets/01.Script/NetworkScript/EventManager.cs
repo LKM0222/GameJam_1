@@ -354,19 +354,22 @@ public class EventManager : MonoBehaviour
                     GameManager.Instance.nowPlayer.cards.Remove(destroyData.cardInfo);
                 break;
 
-                case ParsingType.InvisibleThief:
+                case ParsingType.InvisibleThief: //카드 투명도둑
                     GameManager.Instance.invisibleCardNum = UnityEngine.Random.Range(0,
                         GameManager.Instance.nowPlayer.againstPlayer.cards.Count);
                     //랜덤으로 뽑았으니 함수 계속.
                 break;
 
-                case ParsingType.ExemptionFlag:
+                case ParsingType.ExemptionFlag: //상대방 땅에 걸린경우
                     PlayerManager nPlayer = GameManager.Instance.nowPlayer;
                     nPlayer.playerMoney -= nPlayer.nowTile.price;
                     GameManager.Instance.SetFloatingText(nPlayer,nPlayer.nowTile.price, false);
                     nPlayer.againstPlayer.playerMoney += nPlayer.nowTile.price;
                     GameManager.Instance.SetFloatingText(nPlayer.againstPlayer, nPlayer.nowTile.price, true);
 
+
+                    GameManager.Instance.NextTurnFunc();
+                    GameManager.Instance.UIFlag = false;
                 break;
             }
             // ParsingManager.Instance.ParisngRecvData(args);
