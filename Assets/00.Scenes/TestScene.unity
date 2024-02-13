@@ -1402,7 +1402,12 @@ MonoBehaviour:
     source: {fileID: 0}
     name: TollExemption_Sound
     volume: 1
-    loop: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: a8f0ffe4875ce0f408aa737ad762bfa9, type: 3}
+    source: {fileID: 0}
+    name: TurnChange_Sound
+    volume: 1
+    loop: 0
 --- !u!4 &145781561
 Transform:
   m_ObjectHideFlags: 0
