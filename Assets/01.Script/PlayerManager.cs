@@ -460,6 +460,7 @@ public class PlayerManager : MonoBehaviour
         Color alpha = new Color(1, 1, 1, 0);
         this.GetComponent<SpriteRenderer>().color = alpha;
 
+        theAudio.Play("TeleportStart_Sound");
         if (_playerId == 0)
         {
             theGM.player1TeleportEffect.transform.position = theTM.tiles[5].transform.GetChild(0).position;
@@ -482,6 +483,7 @@ public class PlayerManager : MonoBehaviour
         this.GetComponent<Animator>().SetInteger("Dir", nowTile.dir);
         yield return new WaitForSeconds(0.5f);
 
+        theAudio.Play("TeleportEnd_Sound");
         while (true)
         {
             alpha.a += 0.1f;

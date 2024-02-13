@@ -1413,6 +1413,16 @@ MonoBehaviour:
     name: GetCard_Sound
     volume: 1
     loop: 0
+  - clip: {fileID: 8300000, guid: 45dcf58c090c6f6448cd26dfa8c7f721, type: 3}
+    source: {fileID: 0}
+    name: TeleportStart_Sound
+    volume: 0.7
+    loop: 0
+  - clip: {fileID: 8300000, guid: 982b4bb1b113271478d08b22f78cabfd, type: 3}
+    source: {fileID: 0}
+    name: TeleportEnd_Sound
+    volume: 0.7
+    loop: 0
 --- !u!4 &145781561
 Transform:
   m_ObjectHideFlags: 0
