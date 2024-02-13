@@ -1398,6 +1398,11 @@ MonoBehaviour:
     name: MainGame_Sound
     volume: 0.5
     loop: 1
+  - clip: {fileID: 8300000, guid: 9e0e2eedd0e506e4cad79c8cade9e411, type: 3}
+    source: {fileID: 0}
+    name: TollExemption_Sound
+    volume: 1
+    loop: 1
 --- !u!4 &145781561
 Transform:
   m_ObjectHideFlags: 0

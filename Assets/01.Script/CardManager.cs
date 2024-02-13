@@ -209,6 +209,7 @@ public class CardManager : MonoBehaviour
 
     public void TollExemption()
     {
+        theAudio.Play("TollExemption_Sound");
         // 현재 자신의 카드 중에서 통행료 면제 카드를 찾아서 파괴함
         for (int i = 0; i < theGM.nowPlayer.cards.Count; i++)
         {
@@ -324,10 +325,9 @@ public class CardManager : MonoBehaviour
             // 만약 통행료면제 카드라면 카드효과를 즉시 활성화.
             if (newCard == theGM.cards[6])
             {
+                theAudio.Play("TollExemption_Sound");
+                // 보호막 이펙트 추가 필요함
                 theGM.nowPlayer.exemptionFlag = true;
-                theGM.textManager.ShowText("플레이어" + theGM.nowPlayer.playerId + " 통행료 면제 효과 발동");
-                yield return new WaitForSeconds(3f);
-                theGM.textManager.HideText();
             }
             // 상세 카드 창에 카드 리스트 업데이트
             theGM.CardListUpdate();
@@ -439,10 +439,9 @@ public class CardManager : MonoBehaviour
             // 만약 통행료면제 카드라면 카드효과를 즉시 활성화.
             if (newCard == theGM.cards[6])
             {
+                theAudio.Play("TollExemption_Sound");
+                // 보호막 이펙트 추가 필요함
                 theGM.nowPlayer.exemptionFlag = true;
-                theGM.textManager.ShowText("플레이어" + theGM.nowPlayer.playerId + " 통행료 면제 효과 발동");
-                yield return new WaitForSeconds(3f);
-                theGM.textManager.HideText();
             }
         }
         isGetCard = true;
