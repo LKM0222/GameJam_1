@@ -13,6 +13,7 @@ using System.Text;
 using Unity.VisualScripting;
 using System.Security.Cryptography;
 using Unity.Mathematics;
+using UnityEditor.Build.Content;
 #endregion
 public class EventManager : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class EventManager : MonoBehaviour
     CardManager theCM;
     #endregion
     
+
     private void Awake() {
         if(Instance == null){
             Instance = FindObjectOfType(typeof(EventManager)) as EventManager;
@@ -148,6 +150,7 @@ public class EventManager : MonoBehaviour
             if(args.ErrInfo == ErrorCode.Success){
                 Debug.Log(args.GameRecord.m_nickname + "접속 완료"); //여기까지 성공.
                 MatchingRoomScript.Instance.matchingRoomLogStr += "접속 완료\n";
+                GameManager.Instance.mySessionId = args.GameRecord.m_sessionId;
                 SceneManager.LoadScene("TestScene");
                 //방에 접속하면 누가 접속완료하였는지 닉네임이 표시된다.
                 //이를 활용해 모두 접속 완료라면 씬을 옮겨서도 데이터를 주고받을 수 있을까?
@@ -191,6 +194,11 @@ public class EventManager : MonoBehaviour
                         GameManager.Instance.turnCards[1].GetComponent<ButtonScript>().turnNum = 1;
                     }
 
+                break;
+
+                case ParsingType.Session: //플레이어 인덱스에 맞게 세션 저장.
+                    SessionData sessionData = JsonUtility.FromJson<SessionData>(pData.data);
+                    GameManager.Instance.sessionArr[sessionData.turnNum] = sessionData.sessionId;
                 break;
 
                 case ParsingType.Turn: //턴 선택 분기
@@ -389,6 +397,16 @@ public class EventManager : MonoBehaviour
                 break;
             }
             // ParsingManager.Instance.ParisngRecvData(args);
+        };
+
+        Backend.Match.OnMatchResult = (MatchResultEventArgs args) => {
+                // TODO
+                print("호출완료!");
+                if(args.ErrInfo == ErrorCode.Success){
+                    GameManager.Instance.gameOverUI.SetActive(true);
+                    print(GameManager.Instance.nowPlayer.againstPlayer.playerId + " 승리!");
+                    print("Game Over!");
+                }
         };
 
         

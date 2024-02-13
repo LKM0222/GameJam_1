@@ -5,6 +5,8 @@ using Unity.VisualScripting;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using BackEnd.Tcp;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -101,6 +103,10 @@ public class GameManager : MonoBehaviour
 
     //Invisible
     public int invisibleCardNum = -1;
+
+    //SessionID
+    public SessionId mySessionId;
+    public SessionId[] sessionArr = new SessionId[2]; //0: 2player, 1: 1Player
 
     // Start is called before the first frame update
     void Start()
@@ -215,9 +221,20 @@ public class GameManager : MonoBehaviour
     {
         if (CheckGameOver())
         {
-            gameOverUI.SetActive(true);
-            print(nowPlayer.againstPlayer.playerId + " 승리!");
-            print("Game Over!");
+            MatchGameResult matchGameResult = new MatchGameResult();
+            matchGameResult.m_winners = new List<SessionId>();
+            matchGameResult.m_losers = new List<SessionId>();
+
+
+            // 누가 이겼는지, 졌는지 판단 필요.
+            // matchGameResult.m_winners.Add("승자 세션 ID");
+            // matchGameResult.m_losers.Add("패자 세션 ID");
+            
+            Backend.Match.MatchEnd(matchGameResult);
+
+            // gameOverUI.SetActive(true);
+            // print(nowPlayer.againstPlayer.playerId + " 승리!");
+            // print("Game Over!");
         }
         else
         {
@@ -301,4 +318,13 @@ public class GameManager : MonoBehaviour
     }
 }
 
+class GameOverClass{
+    public bool overFlag;
+    public SessionId sessionId;
+
+    public GameOverClass(bool _overFlag, SessionId _sessionId){
+        overFlag = _overFlag;
+        sessionId = _sessionId;
+    }
+}
 

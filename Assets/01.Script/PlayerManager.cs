@@ -5,6 +5,7 @@ using System;
 using UnityEngine.UI;
 using Unity.VisualScripting;
 using BackEnd;
+using BackEnd.Tcp;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -77,6 +78,7 @@ public class PlayerManager : MonoBehaviour
     [Header("Test")]
     [SerializeField] Vector3 targetPos;
     public bool specialTurn;
+    public SessionId sessionId;
 
     // Start is called before the first frame update
     void Start()
