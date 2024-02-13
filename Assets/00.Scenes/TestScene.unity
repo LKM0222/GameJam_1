@@ -1408,6 +1408,11 @@ MonoBehaviour:
     name: TurnChange_Sound
     volume: 1
     loop: 0
+  - clip: {fileID: 8300000, guid: d88dd61c785530e4999813279dc10f47, type: 3}
+    source: {fileID: 0}
+    name: GetCard_Sound
+    volume: 1
+    loop: 0
 --- !u!4 &145781561
 Transform:
   m_ObjectHideFlags: 0

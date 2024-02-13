@@ -319,6 +319,7 @@ public class CardManager : MonoBehaviour
             theGM.nowPlayer.cards.Add(newCard);
 
             StartCoroutine(ShowGetCard());
+            theAudio.Play("GetCard_Sound");
             yield return new WaitUntil(() => isShowCard);
             isShowCard = false;
 
@@ -433,6 +434,7 @@ public class CardManager : MonoBehaviour
             theGM.nowPlayer.cards.Add(newCard);
 
             StartCoroutine(ShowGetCard());
+            theAudio.Play("GetCard_Sound");
             yield return new WaitUntil(() => isShowCard);
             isShowCard = false;
 
