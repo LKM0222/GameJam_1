@@ -406,7 +406,10 @@ public class PlayerManager : MonoBehaviour
                             if (theTM.tiles[i].ownPlayer == playerId && theTM.tiles[i].building.type == 0) totalMoney += 100;
                         }
                         playerMoney += totalMoney;
-                        // theGM.SetFloatingText(theGM.nowPlayer, totalMoney, true);
+                        theGM.SetFloatingText(theGM.nowPlayer, totalMoney, true);
+                        // theGM.NextTurnFunc(); //여기서 처리해도 되나...? 서버로 안넘겨도 됨?
+                        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
+                        Backend.Match.SendDataToInGameRoom(data);
                         break;
 
                     // 카드지급
