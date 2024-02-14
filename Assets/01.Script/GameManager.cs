@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using BackEnd.Tcp;
 using UnityEngine.UIElements;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -219,7 +220,7 @@ public class GameManager : MonoBehaviour
 
     public void NextTurnFunc()
     {
-        if (CheckGameOver())
+        if (CheckGameOver() < 2)
         {
             MatchGameResult matchGameResult = new MatchGameResult();
             matchGameResult.m_winners = new List<SessionId>();
@@ -265,10 +266,16 @@ public class GameManager : MonoBehaviour
         isActiveTurnImage = false;
     }
 
-    bool CheckGameOver()
+    int CheckGameOver()
     {
-        if (nowPlayer.playerMoney < 0) return true;
-        else return false;
+        // if (nowPlayer.playerMoney < 0) return true;
+        // else return false;
+        int i;
+        for(i = 0; i< GameManager.Instance.players.Length; i++){
+            if(GameManager.Instance.players[i].playerMoney <= 0)
+            return i;
+        }
+        return i;
     }
 
     public void SetFloatingText(PlayerManager _player, int _value, bool sign)
