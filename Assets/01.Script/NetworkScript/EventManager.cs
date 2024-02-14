@@ -400,17 +400,44 @@ public class EventManager : MonoBehaviour
             // ParsingManager.Instance.ParisngRecvData(args);
         };
 
+        //게임 종료(정상적: 게임에서 게임오버 함수 호출, 비정상적 : 플레이어가 나감) 결과 처리 후 호출이 된다면 분기를 나눌 수 있는데...
         Backend.Match.OnMatchResult = (MatchResultEventArgs args) => {
                 // TODO
                 print("호출완료!");
                 GameManager.Instance.gameOverUI.SetActive(true);
                 print(GameManager.Instance.nowPlayer.againstPlayer.playerId + " 승리!");
                 print("Game Over!");
-                if(args.ErrInfo == ErrorCode.Success){
-                    GameManager.Instance.gameOverUI.SetActive(true);
-                    print(GameManager.Instance.nowPlayer.againstPlayer.playerId + " 승리!");
-                    print("Game Over!");
+                // if(args.ErrInfo == ErrorCode.Success){ //서버에서 결과가 완벽하게 처리 되었을경우 호출되는데 어째 호출이 안된다...
+                //     GameManager.Instance.gameOverUI.SetActive(true);
+                //     print(GameManager.Instance.nowPlayer.againstPlayer.playerId + " 승리!");
+                //     print("Game Over!");
+                // }
+                switch(args.ErrInfo){
+                    case ErrorCode.Success:
+                        print("결과 종합 성공");
+                    break;
+
+                    case ErrorCode.Exception:
+                        print("결과 종합 실패 - 서버에서 결과 종합을 실패한 경우 " + args.Reason);
+                    break;
+
+                    case ErrorCode.Match_InGame_Timeout:
+                        print("게임 시작 실패(룸 생성 후 모든 유저가 게임에 접속하지 않은 경우) " + args.Reason);
+                    break;
                 }
+        };
+
+        //게임 중, 플레이어가 연결 끊김.
+        Backend.Match.OnSessionOffline = (MatchInGameSessionEventArgs args) => {
+            if(args.ErrInfo == ErrorCode.NetworkOffline){
+                print("플레이어가 연결을 끊어 연결이 끊어졌습니다. 남아있는 플레이어가 자동 우승이 됩니다. \n " + "끊어진 플레이어 정보 : " 
+                        + args.GameRecord);
+            }
+            if(args.ErrInfo == ErrorCode.Exception){
+                print("서버가 끊어졌습니다. 게임 결과는 처리되지 않습니다.\n " + "끊어진 플레이어 정보 : " 
+                        + args.GameRecord);
+            }
+            
         };
 
         
