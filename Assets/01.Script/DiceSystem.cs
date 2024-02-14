@@ -19,6 +19,8 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     [SerializeField] Animator EggAnimator; //애니메이터 상태 체크 위한 변수
     [SerializeField] bool animatorFlag; //애니메이터가 시작되고부터 Update의 로직을 실행시키기위해 추가.
 
+    public bool isDrag;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +47,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     // 팻말을 드래그했을 때 호출
     public void OnDrag(PointerEventData eventData)
     {
+        isDrag = true;
         // 투시와 레이저빔의 사용이 모두 끝났을 때 주사위를 굴릴 수 있게(=> 사용중이라면 굴릴 수 없게)
         if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
         {
@@ -60,6 +63,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     // 팻말을 드롭했을 때 호출
     public void OnEndDrag(PointerEventData eventData1)
     {
+        isDrag = false;
         // 투시와 레이저빔의 사용이 모두 끝났을 때 주사위를 굴릴 수 있게(=> 사용중이라면 굴릴 수 없게)
         if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
         {

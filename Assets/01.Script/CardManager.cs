@@ -8,6 +8,7 @@ public class CardManager : MonoBehaviour
     TileManager theTile;
     TurnSignScript theTSI;
     AudioManager theAudio;
+    DiceSystem theDice;
 
     // 카드의 정보
     public Card cardInfo;
@@ -33,6 +34,7 @@ public class CardManager : MonoBehaviour
         theTile = FindObjectOfType<TileManager>();
         theTSI = FindObjectOfType<TurnSignScript>();
         theAudio = FindObjectOfType<AudioManager>();
+        theDice = FindObjectOfType<DiceSystem>();
     }
 
     // Update is called once per frame
@@ -44,7 +46,7 @@ public class CardManager : MonoBehaviour
     // 해당 스크립트가 붙은 오브젝트(획득한 카드)에 마우스를 올려놓았을 때 호출
     private void OnMouseEnter()
     {
-        if (theTSI.cursorPos == 1)
+        if (theTSI.cursorPos == 1 && !theDice.isDrag)
         {
             theAudio.Play("SelectCard_Sound");
 
@@ -58,13 +60,12 @@ public class CardManager : MonoBehaviour
     // 해당 스크립트가 붙은 오브젝트(획득한 카드)에 마우스를 올렸다가 떨어트렸을 때 호출
     private void OnMouseExit()
     {
-        if (theTSI.cursorPos == 1)
+        if (theTSI.cursorPos == 1 && !theDice.isDrag)
         {
             // upPos만큼 Position을 내리고 Scale을 줄임
             this.transform.localScale = new Vector3(7f, 7f, 1f);
             this.transform.position += Vector3.down * upPos;
             this.GetComponent<SpriteRenderer>().sortingOrder = 0;
-
         }
     }
 
