@@ -320,6 +320,10 @@ public class CardManager : MonoBehaviour
 
             StartCoroutine(ShowGetCard());
             theAudio.Play("GetCard_Sound");
+
+            // 상세 카드 창에 카드 리스트 업데이트
+            theGM.CardListUpdate();
+
             yield return new WaitUntil(() => isShowCard);
             isShowCard = false;
 
@@ -330,8 +334,6 @@ public class CardManager : MonoBehaviour
                 // 보호막 이펙트 추가 필요함
                 theGM.nowPlayer.exemptionFlag = true;
             }
-            // 상세 카드 창에 카드 리스트 업데이트
-            theGM.CardListUpdate();
 
             theGM.penetrateComplete = true;
         }
