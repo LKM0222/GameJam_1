@@ -178,22 +178,11 @@ public class ButtonManager : MonoBehaviour
         MatchTestManager.Instance.RequestMatchMaking();
     }
 
-    /////////////////////통신을 위한 버튼
-    ///
-    //TestSend버튼
-    // public void TestSendBtn(){
-    //     TestClass test = new TestClass(1);
-    //     string jsonData = JsonUtility.ToJson(test);
-    //     print(jsonData);
-    //     Backend.Match.SendDataToInGameRoom(Encoding.UTF8.GetBytes(jsonData));
-    // }
+    //게임 종료
+    public void GameExitBtn(){
+        //게임 종료 시, 게임방에서 나가고, 게임 종료에 따른 결과 처리 후, 메뉴씬으로 나가야한다.
+
+        SceneManager.LoadScene("MenuScene");
+    }
     
 }
-
-// [System.Serializable]
-// public class TestClass{
-//     public int a; //public 선언을 해줘야 Json으로 변환가능..?
-//     public TestClass(int _a){
-//         a = _a;
-//     }
-// }
