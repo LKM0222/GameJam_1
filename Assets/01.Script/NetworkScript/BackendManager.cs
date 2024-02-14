@@ -2,10 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BackEnd;
+using BackEnd.Tcp;
 
 public class BackendManager : MonoBehaviour
 {
+    #region Instance
+    private static BackendManager instance;
+    public static BackendManager Instance{
+        get{
+            if(instance == null)
+                instance = new();
+
+            return instance;
+        }
+    }
+    #endregion
+
     private BackendManager _instance = null;
+
+
+
+    //SessionID
+    public SessionId mySessionId;
+
     private void Awake() {
         if(_instance == null){
             _instance = new BackendManager();

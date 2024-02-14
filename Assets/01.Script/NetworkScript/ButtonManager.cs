@@ -95,16 +95,10 @@ public class ButtonManager : MonoBehaviour
         MatchTestManager.Instance.CreateMatchingRoom();
         Backend.Match.OnMatchMakingRoomCreate = (MatchMakingInteractionEventArgs args) => { //매칭룸을 생성했을때 호출되는 이벤트
             Debug.Log("MatchRoom Create1");
-            // if(MatchingRoomScript.Instance.userListText != null){
-            //     MatchingRoomScript.Instance.userListText.text += "내가 생성함!";
-            // } else {
-            //     Debug.Log("MatchingRoomScript.Instance.userListText is null");
-            // }
-            // if(MatchingRoomScript.Instance.MatchingRoomLogText != null){
-            //     MatchingRoomScript.Instance.MatchingRoomLogText.text += "방을 생성하였습니다.";
-            // } else {
-            //     Debug.Log("MatchingRoomScript.Instance.MatchingRoomLogText is null");
-            // }
+            if(args.ErrInfo == ErrorCode.Success){
+                print("대기방 생성 성공");
+                RequestMatchMaking();
+            }
         };
     }
 
@@ -169,37 +163,37 @@ public class ButtonManager : MonoBehaviour
         Backend.Match.DeclineInvitation(EventManager.Instance.roomId, EventManager.Instance.roomToken);
     }
 
-    //로비로 돌아가기
+    //로비로 돌아가기 (매칭 취소)
     public void GoToLobby(){
         //대기방에서 다시 로비로 돌아가야하는거니깐, 일단 대기방에서 나가는 함수가 있어야함. 그 후 씬을 바꾼다.
         Backend.Match.LeaveMatchRoom(); //대기방을 떠나는 함수
-        SceneManager.LoadScene("MenuScene"); //대기방을 떠났으니 다시 메뉴씬으로
+        // SceneManager.LoadScene("MenuScene"); //대기방을 떠났으니 다시 메뉴씬으로
         //씬 이동 작업은 이벤트에서 하면 안됨. 이벤트는 모두가 같이 실행되니깐.
         //이후 이벤트는 EventManager에서 구현.
     }
     
     //게임 시작
     public void RequestMatchMaking(){
-        MatchingRoomScript.Instance.matchingRoomLogStr += "매칭 신청\n";
+        MenuSceneManager.Instance.matchingLogStr += "매칭 신청\n";
         MatchTestManager.Instance.RequestMatchMaking();
     }
 
     /////////////////////통신을 위한 버튼
     ///
     //TestSend버튼
-    public void TestSendBtn(){
-        TestClass test = new TestClass(1);
-        string jsonData = JsonUtility.ToJson(test);
-        print(jsonData);
-        Backend.Match.SendDataToInGameRoom(Encoding.UTF8.GetBytes(jsonData));
-    }
+    // public void TestSendBtn(){
+    //     TestClass test = new TestClass(1);
+    //     string jsonData = JsonUtility.ToJson(test);
+    //     print(jsonData);
+    //     Backend.Match.SendDataToInGameRoom(Encoding.UTF8.GetBytes(jsonData));
+    // }
     
 }
 
-[System.Serializable]
-public class TestClass{
-    public int a; //public 선언을 해줘야 Json으로 변환가능..?
-    public TestClass(int _a){
-        a = _a;
-    }
-}
+// [System.Serializable]
+// public class TestClass{
+//     public int a; //public 선언을 해줘야 Json으로 변환가능..?
+//     public TestClass(int _a){
+//         a = _a;
+//     }
+// }

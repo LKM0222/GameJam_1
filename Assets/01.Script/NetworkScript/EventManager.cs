@@ -58,9 +58,9 @@ public class EventManager : MonoBehaviour
             // 대기방을 떠날때, 유저 리스트와 대기방을 나갔다는 로그가 필요함.
             // 유저 리스트는 좀만 있다가 수정하자. 대기방 나갔다는 로그부터
             if(args.ErrInfo == ErrorCode.Success){//성공적으로 퇴장 성공
-                MatchingRoomScript.Instance.matchingRoomLogStr += args.UserInfo.m_nickName + 
-                "님이 퇴장하였습니다. \n";
-                MatchingRoomScript.Instance.UserListRemove(args.UserInfo.m_nickName);
+                // MatchingRoomScript.Instance.matchingRoomLogStr += args.UserInfo.m_nickName + 
+                // "님이 퇴장하였습니다. \n";
+                // MatchingRoomScript.Instance.UserListRemove(args.UserInfo.m_nickName);
             }
             if(args.ErrInfo == ErrorCode.InvalidOperation){//매칭중이라 퇴장 실패
                 Debug.Log("매칭중이라 방에서 나갈 수 없습니다.");
@@ -76,12 +76,12 @@ public class EventManager : MonoBehaviour
             switch(args.ErrInfo){
                 case ErrorCode.Match_InProgress: //매칭신청에 성공하였을때
                     Debug.Log("매칭신청 성공");
-                    MatchingRoomScript.Instance.matchingRoomLogStr += "매칭신청 성공\n";
+                    MenuSceneManager.Instance.matchingLogStr += "매칭신청 성공\n";
                     break;
 
                 case ErrorCode.Success: //매칭이 성사되었을 떄 여기서 인게임 서버 접속시도
                     Debug.Log("매칭 성사 , 인게임 서버에 접속 시도합니다.");
-                    MatchingRoomScript.Instance.matchingRoomLogStr += "매칭 성사 , 인게임 서버에 접속 시도합니다.\n";
+                    MenuSceneManager.Instance.matchingLogStr += "매칭 성사 , 인게임 서버에 접속 시도합니다.\n";
                     roomInfo = args.RoomInfo; //추후에 roomToken을 써야되기 때문에 따로 저장
                     if(Backend.Match.JoinGameServer(args.RoomInfo.m_inGameServerEndPoint.m_address,
                     args.RoomInfo.m_inGameServerEndPoint.m_port,
@@ -148,9 +148,10 @@ public class EventManager : MonoBehaviour
             // 입장한 유저(자기 자신)에게 호출됩니다.
             // 이미 게임방에 접속해있던 모든 유저에게 호출됩니다.
             if(args.ErrInfo == ErrorCode.Success){
-                Debug.Log(args.GameRecord.m_nickname + "접속 완료"); //여기까지 성공.
-                MatchingRoomScript.Instance.matchingRoomLogStr += "접속 완료\n";
-                GameManager.Instance.mySessionId = args.GameRecord.m_sessionId;
+                Debug.Log(args.GameRecord.m_nickname + "접속 완료");
+                BackendManager.Instance.mySessionId = args.GameRecord.m_sessionId;
+                MenuSceneManager.Instance.matchingLogStr += "접속 완료\n";
+                
                 SceneManager.LoadScene("TestScene");
                 //방에 접속하면 누가 접속완료하였는지 닉네임이 표시된다.
                 //이를 활용해 모두 접속 완료라면 씬을 옮겨서도 데이터를 주고받을 수 있을까?
