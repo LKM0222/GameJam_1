@@ -403,6 +403,9 @@ public class EventManager : MonoBehaviour
         Backend.Match.OnMatchResult = (MatchResultEventArgs args) => {
                 // TODO
                 print("호출완료!");
+                GameManager.Instance.gameOverUI.SetActive(true);
+                print(GameManager.Instance.nowPlayer.againstPlayer.playerId + " 승리!");
+                print("Game Over!");
                 if(args.ErrInfo == ErrorCode.Success){
                     GameManager.Instance.gameOverUI.SetActive(true);
                     print(GameManager.Instance.nowPlayer.againstPlayer.playerId + " 승리!");
