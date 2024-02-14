@@ -103,12 +103,14 @@ public class CardManager : MonoBehaviour
             else if (cardInfo.cardCode == 5 && !theGM.nowPlayer.lowerDiceFlag)
             {
                 theGM.nowPlayer.lowerDiceFlag = true;
+                theGM.nowPlayer.higherDiceFlag = false;
                 DestroyCard();
             }
             // cardCode가 6이라면 주사위컨트롤(상)
             else if (cardInfo.cardCode == 6 && !theGM.nowPlayer.higherDiceFlag)
             {
                 theGM.nowPlayer.higherDiceFlag = true;
+                theGM.nowPlayer.lowerDiceFlag = false;
                 DestroyCard();
             }
             // cardCode가 8이라면 레이저빔(레이저빔 사용이 완료되었고, 투시 완료되어야만 사용 가능 => 둘 중 하나라도 발동중이면 사용불가)
