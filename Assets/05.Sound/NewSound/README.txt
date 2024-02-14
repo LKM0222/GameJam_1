@@ -16,3 +16,6 @@ TurnChange_Sound: Volume 1, Loop X
 GetCard_Sound: Volume 1, Loop X
 TeleportStart_Sound: Volume 0.7, Loop X
 TeleportEnd_Sound: Volume 0.7, Loop X
+Olympics_Sound: Volume 1, Loop X
+Extortion_Sound: Volume 1, Loop X
+HighSpeedMove_Sound: Volume 1, Loop O
