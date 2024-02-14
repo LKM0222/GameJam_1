@@ -1413,15 +1413,25 @@ MonoBehaviour:
     name: GetCard_Sound
     volume: 1
     loop: 0
-  - clip: {fileID: 8300000, guid: 45dcf58c090c6f6448cd26dfa8c7f721, type: 3}
+  - clip: {fileID: 8300000, guid: 9ea0fdf12f251b54da6ca3b329c04641, type: 3}
     source: {fileID: 0}
     name: TeleportStart_Sound
     volume: 0.7
     loop: 0
-  - clip: {fileID: 8300000, guid: 982b4bb1b113271478d08b22f78cabfd, type: 3}
+  - clip: {fileID: 8300000, guid: 7667b5b8c50708440bf73368dbdb5fb3, type: 3}
     source: {fileID: 0}
     name: TeleportEnd_Sound
     volume: 0.7
+    loop: 0
+  - clip: {fileID: 8300000, guid: e9177924130ad264f99c10df419e43d8, type: 3}
+    source: {fileID: 0}
+    name: Olympics_Sound
+    volume: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: 992e7eb6f5a9beb4baf662af04e11fae, type: 3}
+    source: {fileID: 0}
+    name: Extortion_Sound
+    volume: 1
     loop: 0
 --- !u!4 &145781561
 Transform:

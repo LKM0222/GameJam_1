@@ -389,6 +389,8 @@ public class PlayerManager : MonoBehaviour
                     {
                         if (theTM.tiles[i].ownPlayer == playerId) theTM.tiles[i].price *= 2;
                     }
+                    theAudio.Play("Olympics_Sound");
+                    // 이후 이펙트를 추가해주면 좋을 듯 함
                     break;
 
                 // 건물강탈
@@ -402,6 +404,9 @@ public class PlayerManager : MonoBehaviour
                     }
 
                     yield return new WaitUntil(() => theGM.seletedTile != null);
+
+                    theAudio.Play("Extortion_Sound");
+                    // 이후 이펙트를 추가해주면 좋을 듯 함
 
                     isExtortioning = false;
                     for (int i = 0; i < theTM.tiles.Length; i++)
