@@ -395,28 +395,44 @@ public class PlayerManager : MonoBehaviour
 
                 // 건물강탈
                 case 4:
-                    blackBackground.SetActive(true);
-                    isExtortioning = true;
+                    bool canExtortion = false;
 
+                    // 상대방 소유의 타일이 있는지 체크
                     for (int i = 0; i < theTM.tiles.Length; i++)
                     {
-                        if (theTM.tiles[i].ownPlayer == againstPlayer.playerId) theTM.tiles[i].canTileSelect = true;
+                        if (theTM.tiles[i].ownPlayer == againstPlayer.playerId)
+                        {
+                            canExtortion = true;
+                            break;
+                        }
                     }
 
-                    yield return new WaitUntil(() => theGM.seletedTile != null);
-
-                    theAudio.Play("Extortion_Sound");
-                    // 이후 이펙트를 추가해주면 좋을 듯 함
-
-                    isExtortioning = false;
-                    for (int i = 0; i < theTM.tiles.Length; i++)
+                    // 상대방 소유의 타일이 있다면 강탈 가능
+                    if (canExtortion)
                     {
-                        theTM.tiles[i].canTileSelect = false;
-                    }
+                        blackBackground.SetActive(true);
+                        isExtortioning = true;
 
-                    blackBackground.SetActive(false);
-                    theGM.seletedTile.GetComponent<Tile>().ownPlayer = playerId;
-                    theGM.seletedTile = null;
+                        for (int i = 0; i < theTM.tiles.Length; i++)
+                        {
+                            if (theTM.tiles[i].ownPlayer == againstPlayer.playerId) theTM.tiles[i].canTileSelect = true;
+                        }
+
+                        yield return new WaitUntil(() => theGM.seletedTile != null);
+
+                        theAudio.Play("Extortion_Sound");
+                        // 이후 이펙트를 추가해주면 좋을 듯 함
+
+                        isExtortioning = false;
+                        for (int i = 0; i < theTM.tiles.Length; i++)
+                        {
+                            theTM.tiles[i].canTileSelect = false;
+                        }
+
+                        blackBackground.SetActive(false);
+                        theGM.seletedTile.GetComponent<Tile>().ownPlayer = playerId;
+                        theGM.seletedTile = null;
+                    }
 
                     break;
             }
