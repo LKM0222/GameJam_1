@@ -1433,6 +1433,11 @@ MonoBehaviour:
     name: Extortion_Sound
     volume: 1
     loop: 0
+  - clip: {fileID: 8300000, guid: 3c5b3fbdb2292ab40b8ec59b77a690dd, type: 3}
+    source: {fileID: 0}
+    name: HighSpeedMove_Sound
+    volume: 1
+    loop: 1
 --- !u!4 &145781561
 Transform:
   m_ObjectHideFlags: 0
@@ -10721,6 +10726,7 @@ MonoBehaviour:
   diceNumText: {fileID: 1626855499}
   EggAnimator: {fileID: 2110583021}
   animatorFlag: 0
+  isDrag: 0
 --- !u!50 &1522404783
 Rigidbody2D:
   serializedVersion: 4
@@ -13461,6 +13467,7 @@ MonoBehaviour:
   diceNumText: {fileID: 1626855499}
   EggAnimator: {fileID: 2110583021}
   animatorFlag: 0
+  isDrag: 0
 --- !u!50 &1962510039
 Rigidbody2D:
   serializedVersion: 4

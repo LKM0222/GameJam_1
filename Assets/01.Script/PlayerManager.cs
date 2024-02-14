@@ -162,6 +162,7 @@ public class PlayerManager : MonoBehaviour
         if (theGM.nowPlayer.highSpeedFlag)
         {
             theCM.HighSpeedMove();
+            theAudio.Play("HighSpeedMove_Sound");
         }
 
         if (theGM.nowPlayer.invisibleFlag)
@@ -253,6 +254,7 @@ public class PlayerManager : MonoBehaviour
         // 고속이동이 끝났다면 스피드를 원상복구 시키고 플래그를 비활성화시킴
         if (theGM.nowPlayer.highSpeedFlag)
         {
+            theAudio.Stop("HighSpeedMove_Sound");
             theCM.EndHighSpeedMove();
         }
 
