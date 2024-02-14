@@ -352,7 +352,8 @@ public class PlayerManager : MonoBehaviour
                             case 3:
                                 break;
                         }
-                        theGM.NextTurnFunc();
+                        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
+                        Backend.Match.SendDataToInGameRoom(data);
                     }
                 }
                 // 일반 타일 중 아무도 구매하지 않은 타일이라면 땅 구매 UI 활성화
