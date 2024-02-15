@@ -13,6 +13,7 @@ using System.Text;
 using Unity.VisualScripting;
 using System.Security.Cryptography;
 using Unity.Mathematics;
+using UnityEditor.Build.Content;
 #endregion
 public class EventManager : MonoBehaviour
 {
@@ -30,8 +31,10 @@ public class EventManager : MonoBehaviour
 
     #region FindObjectArea
     GroundBuyScript theGBS;
+    CardManager theCM;
     #endregion
     
+
     private void Awake() {
         if(Instance == null){
             Instance = FindObjectOfType(typeof(EventManager)) as EventManager;
@@ -44,6 +47,7 @@ public class EventManager : MonoBehaviour
 
     private void Start() {
         theGBS = FindObjectOfType<GroundBuyScript>();
+        theCM = FindObjectOfType<CardManager>();
     }
 
     // Update is called once per frame
@@ -54,9 +58,10 @@ public class EventManager : MonoBehaviour
             // 대기방을 떠날때, 유저 리스트와 대기방을 나갔다는 로그가 필요함.
             // 유저 리스트는 좀만 있다가 수정하자. 대기방 나갔다는 로그부터
             if(args.ErrInfo == ErrorCode.Success){//성공적으로 퇴장 성공
-                MatchingRoomScript.Instance.matchingRoomLogStr += args.UserInfo.m_nickName + 
-                "님이 퇴장하였습니다. \n";
-                MatchingRoomScript.Instance.UserListRemove(args.UserInfo.m_nickName);
+                // MatchingRoomScript.Instance.matchingRoomLogStr += args.UserInfo.m_nickName + 
+                // "님이 퇴장하였습니다. \n";
+                // MatchingRoomScript.Instance.UserListRemove(args.UserInfo.m_nickName);
+                print("매칭룸 퇴장");
             }
             if(args.ErrInfo == ErrorCode.InvalidOperation){//매칭중이라 퇴장 실패
                 Debug.Log("매칭중이라 방에서 나갈 수 없습니다.");
@@ -72,12 +77,12 @@ public class EventManager : MonoBehaviour
             switch(args.ErrInfo){
                 case ErrorCode.Match_InProgress: //매칭신청에 성공하였을때
                     Debug.Log("매칭신청 성공");
-                    MatchingRoomScript.Instance.matchingRoomLogStr += "매칭신청 성공\n";
+                    MenuSceneManager.Instance.matchingLogStr += "매칭신청 성공\n";
                     break;
 
                 case ErrorCode.Success: //매칭이 성사되었을 떄 여기서 인게임 서버 접속시도
                     Debug.Log("매칭 성사 , 인게임 서버에 접속 시도합니다.");
-                    MatchingRoomScript.Instance.matchingRoomLogStr += "매칭 성사 , 인게임 서버에 접속 시도합니다.\n";
+                    MenuSceneManager.Instance.matchingLogStr += "매칭 성사 , 인게임 서버에 접속 시도합니다.\n";
                     roomInfo = args.RoomInfo; //추후에 roomToken을 써야되기 때문에 따로 저장
                     if(Backend.Match.JoinGameServer(args.RoomInfo.m_inGameServerEndPoint.m_address,
                     args.RoomInfo.m_inGameServerEndPoint.m_port,
@@ -144,8 +149,10 @@ public class EventManager : MonoBehaviour
             // 입장한 유저(자기 자신)에게 호출됩니다.
             // 이미 게임방에 접속해있던 모든 유저에게 호출됩니다.
             if(args.ErrInfo == ErrorCode.Success){
-                Debug.Log(args.GameRecord.m_nickname + "접속 완료"); //여기까지 성공.
-                MatchingRoomScript.Instance.matchingRoomLogStr += "접속 완료\n";
+                Debug.Log(args.GameRecord.m_nickname + "접속 완료");
+                BackendManager.Instance.mySessionId = args.GameRecord.m_sessionId;
+                MenuSceneManager.Instance.matchingLogStr += "접속 완료\n";
+                
                 SceneManager.LoadScene("TestScene");
                 //방에 접속하면 누가 접속완료하였는지 닉네임이 표시된다.
                 //이를 활용해 모두 접속 완료라면 씬을 옮겨서도 데이터를 주고받을 수 있을까?
@@ -189,6 +196,11 @@ public class EventManager : MonoBehaviour
                         GameManager.Instance.turnCards[1].GetComponent<ButtonScript>().turnNum = 1;
                     }
 
+                break;
+
+                case ParsingType.Session: //플레이어 인덱스에 맞게 세션 저장.
+                    SessionData sessionData = JsonUtility.FromJson<SessionData>(pData.data);
+                    GameManager.Instance.sessionArr[sessionData.turnNum] = sessionData.sessionId;
                 break;
 
                 case ParsingType.Turn: //턴 선택 분기
@@ -327,10 +339,10 @@ public class EventManager : MonoBehaviour
                             // theGM.nowPlayer.higherDiceFlag = true;
                         break;
 
-                        case 7:
-                        break;
+                        // 7번 통행료 면제는 사용카드가 아니라 패시브 카드라서 패스.
 
-                        case 8:
+                        case 8: //레이저빔
+                            GameManager.Instance.nowPlayer.laserFlag = true;
                         break;
                     }
                 break;
@@ -354,15 +366,119 @@ public class EventManager : MonoBehaviour
                     GameManager.Instance.nowPlayer.cards.Remove(destroyData.cardInfo);
                 break;
 
-                case ParsingType.InvisibleThief:
+                case ParsingType.InvisibleThief: //카드 투명도둑
                     GameManager.Instance.invisibleCardNum = UnityEngine.Random.Range(0,
-                        GameManager.Instance.nowPlayer.againstPlayer.cards.Count);
+                    GameManager.Instance.nowPlayer.againstPlayer.cards.Count);
                     //랜덤으로 뽑았으니 함수 계속.
+                break;
+
+                case ParsingType.ExemptionFlag: //상대방 땅에 걸린경우
+                    // PlayerManager nPlayer = GameManager.Instance.nowPlayer;
+                    // nPlayer.playerMoney -= nPlayer.nowTile.price;
+                    // GameManager.Instance.SetFloatingText(nPlayer,nPlayer.nowTile.price, false);
+                    // nPlayer.againstPlayer.playerMoney += nPlayer.nowTile.price;
+                    // GameManager.Instance.SetFloatingText(nPlayer.againstPlayer, nPlayer.nowTile.price, true);
+
+
+                    // GameManager.Instance.NextTurnFunc();
+                    // GameManager.Instance.UIFlag = false;
+                    if (!GameManager.Instance.nowPlayer.exemptionFlag)
+                    {
+                        GameManager.Instance.nowPlayer.playerMoney -= GameManager.Instance.nowPlayer.nowTile.price;
+                        GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, GameManager.Instance.nowPlayer.nowTile.price, false);
+                        GameManager.Instance.nowPlayer.againstPlayer.playerMoney += GameManager.Instance.nowPlayer.nowTile.price;
+                        GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer.againstPlayer, GameManager.Instance.nowPlayer.nowTile.price, true);
+                    }
+                    // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
+                    else
+                    {
+                        theCM.TollExemption();
+                        // theGM.NextTurnFunc();
+                    }
+                    GameManager.Instance.NextTurnFunc();
                 break;
             }
             // ParsingManager.Instance.ParisngRecvData(args);
         };
 
+        //게임 종료(정상적: 게임에서 게임오버 함수 호출, 비정상적 : 플레이어가 나감) 결과 처리 후 호출이 된다면 분기를 나눌 수 있는데...
+        Backend.Match.OnMatchResult = (MatchResultEventArgs args) => {
+                // TODO
+                print("호출완료!");
+                GameManager.Instance.gameOverUI.SetActive(true);
+                print(GameManager.Instance.nowPlayer.againstPlayer.playerId + " 승리!");
+                print("Game Over!");
+                // if(args.ErrInfo == ErrorCode.Success){ //서버에서 결과가 완벽하게 처리 되었을경우 호출되는데 어째 호출이 안된다...
+                //     GameManager.Instance.gameOverUI.SetActive(true);
+                //     print(GameManager.Instance.nowPlayer.againstPlayer.playerId + " 승리!");
+                //     print("Game Over!");
+                // }
+                switch(args.ErrInfo){
+                    case ErrorCode.Success:
+                        print("결과 종합 성공");
+                    break;
+
+                    case ErrorCode.Exception:
+                        print("결과 종합 실패 - 서버에서 결과 종합을 실패한 경우 " + args.Reason);
+                    break;
+
+                    case ErrorCode.Match_InGame_Timeout:
+                        print("게임 시작 실패(룸 생성 후 모든 유저가 게임에 접속하지 않은 경우) " + args.Reason);
+                    break;
+                }
+        };
+
+        //게임 중, 플레이어가 연결 끊김.
+        Backend.Match.OnSessionOffline = (MatchInGameSessionEventArgs args) => {
+            if(args.ErrInfo == ErrorCode.NetworkOffline){
+                print("플레이어가 연결을 끊어 연결이 끊어졌습니다. 남아있는 플레이어가 자동 우승이 됩니다. \n " + "끊어진 플레이어 정보 : " 
+                        + args.GameRecord);
+            }
+            if(args.ErrInfo == ErrorCode.Exception){
+                print("서버가 끊어졌습니다. 게임 결과는 처리되지 않습니다.\n " + "끊어진 플레이어 정보 : " 
+                        + args.GameRecord);
+            }
+            
+        };
+
+        //인게임 서버 종료
+        Backend.Match.OnLeaveInGameServer = (MatchInGameSessionEventArgs args) => {
+            switch(args.ErrInfo){
+                case ErrorCode.Success:
+                    print("정상적으로 종료됨");
+                break;
+
+                case ErrorCode.Exception:
+                    print("에러로 인한 종료 : " + args.Reason);
+                break;
+
+                case ErrorCode.AuthenticationFailed:
+                    print("재접속 오류");
+                break;
+
+            }
+        };
+        //매치메이킹 서버 종료
+        Backend.Match.OnLeaveMatchMakingServer = (LeaveChannelEventArgs args) =>
+        {
+            switch(args.ErrInfo.Category){
+                case ErrorCode.Success:
+                    print("정상적으로 매치메이킹 서버 종료됨");
+                break;
+
+                case ErrorCode.Exception:
+                    print("비정상적으로 종료됨 : " + args.ErrInfo.Detail);
+                break;
+
+                case ErrorCode.DisconnectFromRemote:
+                    print("콘솔에서 생성하지 않은 매치 타입 & 매치 유형으로 매칭을 신청 오류");
+                break;
+
+                case ErrorCode.NetworkTimeout:
+                    print("매치 서버와 클라이언트가 30초 이상 연결이 끊어진 경우");
+                break;
+            }
+        };
         
     }
 

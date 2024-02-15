@@ -17,16 +17,24 @@ public class MenuSceneManager : MonoBehaviour
     [SerializeField] GameObject invitePopup; //초대시 띄울 팝업오브젝트
     [SerializeField] Text inviteInfoText; //초대 팝업 오브젝트에서 누가 초대했는지 알려주는 텍스트
     
+    #region Instance
     private static MenuSceneManager _instance = null;
     public static MenuSceneManager Instance {
         get {
             if(_instance == null){
-                _instance = new MenuSceneManager();
+                _instance = FindObjectOfType(typeof(MenuSceneManager)) as MenuSceneManager;
             }
             return _instance;
         }
     }
+    #endregion
 
+    //log Text
+    [SerializeField] Text matchingLogText;
+    public string matchingLogStr = "";
+
+    //Timer
+    public Text timerText;
 
     private void Awake() {
         UserData user = BackendGameData.Instance.GameDataGet();
@@ -58,21 +66,9 @@ public class MenuSceneManager : MonoBehaviour
             invitePopup.SetActive(true);
             inviteInfoText.text = EventManager.Instance.matchMakingUserInfo.m_nickName + "님이 게임에 초대하였습니다!";
         };
+        matchingLogText.text = matchingLogStr;
     }
 
-    // public void InviteReceve(){//안된다 ㅋㅋ
-    //     Backend.Match.OnMatchMakingRoomSomeoneInvited += (MatchMakingInvitedRoomEventArgs args) => { //다른 유저가 나를 초대했을때 호출되는 이벤트
-    //         //초대한 유저의 정보를 EventManager에 저장. (나중에 다른 곳에서 써야되기 때문에_ButtonManager의 초대 수락 함수)
-    //         Debug.Log("someone Invite me ");
-    //         EventManager.Instance.matchMakingUserInfo = args.InviteUserInfo;
-    //         EventManager.Instance.roomId = args.RoomId;
-    //         EventManager.Instance.roomToken = args.RoomToken;
-
-    //         //팝업 띄우고, 텍스트 변환
-    //         invitePopup.SetActive(true);
-    //         inviteInfoText.text = EventManager.Instance.matchMakingUserInfo.m_nickName + "님이 게임에 초대하였습니다!";
-    //     };
-    // }
 
     
     public void SetWinText(string _winText){
@@ -90,4 +86,21 @@ public class MenuSceneManager : MonoBehaviour
         }
     }
 
+    public IEnumerator TimerCoroutine(){
+        int sec = 0, min = 0;
+        print("startCoroutine");
+        while(true){
+            print("startCoroutine");
+            
+            sec += 1;
+
+            if(sec > 59){
+                min += 1;
+                sec = 0;
+            }
+            timerText.text = min.ToString("00") + " : " + sec.ToString("00");
+
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
 }

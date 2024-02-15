@@ -99,6 +99,16 @@ public class InvisibleData{
     }
 }
 
+public class SessionData{
+    public SessionId sessionId;
+    public int turnNum;
+    public SessionData(SessionId _id, int _turnNum){
+        sessionId = _id;
+        turnNum = _turnNum;
+    }
+}
+
+
 
 
 
@@ -118,7 +128,9 @@ public enum ParsingType{
     Card,
     CardListAdd,
     CardDestory,
-    InvisibleThief
+    InvisibleThief,
+    ExemptionFlag,
+    Session
 }
 #endregion
 

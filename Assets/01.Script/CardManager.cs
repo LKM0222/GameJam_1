@@ -153,7 +153,11 @@ public class CardManager : MonoBehaviour
                     // 타일의 주인이 상대플레이어의 ID와 일치하면 카드 사용 가능
                     if (theTile.tiles[i].ownPlayer == theGM.nowPlayer.againstPlayer.playerId)
                     {
-                        theGM.nowPlayer.laserFlag = true;
+                        CardClickData cData = new(8, GameManager.Instance.nowPlayer.playerId);
+                        string jsonData = JsonUtility.ToJson(cData);
+                        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                        Backend.Match.SendDataToInGameRoom(data);
+                        // theGM.nowPlayer.laserFlag = true;
                         DestroyCard();
                         break;
                     }
@@ -500,8 +504,8 @@ public class CardManager : MonoBehaviour
         if (theGM.nowPlayer.cards.Count < 8)
         {
             // 랜덤하게 카드번호를 추출
-            // Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
-            Card newCard = theGM.cards[UnityEngine.Random.Range(1, 2)];
+            Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];
+            // Card newCard = theGM.cards[UnityEngine.Random.Range(1, 2)];//Test
 
             // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
 

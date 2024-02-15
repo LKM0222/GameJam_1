@@ -5,6 +5,9 @@ using Unity.VisualScripting;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using BackEnd.Tcp;
+using UnityEngine.UIElements;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -101,6 +104,10 @@ public class GameManager : MonoBehaviour
 
     //Invisible
     public int invisibleCardNum = -1;
+
+    //SessionID
+    public SessionId mySessionId;
+    public SessionId[] sessionArr = new SessionId[2]; //0: 2player, 1: 1Player
 
     // Start is called before the first frame update
     void Start()
@@ -217,11 +224,23 @@ public class GameManager : MonoBehaviour
 
     public void NextTurnFunc()
     {
-        if (CheckGameOver())
+        if (CheckGameOver() < 2)
         {
-            gameOverUI.SetActive(true);
-            print(nowPlayer.againstPlayer.playerId + " 승리!");
-            print("Game Over!");
+            MatchGameResult matchGameResult = new MatchGameResult();
+            matchGameResult.m_winners = new List<SessionId>();
+            matchGameResult.m_losers = new List<SessionId>();
+
+            if(CheckGameOver() == 1){
+                //player2 패배
+                matchGameResult.m_winners.Add(sessionArr[1]);
+                matchGameResult.m_losers.Add(sessionArr[0]);
+            }
+            if(CheckGameOver() == 0){
+                //player1 패배
+                matchGameResult.m_winners.Add(sessionArr[0]);
+                matchGameResult.m_losers.Add(sessionArr[1]);
+            }
+            Backend.Match.MatchEnd(matchGameResult);
         }
         else
         {
@@ -252,10 +271,16 @@ public class GameManager : MonoBehaviour
         isActiveTurnImage = false;
     }
 
-    bool CheckGameOver()
+    int CheckGameOver()
     {
-        if (nowPlayer.playerMoney < 0) return true;
-        else return false;
+        // if (nowPlayer.playerMoney < 0) return true;
+        // else return false;
+        int i;
+        for(i = 0; i< GameManager.Instance.players.Length; i++){
+            if(players[i].playerMoney < 0)
+            return i;
+        }
+        return i;
     }
 
     public void SetFloatingText(PlayerManager _player, int _value, bool sign)
@@ -305,4 +330,13 @@ public class GameManager : MonoBehaviour
     }
 }
 
+class GameOverClass{
+    public bool overFlag;
+    public SessionId sessionId;
+
+    public GameOverClass(bool _overFlag, SessionId _sessionId){
+        overFlag = _overFlag;
+        sessionId = _sessionId;
+    }
+}
 

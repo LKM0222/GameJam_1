@@ -45,7 +45,7 @@ public class MatchTestManager : MonoBehaviour
         if(matchCard != null){
             print("MatchTestManager matchcard is : " + matchCard);
         }
-        SceneManager.LoadScene("MatchingRoom");
+        // SceneManager.LoadScene("MatchingRoom");
     }
 
     public void Join(){

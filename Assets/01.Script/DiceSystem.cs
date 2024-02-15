@@ -115,7 +115,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void RollDice()
     {
-        int dNum = UnityEngine.Random.Range(1, 9);
+        int dNum = UnityEngine.Random.Range(2, 3);
         DiceData dData = new(dNum, GameManager.Instance.turnIndex); //서버로 전송하기 위해 데이터 클래스화
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Dice, JsonUtility.ToJson(dData));
         Backend.Match.SendDataToInGameRoom(data);
@@ -134,7 +134,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
         thePlayer.diceNum = GameManager.Instance.diceNum;
         AudioManager.instance.Play("RollDice_Sound");
 
-        thePlayer.diceNum = UnityEngine.Random.Range(1, 9);
+        // thePlayer.diceNum = UnityEngine.Random.Range(1, 9);
 
         // 주사위컨트롤 카드 사용 시, 해당 함수 호출
         if (thePlayer.lowerDiceFlag)
