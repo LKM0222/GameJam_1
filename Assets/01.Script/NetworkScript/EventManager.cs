@@ -440,7 +440,7 @@ public class EventManager : MonoBehaviour
             
         };
 
-        //게임 서버 종료
+        //인게임 서버 종료
         Backend.Match.OnLeaveInGameServer = (MatchInGameSessionEventArgs args) => {
             switch(args.ErrInfo){
                 case ErrorCode.Success:
@@ -454,10 +454,30 @@ public class EventManager : MonoBehaviour
                 case ErrorCode.AuthenticationFailed:
                     print("재접속 오류");
                 break;
-                
+
             }
         };
+        //매치메이킹 서버 종료
+        Backend.Match.OnLeaveMatchMakingServer = (LeaveChannelEventArgs args) =>
+        {
+            switch(args.ErrInfo.Category){
+                case ErrorCode.Success:
+                    print("정상적으로 매치메이킹 서버 종료됨");
+                break;
 
+                case ErrorCode.Exception:
+                    print("비정상적으로 종료됨 : " + args.ErrInfo.Detail);
+                break;
+
+                case ErrorCode.DisconnectFromRemote:
+                    print("콘솔에서 생성하지 않은 매치 타입 & 매치 유형으로 매칭을 신청 오류");
+                break;
+
+                case ErrorCode.NetworkTimeout:
+                    print("매치 서버와 클라이언트가 30초 이상 연결이 끊어진 경우");
+                break;
+            }
+        };
         
     }
 
