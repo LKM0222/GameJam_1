@@ -16,6 +16,8 @@ public class MenuSceneManager : MonoBehaviour
     [Header("Invite Popup")]
     [SerializeField] GameObject invitePopup; //초대시 띄울 팝업오브젝트
     [SerializeField] Text inviteInfoText; //초대 팝업 오브젝트에서 누가 초대했는지 알려주는 텍스트
+
+    public bool coroFlag = false;
     
     #region Instance
     private static MenuSceneManager _instance = null;
@@ -89,7 +91,7 @@ public class MenuSceneManager : MonoBehaviour
     public IEnumerator TimerCoroutine(){
         int sec = 0, min = 0;
         print("startCoroutine");
-        while(true){
+        while(true && coroFlag){
             print("startCoroutine");
             
             sec += 1;
@@ -100,7 +102,7 @@ public class MenuSceneManager : MonoBehaviour
             }
             timerText.text = min.ToString("00") + " : " + sec.ToString("00");
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(1f);
         }
     }
 }

@@ -82,17 +82,12 @@ public class ButtonManager : MonoBehaviour
         testNickname.text = "gg \n" + DateTime.Now;
     }
     
-    // public void MatchingBtn(){
-    //     MatchManager.Instance.JoinMatchMakingServer();
-    //     //방 생성 완료한거 같은데 방 설정 정보 불러와서 진짜 방 생성이 된건지 확인해보자
-    //     print("방 정보는 ? : ");
-    //     SceneManager.LoadScene("MatchingRoom");
-        
-    // }
 
     //대기방 생성 매칭서버 접속은 여기서 하지 않고, 로그인 시 자동으로 이뤄져야함.
     public void MatchingBtn(){
+        MenuSceneManager.Instance.coroFlag = true;
         StartCoroutine(MenuSceneManager.Instance.TimerCoroutine());
+        
         MatchTestManager.Instance.CreateMatchingRoom();
         Backend.Match.OnMatchMakingRoomCreate = (MatchMakingInteractionEventArgs args) => { //매칭룸을 생성했을때 호출되는 이벤트
             Debug.Log("MatchRoom Create1");
@@ -108,7 +103,7 @@ public class ButtonManager : MonoBehaviour
     public void MatchingCancelBtn(){
         Backend.Match.LeaveMatchRoom();
         //타이머 코루틴 해제 후 텍스트 초기화
-        StopCoroutine(MenuSceneManager.Instance.TimerCoroutine());
+        MenuSceneManager.Instance.coroFlag = false;
         MenuSceneManager.Instance.timerText.text = "--";
     }
 
