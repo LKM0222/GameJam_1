@@ -458,20 +458,39 @@ public class PlayerManager : MonoBehaviour
 
                         yield return new WaitUntil(() => theGM.seletedTile != null);
 
-                        theAudio.Play("Extortion_Sound");
-                        // 이후 이펙트를 추가해주면 좋을 듯 함
-
-                        isExtortioning = false;
                         for (int i = 0; i < theTM.tiles.Length; i++)
                         {
                             theTM.tiles[i].canTileSelect = false;
                         }
 
+                        isExtortioning = false;
                         blackBackground.SetActive(false);
+
+                        theAudio.Play("Extortion_Sound");
+
+                        Color tileColor = theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
+
+                        // 타일의 Alpha 값을 서서히 0으로 줄임
+                        while (tileColor.a > 0f)
+                        {
+                            tileColor.a -= 0.02f;
+                            theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
+                            yield return new WaitForSeconds(0.02f);
+                        }
+
+                        // ownPlayer를 바꿔서 땅의 소유주를 바꿔주고, signImg도 동시에 변하게함
                         theGM.seletedTile.GetComponent<Tile>().ownPlayer = playerId;
+
+                        // 타일의 Alpha 값을 서서히 1로 올림
+                        while (tileColor.a < 1f)
+                        {
+                            tileColor.a += 0.02f;
+                            theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
+                            yield return new WaitForSeconds(0.02f);
+                        }
+
                         theGM.seletedTile = null;
                     }
-
                     break;
             }
             theGM.NextTurnFunc();
