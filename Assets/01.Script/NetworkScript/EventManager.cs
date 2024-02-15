@@ -433,6 +433,7 @@ public class EventManager : MonoBehaviour
             if(args.ErrInfo == ErrorCode.NetworkOffline){
                 print("플레이어가 연결을 끊어 연결이 끊어졌습니다. 남아있는 플레이어가 자동 우승이 됩니다. \n " + "끊어진 플레이어 정보 : " 
                         + args.GameRecord);
+                UIManager.Instance.SetErrorUI();
             }
             if(args.ErrInfo == ErrorCode.Exception){
                 print("서버가 끊어졌습니다. 게임 결과는 처리되지 않습니다.\n " + "끊어진 플레이어 정보 : " 

@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
             return _instance;
         }
     }
-    [SerializeField] GameObject watingUI, turnCardUI;
+    [SerializeField] GameObject watingUI, turnCardUI, gameoverUI;
 
     public void SetUI(){
        watingUI.SetActive(false);
@@ -24,5 +24,6 @@ public class UIManager : MonoBehaviour
     public void SetErrorUI(){
         watingUI.SetActive(false);
         turnCardUI.SetActive(false);
+        gameoverUI.SetActive(true);
     }
 }
