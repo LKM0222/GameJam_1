@@ -61,6 +61,7 @@ public class EventManager : MonoBehaviour
                 // MatchingRoomScript.Instance.matchingRoomLogStr += args.UserInfo.m_nickName + 
                 // "님이 퇴장하였습니다. \n";
                 // MatchingRoomScript.Instance.UserListRemove(args.UserInfo.m_nickName);
+                print("매칭룸 퇴장");
             }
             if(args.ErrInfo == ErrorCode.InvalidOperation){//매칭중이라 퇴장 실패
                 Debug.Log("매칭중이라 방에서 나갈 수 없습니다.");

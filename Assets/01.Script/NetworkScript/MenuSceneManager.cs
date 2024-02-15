@@ -33,6 +33,9 @@ public class MenuSceneManager : MonoBehaviour
     [SerializeField] Text matchingLogText;
     public string matchingLogStr = "";
 
+    //Timer
+    public Text timerText;
+
     private void Awake() {
         UserData user = BackendGameData.Instance.GameDataGet();
         print("user nickname : " + user.nickname);
@@ -83,4 +86,21 @@ public class MenuSceneManager : MonoBehaviour
         }
     }
 
+    public IEnumerator TimerCoroutine(){
+        int sec = 0, min = 0;
+        print("startCoroutine");
+        while(true){
+            print("startCoroutine");
+            
+            sec += 1;
+
+            if(sec > 59){
+                min += 1;
+                sec = 0;
+            }
+            timerText.text = min.ToString("00") + " : " + sec.ToString("00");
+
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
 }

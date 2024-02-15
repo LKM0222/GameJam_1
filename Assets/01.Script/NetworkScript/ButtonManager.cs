@@ -92,6 +92,7 @@ public class ButtonManager : MonoBehaviour
 
     //대기방 생성 매칭서버 접속은 여기서 하지 않고, 로그인 시 자동으로 이뤄져야함.
     public void MatchingBtn(){
+        StartCoroutine(MenuSceneManager.Instance.TimerCoroutine());
         MatchTestManager.Instance.CreateMatchingRoom();
         Backend.Match.OnMatchMakingRoomCreate = (MatchMakingInteractionEventArgs args) => { //매칭룸을 생성했을때 호출되는 이벤트
             Debug.Log("MatchRoom Create1");
@@ -100,6 +101,15 @@ public class ButtonManager : MonoBehaviour
                 RequestMatchMaking();
             }
         };
+    }
+    
+    //매칭취소 
+    //대기방을 생성했던걸 취소해줘야됨.
+    public void MatchingCancelBtn(){
+        Backend.Match.LeaveMatchRoom();
+        //타이머 코루틴 해제 후 텍스트 초기화
+        StopCoroutine(MenuSceneManager.Instance.TimerCoroutine());
+        MenuSceneManager.Instance.timerText.text = "--";
     }
 
     //대기방 참여
