@@ -26,6 +26,7 @@ public class CardManager : MonoBehaviour
     public ParticleSystem laserParticle;
     public ParticleSystem highMoveParticle;
     public ParticleSystem InvisibleParticle;
+    public ParticleSystem exemptionParticle;
 
     // Start is called before the first frame update
     void Start()
@@ -210,9 +211,8 @@ public class CardManager : MonoBehaviour
         theGM.nowPlayer.higherDiceFlag = false;
     }
 
-    public void TollExemption()
+    public IEnumerator TollExemption()
     {
-        theAudio.Play("TollExemption_Sound");
         // 현재 자신의 카드 중에서 통행료 면제 카드를 찾아서 파괴함
         for (int i = 0; i < theGM.nowPlayer.cards.Count; i++)
         {
@@ -220,8 +220,19 @@ public class CardManager : MonoBehaviour
             {
                 theGM.nowPlayer.cards.RemoveAt(i);
                 Destroy(theGM.nowPlayer.cardParent.GetChild(0).gameObject);
+                break;
             }
         }
+        theAudio.Play("TollExemption_Sound");
+
+        exemptionParticle.transform.position = theGM.nowPlayer.transform.position;
+        exemptionParticle.gameObject.SetActive(true);
+        exemptionParticle.Play();
+
+        yield return new WaitForSeconds(1f);
+
+        exemptionParticle.gameObject.SetActive(false);
+
         // 카드 효과를 사용했으니 flag를 false로 바꿔줌
         theGM.nowPlayer.exemptionFlag = false;
     }
@@ -447,7 +458,14 @@ public class CardManager : MonoBehaviour
             if (newCard == theGM.cards[6])
             {
                 theAudio.Play("TollExemption_Sound");
-                // 보호막 이펙트 추가 필요함
+
+                exemptionParticle.transform.position = theGM.nowPlayer.transform.position;
+                exemptionParticle.gameObject.SetActive(true);
+                exemptionParticle.Play();
+
+                yield return new WaitForSeconds(1f);
+
+                exemptionParticle.gameObject.SetActive(false);
                 theGM.nowPlayer.exemptionFlag = true;
             }
         }
