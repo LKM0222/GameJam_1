@@ -9,6 +9,7 @@ public class CardManager : MonoBehaviour
     TileManager theTile;
     TurnSignScript theTSI;
     AudioManager theAudio;
+    DiceSystem theDice;
 
     // 카드의 정보
     public Card cardInfo;
@@ -26,6 +27,7 @@ public class CardManager : MonoBehaviour
     public ParticleSystem laserParticle;
     public ParticleSystem highMoveParticle;
     public ParticleSystem InvisibleParticle;
+    public ParticleSystem exemptionParticle;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +36,7 @@ public class CardManager : MonoBehaviour
         theTile = FindObjectOfType<TileManager>();
         theTSI = FindObjectOfType<TurnSignScript>();
         theAudio = FindObjectOfType<AudioManager>();
+        theDice = FindObjectOfType<DiceSystem>();
     }
 
     // Update is called once per frame
@@ -45,7 +48,7 @@ public class CardManager : MonoBehaviour
     // 해당 스크립트가 붙은 오브젝트(획득한 카드)에 마우스를 올려놓았을 때 호출
     private void OnMouseEnter()
     {
-        if (theTSI.cursorPos == 1)
+        if (theTSI.cursorPos == 1 && !theDice.isDrag)
         {
             theAudio.Play("SelectCard_Sound");
 
@@ -59,13 +62,12 @@ public class CardManager : MonoBehaviour
     // 해당 스크립트가 붙은 오브젝트(획득한 카드)에 마우스를 올렸다가 떨어트렸을 때 호출
     private void OnMouseExit()
     {
-        if (theTSI.cursorPos == 1)
+        if (theTSI.cursorPos == 1 && !theDice.isDrag)
         {
             // upPos만큼 Position을 내리고 Scale을 줄임
             this.transform.localScale = new Vector3(7f, 7f, 1f);
             this.transform.position += Vector3.down * upPos;
             this.GetComponent<SpriteRenderer>().sortingOrder = 0;
-
         }
     }
 
@@ -126,6 +128,8 @@ public class CardManager : MonoBehaviour
                 byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
                 Backend.Match.SendDataToInGameRoom(data);
                 // theGM.nowPlayer.lowerDiceFlag = true;
+                theGM.nowPlayer.lowerDiceFlag = true;
+                theGM.nowPlayer.higherDiceFlag = false;
                 DestroyCard();
             }
             // cardCode가 6이라면 주사위컨트롤(상)
@@ -136,6 +140,8 @@ public class CardManager : MonoBehaviour
                 byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
                 Backend.Match.SendDataToInGameRoom(data);
                 // theGM.nowPlayer.higherDiceFlag = true;
+                theGM.nowPlayer.higherDiceFlag = true;
+                theGM.nowPlayer.lowerDiceFlag = false;
                 DestroyCard();
             }
             // cardCode가 8이라면 레이저빔(레이저빔 사용이 완료되었고, 투시 완료되어야만 사용 가능 => 둘 중 하나라도 발동중이면 사용불가)
@@ -232,7 +238,6 @@ public class CardManager : MonoBehaviour
 
             theGM.CardListUpdate();
         }
-
     }
 
     public void EndInvisibleThief()
@@ -255,7 +260,7 @@ public class CardManager : MonoBehaviour
         theGM.nowPlayer.higherDiceFlag = false;
     }
 
-    public void TollExemption()
+    public IEnumerator TollExemption()
     {
         // 현재 자신의 카드 중에서 통행료 면제 카드를 찾아서 파괴함
         for (int i = 0; i < theGM.nowPlayer.cards.Count; i++)
@@ -264,8 +269,19 @@ public class CardManager : MonoBehaviour
             {
                 theGM.nowPlayer.cards.RemoveAt(i);
                 Destroy(theGM.nowPlayer.cardParent.GetChild(0).gameObject);
+                break;
             }
         }
+        theAudio.Play("TollExemption_Sound");
+
+        exemptionParticle.transform.position = theGM.nowPlayer.transform.position;
+        exemptionParticle.gameObject.SetActive(true);
+        exemptionParticle.Play();
+
+        yield return new WaitForSeconds(1f);
+
+        exemptionParticle.gameObject.SetActive(false);
+
         // 카드 효과를 사용했으니 flag를 false로 바꿔줌
         theGM.nowPlayer.exemptionFlag = false;
     }
@@ -305,8 +321,6 @@ public class CardManager : MonoBehaviour
 
             // 현재 타일의 소유주와 건물을 없앰
             theGM.nowPlayer.nowTile.ownPlayer = -1;
-            // theGM.nowPlayer.nowTile.building.type = -1;
-            // theGM.nowPlayer.nowTile.buildingImg.sprite = null;
             theGM.nowPlayer.nowTile.building = theGM.buildings[0];
 
             // 0으로 감소시켰던 건물과 타일의 Alpha 값을 원상복구
@@ -367,19 +381,29 @@ public class CardManager : MonoBehaviour
 
 
             StartCoroutine(ShowGetCard());
+            theAudio.Play("GetCard_Sound");
+
+            // 상세 카드 창에 카드 리스트 업데이트
+            theGM.CardListUpdate();
+
             yield return new WaitUntil(() => isShowCard);
             isShowCard = false;
 
             // 만약 통행료면제 카드라면 카드효과를 즉시 활성화.
             if (newCard == theGM.cards[6])
             {
+                theAudio.Play("TollExemption_Sound");
+
+                exemptionParticle.transform.position = theGM.nowPlayer.transform.position;
+                exemptionParticle.gameObject.SetActive(true);
+                exemptionParticle.Play();
+
+                yield return new WaitForSeconds(1f);
+
+                exemptionParticle.gameObject.SetActive(false);
+
                 theGM.nowPlayer.exemptionFlag = true;
-                theGM.textManager.ShowText("플레이어" + theGM.nowPlayer.playerId + " 통행료 면제 효과 발동");
-                yield return new WaitForSeconds(3f);
-                theGM.textManager.HideText();
             }
-            // 상세 카드 창에 카드 리스트 업데이트
-            theGM.CardListUpdate();
 
             theGM.penetrateComplete = true;
         }
@@ -491,16 +515,23 @@ public class CardManager : MonoBehaviour
             // theGM.nowPlayer.cards.Add(newCard); (EventManager로 이동.)
 
             StartCoroutine(ShowGetCard());
+            theAudio.Play("GetCard_Sound");
             yield return new WaitUntil(() => isShowCard);
             isShowCard = false;
 
             // 만약 통행료면제 카드라면 카드효과를 즉시 활성화.
             if (newCard == theGM.cards[6])
             {
+                theAudio.Play("TollExemption_Sound");
+
+                exemptionParticle.transform.position = theGM.nowPlayer.transform.position;
+                exemptionParticle.gameObject.SetActive(true);
+                exemptionParticle.Play();
+
+                yield return new WaitForSeconds(1f);
+
+                exemptionParticle.gameObject.SetActive(false);
                 theGM.nowPlayer.exemptionFlag = true;
-                theGM.textManager.ShowText("플레이어" + theGM.nowPlayer.playerId + " 통행료 면제 효과 발동");
-                yield return new WaitForSeconds(3f);
-                theGM.textManager.HideText();
             }
             //카드 받고나서 턴 넘기는 부분
             byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");

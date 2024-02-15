@@ -23,6 +23,8 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public bool diceFlag; //주사위가 굴려졋는지 확인하는 플래그
 
+    public bool isDrag;
+
     #region Instance
     private static DiceSystem _instance;
     public static DiceSystem Instance
@@ -72,6 +74,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     // 팻말을 드래그했을 때 호출
     public void OnDrag(PointerEventData eventData)
     {
+        isDrag = true;
         // 투시와 레이저빔의 사용이 모두 끝났을 때 주사위를 굴릴 수 있게(=> 사용중이라면 굴릴 수 없게)
         //if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
         if (GameManager.Instance.myCharactor.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
@@ -88,6 +91,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     // 팻말을 드롭했을 때 호출
     public void OnEndDrag(PointerEventData eventData1)
     {
+        isDrag = false;
         // 투시와 레이저빔의 사용이 모두 끝났을 때 주사위를 굴릴 수 있게(=> 사용중이라면 굴릴 수 없게)
         //if (thePlayer.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)
         if (GameManager.Instance.myCharactor.myTurn && theGM.penetrateComplete && theGM.laserComplete && theTSI.cursorPos == 1)

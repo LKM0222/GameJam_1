@@ -147,6 +147,8 @@ public class GameManager : MonoBehaviour
                     players[1].myTurn = false;
                     nowPlayer = players[0];
                     CardListUpdate();
+                AudioManager.instance.Play("TurnChange_Sound");
+
                 }
                 else
                 {
@@ -155,6 +157,8 @@ public class GameManager : MonoBehaviour
                     players[0].myTurn = false;
                     nowPlayer = players[1];
                     CardListUpdate();
+                AudioManager.instance.Play("TurnChange_Sound");
+
                 }
                 */
                 print("turnCount is " + turnCount % 2);

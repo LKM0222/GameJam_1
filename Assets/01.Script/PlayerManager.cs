@@ -135,6 +135,14 @@ public class PlayerManager : MonoBehaviour
     {
         canMove = false;
 
+        theTSI.cursorPos = 3;
+
+        VirtualCamera.SetActive(true);
+        yield return new WaitForSeconds(1f);
+
+        StartCoroutine(CheckUsedCardCoroutine());
+        yield return new WaitUntil(() => !isCheckingCard);
+
         // 주사위 수만큼 tileToGo 리스트에 추가
         for (int i = 0; i < diceNum; i++)
         {
@@ -148,14 +156,6 @@ public class PlayerManager : MonoBehaviour
                 tileToGo.Add(theTM.tiles[tileNum + i].gameObject);
             }
         }
-
-        theTSI.cursorPos = 3;
-
-        VirtualCamera.SetActive(true);
-        yield return new WaitForSeconds(1f);
-
-        StartCoroutine(CheckUsedCardCoroutine());
-        yield return new WaitUntil(() => !isCheckingCard);
 
         movingWaitTime = 0f;
 
@@ -183,6 +183,7 @@ public class PlayerManager : MonoBehaviour
         if (theGM.nowPlayer.highSpeedFlag)
         {
             theCM.HighSpeedMove();
+            theAudio.Play("HighSpeedMove_Sound");
         }
 
         if (theGM.nowPlayer.invisibleFlag)
@@ -277,6 +278,7 @@ public class PlayerManager : MonoBehaviour
         // 고속이동이 끝났다면 스피드를 원상복구 시키고 플래그를 비활성화시킴
         if (theGM.nowPlayer.highSpeedFlag)
         {
+            theAudio.Stop("HighSpeedMove_Sound");
             theCM.EndHighSpeedMove();
         }
 
@@ -416,34 +418,109 @@ public class PlayerManager : MonoBehaviour
 
                     // 올림픽
                     case 3:
+                        bool haveBuilding = false;
+
+                        // 자신의 소유인 타일이 있다면 플래그를 활성화하고 사운드 재생
                         for (int i = 0; i < theTM.tiles.Length; i++)
                         {
-                            if (theTM.tiles[i].ownPlayer == playerId) theTM.tiles[i].price *= 2;
+                            if (theTM.tiles[i].ownPlayer == playerId)
+                            {
+                                haveBuilding = true;
+                                theAudio.Play("Olympics_Sound");
+                                break;
+                            }
+                        }
+
+                        if (haveBuilding)
+                        {
+                            // 캐릭터를 비추는 카메라를 비활성화하고 맵을 비출때까지 대기
+                            VirtualCamera.SetActive(false);
+                            yield return new WaitForSeconds(0.5f);
+
+                            // 자신이 소유중인 타일에 파티클을 활성화
+                            for (int i = 0; i < theTM.tiles.Length; i++)
+                            {
+                                if (theTM.tiles[i].ownPlayer == playerId)
+                                {
+                                    theTM.tiles[i].price *= 2;
+                                    theTM.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(true);
+                                    yield return new WaitForSeconds(0.1f);
+                                }
+                            }
+
+                            yield return new WaitForSeconds(1f);
+
+                            // 활성화한 파티클을 다시 비활성화
+                            for (int i = 0; i < theTM.tiles.Length; i++)
+                            {
+                                if (theTM.tiles[i].ownPlayer == playerId)
+                                {
+                                    theTM.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(false);
+                                }
+                            }
                         }
                         break;
 
                     // 건물강탈
                     case 4:
-                        blackBackground.SetActive(true);
-                        isExtortioning = true;
+                        bool canExtortion = false;
 
+                        // 상대방 소유의 타일이 있는지 체크
                         for (int i = 0; i < theTM.tiles.Length; i++)
                         {
-                            if (theTM.tiles[i].ownPlayer == againstPlayer.playerId) theTM.tiles[i].canTileSelect = true;
+                            if (theTM.tiles[i].ownPlayer == againstPlayer.playerId)
+                            {
+                                canExtortion = true;
+                                break;
+                            }
                         }
 
-                        yield return new WaitUntil(() => theGM.seletedTile != null);
-
-                        isExtortioning = false;
-                        for (int i = 0; i < theTM.tiles.Length; i++)
+                        // 상대방 소유의 타일이 있다면 강탈 가능
+                        if (canExtortion)
                         {
-                            theTM.tiles[i].canTileSelect = false;
+                            blackBackground.SetActive(true);
+                            isExtortioning = true;
+
+                            for (int i = 0; i < theTM.tiles.Length; i++)
+                            {
+                                if (theTM.tiles[i].ownPlayer == againstPlayer.playerId) theTM.tiles[i].canTileSelect = true;
+                            }
+
+                            yield return new WaitUntil(() => theGM.seletedTile != null);
+
+                            for (int i = 0; i < theTM.tiles.Length; i++)
+                            {
+                                theTM.tiles[i].canTileSelect = false;
+                            }
+
+                            isExtortioning = false;
+                            blackBackground.SetActive(false);
+
+                            theAudio.Play("Extortion_Sound");
+
+                            Color tileColor = theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
+
+                            // 타일의 Alpha 값을 서서히 0으로 줄임
+                            while (tileColor.a > 0f)
+                            {
+                                tileColor.a -= 0.02f;
+                                theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
+                                yield return new WaitForSeconds(0.02f);
+                            }
+
+                            // ownPlayer를 바꿔서 땅의 소유주를 바꿔주고, signImg도 동시에 변하게함
+                            theGM.seletedTile.GetComponent<Tile>().ownPlayer = playerId;
+
+                            // 타일의 Alpha 값을 서서히 1로 올림
+                            while (tileColor.a < 1f)
+                            {
+                                tileColor.a += 0.02f;
+                                theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
+                                yield return new WaitForSeconds(0.02f);
+                            }
+
+                            theGM.seletedTile = null;
                         }
-
-                        blackBackground.SetActive(false);
-                        theGM.seletedTile.GetComponent<Tile>().ownPlayer = playerId;
-                        theGM.seletedTile = null;
-
                         break;
                 }
                 //모든 특수타일들은 끝났을때 턴 넘김을 여기서 처리함.
@@ -451,6 +528,8 @@ public class PlayerManager : MonoBehaviour
                 // byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
                 // Backend.Match.SendDataToInGameRoom(data);
                 // theGM.NextTurnFunc();
+
+                theGM.NextTurnFunc();
             }
     }
 
@@ -504,6 +583,7 @@ public class PlayerManager : MonoBehaviour
         Color alpha = new Color(1, 1, 1, 0);
         this.GetComponent<SpriteRenderer>().color = alpha;
 
+        theAudio.Play("TeleportStart_Sound");
         if (_playerId == 0)
         {
             theGM.player1TeleportEffect.transform.position = theTM.tiles[5].transform.GetChild(0).position;
@@ -526,6 +606,7 @@ public class PlayerManager : MonoBehaviour
         this.GetComponent<Animator>().SetInteger("Dir", nowTile.dir);
         yield return new WaitForSeconds(0.5f);
 
+        theAudio.Play("TeleportEnd_Sound");
         while (true)
         {
             alpha.a += 0.1f;
