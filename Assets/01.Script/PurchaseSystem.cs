@@ -16,9 +16,6 @@ public class PurchaseSystem : MonoBehaviour
     // 어떤 건물을 선택중인지 순서로 접근하는 변수
     public int cur = 1;
 
-    //건물 구매 버튼을 눌렀을 경우 건물 구매를 위한 플래그
-    public bool buyFlag;
-
     // Start is called before the first frame update
     void Start()
     {

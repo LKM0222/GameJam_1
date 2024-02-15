@@ -188,7 +188,6 @@ public class CardManager : MonoBehaviour
 
             theGM.CardListUpdate();
         }
-
     }
 
     public void EndInvisibleThief()
@@ -272,8 +271,6 @@ public class CardManager : MonoBehaviour
 
             // 현재 타일의 소유주와 건물을 없앰
             theGM.nowPlayer.nowTile.ownPlayer = -1;
-            // theGM.nowPlayer.nowTile.building.type = -1;
-            // theGM.nowPlayer.nowTile.buildingImg.sprite = null;
             theGM.nowPlayer.nowTile.building = theGM.buildings[0];
 
             // 0으로 감소시켰던 건물과 타일의 Alpha 값을 원상복구
@@ -345,7 +342,15 @@ public class CardManager : MonoBehaviour
             if (newCard == theGM.cards[6])
             {
                 theAudio.Play("TollExemption_Sound");
-                // 보호막 이펙트 추가 필요함
+
+                exemptionParticle.transform.position = theGM.nowPlayer.transform.position;
+                exemptionParticle.gameObject.SetActive(true);
+                exemptionParticle.Play();
+
+                yield return new WaitForSeconds(1f);
+
+                exemptionParticle.gameObject.SetActive(false);
+
                 theGM.nowPlayer.exemptionFlag = true;
             }
 

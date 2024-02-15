@@ -11,10 +11,6 @@ public class TurnSignScript : MonoBehaviour
     // 어떤 행동을 할 차례인지 나타내는 순서
     public int cursorPos;
 
-    // [SerializeField] float speed = 147f;
-
-    // 테두리가 이동할 위치 값 벡터
-    [SerializeField] Vector3[] pos = new Vector3[3];
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +23,7 @@ public class TurnSignScript : MonoBehaviour
     {
         // 카드를 사용할 때
         if (cursorPos == 1)
-        {//card
+        {
             cursor.transform.localPosition = new Vector3(-147f, cursor.transform.position.y, 0f);
 
         }

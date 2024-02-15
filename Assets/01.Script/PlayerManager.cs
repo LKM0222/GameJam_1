@@ -300,12 +300,10 @@ public class PlayerManager : MonoBehaviour
                         case 0:
                             playerMoney += 200;
                             theGM.SetFloatingText(theGM.nowPlayer, 200, true);
-                            print(playerMoney);
                             break;
                         // 제단
                         case 1:
                             nowTile.price *= 2;
-                            print(nowTile.price);
                             break;
                         // 특별상점
                         case 2:
@@ -519,7 +517,6 @@ public class PlayerManager : MonoBehaviour
         theGM.seletedTile = null;
         myTurn = false;
         tpFlag = true;
-        // theGM.NextTurnFunc();
     }
 
     IEnumerator TeleportCoroutine(int _playerId)
