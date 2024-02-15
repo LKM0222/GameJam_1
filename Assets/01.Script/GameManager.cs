@@ -226,16 +226,17 @@ public class GameManager : MonoBehaviour
             matchGameResult.m_winners = new List<SessionId>();
             matchGameResult.m_losers = new List<SessionId>();
 
-
-            // 누가 이겼는지, 졌는지 판단 필요.
-            // matchGameResult.m_winners.Add("승자 세션 ID");
-            // matchGameResult.m_losers.Add("패자 세션 ID");
-            
+            if(CheckGameOver() == 1){
+                //player2 패배
+                matchGameResult.m_winners.Add(sessionArr[1]);
+                matchGameResult.m_losers.Add(sessionArr[0]);
+            }
+            if(CheckGameOver() == 0){
+                //player1 패배
+                matchGameResult.m_winners.Add(sessionArr[0]);
+                matchGameResult.m_losers.Add(sessionArr[1]);
+            }
             Backend.Match.MatchEnd(matchGameResult);
-
-            // gameOverUI.SetActive(true);
-            // print(nowPlayer.againstPlayer.playerId + " 승리!");
-            // print("Game Over!");
         }
         else
         {
@@ -272,7 +273,7 @@ public class GameManager : MonoBehaviour
         // else return false;
         int i;
         for(i = 0; i< GameManager.Instance.players.Length; i++){
-            if(GameManager.Instance.players[i].playerMoney <= 0)
+            if(players[i].playerMoney < 0)
             return i;
         }
         return i;
