@@ -440,6 +440,24 @@ public class EventManager : MonoBehaviour
             
         };
 
+        //게임 서버 종료
+        Backend.Match.OnLeaveInGameServer = (MatchInGameSessionEventArgs args) => {
+            switch(args.ErrInfo){
+                case ErrorCode.Success:
+                    print("정상적으로 종료됨");
+                break;
+
+                case ErrorCode.Exception:
+                    print("에러로 인한 종료 : " + args.Reason);
+                break;
+
+                case ErrorCode.AuthenticationFailed:
+                    print("재접속 오류");
+                break;
+                
+            }
+        };
+
         
     }
 
