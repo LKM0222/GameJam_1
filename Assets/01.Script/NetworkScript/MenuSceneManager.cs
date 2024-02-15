@@ -90,10 +90,7 @@ public class MenuSceneManager : MonoBehaviour
 
     public IEnumerator TimerCoroutine(){
         int sec = 0, min = 0;
-        print("startCoroutine");
         while(true && coroFlag){
-            print("startCoroutine");
-            
             sec += 1;
 
             if(sec > 59){

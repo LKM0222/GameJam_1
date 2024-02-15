@@ -97,7 +97,7 @@ public class EventManager : MonoBehaviour
 
                 case ErrorCode.Match_MatchMakingCanceled: //매칭 신청을 취소했을때
                     //매칭이 성사되었으나 서버에서 인게임 룸 생성에 실패했을 경우(다시 매칭을 신청해야 합니다.)
-                    Debug.Log("서버 인게임 룸 생성 실패 " + args.Reason);
+                    Debug.Log("매칭을 취소하였습니다. " + args.Reason);
                     break;
                 
                 case ErrorCode.Match_InvalidModeType: //잘못된 모드 타입으로 신청했을 때

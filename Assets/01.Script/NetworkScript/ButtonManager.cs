@@ -101,10 +101,13 @@ public class ButtonManager : MonoBehaviour
     //매칭취소 
     //대기방을 생성했던걸 취소해줘야됨.
     public void MatchingCancelBtn(){
+        Backend.Match.CancelMatchMaking();
         Backend.Match.LeaveMatchRoom();
         //타이머 코루틴 해제 후 텍스트 초기화
         MenuSceneManager.Instance.coroFlag = false;
         MenuSceneManager.Instance.timerText.text = "--";
+        //로그에 띄워줌.
+        MenuSceneManager.Instance.matchingLogStr += "매칭 신청을 취소하였습니다. \n";
     }
 
     //대기방 참여
