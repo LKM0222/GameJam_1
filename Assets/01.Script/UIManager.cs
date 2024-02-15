@@ -19,4 +19,10 @@ public class UIManager : MonoBehaviour
        watingUI.SetActive(false);
        turnCardUI.SetActive(true); 
     }
+
+    //오류 났을때, 이 함수를 실행시켜서 나가기 버튼을 누를 수 있게 함.
+    public void SetErrorUI(){
+        watingUI.SetActive(false);
+        turnCardUI.SetActive(false);
+    }
 }

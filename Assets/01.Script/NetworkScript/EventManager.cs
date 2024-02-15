@@ -446,6 +446,7 @@ public class EventManager : MonoBehaviour
             switch(args.ErrInfo){
                 case ErrorCode.Success:
                     print("정상적으로 종료됨");
+                    UIManager.Instance.SetErrorUI();
                 break;
 
                 case ErrorCode.Exception:
