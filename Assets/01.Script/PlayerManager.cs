@@ -540,7 +540,7 @@ public class PlayerManager : MonoBehaviour
                 // Backend.Match.SendDataToInGameRoom(data);
                 // theGM.NextTurnFunc();
 
-                theGM.NextTurnFunc();
+                // theGM.NextTurnFunc();
             }
         }
     }
