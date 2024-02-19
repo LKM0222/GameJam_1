@@ -7581,7 +7581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerId: 1
-  playerMoney: 200
+  playerMoney: 100
   playerMoneyText: {fileID: 1674247640}
   moveSpeed: 0
   diceNum: 1
@@ -11912,7 +11912,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerId: 0
-  playerMoney: 200
+  playerMoney: 100
   playerMoneyText: {fileID: 1244230541}
   moveSpeed: 0
   diceNum: 2
