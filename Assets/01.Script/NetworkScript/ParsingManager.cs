@@ -108,6 +108,13 @@ public class SessionData{
     }
 }
 
+public class TileSelectData{
+    public GameObject tile;
+    public TileSelectData(GameObject _tile){
+        tile = _tile;
+    }
+}
+
 
 
 
@@ -130,7 +137,8 @@ public enum ParsingType{
     CardDestory,
     InvisibleThief,
     ExemptionFlag,
-    Session
+    Session,
+    TileSelect
 }
 #endregion
 

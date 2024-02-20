@@ -305,6 +305,12 @@ public class EventManager : MonoBehaviour
                     GameManager.Instance.nowPlayer.cards.Add(cardData.card);
                 break;
 
+                case ParsingType.TileSelect:
+                    TileSelectData tileSelectData = JsonUtility.FromJson<TileSelectData>(pData.data);
+                    GameManager.Instance.seletedTile = tileSelectData.tile;
+
+                break;
+
                 case ParsingType.CardClick:
                     CardClickData cData = JsonUtility.FromJson<CardClickData>(pData.data);
 
