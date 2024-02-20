@@ -368,7 +368,8 @@ public class PlayerManager : MonoBehaviour
                     }
                     else
                     {
-                        theGM.NextTurnFunc();
+                        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
+                        Backend.Match.SendDataToInGameRoom(data);
                     }
                 }
                 // 일반 타일 중 상대방이 구매한 타일이라면
