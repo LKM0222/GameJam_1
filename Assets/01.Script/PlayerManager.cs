@@ -498,7 +498,7 @@ public class PlayerManager : MonoBehaviour
                                 if (theTM.tiles[i].ownPlayer == againstPlayer.playerId) theTM.tiles[i].canTileSelect = true;
                             }
 
-                            yield return new WaitUntil(() => theGM.seletedTile != null);
+                            yield return new WaitUntil(() => theGM.seletedTile != null); //이부분을 뭔가 분리시켜야될듯.
 
                             for (int i = 0; i < theTM.tiles.Length; i++)
                             {
