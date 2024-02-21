@@ -307,7 +307,7 @@ public class EventManager : MonoBehaviour
 
                 case ParsingType.TileSelect:
                     TileSelectData tileSelectData = JsonUtility.FromJson<TileSelectData>(pData.data);
-                    GameManager.Instance.seletedTile = tileSelectData.tile;
+                    GameManager.Instance.seletedTile = GameObject.Find(tileSelectData.tilename); //missing오류...?
 
                 break;
 

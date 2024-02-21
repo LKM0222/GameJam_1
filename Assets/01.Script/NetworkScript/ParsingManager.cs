@@ -109,9 +109,9 @@ public class SessionData{
 }
 
 public class TileSelectData{
-    public GameObject tile;
-    public TileSelectData(GameObject _tile){
-        tile = _tile;
+    public string tilename;
+    public TileSelectData(string _tilename){
+        tilename = _tilename;
     }
 }
 

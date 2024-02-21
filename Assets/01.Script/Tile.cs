@@ -98,7 +98,7 @@ public class Tile : MonoBehaviour
         // 건물 강탈 사용시
         if (canTileSelect && theGM.nowPlayer.isExtortioning)
         {
-            TileSelectData tileSelectData = new(this.gameObject);
+            TileSelectData tileSelectData = new(this.gameObject.name);
             string jsondata = JsonUtility.ToJson(tileSelectData);
             byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.TileSelect, jsondata);
             Backend.Match.SendDataToInGameRoom(data);
