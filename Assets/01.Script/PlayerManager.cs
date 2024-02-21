@@ -476,7 +476,7 @@ public class PlayerManager : MonoBehaviour
                     // 건물강탈
                     case 4:
                         bool canExtortion = false;
-
+                        print("건물강탈!");
                         // 상대방 소유의 타일이 있는지 체크
                         for (int i = 0; i < theTM.tiles.Length; i++)
                         {
@@ -500,6 +500,7 @@ public class PlayerManager : MonoBehaviour
 
                             yield return new WaitUntil(() => theGM.seletedTile != null); //이부분을 뭔가 분리시켜야될듯.
 
+                            print("건물 체크 완료");
                             for (int i = 0; i < theTM.tiles.Length; i++)
                             {
                                 theTM.tiles[i].canTileSelect = false;
