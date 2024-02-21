@@ -115,6 +115,13 @@ public class TileSelectData{
     }
 }
 
+public class ExtortionData{
+    public int playerId;
+    public ExtortionData(int _id){
+        playerId = _id;
+    }
+}
+
 
 
 
@@ -138,7 +145,8 @@ public enum ParsingType{
     InvisibleThief,
     ExemptionFlag,
     Session,
-    TileSelect
+    TileSelect,
+    Extortion
 }
 #endregion
 

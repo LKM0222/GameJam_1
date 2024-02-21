@@ -305,10 +305,22 @@ public class EventManager : MonoBehaviour
                     GameManager.Instance.nowPlayer.cards.Add(cardData.card);
                 break;
 
+                //건물파괴 타일 선택시(타일선택)
                 case ParsingType.TileSelect:
                     TileSelectData tileSelectData = JsonUtility.FromJson<TileSelectData>(pData.data);
                     GameManager.Instance.seletedTile = GameObject.Find(tileSelectData.tilename); //missing오류...?
-
+                break;
+                
+                //건물파괴
+                case ParsingType.Extortion:
+                    print("recv ExtortionData!");
+                    ExtortionData extortionData = JsonUtility.FromJson<ExtortionData>(pData.data);
+                    Color tileColor = GameManager.Instance.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
+                    AudioManager.instance.Play("Extortion_Sound");
+                    StartCoroutine(ExtortionAlphaCoroutine(tileColor,extortionData.playerId));
+                    GameManager.Instance.seletedTile = null;
+                    GameManager.Instance.NextTurnFunc(); //이 함수로
+                    GameManager.Instance.UIFlag = false;
                 break;
 
                 case ParsingType.CardClick:
@@ -490,5 +502,27 @@ public class EventManager : MonoBehaviour
         
     }
 
+
+    //건물강탈 코루틴 빼놓은것.
+    IEnumerator ExtortionAlphaCoroutine(Color tileColor, int playerId){
+        print("ExtortionAlphaCoroutine Start");
+        while (tileColor.a > 0f)
+        {
+            tileColor.a -= 0.02f;
+            GameManager.Instance.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
+            yield return new WaitForSeconds(0.02f);
+        }
+
+        // ownPlayer를 바꿔서 땅의 소유주를 바꿔주고, signImg도 동시에 변하게함
+        GameManager.Instance.seletedTile.GetComponent<Tile>().ownPlayer = playerId;
+
+        // 타일의 Alpha 값을 서서히 1로 올림
+        while (tileColor.a < 1f)
+        {
+            tileColor.a += 0.02f;
+            GameManager.Instance.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
+            yield return new WaitForSeconds(0.02f);
+        }
+    }
 
 }

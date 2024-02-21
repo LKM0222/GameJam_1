@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Unity.VisualScripting;
 using BackEnd;
 using BackEnd.Tcp;
+using UnityEditor;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -509,8 +510,14 @@ public class PlayerManager : MonoBehaviour
                             isExtortioning = false;
                             blackBackground.SetActive(false);
 
-                            theAudio.Play("Extortion_Sound");
-
+                            //서버로 데이터 전송 시켜야함.
+                            ExtortionData extortionData = new(playerId);
+                            string jsonData = JsonUtility.ToJson(extortionData);
+                            byte[] data2 = ParsingManager.Instance.ParsingSendData(ParsingType.Extortion, jsonData);
+                            Backend.Match.SendDataToInGameRoom(data2);
+                            
+                            //여기부터 둘 다 처리되어야 하는 부분.
+                            /*
                             Color tileColor = theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
 
                             // 타일의 Alpha 값을 서서히 0으로 줄임
@@ -533,7 +540,9 @@ public class PlayerManager : MonoBehaviour
                             }
 
                             theGM.seletedTile = null;
+                            */
                         }
+                        
                         break;
                 }
                 //모든 특수타일들은 끝났을때 턴 넘김을 여기서 처리함.
@@ -699,5 +708,69 @@ public class PlayerManager : MonoBehaviour
             }
         }
         isSetScale = false;
+    }
+
+    //건물강탈 코루틴
+    public IEnumerator ExtortionCoroutine(){
+        bool canExtortion = false;
+        print("건물강탈!");
+        // 상대방 소유의 타일이 있는지 체크
+        for (int i = 0; i < theTM.tiles.Length; i++)
+        {
+            if (theTM.tiles[i].ownPlayer == againstPlayer.playerId)
+            {
+                canExtortion = true;
+                break;
+            }
+        }
+
+        // 상대방 소유의 타일이 있다면 강탈 가능
+        if (canExtortion)
+        {
+            blackBackground.SetActive(true);
+            isExtortioning = true;
+
+            for (int i = 0; i < theTM.tiles.Length; i++)
+            {
+                if (theTM.tiles[i].ownPlayer == againstPlayer.playerId) theTM.tiles[i].canTileSelect = true;
+            }
+
+            yield return new WaitUntil(() => theGM.seletedTile != null); //이부분을 뭔가 분리시켜야될듯.
+
+            print("건물 체크 완료");
+            for (int i = 0; i < theTM.tiles.Length; i++)
+            {
+                theTM.tiles[i].canTileSelect = false;
+            }
+
+            isExtortioning = false;
+            blackBackground.SetActive(false);
+
+            theAudio.Play("Extortion_Sound");
+
+            Color tileColor = theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
+
+            // 타일의 Alpha 값을 서서히 0으로 줄임
+            while (tileColor.a > 0f)
+            {
+                tileColor.a -= 0.02f;
+                theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
+                yield return new WaitForSeconds(0.02f);
+            }
+
+            // ownPlayer를 바꿔서 땅의 소유주를 바꿔주고, signImg도 동시에 변하게함
+            theGM.seletedTile.GetComponent<Tile>().ownPlayer = playerId;
+
+            // 타일의 Alpha 값을 서서히 1로 올림
+            while (tileColor.a < 1f)
+            {
+                tileColor.a += 0.02f;
+                theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
+                yield return new WaitForSeconds(0.02f);
+            }
+
+            theGM.seletedTile = null;
+            theGM.NextTurnFunc();
+        }
     }
 }
