@@ -332,14 +332,22 @@ public class PlayerManager : MonoBehaviour
                         {
                             // 농장
                             case 0:
-                                playerMoney += 200;
+                                // playerMoney += 200;
                                 // theGM.SetFloatingText(theGM.nowPlayer, 200, true);
-                                print(playerMoney);
+                                VisitData visitData = new(200,0);
+                                string jsondata = JsonUtility.ToJson(visitData);
+                                byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.Visit,jsondata);
+                                Backend.Match.SendDataToInGameRoom(sendData);
+                                // print(playerMoney);
                                 break;
                             // 제단
                             case 1:
-                                nowTile.price *= 2;
-                                print(nowTile.price);
+                                VisitData visitData1 = new(0,1);
+                                string jsondata1 = JsonUtility.ToJson(visitData1);
+                                byte[] sendData1 = ParsingManager.Instance.ParsingSendData(ParsingType.Visit,jsondata1);
+                                Backend.Match.SendDataToInGameRoom(sendData1);
+                                // nowTile.price *= 2;
+                                // print(nowTile.price);
                                 break;
                             // 특별상점
                             case 2:

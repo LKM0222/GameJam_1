@@ -415,6 +415,23 @@ public class EventManager : MonoBehaviour
                     }
                     GameManager.Instance.NextTurnFunc();
                 break;
+
+                case ParsingType.Visit:
+                    VisitData visitData = JsonUtility.FromJson<VisitData>(pData.data);
+                    switch(visitData.caseNum){
+                        case 0: //농장
+                            GameManager.Instance.nowPlayer.playerMoney += visitData.money; //money = 200
+                            GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, visitData.money, true);
+                        break;
+                        
+                        case 1: //재단
+                            GameManager.Instance.nowPlayer.nowTile.price *= 2;
+                        break;
+                                                
+                    }
+                    byte[] nextturnData = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
+                    Backend.Match.SendDataToInGameRoom(nextturnData);
+                break;
             }
             // ParsingManager.Instance.ParisngRecvData(args);
         };

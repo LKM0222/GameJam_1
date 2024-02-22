@@ -122,6 +122,16 @@ public class ExtortionData{
     }
 }
 
+public class VisitData{
+    public int money;
+    public int caseNum;
+    
+    public VisitData(int _money, int _caseNum){
+        money = _money;
+        caseNum = _caseNum;
+    }
+}
+
 
 
 
@@ -146,7 +156,8 @@ public enum ParsingType{
     ExemptionFlag,
     Session,
     TileSelect,
-    Extortion
+    Extortion,
+    Visit
 }
 #endregion
 
