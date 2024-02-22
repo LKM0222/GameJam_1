@@ -315,12 +315,12 @@ public class EventManager : MonoBehaviour
                 case ParsingType.Extortion:
                     print("recv ExtortionData!");
                     ExtortionData extortionData = JsonUtility.FromJson<ExtortionData>(pData.data);
-                    Color tileColor = GameManager.Instance.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
-                    AudioManager.instance.Play("Extortion_Sound");
-                    StartCoroutine(ExtortionAlphaCoroutine(tileColor,extortionData.playerId));
+                    // Color tileColor = GameManager.Instance.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
+                    // AudioManager.instance.Play("Extortion_Sound");
+                    GameManager.Instance.seletedTile.GetComponent<Tile>().ownPlayer = extortionData.playerId;
+                    // StartCoroutine(ExtortionAlphaCoroutine(tileColor,extortionData.playerId));
                     GameManager.Instance.seletedTile = null;
-                    GameManager.Instance.NextTurnFunc(); //이 함수로
-                    GameManager.Instance.UIFlag = false;
+                    
                 break;
 
                 case ParsingType.CardClick:
@@ -509,6 +509,7 @@ public class EventManager : MonoBehaviour
         while (tileColor.a > 0f)
         {
             tileColor.a -= 0.02f;
+            //타일 선택에 오류가 있음.
             GameManager.Instance.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
             yield return new WaitForSeconds(0.02f);
         }
