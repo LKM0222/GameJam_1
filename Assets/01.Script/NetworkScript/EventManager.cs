@@ -319,7 +319,7 @@ public class EventManager : MonoBehaviour
                     // AudioManager.instance.Play("Extortion_Sound");
                     GameManager.Instance.seletedTile.GetComponent<Tile>().ownPlayer = extortionData.playerId;
                     // StartCoroutine(ExtortionAlphaCoroutine(tileColor,extortionData.playerId));
-                    GameManager.Instance.seletedTile = null;
+                    // GameManager.Instance.seletedTile = null;
                     
                 break;
 

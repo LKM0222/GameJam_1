@@ -546,7 +546,7 @@ public class PlayerManager : MonoBehaviour
                             byte[] data3 = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
                             Backend.Match.SendDataToInGameRoom(data3);
 
-                            // theGM.seletedTile = null;
+                            theGM.seletedTile = null;
                         }
                         
                         break;
