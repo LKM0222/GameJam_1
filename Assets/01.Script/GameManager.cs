@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using BackEnd.Tcp;
 using UnityEngine.UIElements;
 using System.Linq;
+using Demo_Project;
 
 public class GameManager : MonoBehaviour
 {
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour
     public PlayerManager[] players = new PlayerManager[2];
     // 현재 턴을 가진 플레이어 정보
     public PlayerManager nowPlayer;
+    public PlayerManager controlPlayer;
 
     public TextManager textManager;
 
@@ -120,17 +122,17 @@ public class GameManager : MonoBehaviour
 
         theTSI = FindObjectOfType<TurnSignScript>();
         //AudioManager.instance.Play("mainSound");
-        //턴 선택 카드 번호 랜덤으로 설정
-        if (Random.Range(0, 2) == 0)
-        {
-            turnCards[0].GetComponent<ButtonScript>().turnNum = 1;
-            turnCards[1].GetComponent<ButtonScript>().turnNum = 2;
-        }
-        else
-        {
-            turnCards[0].GetComponent<ButtonScript>().turnNum = 2;
-            turnCards[1].GetComponent<ButtonScript>().turnNum = 1;
-        }
+        //턴 선택 카드 번호 랜덤으로 설정(이거 eventmanager로 이동한거 아님?)
+        // if (Random.Range(0, 2) == 0)
+        // {
+        //     turnCards[0].GetComponent<ButtonScript>().turnNum = 1;
+        //     turnCards[1].GetComponent<ButtonScript>().turnNum = 2;
+        // }
+        // else
+        // {
+        //     turnCards[0].GetComponent<ButtonScript>().turnNum = 2;
+        //     turnCards[1].GetComponent<ButtonScript>().turnNum = 1;
+        // }
         AudioManager.instance.Play("MainGame_Sound");
     }
 
@@ -141,6 +143,9 @@ public class GameManager : MonoBehaviour
         //턴카드를 뽑았을 때, palyerCount가 1씩 증가. 길이가 2가 됐다면 플레이어가 모두 카드를 뽑았다는 뜻. 이때부터 게임 시작.
         if (playerCount.Count > 1)
         {
+            //여기서 컨트롤 플레이어에 맞춰서 카드 보여줘야될거같은데
+            //사실 컨트롤 플레이어가 필요없긴 한데... 일단 그런 식으로 할꺼다라는 말.
+
             // 턴을 종료하고 상대 턴으로 넘어갔다면
             if (nextTurn)
             {
@@ -169,13 +174,14 @@ public class GameManager : MonoBehaviour
                 }
                 */
                 print("turnCount is " + turnCount % 2);
+                CardListUpdate();
                 if (turnCount % 2 == turnIndex)
                 {
                     //player의 myturn을 하나로 만들어야될듯....
                     // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
                     myCharactor.myTurn = true;
                     nowPlayer = myCharactor;
-                    CardListUpdate();
+                    // CardListUpdate();
                 }
                 else
                 {
@@ -186,7 +192,7 @@ public class GameManager : MonoBehaviour
                     {
                         nowPlayer.myTurn = true;
                     }
-                    CardListUpdate();
+                    // CardListUpdate();
                 }
                 nextTurn = false;
                 theTSI.cursorPos = 1;
@@ -209,15 +215,15 @@ public class GameManager : MonoBehaviour
         }
 
         // 삭제 이후 플레이어가 가진 카드 갯수만큼 다시 복제
-        if (nowPlayer.cards.Count > 0)
+        if (myCharactor.cards.Count > 0)
         {
-            for (int i = 0; i < nowPlayer.cards.Count; i++)
+            for (int i = 0; i < myCharactor.cards.Count; i++)
             {
                 // 카드 프리팹을 복제한 이후, 위치를 맞춰주고, 카드의 정보와 이미지를 바꿔준다.
                 var _card = Instantiate(cardPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, cardsObj.transform);
                 _card.transform.localPosition = new Vector3(0f, 0f, 0f);
-                _card.GetComponent<CardManager>().cardInfo = nowPlayer.cards[i];
-                _card.GetComponent<SpriteRenderer>().sprite = nowPlayer.cards[i].cardImg;
+                _card.GetComponent<CardManager>().cardInfo = myCharactor.cards[i];
+                _card.GetComponent<SpriteRenderer>().sprite = myCharactor.cards[i].cardImg;
             }
         }
     }
