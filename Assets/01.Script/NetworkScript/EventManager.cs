@@ -442,6 +442,11 @@ public class EventManager : MonoBehaviour
                     }
                     GameManager.Instance.NextTurnFunc();
                 break;
+
+                case ParsingType.Olympic:
+                    GameManager.Instance.OlympicMethod(GameManager.Instance.nowPlayer.playerId, GameManager.Instance.nowPlayer.VirtualCamera);
+                    GameManager.Instance.NextTurnFunc();
+                break;
             }
         };
 

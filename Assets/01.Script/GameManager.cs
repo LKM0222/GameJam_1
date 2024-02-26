@@ -62,6 +62,8 @@ public class GameManager : MonoBehaviour
     public GameObject cardPrefab;
 
     TurnSignScript theTSI;
+    TileManager theTM;
+    AudioManager theAudio;
 
     public GameObject clickedTile;
 
@@ -120,6 +122,8 @@ public class GameManager : MonoBehaviour
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.TurnCardSet, jsonData);
         Backend.Match.SendDataToInGameRoom(data);
 
+        theAudio = FindObjectOfType<AudioManager>();
+        theTM = FindObjectOfType<TileManager>();
         theTSI = FindObjectOfType<TurnSignScript>();
         //AudioManager.instance.Play("mainSound");
         //턴 선택 카드 번호 랜덤으로 설정(이거 eventmanager로 이동한거 아님?)
@@ -334,6 +338,50 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    public IEnumerator OlympicMethod(int playerId, GameObject VirtualCamera){
+        bool haveBuilding = false;
+
+        // 자신의 소유인 타일이 있다면 플래그를 활성화하고 사운드 재생
+        for (int i = 0; i < theTM.tiles.Length; i++)
+        {
+            if (theTM.tiles[i].ownPlayer == playerId)
+            {
+                haveBuilding = true;
+                theAudio.Play("Olympics_Sound");
+                break;
+            }
+        }
+
+        if (haveBuilding)
+        {
+            // 캐릭터를 비추는 카메라를 비활성화하고 맵을 비출때까지 대기
+            VirtualCamera.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+
+            // 자신이 소유중인 타일에 파티클을 활성화
+            for (int i = 0; i < theTM.tiles.Length; i++)
+            {
+                if (theTM.tiles[i].ownPlayer == playerId)
+                {
+                    theTM.tiles[i].price *= 2;
+                    theTM.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(true);
+                    yield return new WaitForSeconds(0.1f);
+                }
+            }
+
+            yield return new WaitForSeconds(1f);
+
+            // 활성화한 파티클을 다시 비활성화
+            for (int i = 0; i < theTM.tiles.Length; i++)
+            {
+                if (theTM.tiles[i].ownPlayer == playerId)
+                {
+                     theTM.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(false);
+                }
+            }
+        }
+    }
+
 }
 
 class GameOverClass{

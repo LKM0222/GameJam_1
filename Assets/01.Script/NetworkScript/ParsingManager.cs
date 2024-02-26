@@ -146,7 +146,6 @@ public class ArriveTileData{
 
 
 
-
 #endregion
 
 #region Enum_ParsingType
@@ -168,7 +167,8 @@ public enum ParsingType{
     TileSelect,
     Extortion,
     Visit,
-    ArriveTile
+    ArriveTile,
+    Olympic
 }
 #endregion
 
