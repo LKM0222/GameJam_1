@@ -132,6 +132,16 @@ public class VisitData{
     }
 }
 
+public class ArriveTileData{
+    public int playerId;
+    public int value;
+
+    public ArriveTileData(int _playerId, int _value){
+        playerId = _playerId;
+        value = _value;
+    }
+}
+
 
 
 
@@ -157,7 +167,8 @@ public enum ParsingType{
     Session,
     TileSelect,
     Extortion,
-    Visit
+    Visit,
+    ArriveTile
 }
 #endregion
 

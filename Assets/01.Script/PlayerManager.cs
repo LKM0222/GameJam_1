@@ -414,15 +414,17 @@ public class PlayerManager : MonoBehaviour
                 {
                     // 양계장
                     case 0:
-                        int totalMoney = 0;
-                        for (int i = 0; i < theTM.tiles.Length; i++)
-                        {
-                            if (theTM.tiles[i].ownPlayer == playerId && theTM.tiles[i].building.type == 0) totalMoney += 100;
-                        }
-                        playerMoney += totalMoney;
-                        theGM.SetFloatingText(theGM.nowPlayer, totalMoney, true);
+                        // int totalMoney = 0;
+                        // for (int i = 0; i < theTM.tiles.Length; i++)
+                        // {
+                        //     if (theTM.tiles[i].ownPlayer == playerId && theTM.tiles[i].building.type == 0) totalMoney += 100;
+                        // }
+                        // playerMoney += totalMoney;
+                        // theGM.SetFloatingText(theGM.nowPlayer, totalMoney, true);
                         // theGM.NextTurnFunc(); //여기서 처리해도 되나...? 서버로 안넘겨도 됨?
-                        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
+                        ArriveTileData arriveTileData = new(this.playerId, 100);
+                        string arriveJsonData = JsonUtility.ToJson(arriveTileData);
+                        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.ArriveTile, arriveJsonData);
                         Backend.Match.SendDataToInGameRoom(data);
                         break;
 

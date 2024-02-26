@@ -432,8 +432,17 @@ public class EventManager : MonoBehaviour
                     byte[] nextturnData = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
                     Backend.Match.SendDataToInGameRoom(nextturnData);
                 break;
+
+                case ParsingType.ArriveTile:
+                    ArriveTileData arriveTileData = JsonUtility.FromJson<ArriveTileData>(pData.data);
+                    for(int i = 0;i<GameManager.Instance.players.Length; i++){
+                        if(GameManager.Instance.players[i].playerId == arriveTileData.playerId){
+                            GameManager.Instance.players[i].playerMoney += arriveTileData.value;
+                        }
+                    }
+                    GameManager.Instance.NextTurnFunc();
+                break;
             }
-            // ParsingManager.Instance.ParisngRecvData(args);
         };
 
         //게임 종료(정상적: 게임에서 게임오버 함수 호출, 비정상적 : 플레이어가 나감) 결과 처리 후 호출이 된다면 분기를 나눌 수 있는데...
