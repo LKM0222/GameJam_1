@@ -74,7 +74,7 @@ public class CardManager : MonoBehaviour
     // 해당 스크립트가 붙은 오브젝트(획득한 카드)에 마우스를 클릭할 때 호출
     private void OnMouseDown()
     {
-        if (theTSI.cursorPos == 1)
+        if (theTSI.cursorPos == 1 && GameManager.Instance.myCharactor.myTurn)
         {
             theAudio.Play("UseCard_Sound");
 
