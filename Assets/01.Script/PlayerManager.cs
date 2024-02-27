@@ -560,6 +560,10 @@ public class PlayerManager : MonoBehaviour
 
                             theGM.seletedTile = null;
                         }
+                        else{ //강탈 할 땅이 없다면 그냥 턴 넘김
+                            byte[] data3 = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
+                            Backend.Match.SendDataToInGameRoom(data3);
+                        }
                         
                         break;
                 }
