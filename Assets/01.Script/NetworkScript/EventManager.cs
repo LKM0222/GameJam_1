@@ -555,6 +555,7 @@ public class EventManager : MonoBehaviour
             GameManager.Instance.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
             yield return new WaitForSeconds(0.02f);
         }
+        GameManager.Instance.seletedTile = null;
     }
 
 }
