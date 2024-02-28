@@ -378,7 +378,7 @@ public class EventManager : MonoBehaviour
                 case ParsingType.CardDestory:
                     print("Destroy");
                     CardDestroyData destroyData = JsonUtility.FromJson<CardDestroyData>(pData.data);
-
+                    print("Recv : " + destroyData.cardInfo);
                     Destroy(destroyData.destoryCard);
                     Destroy(GameManager.Instance.nowPlayer.cardParent.GetChild(0).gameObject);
                     GameManager.Instance.nowPlayer.cards.Remove(destroyData.cardInfo);
