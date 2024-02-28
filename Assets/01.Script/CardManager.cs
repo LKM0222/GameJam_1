@@ -168,8 +168,8 @@ public class CardManager : MonoBehaviour
 
     public void DestroyCard()
     {
-        print("send : card is " + cardInfo);
-        CardDestroyData destroyData = new(this.gameObject, this.cardInfo);
+        print("send : card is " + cardInfo.cardCode);
+        CardDestroyData destroyData = new(this.gameObject, cardInfo.cardCode);
         string jsonData = JsonUtility.ToJson(destroyData);
         byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.CardDestory, jsonData);
         Backend.Match.SendDataToInGameRoom(sendData);

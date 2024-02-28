@@ -378,10 +378,10 @@ public class EventManager : MonoBehaviour
                 case ParsingType.CardDestory:
                     print("Destroy");
                     CardDestroyData destroyData = JsonUtility.FromJson<CardDestroyData>(pData.data);
-                    print("Recv : " + destroyData.cardInfo);
+                    print("Recv : " + destroyData.cardCode);
                     Destroy(destroyData.destoryCard);
                     Destroy(GameManager.Instance.nowPlayer.cardParent.GetChild(0).gameObject);
-                    GameManager.Instance.nowPlayer.cards.Remove(destroyData.cardInfo);
+                    GameManager.Instance.nowPlayer.cards.Remove(GameManager.Instance.nowPlayer.cards.Find(card => card.cardCode == destroyData.cardCode));
                 break;
 
                 case ParsingType.InvisibleThief: //카드 투명도둑

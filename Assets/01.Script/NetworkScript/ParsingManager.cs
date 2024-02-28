@@ -82,11 +82,11 @@ public class CardData{
 
 public class CardDestroyData{
     public GameObject destoryCard;
-    public Card cardInfo;
+    public int cardCode;
 
-    public CardDestroyData(GameObject _destroyCard, Card _cardInfo){
+    public CardDestroyData(GameObject _destroyCard, int _cardCode){
         destoryCard = _destroyCard;
-        cardInfo = _cardInfo;
+        cardCode = _cardCode;
     }
     
 }
