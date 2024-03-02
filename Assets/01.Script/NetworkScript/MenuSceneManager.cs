@@ -38,16 +38,16 @@ public class MenuSceneManager : MonoBehaviour
     //Timer
     public Text timerText;
 
-    private void Awake() {
+    private void Awake() { //승률 체크하는곳.
         UserData user = BackendGameData.Instance.GameDataGet();
         print("user nickname : " + user.nickname);
         nickname.text = user.nickname;
-        winText.text = "승리 : " + user.winscore.ToString();
-        loseText.text = "패배 : " + user.losescore.ToString();
+        winText.text = user.winscore.ToString();
+        loseText.text = user.losescore.ToString();
         if(user.winscore + user.losescore == 0){
-            ratingText.text = "승률 : " + 0 + "%";
+            ratingText.text = + 0 + "%";
         }else{
-            ratingText.text = "승률 : " + ( user.winscore / (user.winscore + user.losescore)) + "%";
+            ratingText.text = ( user.winscore / (user.winscore + user.losescore)) + "%";
         }
         
     }
@@ -97,7 +97,7 @@ public class MenuSceneManager : MonoBehaviour
                 min += 1;
                 sec = 0;
             }
-            timerText.text = min.ToString("00") + " : " + sec.ToString("00");
+            timerText.text = min.ToString("00") + ":" + sec.ToString("00");
 
             yield return new WaitForSeconds(1f);
         }

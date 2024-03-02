@@ -105,7 +105,7 @@ public class ButtonManager : MonoBehaviour
         Backend.Match.LeaveMatchRoom();
         //타이머 코루틴 해제 후 텍스트 초기화
         MenuSceneManager.Instance.coroFlag = false;
-        MenuSceneManager.Instance.timerText.text = "--";
+        MenuSceneManager.Instance.timerText.text = "00:00";
         //로그에 띄워줌.
         MenuSceneManager.Instance.matchingLogStr += "매칭 신청을 취소하였습니다. \n";
     }
