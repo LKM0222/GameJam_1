@@ -143,9 +143,6 @@ public class ArriveTileData{
 }
 
 
-
-
-
 #endregion
 
 #region Enum_ParsingType
