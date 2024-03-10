@@ -417,6 +417,7 @@ public class EventManager : MonoBehaviour
                     }
                 break;
                 case ParsingType.ExemptionFlagSet:
+                    print("exemptionFalg true");
                     GameManager.Instance.nowPlayer.exemptionFlag = true;
                     break;
 
