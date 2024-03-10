@@ -416,6 +416,9 @@ public class EventManager : MonoBehaviour
                         GameManager.Instance.NextTurnFunc();
                     }
                 break;
+                case ParsingType.ExemptionFlagSet:
+                    GameManager.Instance.nowPlayer.exemptionFlag = true;
+                    break;
 
                 case ParsingType.Visit:
                     VisitData visitData = JsonUtility.FromJson<VisitData>(pData.data);

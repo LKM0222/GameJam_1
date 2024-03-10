@@ -160,6 +160,7 @@ public enum ParsingType{
     CardDestory,
     InvisibleThief,
     ExemptionFlag,
+    ExemptionFlagSet,
     Session,
     TileSelect,
     Extortion,

@@ -275,6 +275,7 @@ public class CardManager : MonoBehaviour
 
     public IEnumerator TollExemption()
     {
+        print("TollExemption coroutine start");
         // 현재 자신의 카드 중에서 통행료 면제 카드를 찾아서 파괴함
         for (int i = 0; i < theGM.nowPlayer.cards.Count; i++)
         {
@@ -414,7 +415,8 @@ public class CardManager : MonoBehaviour
 
                 exemptionParticle.gameObject.SetActive(false);
 
-                theGM.nowPlayer.exemptionFlag = true;
+                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.ExemptionFlagSet,"");
+                Backend.Match.SendDataToInGameRoom(data);
             }
 
             theGM.penetrateComplete = true;
