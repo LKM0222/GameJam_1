@@ -257,13 +257,19 @@ public class CardManager : MonoBehaviour
 
     public void LowerDiceControl()
     {
-        theGM.nowPlayer.diceNum = Random.Range(1, 5);
+        // theGM.nowPlayer.diceNum = Random.Range(1, 5);
+        DiceData dData = new(Random.Range(1, 5), GameManager.Instance.turnIndex); //서버로 전송하기 위해 데이터 클래스화
+        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Dice, JsonUtility.ToJson(dData));
+        Backend.Match.SendDataToInGameRoom(data);
         theGM.nowPlayer.lowerDiceFlag = false;
     }
 
     public void HigherDiceControll()
     {
-        theGM.nowPlayer.diceNum = Random.Range(5, 9);
+        // theGM.nowPlayer.diceNum = Random.Range(5, 9);
+        DiceData dData = new(Random.Range(5, 9), GameManager.Instance.turnIndex); //서버로 전송하기 위해 데이터 클래스화
+        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Dice, JsonUtility.ToJson(dData));
+        Backend.Match.SendDataToInGameRoom(data);
         theGM.nowPlayer.higherDiceFlag = false;
     }
 
@@ -508,7 +514,7 @@ public class CardManager : MonoBehaviour
         if (theGM.nowPlayer.cards.Count < 8)
         {
             // 랜덤하게 카드번호를 추출
-            Card newCard = theGM.cards[1];
+            Card newCard = theGM.cards[6];
             // Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];//Test
 
             // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함

@@ -218,7 +218,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // 삭제 이후 플레이어가 가진 카드 갯수만큼 다시 복제
+        // 삭제 이후 플레이어가 가진 카드 갯수만큼 다시 복제 (복제가 안되는 오류가 간간히 있음.)
         if (myCharactor.cards.Count > 0)
         {
             for (int i = 0; i < myCharactor.cards.Count; i++)
@@ -227,7 +227,7 @@ public class GameManager : MonoBehaviour
                 var _card = Instantiate(cardPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, cardsObj.transform);
                 _card.transform.localPosition = new Vector3(0f, 0f, 0f);
                 _card.GetComponent<CardManager>().cardInfo = myCharactor.cards[i];
-                _card.GetComponent<SpriteRenderer>().sprite = myCharactor.cards[i].cardImg;
+                _card.GetComponent<SpriteRenderer>().sprite = myCharactor.cards[i].cardImg; //PPtr에러 
             }
         }
     }
