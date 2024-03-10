@@ -286,13 +286,12 @@ public class CardManager : MonoBehaviour
             }
         }
         theAudio.Play("TollExemption_Sound");
-
+        
+        //파티클
         exemptionParticle.transform.position = theGM.nowPlayer.transform.position;
         exemptionParticle.gameObject.SetActive(true);
         exemptionParticle.Play();
-
         yield return new WaitForSeconds(1f);
-
         exemptionParticle.gameObject.SetActive(false);
 
         // 카드 효과를 사용했으니 flag를 false로 바꿔줌

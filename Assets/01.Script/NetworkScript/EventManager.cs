@@ -406,14 +406,15 @@ public class EventManager : MonoBehaviour
                         GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, GameManager.Instance.nowPlayer.nowTile.price, false);
                         GameManager.Instance.nowPlayer.againstPlayer.playerMoney += GameManager.Instance.nowPlayer.nowTile.price;
                         GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer.againstPlayer, GameManager.Instance.nowPlayer.nowTile.price, true);
+                    
+                        GameManager.Instance.NextTurnFunc();
                     }
                     // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
                     else
                     {
                         StartCoroutine(theCM.TollExemption());
-                        // theGM.NextTurnFunc();
+                        GameManager.Instance.NextTurnFunc();
                     }
-                    GameManager.Instance.NextTurnFunc();
                 break;
 
                 case ParsingType.Visit:
