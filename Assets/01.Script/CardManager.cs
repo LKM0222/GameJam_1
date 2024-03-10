@@ -198,6 +198,7 @@ public class CardManager : MonoBehaviour
 
     public IEnumerator InvisibleThief()//여기 수정해야됨.
     {
+        print("invisible PlayCoroutine");
         if (theGM.nowPlayer.cards.Count < 8)
         {
             // 상대가 가진 카드를 랜덤으로 골라서 현재 플레이어 카드에 추가하고 상대 플레이어 카드에는 삭제
@@ -207,13 +208,13 @@ public class CardManager : MonoBehaviour
             //통신을 한다면 속도를 맞출 수 있을까?
             byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.InvisibleThief, "");
             Backend.Match.SendDataToInGameRoom(sendData);
-
+            print("invisible sendServer");
             yield return new WaitUntil(() => GameManager.Instance.invisibleCardNum != -1);
 
             // 효과음 추가하기
             theAudio.Play("InvisibleThief_Sound");
 
-            // // 만약 뺏어온 카드가 통행료면제 카드라면 플래그를 서로 바꿔줌 GameManager.Instance.invisibleCardNum
+            
             // if (theGM.nowPlayer.againstPlayer.cards[randomCard] == theGM.cards[6])
             // {
             //     theGM.nowPlayer.exemptionFlag = true;
@@ -222,7 +223,7 @@ public class CardManager : MonoBehaviour
 
             // theGM.nowPlayer.cards.Add(theGM.nowPlayer.againstPlayer.cards[randomCard]);
             // theGM.nowPlayer.againstPlayer.cards.RemoveAt(randomCard);
-
+            // // 만약 뺏어온 카드가 통행료면제 카드라면 플래그를 서로 바꿔줌 GameManager.Instance.invisibleCardNum
             if (theGM.nowPlayer.againstPlayer.cards[GameManager.Instance.invisibleCardNum] == theGM.cards[6])
             {
                 theGM.nowPlayer.exemptionFlag = true;
@@ -232,6 +233,7 @@ public class CardManager : MonoBehaviour
             theGM.nowPlayer.cards.Add(theGM.nowPlayer.againstPlayer.cards[GameManager.Instance.invisibleCardNum]);
             theGM.nowPlayer.againstPlayer.cards.RemoveAt(GameManager.Instance.invisibleCardNum);
 
+            //파티클
             InvisibleParticle.gameObject.SetActive(true);
             InvisibleParticle.transform.position = theGM.nowPlayer.transform.position;
             InvisibleParticle.Play();
@@ -430,6 +432,7 @@ public class CardManager : MonoBehaviour
 
         yield return new WaitUntil(() => theGM.seletedTile != null);
 
+        //여기를 좀 어떻게 해야됨....
         isSelectingLaser = false;
 
         for (int i = 0; i < theTile.tiles.Length; i++)

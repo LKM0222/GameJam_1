@@ -217,9 +217,12 @@ public class PlayerManager : MonoBehaviour
         // 투명도둑을 사용하고 나와 상대방이 겹쳐질때, 상대방의 카드가 있을 때 투명도둑 효과 발동
         if (invisibleFlag)
         {
+            print("invisible");
             if (againstPlayer.nowTile == nowTile && againstPlayer.cards.Count != 0)
             {
-                theCM.InvisibleThief();
+                print("invisibleTrue"); //이거 테스트 해야됨.
+                StartCoroutine(theCM.InvisibleThief());
+                print("invisibleFinish");
             }
         }
     }

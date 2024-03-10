@@ -386,7 +386,7 @@ public class EventManager : MonoBehaviour
 
                 case ParsingType.InvisibleThief: //카드 투명도둑
                     GameManager.Instance.invisibleCardNum = UnityEngine.Random.Range(0,
-                    GameManager.Instance.nowPlayer.againstPlayer.cards.Count);
+                        GameManager.Instance.nowPlayer.againstPlayer.cards.Count);
                     //랜덤으로 뽑았으니 함수 계속.
                 break;
 
