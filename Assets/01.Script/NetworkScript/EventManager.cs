@@ -418,30 +418,30 @@ public class EventManager : MonoBehaviour
                         // theCM.TollExemption();
                         print("Func Start!");
                         // GameManager.Instance.NextTurnFunc();
-                        for (int i = 0; i < GameManager.Instance.nowPlayer.cards.Count; i++)
-                        {
-                            if (GameManager.Instance.nowPlayer.cards[i].cardCode == 7) //카드코드 7은 면제카드(혹시나 수정할일 있으면 수정)
-                            {
-                                GameManager.Instance.nowPlayer.cards.RemoveAt(i);
-                                Destroy(GameManager.Instance.nowPlayer.cardParent.GetChild(0).gameObject);
-                                print("cardFind!");
-                                break;
-                            }
-                        }
-                        AudioManager.instance.Play("TollExemption_Sound");
-                        print("사운드 출력");
-                        GameManager.Instance.exemptionParticle.transform.position = GameManager.Instance.nowPlayer.transform.position;
-                        GameManager.Instance.exemptionParticle.gameObject.SetActive(true);
-                        GameManager.Instance.exemptionParticle.Play();
-                        Thread.Sleep(1000);//1초
-                        GameManager.Instance.exemptionParticle.gameObject.SetActive(false);
-                        print("파티클 출력");
+                        StartCoroutine(GameManager.Instance.ParticleFunc());
+                        // for (int i = 0; i < GameManager.Instance.nowPlayer.cards.Count; i++)
+                        // {
+                        //     if (GameManager.Instance.nowPlayer.cards[i].cardCode == 7) //카드코드 7은 면제카드(혹시나 수정할일 있으면 수정)
+                        //     {
+                        //         GameManager.Instance.nowPlayer.cards.RemoveAt(i);
+                        //         Destroy(GameManager.Instance.nowPlayer.cardParent.GetChild(0).gameObject);
+                        //         print("cardFind!");
+                        //         break;
+                        //     }
+                        // }
+                        // AudioManager.instance.Play("TollExemption_Sound");
+                        // print("사운드 출력");
+                        // GameManager.Instance.exemptionParticle.transform.position = GameManager.Instance.nowPlayer.transform.position;
+                        // GameManager.Instance.exemptionParticle.gameObject.SetActive(true);
+                        // GameManager.Instance.exemptionParticle.Play();
+                        // GameManager.Instance.exemptionParticle.gameObject.SetActive(false);
+                        // print("파티클 출력");
 
-                        // 카드 효과를 사용했으니 flag를 false로 바꿔줌
-                        print("플래그를 바꿔줌");
-                        GameManager.Instance.nowPlayer.exemptionFlag = false;
-                        print("exemptionFlag Finish");
-                        GameManager.Instance.NextTurnFunc();
+                        // // 카드 효과를 사용했으니 flag를 false로 바꿔줌
+                        // print("플래그를 바꿔줌");
+                        // GameManager.Instance.nowPlayer.exemptionFlag = false;
+                        // print("exemptionFlag Finish");
+                        // GameManager.Instance.NextTurnFunc();
                     }
                 break;
                 case ParsingType.ExemptionFlagSet:

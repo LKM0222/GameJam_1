@@ -385,6 +385,33 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public IEnumerator ParticleFunc(){
+        for (int i = 0; i < nowPlayer.cards.Count; i++)
+        {
+            if (nowPlayer.cards[i].cardCode == 7) //카드코드 7은 면제카드(혹시나 수정할일 있으면 수정)
+            {
+                nowPlayer.cards.RemoveAt(i);
+                Destroy(nowPlayer.cardParent.GetChild(0).gameObject);
+                print("cardFind!");
+                break;
+            }
+        }
+        AudioManager.instance.Play("TollExemption_Sound");
+        print("사운드 출력");
+        exemptionParticle.transform.position = nowPlayer.transform.position;
+        exemptionParticle.gameObject.SetActive(true);
+        exemptionParticle.Play();
+        yield return new WaitForSeconds(1f);
+        exemptionParticle.gameObject.SetActive(false);
+        print("파티클 출력");
+
+        // 카드 효과를 사용했으니 flag를 false로 바꿔줌
+        print("플래그를 바꿔줌");
+        nowPlayer.exemptionFlag = false;
+        print("exemptionFlag Finish");
+        NextTurnFunc();
+    }
+
 }
 
 class GameOverClass{
