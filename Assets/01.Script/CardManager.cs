@@ -226,6 +226,7 @@ public class CardManager : MonoBehaviour
             // // 만약 뺏어온 카드가 통행료면제 카드라면 플래그를 서로 바꿔줌 GameManager.Instance.invisibleCardNum
             if (theGM.nowPlayer.againstPlayer.cards[GameManager.Instance.invisibleCardNum] == theGM.cards[6])
             {
+                //이거도 뭔가 통신쪽으로 가야될듯 (나중에 수정)
                 theGM.nowPlayer.exemptionFlag = true;
                 theGM.nowPlayer.againstPlayer.exemptionFlag = false;
             }
@@ -546,7 +547,9 @@ public class CardManager : MonoBehaviour
                 yield return new WaitForSeconds(1f);
 
                 exemptionParticle.gameObject.SetActive(false);
-                theGM.nowPlayer.exemptionFlag = true;
+                // theGM.nowPlayer.exemptionFlag = true;
+                byte[] senddata = ParsingManager.Instance.ParsingSendData(ParsingType.ExemptionFlagSet,"");
+                Backend.Match.SendDataToInGameRoom(senddata);
             }
             //카드 받고나서 턴 넘기는 부분
             byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
