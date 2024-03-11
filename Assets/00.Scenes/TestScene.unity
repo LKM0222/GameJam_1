@@ -14399,6 +14399,7 @@ MonoBehaviour:
   - {fileID: 1511854098}
   - {fileID: 954396769}
   nowPlayer: {fileID: 0}
+  controlPlayer: {fileID: 0}
   textManager: {fileID: 465093533}
   turnCount: 3
   nextTurn: 1
@@ -14434,6 +14435,7 @@ MonoBehaviour:
   invisibleCardNum: -1
   mySessionId: 0
   sessionArr: 0000000000000000
+  exemptionParticle: {fileID: 1083455422928650791}
 --- !u!1 &1883762171
 GameObject:
   m_ObjectHideFlags: 0

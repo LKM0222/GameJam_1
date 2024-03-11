@@ -113,6 +113,9 @@ public class GameManager : MonoBehaviour
     public SessionId mySessionId;
     public SessionId[] sessionArr = new SessionId[2]; //0: 2player, 1: 1Player
 
+    //파티클
+    public ParticleSystem exemptionParticle; 
+
     // Start is called before the first frame update
     void Start()
     {

@@ -29,6 +29,18 @@ public class CardManager : MonoBehaviour
     public ParticleSystem InvisibleParticle;
     public ParticleSystem exemptionParticle;
 
+    #region Instance
+    private static CardManager _instance;
+    public static CardManager Instance{
+        get{
+            if(_instance == null){
+                _instance = FindObjectOfType(typeof(CardManager)) as CardManager;
+            }
+            return _instance;
+        }
+    }
+    #endregion
+
     // Start is called before the first frame update
     void Start()
     {
@@ -284,6 +296,7 @@ public class CardManager : MonoBehaviour
             {
                 theGM.nowPlayer.cards.RemoveAt(i);
                 Destroy(theGM.nowPlayer.cardParent.GetChild(0).gameObject);
+                print("cardFind!");
                 break;
             }
         }
@@ -298,6 +311,7 @@ public class CardManager : MonoBehaviour
 
         // 카드 효과를 사용했으니 flag를 false로 바꿔줌
         theGM.nowPlayer.exemptionFlag = false;
+        yield return null;
     }
 
     // 거대화 사용효과 및 애니메이션 코루틴
