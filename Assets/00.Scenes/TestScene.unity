@@ -8549,7 +8549,6 @@ MonoBehaviour:
   isGetCard: 0
   isSelectingLaser: 0
   destroyParticle: {fileID: 1790210990}
-  laserParticle: {fileID: 777124581}
   highMoveParticle: {fileID: 1893069635}
   InvisibleParticle: {fileID: 2141155194}
   exemptionParticle: {fileID: 1083455422928650791}
@@ -14436,6 +14435,7 @@ MonoBehaviour:
   mySessionId: 0
   sessionArr: 0000000000000000
   exemptionParticle: {fileID: 1083455422928650791}
+  laserParticle: {fileID: 777124581}
 --- !u!1 &1883762171
 GameObject:
   m_ObjectHideFlags: 0
