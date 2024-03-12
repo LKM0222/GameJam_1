@@ -24,7 +24,7 @@ public class CardManager : MonoBehaviour
     public bool isSelectingLaser;
 
     public ParticleSystem destroyParticle;
-    public ParticleSystem laserParticle;
+    
     public ParticleSystem highMoveParticle;
     public ParticleSystem InvisibleParticle;
     public ParticleSystem exemptionParticle;
@@ -583,9 +583,9 @@ public class CardManager : MonoBehaviour
         Color tileColor = theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
 
         // 건물파괴 파티클을 활성화하고 위치를 현재 타일의 건물 위치로 옮긴 다음 파티클 실행
-        laserParticle.gameObject.SetActive(true);
-        laserParticle.transform.position = theGM.seletedTile.transform.GetChild(0).position;
-        laserParticle.Play();
+        GameManager.Instance.laserParticle.gameObject.SetActive(true);
+        GameManager.Instance.laserParticle.transform.position = theGM.seletedTile.transform.GetChild(0).position;
+        GameManager.Instance.laserParticle.Play();
 
         // 건물의 Alpha 값을 조절해서 서서히 사라지는 듯한 연출
         while (buildingColor.a > 0f)
@@ -600,7 +600,7 @@ public class CardManager : MonoBehaviour
         }
 
         // 파티클 비활성화
-        laserParticle.gameObject.SetActive(false);
+        GameManager.Instance.laserParticle.gameObject.SetActive(false);
 
         // 현재 타일의 소유주와 건물을 없앰
         theGM.seletedTile.GetComponent<Tile>().ownPlayer = -1;
@@ -616,7 +616,6 @@ public class CardManager : MonoBehaviour
         theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
 
         theGM.seletedTile = null;
-
         theGM.laserComplete = true;
     }
 }
