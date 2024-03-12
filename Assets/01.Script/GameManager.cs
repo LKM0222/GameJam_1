@@ -115,7 +115,6 @@ public class GameManager : MonoBehaviour
 
     //파티클
     public ParticleSystem exemptionParticle; 
-    public ParticleSystem laserParticle;
 
     // Start is called before the first frame update
     void Start()
