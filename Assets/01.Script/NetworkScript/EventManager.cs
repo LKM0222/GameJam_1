@@ -415,33 +415,8 @@ public class EventManager : MonoBehaviour
                     else
                     {
                         print("exemptionFlag is true!");
-                        // theCM.TollExemption();
                         print("Func Start!");
-                        // GameManager.Instance.NextTurnFunc();
                         StartCoroutine(GameManager.Instance.ParticleFunc());
-                        // for (int i = 0; i < GameManager.Instance.nowPlayer.cards.Count; i++)
-                        // {
-                        //     if (GameManager.Instance.nowPlayer.cards[i].cardCode == 7) //카드코드 7은 면제카드(혹시나 수정할일 있으면 수정)
-                        //     {
-                        //         GameManager.Instance.nowPlayer.cards.RemoveAt(i);
-                        //         Destroy(GameManager.Instance.nowPlayer.cardParent.GetChild(0).gameObject);
-                        //         print("cardFind!");
-                        //         break;
-                        //     }
-                        // }
-                        // AudioManager.instance.Play("TollExemption_Sound");
-                        // print("사운드 출력");
-                        // GameManager.Instance.exemptionParticle.transform.position = GameManager.Instance.nowPlayer.transform.position;
-                        // GameManager.Instance.exemptionParticle.gameObject.SetActive(true);
-                        // GameManager.Instance.exemptionParticle.Play();
-                        // GameManager.Instance.exemptionParticle.gameObject.SetActive(false);
-                        // print("파티클 출력");
-
-                        // // 카드 효과를 사용했으니 flag를 false로 바꿔줌
-                        // print("플래그를 바꿔줌");
-                        // GameManager.Instance.nowPlayer.exemptionFlag = false;
-                        // print("exemptionFlag Finish");
-                        // GameManager.Instance.NextTurnFunc();
                     }
                 break;
                 case ParsingType.ExemptionFlagSet:
@@ -480,7 +455,14 @@ public class EventManager : MonoBehaviour
                     GameManager.Instance.OlympicMethod(GameManager.Instance.nowPlayer.playerId, GameManager.Instance.nowPlayer.VirtualCamera);
                     GameManager.Instance.NextTurnFunc();
                 break;
-            }
+
+                case ParsingType.Laser:
+                    LaserData laserData = JsonUtility.FromJson<LaserData>(pData.data);
+                    GameManager.Instance.seletedTile = GameObject.Find(laserData.laserTileNum);
+                    StartCoroutine(CardManager.Instance.LaserCoroutine());
+                    
+                    break;
+            }       
         };
 
         //게임 종료(정상적: 게임에서 게임오버 함수 호출, 비정상적 : 플레이어가 나감) 결과 처리 후 호출이 된다면 분기를 나눌 수 있는데...

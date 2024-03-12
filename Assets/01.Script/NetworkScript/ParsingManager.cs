@@ -142,6 +142,16 @@ public class ArriveTileData{
     }
 }
 
+public class LaserData{
+    public bool laserFlag;
+    public string laserTileNum;
+
+    public LaserData(bool _laserFlag, string _laserTileNum){
+        laserFlag = _laserFlag;
+        laserTileNum = _laserTileNum;
+    }
+}
+
 
 #endregion
 
@@ -166,7 +176,8 @@ public enum ParsingType{
     Extortion,
     Visit,
     ArriveTile,
-    Olympic
+    Olympic,
+    Laser
 }
 #endregion
 

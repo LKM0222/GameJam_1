@@ -463,47 +463,51 @@ public class CardManager : MonoBehaviour
         }
         theGM.nowPlayer.blackBackground.SetActive(false);
 
-        theAudio.Play("Laser_Sound");
-        // 건물과 타일의 컬러를 받아옴
-        Color buildingColor = theGM.seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color;
-        Color tileColor = theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
+        LaserData laserData = new(true, theGM.seletedTile.name);
+        string jsondata = JsonUtility.ToJson(laserData);
+        byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.Laser, jsondata);
+        Backend.Match.SendDataToInGameRoom(sendData);
+        // theAudio.Play("Laser_Sound");
+        // // 건물과 타일의 컬러를 받아옴
+        // Color buildingColor = theGM.seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color;
+        // Color tileColor = theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
 
-        // 건물파괴 파티클을 활성화하고 위치를 현재 타일의 건물 위치로 옮긴 다음 파티클 실행
-        laserParticle.gameObject.SetActive(true);
-        laserParticle.transform.position = theGM.seletedTile.transform.GetChild(0).position;
-        laserParticle.Play();
+        // // 건물파괴 파티클을 활성화하고 위치를 현재 타일의 건물 위치로 옮긴 다음 파티클 실행
+        // laserParticle.gameObject.SetActive(true);
+        // laserParticle.transform.position = theGM.seletedTile.transform.GetChild(0).position;
+        // laserParticle.Play();
 
-        // 건물의 Alpha 값을 조절해서 서서히 사라지는 듯한 연출
-        while (buildingColor.a > 0f)
-        {
-            buildingColor.a -= 0.02f;
-            tileColor.a -= 0.02f;
+        // // 건물의 Alpha 값을 조절해서 서서히 사라지는 듯한 연출
+        // while (buildingColor.a > 0f)
+        // {
+        //     buildingColor.a -= 0.02f;
+        //     tileColor.a -= 0.02f;
 
-            theGM.seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
-            theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
+        //     theGM.seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
+        //     theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
 
-            yield return new WaitForSeconds(0.02f);
-        }
+        //     yield return new WaitForSeconds(0.02f);
+        // }
 
-        // 파티클 비활성화
-        laserParticle.gameObject.SetActive(false);
+        // // 파티클 비활성화
+        // laserParticle.gameObject.SetActive(false);
 
-        // 현재 타일의 소유주와 건물을 없앰
-        theGM.seletedTile.GetComponent<Tile>().ownPlayer = -1;
-        theGM.seletedTile.GetComponent<Tile>().building = theGM.buildings[0];
-        theGM.seletedTile.GetComponent<Tile>().price = 0;
+        // // 현재 타일의 소유주와 건물을 없앰
+        // theGM.seletedTile.GetComponent<Tile>().ownPlayer = -1;
+        // theGM.seletedTile.GetComponent<Tile>().building = theGM.buildings[0];
+        // theGM.seletedTile.GetComponent<Tile>().price = 0;
 
-        yield return new WaitForEndOfFrame();
+        // yield return new WaitForEndOfFrame();
 
-        // 0으로 감소시켰던 건물과 타일의 Alpha 값을 원상복구
-        buildingColor.a = 1f;
-        tileColor.a = 1f;
-        theGM.seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
-        theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
+        // // 0으로 감소시켰던 건물과 타일의 Alpha 값을 원상복구
+        // buildingColor.a = 1f;
+        // tileColor.a = 1f;
+        // theGM.seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
+        // theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
 
-        theGM.seletedTile = null;
+        // theGM.seletedTile = null;
 
-        theGM.laserComplete = true;
+        // theGM.laserComplete = true;
     }
 
     public IEnumerator ShowGetCard()
@@ -570,5 +574,49 @@ public class CardManager : MonoBehaviour
             Backend.Match.SendDataToInGameRoom(data);
         }
         isGetCard = true;
+    }
+
+    public IEnumerator LaserCoroutine(){
+        theAudio.Play("Laser_Sound");
+        // 건물과 타일의 컬러를 받아옴
+        Color buildingColor = theGM.seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color;
+        Color tileColor = theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
+
+        // 건물파괴 파티클을 활성화하고 위치를 현재 타일의 건물 위치로 옮긴 다음 파티클 실행
+        laserParticle.gameObject.SetActive(true);
+        laserParticle.transform.position = theGM.seletedTile.transform.GetChild(0).position;
+        laserParticle.Play();
+
+        // 건물의 Alpha 값을 조절해서 서서히 사라지는 듯한 연출
+        while (buildingColor.a > 0f)
+        {
+            buildingColor.a -= 0.02f;
+            tileColor.a -= 0.02f;
+
+            theGM.seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
+            theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
+
+            yield return new WaitForSeconds(0.02f);
+        }
+
+        // 파티클 비활성화
+        laserParticle.gameObject.SetActive(false);
+
+        // 현재 타일의 소유주와 건물을 없앰
+        theGM.seletedTile.GetComponent<Tile>().ownPlayer = -1;
+        theGM.seletedTile.GetComponent<Tile>().building = theGM.buildings[0];
+        theGM.seletedTile.GetComponent<Tile>().price = 0;
+
+        yield return new WaitForEndOfFrame();
+
+        // 0으로 감소시켰던 건물과 타일의 Alpha 값을 원상복구
+        buildingColor.a = 1f;
+        tileColor.a = 1f;
+        theGM.seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
+        theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
+
+        theGM.seletedTile = null;
+
+        theGM.laserComplete = true;
     }
 }
