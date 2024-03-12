@@ -459,7 +459,7 @@ public class EventManager : MonoBehaviour
                 case ParsingType.Laser:
                     LaserData laserData = JsonUtility.FromJson<LaserData>(pData.data);
                     GameManager.Instance.seletedTile = GameObject.Find(laserData.laserTileNum);
-                    StartCoroutine(CardManager.Instance.LaserCoroutine());
+                    StartCoroutine(GameManager.Instance.LaserCoroutine());
                     
                     break;
             }       
