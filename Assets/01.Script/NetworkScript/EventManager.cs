@@ -446,23 +446,6 @@ public class EventManager : MonoBehaviour
 
                 case ParsingType.ArriveTile: //양계장에 도착할 경우
                     StartCoroutine(ArriveCoroutine(pData)); //플로팅 텍스트 때문에 코루틴으로 뺌
-                    // print("도착");
-                    // ArriveTileData arriveTileData = JsonUtility.FromJson<ArriveTileData>(pData.data);
-                    // int totalMoney = 0;
-                    // print("파싱완료");
-                    // //타일 체크
-                    // for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
-                    // {
-                    //     print("TileCheck");
-                    //     if (TileManager.Instance.tiles[i].ownPlayer == arriveTileData.playerId && TileManager.Instance.tiles[i].building.type == 0) totalMoney += 100;
-                    // }
-                    // GameManager.Instance.nowPlayer.playerMoney += totalMoney;
-                    // print("돈 추가 완료");
-                    // GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, totalMoney, true);
-                    // print("플로팅 텍스트 완료");
-                    // byte[] ndata = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
-                    // Backend.Match.SendDataToInGameRoom(ndata);
-                    // print("nextturn Finish");
                 break;
 
                 case ParsingType.Olympic:

@@ -346,7 +346,7 @@ public class GameManager : MonoBehaviour
         bool haveBuilding = false;
 
         // 자신의 소유인 타일이 있다면 플래그를 활성화하고 사운드 재생
-        for (int i = 0; i < theTM.tiles.Length; i++)
+        for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
         {
             if (theTM.tiles[i].ownPlayer == playerId)
             {
@@ -365,10 +365,10 @@ public class GameManager : MonoBehaviour
             // 자신이 소유중인 타일에 파티클을 활성화
             for (int i = 0; i < theTM.tiles.Length; i++)
             {
-                if (theTM.tiles[i].ownPlayer == playerId)
+                if (TileManager.Instance.tiles[i].ownPlayer == playerId)
                 {
-                    theTM.tiles[i].price *= 2;
-                    theTM.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(true);
+                    TileManager.Instance.tiles[i].price *= 2;
+                    TileManager.Instance.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(true);
                     yield return new WaitForSeconds(0.1f);
                 }
             }
@@ -376,11 +376,11 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
 
             // 활성화한 파티클을 다시 비활성화
-            for (int i = 0; i < theTM.tiles.Length; i++)
+            for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
             {
-                if (theTM.tiles[i].ownPlayer == playerId)
+                if (TileManager.Instance.tiles[i].ownPlayer == playerId)
                 {
-                     theTM.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(false);
+                     TileManager.Instance.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(false);
                 }
             }
         }
