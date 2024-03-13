@@ -343,6 +343,7 @@ public class GameManager : MonoBehaviour
         }
     }
     public IEnumerator OlympicMethod(int playerId, GameObject VirtualCamera){
+        print("올림픽 입장");
         bool haveBuilding = false;
 
         // 자신의 소유인 타일이 있다면 플래그를 활성화하고 사운드 재생
@@ -350,6 +351,7 @@ public class GameManager : MonoBehaviour
         {
             if (theTM.tiles[i].ownPlayer == playerId)
             {
+                print("사운드 재생");
                 haveBuilding = true;
                 theAudio.Play("Olympics_Sound");
                 break;
@@ -358,6 +360,7 @@ public class GameManager : MonoBehaviour
 
         if (haveBuilding)
         {
+            print("카메라 효과 시작");
             // 캐릭터를 비추는 카메라를 비활성화하고 맵을 비출때까지 대기
             VirtualCamera.SetActive(false);
             yield return new WaitForSeconds(0.5f);
@@ -367,6 +370,7 @@ public class GameManager : MonoBehaviour
             {
                 if (TileManager.Instance.tiles[i].ownPlayer == playerId)
                 {
+                    print("파티클 활성화");
                     TileManager.Instance.tiles[i].price *= 2;
                     TileManager.Instance.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(true);
                     yield return new WaitForSeconds(0.1f);
@@ -383,6 +387,7 @@ public class GameManager : MonoBehaviour
                      TileManager.Instance.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(false);
                 }
             }
+            print("올림픽 완료");
         }
     }
 

@@ -449,7 +449,7 @@ public class EventManager : MonoBehaviour
                 break;
 
                 case ParsingType.Olympic:
-                    GameManager.Instance.OlympicMethod(GameManager.Instance.nowPlayer.playerId, GameManager.Instance.nowPlayer.VirtualCamera);
+                    StartCoroutine(GameManager.Instance.OlympicMethod(GameManager.Instance.nowPlayer.playerId, GameManager.Instance.nowPlayer.VirtualCamera));
                     GameManager.Instance.NextTurnFunc();
                 break;
 
