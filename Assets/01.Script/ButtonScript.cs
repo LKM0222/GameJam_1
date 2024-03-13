@@ -70,14 +70,10 @@ public class ButtonScript : MonoBehaviour
     public void OnPurchaseCloseBtn()
     {
         theAudio.Play("Cancel_Sound");
-
-        theGM.NextTurnFunc();
         theGM.UIFlag = false;
         //턴그냥 넘김
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
         Backend.Match.SendDataToInGameRoom(data);
-        // theGM.NextTurnFunc(); //이 함수로
-        // theGM.UIFlag = false;
     }
 
     //땅 구매 버튼
