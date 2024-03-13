@@ -339,7 +339,7 @@ public class PlayerManager : MonoBehaviour
                                 // theGM.SetFloatingText(theGM.nowPlayer, 200, true);
                                 VisitData visitData = new(200,0);
                                 string jsondata = JsonUtility.ToJson(visitData);
-                                byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.Visit,jsondata);
+                                byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.Visit,jsondata);                                
                                 Backend.Match.SendDataToInGameRoom(sendData);
                                 // print(playerMoney);
                                 break;

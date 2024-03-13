@@ -34,6 +34,8 @@ public class EventManager : MonoBehaviour
     GroundBuyScript theGBS;
     CardManager theCM;
 
+    TileManager theTM;
+
     #endregion
     
 
@@ -50,6 +52,7 @@ public class EventManager : MonoBehaviour
     private void Start() {
         theGBS = FindObjectOfType<GroundBuyScript>();
         theCM = FindObjectOfType<CardManager>();
+        theTM = FindObjectOfType<TileManager>();
     }
 
     // Update is called once per frame
@@ -443,11 +446,13 @@ public class EventManager : MonoBehaviour
 
                 case ParsingType.ArriveTile:
                     ArriveTileData arriveTileData = JsonUtility.FromJson<ArriveTileData>(pData.data);
-                    for(int i = 0;i<GameManager.Instance.players.Length; i++){
-                        if(GameManager.Instance.players[i].playerId == arriveTileData.playerId){
-                            GameManager.Instance.players[i].playerMoney += arriveTileData.value;
-                        }
+                    int totalMoney = 0;
+                    for (int i = 0; i < theTM.tiles.Length; i++)
+                    {
+                        if (theTM.tiles[i].ownPlayer == arriveTileData.playerId && theTM.tiles[i].building.type == 0) totalMoney += 100;
                     }
+                    GameManager.Instance.nowPlayer.playerMoney += totalMoney;
+                    GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, totalMoney, true);
                     GameManager.Instance.NextTurnFunc();
                 break;
 
