@@ -444,7 +444,7 @@ public class EventManager : MonoBehaviour
                     Backend.Match.SendDataToInGameRoom(nextturnData);
                 break;
 
-                case ParsingType.ArriveTile:
+                case ParsingType.ArriveTile: //양계장에 도착할 경우
                     ArriveTileData arriveTileData = JsonUtility.FromJson<ArriveTileData>(pData.data);
                     int totalMoney = 0;
                     for (int i = 0; i < theTM.tiles.Length; i++)
@@ -453,7 +453,8 @@ public class EventManager : MonoBehaviour
                     }
                     GameManager.Instance.nowPlayer.playerMoney += totalMoney;
                     GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, totalMoney, true);
-                    GameManager.Instance.NextTurnFunc();
+                    byte[] ndata = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
+                    Backend.Match.SendDataToInGameRoom(ndata);
                 break;
 
                 case ParsingType.Olympic:

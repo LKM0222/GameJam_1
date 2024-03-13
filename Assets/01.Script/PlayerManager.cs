@@ -211,7 +211,7 @@ public class PlayerManager : MonoBehaviour
         {
             theAudio.Play("Salary_Sound");
             playerMoney += 200;
-            // theGM.SetFloatingText(theGM.nowPlayer, 200, true);
+            theGM.SetFloatingText(theGM.nowPlayer, 200, true);
         }
 
         // 투명도둑을 사용하고 나와 상대방이 겹쳐질때, 상대방의 카드가 있을 때 투명도둑 효과 발동
@@ -390,23 +390,6 @@ public class PlayerManager : MonoBehaviour
                 {
                     byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.ExemptionFlag, "");
                     Backend.Match.SendDataToInGameRoom(sendData);
-                    // // 통행료 카드가 없는 경우 통행료 징수
-                    // if (!exemptionFlag)
-                    // {
-                        
-                    //     //모두 EventManager로 이동.
-                    //     playerMoney -= nowTile.price;
-                    //     theGM.SetFloatingText(theGM.nowPlayer, nowTile.price, false);
-                    //     againstPlayer.playerMoney += nowTile.price;
-                    //     theGM.SetFloatingText(theGM.nowPlayer.againstPlayer, nowTile.price, true);
-                    // }
-                    // // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
-                    // else
-                    // {
-                    //     theCM.TollExemption();
-                    //     // theGM.NextTurnFunc();
-                    // }
-                    // theGM.NextTurnFunc();
                 }
             }
         
@@ -570,13 +553,6 @@ public class PlayerManager : MonoBehaviour
                         
                         break;
                 }
-                //모든 특수타일들은 끝났을때 턴 넘김을 여기서 처리함.
-                
-                // byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
-                // Backend.Match.SendDataToInGameRoom(data);
-                // theGM.NextTurnFunc();
-
-                // theGM.NextTurnFunc();
             }
         }
     }
