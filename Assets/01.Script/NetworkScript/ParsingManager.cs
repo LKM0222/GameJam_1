@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using BackEnd;
 using BackEnd.Tcp;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -192,7 +193,8 @@ public class ParsingManager : MonoBehaviour
     public static ParsingManager Instance{
         get{
             if(_instance == null)
-                _instance = new ParsingManager(); //FindObjectOfType(typeof(ParsingManager)) as ParsingManager;
+                _instance = new ParsingManager(); 
+                // _instance = FindObjectOfType(typeof(ParsingManager)) as ParsingManager;
 
             return _instance;
         }

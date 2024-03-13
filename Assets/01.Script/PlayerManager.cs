@@ -206,6 +206,7 @@ public class PlayerManager : MonoBehaviour
     // 플레이어 이동시 지나치는 타일 체크
     public void CheckPassTile()
     {
+        // if() //시작점에 딱 도착한다면 바로 체크타일로
         // 시작지점을 지나쳐간다면 월급 지급
         if (nowTile.transform.name == "0")
         {
@@ -256,7 +257,7 @@ public class PlayerManager : MonoBehaviour
                 }
             }
 
-            print("is moving Check");
+            // print("is moving Check");
             this.transform.position = Vector3.MoveTowards(this.transform.position, target, Time.deltaTime * moveSpeed);
             yield return new WaitForEndOfFrame();
             if (this.transform.position == target)
@@ -408,6 +409,7 @@ public class PlayerManager : MonoBehaviour
                         // playerMoney += totalMoney;
                         // theGM.SetFloatingText(theGM.nowPlayer, totalMoney, true);
                         // theGM.NextTurnFunc(); //여기서 처리해도 되나...? 서버로 안넘겨도 됨?
+                        print("양계장");//myturn안에 있기 때문에 통신으로 처리를 하는중...
                         ArriveTileData arriveTileData = new(this.playerId, 100);
                         string arriveJsonData = JsonUtility.ToJson(arriveTileData);
                         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.ArriveTile, arriveJsonData);

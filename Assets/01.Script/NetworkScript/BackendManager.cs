@@ -27,7 +27,8 @@ public class BackendManager : MonoBehaviour
 
     private void Awake() {
         if(_instance == null){
-            _instance = new BackendManager();
+            // _instance = new BackendManager();
+            _instance = FindObjectOfType(typeof(BackendManager)) as BackendManager;
             DontDestroyOnLoad(this.gameObject);
         }
         else{

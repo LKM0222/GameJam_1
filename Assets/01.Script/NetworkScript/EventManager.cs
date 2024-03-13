@@ -125,11 +125,11 @@ public class EventManager : MonoBehaviour
 
         Backend.Match.OnSessionJoinInServer += (args) => { //인게임서버에 접속 성공했을 떄 호출되는 이벤트 이 이벤트가 호출되어야 서버에 접속성공한것.
             if(args.ErrInfo == ErrorInfo.Success){
-                Debug.Log("인게임서버 접속 성공" );//+ this.roomInfo.m_inGameRoomToken);
+                // Debug.Log("인게임서버 접속 성공" );//+ this.roomInfo.m_inGameRoomToken);
                 // MatchingRoomScript.Instance.matchingRoomLogStr += "인게임서버 접속 성공\n"; //주석처리 이유 : 이 구문이 왜 반복적으로 호출되는지 모르겠지만
                 //일단 이 구문이 반복호출되면서 text가 200줄을 넘어가기 때문에 일단 비활성화
                 Backend.Match.JoinGameRoom(this.roomInfo.m_inGameRoomToken); //OnMatchMakingResponse에서 전달받은 RoomToken을 여기로 전달.
-                Debug.Log("게임방에 접속시도합니다.");
+                // Debug.Log("게임방에 접속시도합니다.");
                 // MatchingRoomScript.Instance.matchingRoomLogStr += "게임방에 접속 시도합니다.\n"; //여기도 마찬가지
                 //다른 에러 케이스가 많지만 그건 추후에...
             }
@@ -445,16 +445,24 @@ public class EventManager : MonoBehaviour
                 break;
 
                 case ParsingType.ArriveTile: //양계장에 도착할 경우
-                    ArriveTileData arriveTileData = JsonUtility.FromJson<ArriveTileData>(pData.data);
-                    int totalMoney = 0;
-                    for (int i = 0; i < theTM.tiles.Length; i++)
-                    {
-                        if (theTM.tiles[i].ownPlayer == arriveTileData.playerId && theTM.tiles[i].building.type == 0) totalMoney += 100;
-                    }
-                    GameManager.Instance.nowPlayer.playerMoney += totalMoney;
-                    GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, totalMoney, true);
-                    byte[] ndata = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
-                    Backend.Match.SendDataToInGameRoom(ndata);
+                    StartCoroutine(ArriveCoroutine(pData)); //플로팅 텍스트 때문에 코루틴으로 뺌
+                    // print("도착");
+                    // ArriveTileData arriveTileData = JsonUtility.FromJson<ArriveTileData>(pData.data);
+                    // int totalMoney = 0;
+                    // print("파싱완료");
+                    // //타일 체크
+                    // for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
+                    // {
+                    //     print("TileCheck");
+                    //     if (TileManager.Instance.tiles[i].ownPlayer == arriveTileData.playerId && TileManager.Instance.tiles[i].building.type == 0) totalMoney += 100;
+                    // }
+                    // GameManager.Instance.nowPlayer.playerMoney += totalMoney;
+                    // print("돈 추가 완료");
+                    // GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, totalMoney, true);
+                    // print("플로팅 텍스트 완료");
+                    // byte[] ndata = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
+                    // Backend.Match.SendDataToInGameRoom(ndata);
+                    // print("nextturn Finish");
                 break;
 
                 case ParsingType.Olympic:
@@ -577,6 +585,28 @@ public class EventManager : MonoBehaviour
             yield return new WaitForSeconds(0.02f);
         }
         GameManager.Instance.seletedTile = null;
+    }
+
+    //양계장 코루틴
+    IEnumerator ArriveCoroutine(ParsingData pData){
+        print("도착 코루틴 시작");
+        ArriveTileData arriveTileData = JsonUtility.FromJson<ArriveTileData>(pData.data);
+        int totalMoney = 0;
+        print("파싱완료");
+        //타일 체크
+        for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
+        {
+            print("TileCheck");
+            if (TileManager.Instance.tiles[i].ownPlayer == arriveTileData.playerId && TileManager.Instance.tiles[i].building.type == 0) totalMoney += 100;
+        }
+        GameManager.Instance.nowPlayer.playerMoney += totalMoney;
+        print("돈 추가 완료");
+        yield return new WaitForSeconds(0.5f);
+        GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, totalMoney, true);
+        print("플로팅 텍스트 완료");
+        byte[] ndata = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
+        Backend.Match.SendDataToInGameRoom(ndata);
+        print("nextturn Finish");
     }
 
 }

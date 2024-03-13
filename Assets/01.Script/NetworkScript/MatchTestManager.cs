@@ -30,6 +30,7 @@ public class MatchTestManager : MonoBehaviour
         get {
             if(_instance == null){
                 _instance = new MatchTestManager();
+                // _instance = FindObjectOfType(typeof(MatchTestManager)) as MatchTestManager;
             }
             return _instance;
         }
