@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     public int playerMoney;
     public Text playerMoneyText;
     public float moveSpeed;
+    public GameObject myTurnImg;
 
     [Header("Moving")]
     public int diceNum;

@@ -123,10 +123,6 @@ public class ButtonScript : MonoBehaviour
 
             this.gameObject.SetActive(false);
         }
-        // string tJson = JsonUtility.ToJson(tCard);
-        // ParsingData data = new ParsingData(ParsingType.Turn,tJson); //선택 시 데이터 전송(비활성화 위해)
-        // string jsonData = JsonUtility.ToJson(data);
-
-
+        GameManager.Instance.myCharactor.myTurnImg.SetActive(true);
     }
 }

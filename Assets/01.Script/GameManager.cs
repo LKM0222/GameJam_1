@@ -271,16 +271,22 @@ public class GameManager : MonoBehaviour
             player1TurnImg.SetActive(true);
             yield return new WaitForSeconds(1f);
             player1TurnImg.SetActive(false);
-            players[0].downInformationText.gameObject.SetActive(true);
-            players[1].downInformationText.gameObject.SetActive(false);
+            // players[0].downInformationText.gameObject.SetActive(true);
+            // players[1].downInformationText.gameObject.SetActive(false);
         }
         if (turn == 0)
         {
             player2TurnImg.SetActive(true);
             yield return new WaitForSeconds(1f);
             player2TurnImg.SetActive(false);
-            players[0].downInformationText.gameObject.SetActive(false);
-            players[1].downInformationText.gameObject.SetActive(true);
+            // players[0].downInformationText.gameObject.SetActive(false);
+            // players[1].downInformationText.gameObject.SetActive(true);
+        }
+        if(GameManager.Instance.myCharactor.myTurn){
+            GameManager.Instance.myCharactor.downInformationText.gameObject.SetActive(true);
+        }
+        else{
+            GameManager.Instance.myCharactor.downInformationText.gameObject.SetActive(false);
         }
         isActiveTurnImage = false;
     }
