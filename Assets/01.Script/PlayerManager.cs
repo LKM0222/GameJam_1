@@ -351,8 +351,6 @@ public class PlayerManager : MonoBehaviour
                                 string jsondata1 = JsonUtility.ToJson(visitData1);
                                 byte[] sendData1 = ParsingManager.Instance.ParsingSendData(ParsingType.Visit,jsondata1);
                                 Backend.Match.SendDataToInGameRoom(sendData1);
-                                // nowTile.price *= 2;
-                                // print(nowTile.price);
                                 break;
                             // 특별상점
                             case 2:
@@ -360,17 +358,20 @@ public class PlayerManager : MonoBehaviour
                                 {
                                     if (cards.Count < 8)
                                     {
-                                        StartCoroutine(theCM.CardProvideCoroutine());
+                                        StartCoroutine(theCM.ShopCardProvideCoroutine());
                                         yield return new WaitUntil(() => theCM.isGetCard);
                                     }
                                 }
+                                byte[] data2 = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
+                                Backend.Match.SendDataToInGameRoom(data2);
                                 break;
                             // 랜드마크
                             case 3:
+                                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
+                                Backend.Match.SendDataToInGameRoom(data);
                                 break;
                         }
-                        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
-                        Backend.Match.SendDataToInGameRoom(data);
+                        
                     }
                 }
                 // 일반 타일 중 아무도 구매하지 않은 타일이라면 땅 구매 UI 활성화

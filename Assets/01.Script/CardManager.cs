@@ -576,5 +576,56 @@ public class CardManager : MonoBehaviour
         isGetCard = true;
     }
 
+
+    //상점에서 카드 받는 코루틴(턴 넘김이 없는 코루틴, 턴 넘기는건 PlayerManager에서 넘긴다.)
+    public IEnumerator ShopCardProvideCoroutine()
+    {
+        isGetCard = false;
+        if (theGM.nowPlayer.cards.Count < 8)
+        {
+            // 랜덤하게 카드번호를 추출
+            // Card newCard = theGM.cards[7];
+            Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)];//Test
+
+            // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
+
+            // var _card = Instantiate(theGM.nowPlayer.cardPrefab, Vector3.zero, Quaternion.identity, theGM.nowPlayer.cardParent); //EventManager로 이동.
+            // _card.transform.localPosition = new Vector3(0f, 0f, 0f); //EventManager로 이동.
+
+            CardData cardData = new(newCard);
+            string jsonData = JsonUtility.ToJson(cardData);
+            byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.CardListAdd, jsonData);
+            Backend.Match.SendDataToInGameRoom(sendData);
+            // theGM.nowPlayer.cards.Add(newCard); (EventManager로 이동.)
+
+            StartCoroutine(ShowGetCard());
+            theAudio.Play("GetCard_Sound");
+            yield return new WaitUntil(() => isShowCard);
+            isShowCard = false;
+
+            // 만약 통행료면제 카드라면 카드효과를 즉시 활성화.
+            if (newCard == theGM.cards[6])
+            {
+                theAudio.Play("TollExemption_Sound");
+
+                exemptionParticle.transform.position = theGM.nowPlayer.transform.position;
+                exemptionParticle.gameObject.SetActive(true);
+                exemptionParticle.Play();
+
+                yield return new WaitForSeconds(1f);
+
+                exemptionParticle.gameObject.SetActive(false);
+                // theGM.nowPlayer.exemptionFlag = true;
+                byte[] senddata = ParsingManager.Instance.ParsingSendData(ParsingType.ExemptionFlagSet,"");
+                Backend.Match.SendDataToInGameRoom(senddata);
+            }
+            // //카드 받고나서 턴 넘기는 부분
+            // byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
+            // Backend.Match.SendDataToInGameRoom(data);
+            //상점에서 카드 받는건 턴 넘기는부분이 바껴야됨
+        }
+        isGetCard = true;
+    }
+
     
 }

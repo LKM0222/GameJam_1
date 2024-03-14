@@ -238,6 +238,7 @@ public class EventManager : MonoBehaviour
                         // print("GroundBuySuccess");
                         GameManager.Instance.myCharactor.groundCount += 1;
                         GameManager.Instance.myCharactor.playerMoney -= 50;
+                        GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, 50, true);
                     }
                     else{
                         //상대방이 땅을 구매했을 때, 상대방 땅 색깔로 구매되었다는걸 알려줘야함.
@@ -246,29 +247,13 @@ public class EventManager : MonoBehaviour
                             = GameManager.Instance.myCharactor.againstPlayer.playerId;
                         GameManager.Instance.myCharactor.againstPlayer.groundCount += 1;
                         GameManager.Instance.myCharactor.againstPlayer.playerMoney -= 50;
+                        GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer.againstPlayer, 50, true);
                     }
                 break;
 
                 case ParsingType.BuildingBuy: //건물건설
                     if(GameManager.Instance.myCharactor.myTurn){
-                        // BuildingData bdata = JsonUtility.FromJson<BuildingData>(pData.data);
-
-    
-                        // //건물 UI표시는 어떻게?
-                        // // theGM.nowPlayer.nowTile.building = theGM.buildings[cur];
-                        // GameManager.Instance.myCharactor.nowTile.building =
-                        //     GameManager.Instance.buildings[bdata.buildingNum];
-
-                        // GameManager.Instance.myCharactor.buildingCount += 1;
-                        // GameManager.Instance.myCharactor.playerMoney -= 50; //건물 건설비용
-                        // GameManager.Instance.myCharactor.nowTile.price = 
-                        // GameManager.Instance.buildings[bdata.buildingNum].toll;
-
-
                         // //모든 작업 완료 후 턴 넘기기
-                        // //턴 넘기기 Enum이 있지만, 일단 이렇게 구현
-                        // GameManager.Instance.NextTurnFunc();
-                        // GameManager.Instance.UIFlag = false;
                         // 여기는 그냥 버튼 눌렀을때 처리해주면 됨. 자기턴이니깐.
                         // 상대방에게는 아래와 같이 전달해주면 될듯.
                         GameManager.Instance.NextTurnFunc();
@@ -285,13 +270,10 @@ public class EventManager : MonoBehaviour
                         GameManager.Instance.myCharactor.againstPlayer.playerMoney -= 50; //건물 건설비용
                         GameManager.Instance.myCharactor.againstPlayer.nowTile.price = 
                         GameManager.Instance.buildings[bdata.buildingNum].toll;
-
+                        GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, 50, true);
                         GameManager.Instance.NextTurnFunc();
                         GameManager.Instance.UIFlag = false;
                     }
-                    // theGM.nowPlayer.buildingCount += 1;
-                    // theGM.nowPlayer.playerMoney -= 50;
-                    // theGM.nowPlayer.nowTile.price = theGM.buildings[cur].toll;
                 break;
 
                 case ParsingType.Teleport:
