@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour
     public SessionId[] sessionArr = new SessionId[2]; //0: 2player, 1: 1Player
 
     //파티클
-    public ParticleSystem exemptionParticle; 
+    public ParticleSystem exemptionParticle;
     public ParticleSystem laserParticle;
 
     // Start is called before the first frame update
@@ -244,12 +244,14 @@ public class GameManager : MonoBehaviour
             matchGameResult.m_winners = new List<SessionId>();
             matchGameResult.m_losers = new List<SessionId>();
 
-            if(CheckGameOver() == 1){
+            if (CheckGameOver() == 1)
+            {
                 //player2 패배
                 matchGameResult.m_winners.Add(sessionArr[1]);
                 matchGameResult.m_losers.Add(sessionArr[0]);
             }
-            if(CheckGameOver() == 0){
+            if (CheckGameOver() == 0)
+            {
                 //player1 패배
                 matchGameResult.m_winners.Add(sessionArr[0]);
                 matchGameResult.m_losers.Add(sessionArr[1]);
@@ -282,10 +284,12 @@ public class GameManager : MonoBehaviour
             // players[0].downInformationText.gameObject.SetActive(false);
             // players[1].downInformationText.gameObject.SetActive(true);
         }
-        if(GameManager.Instance.myCharactor.myTurn){
+        if (GameManager.Instance.myCharactor.myTurn)
+        {
             GameManager.Instance.myCharactor.downInformationText.gameObject.SetActive(true);
         }
-        else{
+        else
+        {
             GameManager.Instance.myCharactor.downInformationText.gameObject.SetActive(false);
         }
         isActiveTurnImage = false;
@@ -296,9 +300,10 @@ public class GameManager : MonoBehaviour
         // if (nowPlayer.playerMoney < 0) return true;
         // else return false;
         int i;
-        for(i = 0; i< GameManager.Instance.players.Length; i++){
-            if(players[i].playerMoney < 0)
-            return i;
+        for (i = 0; i < GameManager.Instance.players.Length; i++)
+        {
+            if (players[i].playerMoney < 0)
+                return i;
         }
         return i;
     }
@@ -348,7 +353,8 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    public IEnumerator OlympicMethod(int playerId, GameObject VirtualCamera){
+    public IEnumerator OlympicMethod(int playerId, GameObject VirtualCamera)
+    {
         print("올림픽 입장");
         bool haveBuilding = false;
 
@@ -390,14 +396,15 @@ public class GameManager : MonoBehaviour
             {
                 if (TileManager.Instance.tiles[i].ownPlayer == playerId)
                 {
-                     TileManager.Instance.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(false);
+                    TileManager.Instance.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(false);
                 }
             }
             print("올림픽 완료");
         }
     }
 
-    public IEnumerator ParticleFunc(){
+    public IEnumerator ParticleFunc()
+    {
         for (int i = 0; i < nowPlayer.cards.Count; i++)
         {
             if (nowPlayer.cards[i].cardCode == 7) //카드코드 7은 면제카드(혹시나 수정할일 있으면 수정)
@@ -424,7 +431,8 @@ public class GameManager : MonoBehaviour
         NextTurnFunc();
     }
 
-    public IEnumerator LaserCoroutine(){
+    public IEnumerator LaserCoroutine()
+    {
         theAudio.Play("Laser_Sound");
         // 건물과 타일의 컬러를 받아옴
         Color buildingColor = seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color;
@@ -469,11 +477,13 @@ public class GameManager : MonoBehaviour
 
 }
 
-class GameOverClass{
+class GameOverClass
+{
     public bool overFlag;
     public SessionId sessionId;
 
-    public GameOverClass(bool _overFlag, SessionId _sessionId){
+    public GameOverClass(bool _overFlag, SessionId _sessionId)
+    {
         overFlag = _overFlag;
         sessionId = _sessionId;
     }

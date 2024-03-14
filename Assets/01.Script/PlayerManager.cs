@@ -95,7 +95,7 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
         //의외로 쉬울지도??
         //내 턴을 알 수만 있다면 내 턴에서 하는것과 상대방턴에서 하는것을 구분할 수 있다.
         //예를들어서 내 턴이면 내 캐릭터의 PlayerManager를 사용하면 되고,
@@ -103,7 +103,7 @@ public class PlayerManager : MonoBehaviour
         //즉, 턴 구분만 완벽하게 이뤄지면 스크립트의 수정이 거의 없을것.
 
         //단, 플레이어가 구매하는 행동, 건물을 짓는 행동은 구별해줄 필요가 있다.
-        
+
         playerMoneyText.text = playerMoney.ToString();
 
         if (canMove)
@@ -123,11 +123,12 @@ public class PlayerManager : MonoBehaviour
             StartCoroutine(theCM.LaserBeamCoroutine());
         }
 
-        if(tpFlag && myTurn)
+        if (tpFlag && myTurn)
         //if (tpFlag && GameManager.Instance.turnCount % 2 == GameManager.Instance.turnIndex)
         {
             StartCoroutine(TeleportCoroutine(playerId));
-            if(GameManager.Instance.turnCount % 2 != GameManager.Instance.turnIndex){
+            if (GameManager.Instance.turnCount % 2 != GameManager.Instance.turnIndex)
+            {
                 myTurn = false;
             }
         }
@@ -304,21 +305,22 @@ public class PlayerManager : MonoBehaviour
         tileNum = int.Parse(nowTile.gameObject.name);
 
         VirtualCamera.SetActive(false);
-        
+
 
         //내 턴일때만 UI상호작용
-        if(GameManager.Instance.myCharactor.myTurn){
+        if (GameManager.Instance.myCharactor.myTurn)
+        {
             StartCoroutine(CheckArriveTile());
         }
-        
+
     }
 
     // 도착한 땅의 타일을 체크하여 상호작용하는 기능
     public IEnumerator CheckArriveTile()
-    {   
-        if(myTurn) //이게 없으면 상대방이 특수타일 동작 후 나 자신도 같은 UI를 띄우게 됨...! 중요
+    {
+        if (myTurn) //이게 없으면 상대방이 특수타일 동작 후 나 자신도 같은 UI를 띄우게 됨...! 중요
         {
-        // 이동이 끝난 후, 일반 타일에 도착했다면
+            // 이동이 끝난 후, 일반 타일에 도착했다면
             if (!nowTile.specialTile)
             {
                 // 일반 타일 중 자신이 구매한 타일이라면
@@ -339,17 +341,17 @@ public class PlayerManager : MonoBehaviour
                             case 0:
                                 // playerMoney += 200;
                                 // theGM.SetFloatingText(theGM.nowPlayer, 200, true);
-                                VisitData visitData = new(200,0);
+                                VisitData visitData = new(200, 0);
                                 string jsondata = JsonUtility.ToJson(visitData);
-                                byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.Visit,jsondata);                                
+                                byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.Visit, jsondata);
                                 Backend.Match.SendDataToInGameRoom(sendData);
                                 // print(playerMoney);
                                 break;
                             // 제단
                             case 1:
-                                VisitData visitData1 = new(0,1);
+                                VisitData visitData1 = new(0, 1);
                                 string jsondata1 = JsonUtility.ToJson(visitData1);
-                                byte[] sendData1 = ParsingManager.Instance.ParsingSendData(ParsingType.Visit,jsondata1);
+                                byte[] sendData1 = ParsingManager.Instance.ParsingSendData(ParsingType.Visit, jsondata1);
                                 Backend.Match.SendDataToInGameRoom(sendData1);
                                 break;
                             // 특별상점
@@ -362,16 +364,16 @@ public class PlayerManager : MonoBehaviour
                                         yield return new WaitUntil(() => theCM.isGetCard);
                                     }
                                 }
-                                byte[] data2 = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
+                                byte[] data2 = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
                                 Backend.Match.SendDataToInGameRoom(data2);
                                 break;
                             // 랜드마크
                             case 3:
-                                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
+                                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
                                 Backend.Match.SendDataToInGameRoom(data);
                                 break;
                         }
-                        
+
                     }
                 }
                 // 일반 타일 중 아무도 구매하지 않은 타일이라면 땅 구매 UI 활성화
@@ -395,7 +397,7 @@ public class PlayerManager : MonoBehaviour
                     Backend.Match.SendDataToInGameRoom(sendData);
                 }
             }
-        
+
             // 일반 타일이 아니라, 특수 타일일 경우
             else
             {
@@ -464,48 +466,49 @@ public class PlayerManager : MonoBehaviour
                             isExtortioning = false;
                             blackBackground.SetActive(false);
 
-                            // //서버로 데이터 전송 시켜야함.
-                            // ExtortionData extortionData = new(playerId);
-                            // string jsonData = JsonUtility.ToJson(extortionData);
-                            // byte[] data2 = ParsingManager.Instance.ParsingSendData(ParsingType.Extortion, jsonData);
-                            // Backend.Match.SendDataToInGameRoom(data2);
-                            
-                            //여기부터 둘 다 처리되어야 하는 부분.
-                            Color tileColor = theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
-
-                            // 타일의 Alpha 값을 서서히 0으로 줄임
-                            while (tileColor.a > 0f)
-                            {
-                                tileColor.a -= 0.02f;
-                                theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
-                                yield return new WaitForSeconds(0.02f);
-                            }
-
-                            // ownPlayer를 바꿔서 땅의 소유주를 바꿔주고, signImg도 동시에 변하게함
-                            // theGM.seletedTile.GetComponent<Tile>().ownPlayer = playerId;
+                            //서버로 데이터 전송 시켜야함.
                             ExtortionData extortionData = new(playerId);
                             string jsonData = JsonUtility.ToJson(extortionData);
                             byte[] data2 = ParsingManager.Instance.ParsingSendData(ParsingType.Extortion, jsonData);
                             Backend.Match.SendDataToInGameRoom(data2);
 
-                            // 타일의 Alpha 값을 서서히 1로 올림
-                            while (tileColor.a < 1f)
-                            {
-                                tileColor.a += 0.02f;
-                                theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
-                                yield return new WaitForSeconds(0.02f);
-                            }
+                            // //여기부터 둘 다 처리되어야 하는 부분.
+                            // Color tileColor = theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
 
-                            byte[] data3 = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
-                            Backend.Match.SendDataToInGameRoom(data3);
+                            // // 타일의 Alpha 값을 서서히 0으로 줄임
+                            // while (tileColor.a > 0f)
+                            // {
+                            //     tileColor.a -= 0.02f;
+                            //     theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
+                            //     yield return new WaitForSeconds(0.02f);
+                            // }
 
-                            theGM.seletedTile = null;
+                            // // ownPlayer를 바꿔서 땅의 소유주를 바꿔주고, signImg도 동시에 변하게함
+                            // // theGM.seletedTile.GetComponent<Tile>().ownPlayer = playerId;
+                            // ExtortionData extortionData = new(playerId);
+                            // string jsonData = JsonUtility.ToJson(extortionData);
+                            // byte[] data2 = ParsingManager.Instance.ParsingSendData(ParsingType.Extortion, jsonData);
+                            // Backend.Match.SendDataToInGameRoom(data2);
+
+                            // // 타일의 Alpha 값을 서서히 1로 올림
+                            // while (tileColor.a < 1f)
+                            // {
+                            //     tileColor.a += 0.02f;
+                            //     theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
+                            //     yield return new WaitForSeconds(0.02f);
+                            // }
+
+                            // byte[] data3 = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
+                            // Backend.Match.SendDataToInGameRoom(data3);
+
+                            // // theGM.seletedTile = null;
                         }
-                        else{ //강탈 할 땅이 없다면 그냥 턴 넘김
-                            byte[] data3 = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
+                        else
+                        { //강탈 할 땅이 없다면 그냥 턴 넘김
+                            byte[] data3 = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
                             Backend.Match.SendDataToInGameRoom(data3);
                         }
-                        
+
                         break;
                 }
             }
@@ -531,18 +534,18 @@ public class PlayerManager : MonoBehaviour
 
         blackBackground.SetActive(false);
         tpTile = theGM.seletedTile;
-        
+
         myTurn = false;
         tpFlag = true;
-        
+
         print("tpTileName is " + tpTile.name);
-        print("and, TPTile Find Name is "+ GameObject.Find(tpTile.name).name);
+        print("and, TPTile Find Name is " + GameObject.Find(tpTile.name).name);
         TeleportData tpData = new(tpFlag, tpTile.name);
 
         string jsonData = JsonUtility.ToJson(tpData);
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Teleport, jsonData);
         Backend.Match.SendDataToInGameRoom(data);
-        theGM.seletedTile = null;
+        // theGM.seletedTile = null;
         // theGM.NextTurnFunc();
     }
 
@@ -667,7 +670,8 @@ public class PlayerManager : MonoBehaviour
     }
 
     //건물강탈 코루틴
-    public IEnumerator ExtortionCoroutine(){
+    public IEnumerator ExtortionCoroutine()
+    {
         bool canExtortion = false;
         print("건물강탈!");
         // 상대방 소유의 타일이 있는지 체크
