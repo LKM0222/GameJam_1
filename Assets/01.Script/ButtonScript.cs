@@ -81,7 +81,7 @@ public class ButtonScript : MonoBehaviour
     {
         theAudio.Play("Click_Sound");
 
-        theGM.SetFloatingText(theGM.nowPlayer, 50, false);
+        // theGM.SetFloatingText(theGM.nowPlayer, 50, false);
 
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.GroundBuy, "");
         Backend.Match.SendDataToInGameRoom(data);

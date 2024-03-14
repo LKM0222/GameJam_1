@@ -238,7 +238,7 @@ public class EventManager : MonoBehaviour
                         // print("GroundBuySuccess");
                         GameManager.Instance.myCharactor.groundCount += 1;
                         GameManager.Instance.myCharactor.playerMoney -= 50;
-                        GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, 50, true);
+                        GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, 50, false);
                     }
                     else{
                         //상대방이 땅을 구매했을 때, 상대방 땅 색깔로 구매되었다는걸 알려줘야함.
@@ -247,7 +247,7 @@ public class EventManager : MonoBehaviour
                             = GameManager.Instance.myCharactor.againstPlayer.playerId;
                         GameManager.Instance.myCharactor.againstPlayer.groundCount += 1;
                         GameManager.Instance.myCharactor.againstPlayer.playerMoney -= 50;
-                        GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer.againstPlayer, 50, true);
+                        GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer.againstPlayer, 50, false);
                     }
                 break;
 
@@ -270,7 +270,7 @@ public class EventManager : MonoBehaviour
                         GameManager.Instance.myCharactor.againstPlayer.playerMoney -= 50; //건물 건설비용
                         GameManager.Instance.myCharactor.againstPlayer.nowTile.price = 
                         GameManager.Instance.buildings[bdata.buildingNum].toll;
-                        GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, 50, true);
+                        GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, 50, false);
                         GameManager.Instance.NextTurnFunc();
                         GameManager.Instance.UIFlag = false;
                     }
