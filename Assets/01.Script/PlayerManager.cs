@@ -403,14 +403,6 @@ public class PlayerManager : MonoBehaviour
                 {
                     // 양계장
                     case 0:
-                        // int totalMoney = 0;
-                        // for (int i = 0; i < theTM.tiles.Length; i++)
-                        // {
-                        //     if (theTM.tiles[i].ownPlayer == playerId && theTM.tiles[i].building.type == 0) totalMoney += 100;
-                        // }
-                        // playerMoney += totalMoney;
-                        // theGM.SetFloatingText(theGM.nowPlayer, totalMoney, true);
-                        // theGM.NextTurnFunc(); //여기서 처리해도 되나...? 서버로 안넘겨도 됨?
                         print("양계장");//myturn안에 있기 때문에 통신으로 처리를 하는중...
                         ArriveTileData arriveTileData = new(this.playerId, 100);
                         string arriveJsonData = JsonUtility.ToJson(arriveTileData);
@@ -434,47 +426,6 @@ public class PlayerManager : MonoBehaviour
                     case 3:
                         byte[] olympicData = ParsingManager.Instance.ParsingSendData(ParsingType.Olympic, "");
                         Backend.Match.SendDataToInGameRoom(olympicData);
-                        // bool haveBuilding = false;
-
-                        // // 자신의 소유인 타일이 있다면 플래그를 활성화하고 사운드 재생
-                        // for (int i = 0; i < theTM.tiles.Length; i++)
-                        // {
-                        //     if (theTM.tiles[i].ownPlayer == playerId)
-                        //     {
-                        //         haveBuilding = true;
-                        //         theAudio.Play("Olympics_Sound");
-                        //         break;
-                        //     }
-                        // }
-
-                        // if (haveBuilding)
-                        // {
-                        //     // 캐릭터를 비추는 카메라를 비활성화하고 맵을 비출때까지 대기
-                        //     VirtualCamera.SetActive(false);
-                        //     yield return new WaitForSeconds(0.5f);
-
-                        //     // 자신이 소유중인 타일에 파티클을 활성화
-                        //     for (int i = 0; i < theTM.tiles.Length; i++)
-                        //     {
-                        //         if (theTM.tiles[i].ownPlayer == playerId)
-                        //         {
-                        //             theTM.tiles[i].price *= 2;
-                        //             theTM.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(true);
-                        //             yield return new WaitForSeconds(0.1f);
-                        //         }
-                        //     }
-
-                        //     yield return new WaitForSeconds(1f);
-
-                        //     // 활성화한 파티클을 다시 비활성화
-                        //     for (int i = 0; i < theTM.tiles.Length; i++)
-                        //     {
-                                // if (theTM.tiles[i].ownPlayer == playerId)
-                        //         {
-                        //             theTM.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(false);
-                        //         }
-                        //     }
-                        // }
                         break;
 
                     // 건물강탈

@@ -415,15 +415,16 @@ public class EventManager : MonoBehaviour
                         case 0: //농장
                             GameManager.Instance.nowPlayer.playerMoney += visitData.money; //money = 200
                             GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, visitData.money, true);
-                        break;
+                            GameManager.Instance.NextTurnFunc();
+                            break;
                         
                         case 1: //재단
                             GameManager.Instance.nowPlayer.nowTile.price *= 2;
-                        break;
+                            GameManager.Instance.NextTurnFunc();
+                            break;
                                                 
                     }
-                    byte[] nextturnData = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn,"");
-                    Backend.Match.SendDataToInGameRoom(nextturnData);
+                    
                 break;
 
                 case ParsingType.ArriveTile: //양계장에 도착할 경우
@@ -556,7 +557,7 @@ public class EventManager : MonoBehaviour
     IEnumerator ArriveCoroutine(ParsingData pData){
         print("도착 코루틴 시작");
         ArriveTileData arriveTileData = JsonUtility.FromJson<ArriveTileData>(pData.data);
-        int totalMoney = 0;
+        int totalMoney = arriveTileData.value;
         print("파싱완료");
         //타일 체크
         for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
