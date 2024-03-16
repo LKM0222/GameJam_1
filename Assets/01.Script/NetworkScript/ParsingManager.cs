@@ -153,6 +153,10 @@ public class LaserData{
     }
 }
 
+public class ExemptionData{
+    public int value;
+}
+
 
 #endregion
 
