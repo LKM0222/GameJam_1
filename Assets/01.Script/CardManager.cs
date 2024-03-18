@@ -24,16 +24,19 @@ public class CardManager : MonoBehaviour
     public bool isSelectingLaser;
 
     public ParticleSystem destroyParticle;
-    
+
     public ParticleSystem highMoveParticle;
     public ParticleSystem InvisibleParticle;
     public ParticleSystem exemptionParticle;
 
     #region Instance
     private static CardManager _instance;
-    public static CardManager Instance{
-        get{
-            if(_instance == null){
+    public static CardManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
                 _instance = FindObjectOfType(typeof(CardManager)) as CardManager;
             }
             return _instance;
@@ -226,7 +229,7 @@ public class CardManager : MonoBehaviour
             // 효과음 추가하기
             theAudio.Play("InvisibleThief_Sound");
 
-            
+
             // if (theGM.nowPlayer.againstPlayer.cards[randomCard] == theGM.cards[6])
             // {
             //     theGM.nowPlayer.exemptionFlag = true;
@@ -301,7 +304,7 @@ public class CardManager : MonoBehaviour
             }
         }
         theAudio.Play("TollExemption_Sound");
-        
+
         //파티클
         exemptionParticle.transform.position = theGM.nowPlayer.transform.position;
         exemptionParticle.gameObject.SetActive(true);
@@ -396,46 +399,46 @@ public class CardManager : MonoBehaviour
             theGM.textManager.HideText();
         }
 
-        //카드 획득은 삭제함.
-        // if (theGM.nowPlayer.cardParent.childCount < 8)
-        // {
-        //     // 랜덤하게 카드번호를 추출
-        //     Card newCard = theGM.cards[UnityEngine.Random.Range(0, theGM.cards.Length)]; //UnityEngine.Random.Range(0, theGM.cards.Length)
 
-        //     // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
-        //     var _card = Instantiate(theGM.nowPlayer.cardPrefab, Vector3.zero, Quaternion.identity, theGM.nowPlayer.cardParent);
-        //     _card.transform.localPosition = new Vector3(0f, 0f, 0f);
-        //     theGM.nowPlayer.cards.Add(newCard); //팻말 아래 카드리스트 추가하는곳. ? 여기에 이거 들어가는거 맞나?
+        if (theGM.nowPlayer.cardParent.childCount < 8)
+        {
+            int randomNum = UnityEngine.Random.Range(0, theGM.cards.Length);
+            Card newCard = theGM.cards[randomNum];//Test
+
+            // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
+            var _card = Instantiate(theGM.nowPlayer.cardPrefab, Vector3.zero, Quaternion.identity, theGM.nowPlayer.cardParent);
+            _card.transform.localPosition = new Vector3(0f, 0f, 0f);
+            theGM.nowPlayer.cards.Add(newCard); //팻말 아래 카드리스트 추가하는곳. ? 여기에 이거 들어가는거 맞나?
 
 
-        //     StartCoroutine(ShowGetCard());
-        //     theAudio.Play("GetCard_Sound");
+            StartCoroutine(ShowGetCard(randomNum));
+            theAudio.Play("GetCard_Sound");
 
-        //     // 상세 카드 창에 카드 리스트 업데이트
-        //     theGM.CardListUpdate();
+            // 상세 카드 창에 카드 리스트 업데이트
+            theGM.CardListUpdate();
 
-        //     yield return new WaitUntil(() => isShowCard);
-        //     isShowCard = false;
+            yield return new WaitUntil(() => isShowCard);
+            isShowCard = false;
 
-        //     // 만약 통행료면제 카드라면 카드효과를 즉시 활성화.
-        //     if (newCard == theGM.cards[6])
-        //     {
-        //         theAudio.Play("TollExemption_Sound");
+            // 만약 통행료면제 카드라면 카드효과를 즉시 활성화.
+            if (newCard == theGM.cards[6])
+            {
+                theAudio.Play("TollExemption_Sound");
 
-        //         exemptionParticle.transform.position = theGM.nowPlayer.transform.position;
-        //         exemptionParticle.gameObject.SetActive(true);
-        //         exemptionParticle.Play();
+                exemptionParticle.transform.position = theGM.nowPlayer.transform.position;
+                exemptionParticle.gameObject.SetActive(true);
+                exemptionParticle.Play();
 
-        //         yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(1f);
 
-        //         exemptionParticle.gameObject.SetActive(false);
+                exemptionParticle.gameObject.SetActive(false);
 
-        //         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.ExemptionFlagSet,"");
-        //         Backend.Match.SendDataToInGameRoom(data);
-        //     }
+                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.ExemptionFlagSet, "");
+                Backend.Match.SendDataToInGameRoom(data);
+            }
 
-        //     theGM.penetrateComplete = true;
-        // }
+            theGM.penetrateComplete = true;
+        }
     }
 
     public IEnumerator LaserBeamCoroutine()
@@ -510,7 +513,7 @@ public class CardManager : MonoBehaviour
         // theGM.laserComplete = true;
     }
 
-    public IEnumerator ShowGetCard(int _cardNum)
+    public IEnumerator ShowGetCard(int _randomNum)
     {
         // GameManager에 만들어놓은 카드이미지 프리팹을 카드를 띄워줄 위치에 있는 오브젝트에 복제
         // 플레이 화면 좌측하단에 표시하는 함수
@@ -518,9 +521,8 @@ public class CardManager : MonoBehaviour
         GameObject _card = Instantiate(theGM.onlyCardImg, Vector3.zero, Quaternion.identity, theGM.showCardObject.transform);
         _card.transform.localPosition = new Vector3(0f, 0f, 0f);
         _card.transform.localScale = new Vector3(20f, 20f, 20f);
-        yield return new WaitUntil(() => theGM.nowPlayer.cards.Count > 0);
-        // _card.GetComponent<SpriteRenderer>().sprite = theGM.nowPlayer.cards[theGM.nowPlayer.cards.Count - 1].cardImg;
-        _card.GetComponent<SpriteRenderer>().sprite = theGM.cards[_cardNum].cardImg;
+
+        _card.GetComponent<SpriteRenderer>().sprite = theGM.cards[_randomNum].cardImg;
 
         // 3초 대기 이후 보여줬던 카드를 파괴하고 코루틴 탈출
         yield return new WaitForSeconds(3f);
@@ -536,8 +538,8 @@ public class CardManager : MonoBehaviour
         {
             // 랜덤하게 카드번호를 추출
             // Card newCard = theGM.cards[7];
-            int cardNum = UnityEngine.Random.Range(0,theGM.cards.Length);
-            Card newCard = theGM.cards[cardNum];//Test
+            int randomNum = UnityEngine.Random.Range(0, theGM.cards.Length);
+            Card newCard = theGM.cards[randomNum];//Test
 
             // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
 
@@ -550,7 +552,7 @@ public class CardManager : MonoBehaviour
             Backend.Match.SendDataToInGameRoom(sendData);
             // theGM.nowPlayer.cards.Add(newCard); (EventManager로 이동.)
 
-            StartCoroutine(ShowGetCard(cardNum));
+            StartCoroutine(ShowGetCard(randomNum));
             theAudio.Play("GetCard_Sound");
             yield return new WaitUntil(() => isShowCard);
             isShowCard = false;
@@ -568,7 +570,7 @@ public class CardManager : MonoBehaviour
 
                 exemptionParticle.gameObject.SetActive(false);
                 // theGM.nowPlayer.exemptionFlag = true;
-                byte[] senddata = ParsingManager.Instance.ParsingSendData(ParsingType.ExemptionFlagSet,"");
+                byte[] senddata = ParsingManager.Instance.ParsingSendData(ParsingType.ExemptionFlagSet, "");
                 Backend.Match.SendDataToInGameRoom(senddata);
             }
             //카드 받고나서 턴 넘기는 부분
@@ -587,8 +589,8 @@ public class CardManager : MonoBehaviour
         {
             // 랜덤하게 카드번호를 추출
             // Card newCard = theGM.cards[7];
-            int cardNum = UnityEngine.Random.Range(0, theGM.cards.Length);
-            Card newCard = theGM.cards[cardNum];//Test
+            int randomNum = UnityEngine.Random.Range(0, theGM.cards.Length);
+            Card newCard = theGM.cards[randomNum];//Test
 
             // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
 
@@ -601,7 +603,7 @@ public class CardManager : MonoBehaviour
             Backend.Match.SendDataToInGameRoom(sendData);
             // theGM.nowPlayer.cards.Add(newCard); (EventManager로 이동.)
 
-            StartCoroutine(ShowGetCard(cardNum));
+            StartCoroutine(ShowGetCard(randomNum));
             theAudio.Play("GetCard_Sound");
             yield return new WaitUntil(() => isShowCard);
             isShowCard = false;
@@ -619,7 +621,7 @@ public class CardManager : MonoBehaviour
 
                 exemptionParticle.gameObject.SetActive(false);
                 // theGM.nowPlayer.exemptionFlag = true;
-                byte[] senddata = ParsingManager.Instance.ParsingSendData(ParsingType.ExemptionFlagSet,"");
+                byte[] senddata = ParsingManager.Instance.ParsingSendData(ParsingType.ExemptionFlagSet, "");
                 Backend.Match.SendDataToInGameRoom(senddata);
             }
             // //카드 받고나서 턴 넘기는 부분
@@ -630,5 +632,5 @@ public class CardManager : MonoBehaviour
         isGetCard = true;
     }
 
-    
+
 }

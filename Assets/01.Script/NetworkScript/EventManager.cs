@@ -603,11 +603,15 @@ public class EventManager : MonoBehaviour
             yield return new WaitForSeconds(0.02f);
         }
 
-        // 턴을 넘기는 코드가 여기 있어서 나+상대방까지 해서 턴이 두 번 넘어가게됨. 이 코드를 한 번만 실행 할 수 있도록 조정해야함
-        byte[] data3 = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
-        Backend.Match.SendDataToInGameRoom(data3);
-
         GameManager.Instance.seletedTile = null;
+
+        GameManager.Instance.NextTurnFunc();
+        GameManager.Instance.UIFlag = false;
+
+
+        // 턴을 넘기는 코드가 여기 있어서 나+상대방까지 해서 턴이 두 번 넘어가게됨. 이 코드를 한 번만 실행 할 수 있도록 조정해야함
+        // byte[] data3 = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
+        // Backend.Match.SendDataToInGameRoom(data3);
 
 
 
