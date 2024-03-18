@@ -20,10 +20,11 @@ public class BackendLogin
         }
     }
     
-    public void CustomSignUp(string id, string pw, string nickname, string email){
+    public int CustomSignUp(string id, string pw, string nickname, string email){
         Debug.Log("회원가입을 요청합니다."); //아직까지는 문자열 사이의 공백은 신경쓰지 않고 있음. 추후 수정
         if(id.Trim() == "" || pw.Trim() == "" || nickname.Trim() == "" || email.Trim() == ""){ //
             Debug.Log("입력값이 없는 곳이 있습니다.");
+            return 1;
         }
         else{
             var bro = Backend.BMember.CustomSignUp(id, pw);
@@ -32,16 +33,19 @@ public class BackendLogin
 
                 var Nemail = Backend.BMember.UpdateCustomEmail(email);
                 if (Nemail.IsSuccess())Debug.Log("이메일 변경 로그" + Nemail);
-                else Debug.Log("이메일 변경 실패");
+                else {Debug.Log("이메일 변경 실패"); return 2;}
+                
 
                 var Nnickname = Backend.BMember.UpdateNickname(nickname);
                 if(Nnickname.IsSuccess()) {
                     Debug.Log("닉네임 변경 로그" + Nnickname);
-                } else Debug.Log("닉네임 변경 실패");
+                } else {Debug.Log("닉네임 변경 실패"); return 3;}
 
                 BackendGameData.Instance.GameDataInsert(nickname,email);
+                return 4;
             } else {
                 Debug.Log("회원가입 실패! : " +bro);
+                return 5;
             }
         }
     }

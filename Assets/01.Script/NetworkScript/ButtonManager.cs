@@ -31,13 +31,35 @@ public class ButtonManager : MonoBehaviour
     [SerializeField] GameObject inviteResultPopup;
     [SerializeField] Text inviteResultText;
 
-    // List<>
+    // UI
     
-
+    public GameObject SignupUI;
+    public Text SignupText;
+    
+    int result;
     public async void SignUpBtn(){
+        
         await Task.Run(() => {
-            BackendLogin.Instance.CustomSignUp(signIdInput.text, signPwInput.text, signNickNameInput.text, signEmailInput.text);
+            result = BackendLogin.Instance.CustomSignUp(signIdInput.text, signPwInput.text, signNickNameInput.text, signEmailInput.text);
         });
+        SignupUI.SetActive(true);
+        switch(result){
+                case 1: 
+                    SignupText.text = "입력값이 없는곳이 있습니다.";
+                break;
+                case 2: 
+                    SignupText.text = "이메일 변경 실패.";
+                break;
+                case 3: 
+                    SignupText.text = "닉네임 변경 실패.";
+                break;
+                case 4: 
+                    SignupText.text = "회원가입 성공";
+                break;
+                case 5: 
+                    SignupText.text = "회원가입 실패";
+                break;
+        }
     }
 
     public async void LoginBtn(){

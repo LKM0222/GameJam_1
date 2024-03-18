@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BackEnd;
 using BackEnd.Tcp;
+using UnityEngine.UI;
 
 public class BackendManager : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class BackendManager : MonoBehaviour
 
     //SessionID
     public SessionId mySessionId;
+
+    //SignUpUI
 
     private void Awake() {
         if(_instance == null){
@@ -51,4 +54,5 @@ public class BackendManager : MonoBehaviour
             Backend.Match.Poll();
         }
     }
+
 }
