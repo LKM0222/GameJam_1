@@ -33,9 +33,10 @@ public class ButtonManager : MonoBehaviour
 
     // UI
     
+    [Header("Signup Success UI")]
     public GameObject SignupUI;
     public Text SignupText;
-    
+
     int result;
     public async void SignUpBtn(){
         

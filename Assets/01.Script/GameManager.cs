@@ -117,6 +117,9 @@ public class GameManager : MonoBehaviour
     public ParticleSystem exemptionParticle;
     public ParticleSystem laserParticle;
 
+    //재시작 버튼
+    public GameObject RestartBtn;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -129,19 +132,9 @@ public class GameManager : MonoBehaviour
         theAudio = FindObjectOfType<AudioManager>();
         theTM = FindObjectOfType<TileManager>();
         theTSI = FindObjectOfType<TurnSignScript>();
-        //AudioManager.instance.Play("mainSound");
-        //턴 선택 카드 번호 랜덤으로 설정(이거 eventmanager로 이동한거 아님?)
-        // if (Random.Range(0, 2) == 0)
-        // {
-        //     turnCards[0].GetComponent<ButtonScript>().turnNum = 1;
-        //     turnCards[1].GetComponent<ButtonScript>().turnNum = 2;
-        // }
-        // else
-        // {
-        //     turnCards[0].GetComponent<ButtonScript>().turnNum = 2;
-        //     turnCards[1].GetComponent<ButtonScript>().turnNum = 1;
-        // }
         AudioManager.instance.Play("MainGame_Sound");
+
+        StartCoroutine(RestartCoroutine());
     }
 
     // Update is called once per frame
@@ -473,6 +466,12 @@ public class GameManager : MonoBehaviour
 
         seletedTile = null;
         laserComplete = true;
+    }
+
+    IEnumerator RestartCoroutine(){
+        //5초동안 게임 시작 불가능하다면
+        yield return new WaitForSeconds(5f);
+        RestartBtn.SetActive(true);
     }
 
 }
