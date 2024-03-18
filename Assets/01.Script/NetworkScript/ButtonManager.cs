@@ -97,7 +97,17 @@ public class ButtonManager : MonoBehaviour
     }
 
     public void BackTitleBtn(){
+        // Backend.BMember.Logout((callback) => {
+        //     // 이후 처리
+        //     print("Logout");
+        //     if(callback.IsSuccess()){
+        //         SceneManager.LoadScene("TitleScene");
+        //     }
+        // });
+        Backend.BMember.Logout();
+        Backend.Match.LeaveMatchMakingServer();
         SceneManager.LoadScene("TitleScene");
+        
     }
 
     public void NicknameTest(){
