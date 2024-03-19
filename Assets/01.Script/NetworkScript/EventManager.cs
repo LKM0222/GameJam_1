@@ -465,8 +465,8 @@ public class EventManager : MonoBehaviour
                     break;
 
                 case ParsingType.ArriveTile: //양계장에 도착할 경우
-                    // StartCoroutine(ArriveCoroutine(pData)); //플로팅 텍스트 때문에 코루틴으로 뺌
-                    ArriveFunc(pData);
+                    StartCoroutine(ArriveCoroutine(pData)); //플로팅 텍스트 때문에 코루틴으로 뺌
+                    // ArriveFunc(pData);
                     break;
 
                 case ParsingType.Olympic:
