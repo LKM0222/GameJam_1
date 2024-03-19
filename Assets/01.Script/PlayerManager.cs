@@ -598,6 +598,7 @@ public class PlayerManager : MonoBehaviour
         }
 
         VirtualCamera.SetActive(false);
+        yield return new WaitForSeconds(0.5f); // 카메라가 정상으로 돌아오고 다음 행동이 실행되기 위한 대기
         StartCoroutine(CheckArriveTile());
     }
 
