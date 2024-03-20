@@ -663,8 +663,8 @@ public class EventManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, totalMoney, true);
         print("플로팅 텍스트 완료");
-        byte[] ndata = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
-        Backend.Match.SendDataToInGameRoom(ndata);
+        GameManager.Instance.NextTurnFunc();
+        GameManager.Instance.UIFlag = false;
         print("nextturn Finish");
     }
     void ArriveFunc(ParsingData pData){
