@@ -456,8 +456,11 @@ public class EventManager : MonoBehaviour
                             break;
 
                         case 1: //재단
-                            GameManager.Instance.nowPlayer.nowTile.price *= 2;
-                            GameManager.Instance.NextTurnFunc();
+                            StartCoroutine(TempleCoroutine()); //재단 활성화 되었을때 파티클 재생위해 코루틴으로 수정
+                            // GameManager.Instance.nowPlayer.nowTile.price *= 2;
+                            // GameManager.Instance.nowPlayer.nowTile.transform.Find("Pos").GetChild(0).gameObject.SetActive(true);
+                            // // yield return new WaitForSeconds(0.1f);
+                            // GameManager.Instance.NextTurnFunc();
                             break;
 
                     }
@@ -591,10 +594,6 @@ public class EventManager : MonoBehaviour
 
         // ownPlayer를 바꿔서 땅의 소유주를 바꿔주고, signImg도 동시에 변하게함
         GameManager.Instance.seletedTile.GetComponent<Tile>().ownPlayer = playerId;
-        // ExtortionData extortionData = new(playerId);
-        // string jsonData = JsonUtility.ToJson(extortionData);
-        // byte[] data2 = ParsingManager.Instance.ParsingSendData(ParsingType.Extortion, jsonData);
-        // Backend.Match.SendDataToInGameRoom(data2);
 
         // 타일의 Alpha 값을 서서히 1로 올림
         while (tileColor.a < 1f)
@@ -608,41 +607,6 @@ public class EventManager : MonoBehaviour
 
         GameManager.Instance.NextTurnFunc();
         GameManager.Instance.UIFlag = false;
-
-
-        // 턴을 넘기는 코드가 여기 있어서 나+상대방까지 해서 턴이 두 번 넘어가게됨. 이 코드를 한 번만 실행 할 수 있도록 조정해야함
-        // byte[] data3 = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
-        // Backend.Match.SendDataToInGameRoom(data3);
-
-
-
-
-
-
-
-
-
-
-        // print("ExtortionAlphaCoroutine Start");
-        // while (tileColor.a > 0f)
-        // {
-        //     tileColor.a -= 0.02f;
-        //     //타일 선택에 오류가 있음.
-        //     GameManager.Instance.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
-        //     yield return new WaitForSeconds(0.02f);
-        // }
-
-        // // ownPlayer를 바꿔서 땅의 소유주를 바꿔주고, signImg도 동시에 변하게함
-        // GameManager.Instance.seletedTile.GetComponent<Tile>().ownPlayer = playerId;
-
-        // // 타일의 Alpha 값을 서서히 1로 올림
-        // while (tileColor.a < 1f)
-        // {
-        //     tileColor.a += 0.02f;
-        //     GameManager.Instance.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
-        //     yield return new WaitForSeconds(0.02f);
-        // }
-        // GameManager.Instance.seletedTile = null;
     }
 
     //양계장 코루틴
@@ -667,24 +631,13 @@ public class EventManager : MonoBehaviour
         GameManager.Instance.UIFlag = false;
         print("nextturn Finish");
     }
-    void ArriveFunc(ParsingData pData){
-        ArriveTileData arriveTileData = JsonUtility.FromJson<ArriveTileData>(pData.data);
-        int totalMoney = arriveTileData.value;
-        print("파싱완료");
-        //타일 체크
-        for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
-        {
-            print("TileCheck");
-            if (TileManager.Instance.tiles[i].ownPlayer == arriveTileData.playerId && TileManager.Instance.tiles[i].building.type == 0) totalMoney += 100;
-        }
-        GameManager.Instance.nowPlayer.playerMoney += totalMoney;
-        print("돈 추가 완료");
-        // yield return new WaitForSeconds(0.5f);
-        GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, totalMoney, true);
-        print("플로팅 텍스트 완료");
-        byte[] ndata = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
-        Backend.Match.SendDataToInGameRoom(ndata);
-        print("nextturn Finish");
+    
+    //재단 코루틴
+    IEnumerator TempleCoroutine(){
+        GameManager.Instance.nowPlayer.nowTile.price *= 2;
+        GameManager.Instance.nowPlayer.nowTile.transform.Find("Pos").GetChild(0).gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        GameManager.Instance.nowPlayer.nowTile.transform.Find("Pos").GetChild(0).gameObject.SetActive(false);
+        GameManager.Instance.NextTurnFunc();
     }
-
 }
