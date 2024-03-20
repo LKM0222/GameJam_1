@@ -471,37 +471,6 @@ public class PlayerManager : MonoBehaviour
                             string jsonData = JsonUtility.ToJson(extortionData);
                             byte[] data2 = ParsingManager.Instance.ParsingSendData(ParsingType.Extortion, jsonData);
                             Backend.Match.SendDataToInGameRoom(data2);
-
-                            // //여기부터 둘 다 처리되어야 하는 부분.
-                            // Color tileColor = theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
-
-                            // // 타일의 Alpha 값을 서서히 0으로 줄임
-                            // while (tileColor.a > 0f)
-                            // {
-                            //     tileColor.a -= 0.02f;
-                            //     theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
-                            //     yield return new WaitForSeconds(0.02f);
-                            // }
-
-                            // // ownPlayer를 바꿔서 땅의 소유주를 바꿔주고, signImg도 동시에 변하게함
-                            // // theGM.seletedTile.GetComponent<Tile>().ownPlayer = playerId;
-                            // ExtortionData extortionData = new(playerId);
-                            // string jsonData = JsonUtility.ToJson(extortionData);
-                            // byte[] data2 = ParsingManager.Instance.ParsingSendData(ParsingType.Extortion, jsonData);
-                            // Backend.Match.SendDataToInGameRoom(data2);
-
-                            // // 타일의 Alpha 값을 서서히 1로 올림
-                            // while (tileColor.a < 1f)
-                            // {
-                            //     tileColor.a += 0.02f;
-                            //     theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
-                            //     yield return new WaitForSeconds(0.02f);
-                            // }
-
-                            // byte[] data3 = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
-                            // Backend.Match.SendDataToInGameRoom(data3);
-
-                            // // theGM.seletedTile = null;
                         }
                         else
                         { //강탈 할 땅이 없다면 그냥 턴 넘김

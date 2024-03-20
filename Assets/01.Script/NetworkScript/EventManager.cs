@@ -264,6 +264,7 @@ public class EventManager : MonoBehaviour
                         // print("GroundBuySuccess");
                         GameManager.Instance.myCharactor.groundCount += 1;
                         GameManager.Instance.myCharactor.playerMoney -= 50;
+                        GameManager.Instance.nowPlayer.nowTile.price = 50;
                         // GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, 50, false);
                     }
                     else
@@ -274,6 +275,7 @@ public class EventManager : MonoBehaviour
                             = GameManager.Instance.myCharactor.againstPlayer.playerId;
                         GameManager.Instance.myCharactor.againstPlayer.groundCount += 1;
                         GameManager.Instance.myCharactor.againstPlayer.playerMoney -= 50;
+                        GameManager.Instance.nowPlayer.nowTile.price = 50;
                         // GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer.againstPlayer, 50, false);
                     }
                     GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, 50, false);
@@ -414,15 +416,6 @@ public class EventManager : MonoBehaviour
                     break;
 
                 case ParsingType.ExemptionFlag: //상대방 땅에 걸린경우
-                    // PlayerManager nPlayer = GameManager.Instance.nowPlayer;
-                    // nPlayer.playerMoney -= nPlayer.nowTile.price;
-                    // GameManager.Instance.SetFloatingText(nPlayer,nPlayer.nowTile.price, false);
-                    // nPlayer.againstPlayer.playerMoney += nPlayer.nowTile.price;
-                    // GameManager.Instance.SetFloatingText(nPlayer.againstPlayer, nPlayer.nowTile.price, true);
-
-
-                    // GameManager.Instance.NextTurnFunc();
-                    // GameManager.Instance.UIFlag = false;
                     if (!GameManager.Instance.nowPlayer.exemptionFlag)
                     {
                         GameManager.Instance.nowPlayer.playerMoney -= GameManager.Instance.nowPlayer.nowTile.price;
