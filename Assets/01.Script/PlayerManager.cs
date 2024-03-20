@@ -327,7 +327,7 @@ public class PlayerManager : MonoBehaviour
                 if (nowTile.ownPlayer == playerId)
                 {
                     // 건물이 없으면 건물 구매 UI 활성화
-                    if (nowTile.building.buildingImg == null)
+                    if (nowTile.price == 50)
                     {
                         print("건물이 없는 땅");
                         purchaseUi.SetActive(true);
