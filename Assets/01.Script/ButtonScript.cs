@@ -100,7 +100,8 @@ public class ButtonScript : MonoBehaviour
             if (GameManager.Instance.turnIndex == 1)
             {
                 GameManager.Instance.myCharactor = GameObject.Find("Player1").GetComponent<PlayerManager>();
-                SessionData sessionData = new(GameManager.Instance.mySessionId, GameManager.Instance.turnIndex);
+                // SessionData sessionData = new(GameManager.Instance.mySessionId, GameManager.Instance.turnIndex);
+                SessionData sessionData = new(BackendManager.Instance.mySessionId, GameManager.Instance.turnIndex);
                 string jsondata = JsonUtility.ToJson(sessionData); 
                 ParsingManager.Instance.ParsingSendData(ParsingType.Session, jsondata);
             }

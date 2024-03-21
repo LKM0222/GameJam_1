@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -13,8 +15,15 @@ public class UIManager : MonoBehaviour
             return _instance;
         }
     }
-    [SerializeField] GameObject watingUI, turnCardUI, gameoverUI;
+    public GameObject watingUI, turnCardUI, gameoverUI;
 
+    [Header("GameOver UI")]
+    public TMP_Text goTitle; 
+    public TMP_Text goMoney;
+    public TMP_Text goStatus;
+    public GameObject goImg;
+    public Sprite[] winImg = new Sprite[2];
+    
     public void SetUI(){
        watingUI.SetActive(false);
        turnCardUI.SetActive(true); 

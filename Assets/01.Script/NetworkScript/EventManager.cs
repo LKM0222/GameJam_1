@@ -143,6 +143,7 @@ public class EventManager : MonoBehaviour
                 // MatchingRoomScript.Instance.matchingRoomLogStr += "인게임서버 접속 성공\n"; //주석처리 이유 : 이 구문이 왜 반복적으로 호출되는지 모르겠지만
                 //일단 이 구문이 반복호출되면서 text가 200줄을 넘어가기 때문에 일단 비활성화
                 Backend.Match.JoinGameRoom(this.roomInfo.m_inGameRoomToken); //OnMatchMakingResponse에서 전달받은 RoomToken을 여기로 전달.
+                GameManager.Instance.nowPlayer.sessionId = args.Session.SessionId;
                 // Debug.Log("게임방에 접속시도합니다.");
                 // MatchingRoomScript.Instance.matchingRoomLogStr += "게임방에 접속 시도합니다.\n"; //여기도 마찬가지
                 //다른 에러 케이스가 많지만 그건 추후에...
@@ -174,6 +175,7 @@ public class EventManager : MonoBehaviour
             {
                 Debug.Log(args.GameRecord.m_nickname + "접속 완료");
                 BackendManager.Instance.mySessionId = args.GameRecord.m_sessionId;
+                print("접속한 사람의 정보:" + args.GameRecord.m_sessionId + ", " + args.GameRecord.m_nickname);
                 MenuSceneManager.Instance.matchingLogStr += "접속 완료\n";
 
                 SceneManager.LoadScene("TestScene");

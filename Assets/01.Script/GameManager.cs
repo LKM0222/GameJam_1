@@ -120,6 +120,9 @@ public class GameManager : MonoBehaviour
     //재시작 버튼
     public GameObject RestartBtn;
 
+    //승리 패배 플래그
+    public bool winFlag;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -135,6 +138,8 @@ public class GameManager : MonoBehaviour
         AudioManager.instance.Play("MainGame_Sound");
 
         StartCoroutine(RestartCoroutine());
+
+        print("my sessionID is " + BackendManager.Instance.mySessionId);
     }
 
     // Update is called once per frame
@@ -150,30 +155,6 @@ public class GameManager : MonoBehaviour
             // 턴을 종료하고 상대 턴으로 넘어갔다면
             if (nextTurn)
             {
-                /*
-                //나머지가 1이면 1플레이어, 0이면 2플레이어
-                if (turnCount % 2 == 1)
-                {
-                    //player의 myturn을 하나로 만들어야될듯....
-                    // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
-                    players[0].myTurn = true;
-                    players[1].myTurn = false;
-                    nowPlayer = players[0];
-                    CardListUpdate();
-                AudioManager.instance.Play("TurnChange_Sound");
-
-                }
-                else
-                {
-                    // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
-                    players[1].myTurn = true;
-                    players[0].myTurn = false;
-                    nowPlayer = players[1];
-                    CardListUpdate();
-                AudioManager.instance.Play("TurnChange_Sound");
-
-                }
-                */
                 print("turnCount is " + turnCount % 2);
                 CardListUpdate();
                 if (turnCount % 2 == turnIndex)
@@ -182,7 +163,6 @@ public class GameManager : MonoBehaviour
                     // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
                     myCharactor.myTurn = true;
                     nowPlayer = myCharactor;
-                    // CardListUpdate();
                 }
                 else
                 {
@@ -193,7 +173,6 @@ public class GameManager : MonoBehaviour
                     {
                         nowPlayer.myTurn = true;
                     }
-                    // CardListUpdate();
                 }
                 nextTurn = false;
                 theTSI.cursorPos = 1;
@@ -233,22 +212,70 @@ public class GameManager : MonoBehaviour
     {
         if (CheckGameOver() < 2)
         {
+            print("GameOver");
+            UIManager.Instance.gameoverUI.SetActive(true);
             MatchGameResult matchGameResult = new MatchGameResult();
             matchGameResult.m_winners = new List<SessionId>();
             matchGameResult.m_losers = new List<SessionId>();
+ 
+            UserData user = BackendGameData.Instance.GameDataGet(); //유저의 승률을 가져오기 위한 변수
 
             if (CheckGameOver() == 1)
             {
                 //player2 패배
-                matchGameResult.m_winners.Add(sessionArr[1]);
-                matchGameResult.m_losers.Add(sessionArr[0]);
+                print("player2패배");
+                // matchGameResult.m_winners.Add(GameManager.Instance.players[1].sessionId);
+                // matchGameResult.m_losers.Add(GameManager.Instance.players[0].sessionId);
+                matchGameResult.m_winners.Add(GameManager.Instance.sessionArr[1]);
+                matchGameResult.m_losers.Add(GameManager.Instance.sessionArr[0]);
+                UIManager.Instance.goImg.GetComponent<UnityEngine.UI.Image>().sprite = UIManager.Instance.winImg[0];
+
+                print("유저정보" + user.winscore + ", " + user.losescore);
+                if(myCharactor == GameManager.Instance.players[0]){
+                    UIManager.Instance.goTitle.text = "WIN!";
+                    UIManager.Instance.goMoney.text = GameManager.Instance.myCharactor.playerMoney.ToString();
+                    UIManager.Instance.goStatus.text = user.winscore + "승 " + user.losescore +"패 " + " 승률:" + ( user.winscore / (user.winscore + user.losescore)) + "%";
+                    ButtonManager.Instance.UpScore(true);
+                    print("player1 win and winscore 1");
+                }
+                else{
+                    UIManager.Instance.goTitle.text = "LOSE..";
+                    UIManager.Instance.goMoney.text = GameManager.Instance.myCharactor.playerMoney.ToString();
+                    UIManager.Instance.goStatus.text = user.winscore + "승 " + user.losescore +"패 " + " 승률:" + ( user.winscore / (user.winscore + user.losescore)) + "%";
+                    ButtonManager.Instance.UpScore(false);
+                    print("player2 lose and losescore 1");
+                }
             }
             if (CheckGameOver() == 0)
             {
                 //player1 패배
-                matchGameResult.m_winners.Add(sessionArr[0]);
-                matchGameResult.m_losers.Add(sessionArr[1]);
+                print("player1패배");
+                // matchGameResult.m_winners.Add(GameManager.Instance.players[0].sessionId);
+                // matchGameResult.m_losers.Add(GameManager.Instance.players[1].sessionId);
+                matchGameResult.m_winners.Add(GameManager.Instance.sessionArr[0]);
+                matchGameResult.m_losers.Add(GameManager.Instance.sessionArr[1]);
+                UIManager.Instance.goImg.GetComponent<UnityEngine.UI.Image>().sprite = UIManager.Instance.winImg[1];
+
+                print("유저정보" + user.winscore + ", " + user.losescore);
+                if(myCharactor == GameManager.Instance.players[1]){
+                    UIManager.Instance.goTitle.text = "WIN!";
+                    UIManager.Instance.goMoney.text = GameManager.Instance.myCharactor.playerMoney.ToString();
+                    UIManager.Instance.goStatus.text =  user.winscore + "승 " + user.losescore +"패 " + " 승률:" + ( user.winscore / (user.winscore + user.losescore)) + "%";
+                    ButtonManager.Instance.UpScore(true);
+                    print("player2 win and winscore 1");
+                }
+                else{
+                    
+                    UIManager.Instance.goTitle.text = "LOSE..";
+                    UIManager.Instance.goMoney.text = GameManager.Instance.myCharactor.playerMoney.ToString();
+                    UIManager.Instance.goStatus.text = user.winscore + "승 " + user.losescore +"패 " + " 승률:" + ( user.winscore / (user.winscore + user.losescore)) + "%";
+                    ButtonManager.Instance.UpScore(false);
+                    print("player1 lose and losescore 1");
+                }
+
             }
+            print("session is");
+            print(matchGameResult.m_winners +" "+matchGameResult.m_losers);
             Backend.Match.MatchEnd(matchGameResult);
         }
         else
