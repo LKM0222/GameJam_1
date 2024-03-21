@@ -437,6 +437,8 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator LaserCoroutine()
     {
+        nowPlayer.laserFlag = false;
+
         theAudio.Play("Laser_Sound");
         // 건물과 타일의 컬러를 받아옴
         Color buildingColor = seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color;
