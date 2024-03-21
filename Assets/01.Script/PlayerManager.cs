@@ -172,12 +172,10 @@ public class PlayerManager : MonoBehaviour
             StartCoroutine(MovingPlayerCoroutine(targetPos));
             yield return new WaitUntil(() => isMoving == false);
 
+            CheckPassTile();
+
             nowTile = tileToGo[0].GetComponent<Tile>();
             tileToGo.RemoveAt(0);
-            if (tileToGo.Count != 0)
-            {
-                CheckPassTile();
-            }
         }
 
         movingWaitTime = 0f;
