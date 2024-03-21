@@ -138,6 +138,8 @@ public class GameManager : MonoBehaviour
         AudioManager.instance.Play("MainGame_Sound");
 
         StartCoroutine(RestartCoroutine());
+
+        print("my sessionID is " + BackendManager.Instance.mySessionId);
     }
 
     // Update is called once per frame
