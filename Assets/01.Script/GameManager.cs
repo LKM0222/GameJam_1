@@ -235,7 +235,7 @@ public class GameManager : MonoBehaviour
 
             }
             print("session is");
-            print(matchGameResult);
+            print(matchGameResult.m_winners +" "+matchGameResult.m_losers);
             Backend.Match.MatchEnd(matchGameResult);
         }
         else
