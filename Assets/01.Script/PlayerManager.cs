@@ -172,10 +172,10 @@ public class PlayerManager : MonoBehaviour
             StartCoroutine(MovingPlayerCoroutine(targetPos));
             yield return new WaitUntil(() => isMoving == false);
 
-            CheckPassTile();
-
             nowTile = tileToGo[0].GetComponent<Tile>();
             tileToGo.RemoveAt(0);
+
+            CheckPassTile();
         }
 
         movingWaitTime = 0f;
@@ -221,12 +221,17 @@ public class PlayerManager : MonoBehaviour
         // 투명도둑을 사용하고 나와 상대방이 겹쳐질때, 상대방의 카드가 있을 때 투명도둑 효과 발동
         if (invisibleFlag)
         {
-            print("invisible");
-            if (againstPlayer.nowTile == nowTile && againstPlayer.cards.Count != 0)
+            // tileToGo가 남았다는건, 아직 움직일 타일이 남아있다는 것.
+            // 이 조건을 추가함으로써 상대방과 같은 타일에 도착하는 순간에는 검사하지 않음
+            if (tileToGo.Count != 0)
             {
-                print("invisibleTrue"); //이거 테스트 해야됨.
-                StartCoroutine(theCM.InvisibleThief());
-                print("invisibleFinish");
+                print("invisible");
+                if (againstPlayer.nowTile == nowTile && againstPlayer.cards.Count != 0)
+                {
+                    print("invisibleTrue"); //이거 테스트 해야됨.
+                    StartCoroutine(theCM.InvisibleThief());
+                    print("invisibleFinish");
+                }
             }
         }
     }
