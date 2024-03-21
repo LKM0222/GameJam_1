@@ -400,45 +400,45 @@ public class CardManager : MonoBehaviour
         }
 
 
-        if (theGM.nowPlayer.cardParent.childCount < 8)
-        {
-            int randomNum = UnityEngine.Random.Range(0, theGM.cards.Length);
-            Card newCard = theGM.cards[randomNum];//Test
+        // if (theGM.nowPlayer.cardParent.childCount < 8)
+        // {
+        //     int randomNum = UnityEngine.Random.Range(0, theGM.cards.Length);
+        //     Card newCard = theGM.cards[randomNum];//Test
 
-            // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
-            var _card = Instantiate(theGM.nowPlayer.cardPrefab, Vector3.zero, Quaternion.identity, theGM.nowPlayer.cardParent);
-            _card.transform.localPosition = new Vector3(0f, 0f, 0f);
-            theGM.nowPlayer.cards.Add(newCard); //팻말 아래 카드리스트 추가하는곳. ? 여기에 이거 들어가는거 맞나?
+        //     // 팻말 아래 카드리스트에 복제하고 플레이어의 카드 목록에 추가함
+        //     var _card = Instantiate(theGM.nowPlayer.cardPrefab, Vector3.zero, Quaternion.identity, theGM.nowPlayer.cardParent);
+        //     _card.transform.localPosition = new Vector3(0f, 0f, 0f);
+        //     theGM.nowPlayer.cards.Add(newCard); //팻말 아래 카드리스트 추가하는곳. ? 여기에 이거 들어가는거 맞나?
 
 
-            StartCoroutine(ShowGetCard(randomNum));
-            theAudio.Play("GetCard_Sound");
+        //     StartCoroutine(ShowGetCard(randomNum));
+        //     theAudio.Play("GetCard_Sound");
 
-            // 상세 카드 창에 카드 리스트 업데이트
-            theGM.CardListUpdate();
+        //     // 상세 카드 창에 카드 리스트 업데이트
+        //     theGM.CardListUpdate();
 
-            yield return new WaitUntil(() => isShowCard);
-            isShowCard = false;
+        //     yield return new WaitUntil(() => isShowCard);
+        //     isShowCard = false;
 
-            // 만약 통행료면제 카드라면 카드효과를 즉시 활성화.
-            if (newCard == theGM.cards[6])
-            {
-                theAudio.Play("TollExemption_Sound");
+        //     // 만약 통행료면제 카드라면 카드효과를 즉시 활성화.
+        //     if (newCard == theGM.cards[6])
+        //     {
+        //         theAudio.Play("TollExemption_Sound");
 
-                exemptionParticle.transform.position = theGM.nowPlayer.transform.position;
-                exemptionParticle.gameObject.SetActive(true);
-                exemptionParticle.Play();
+        //         exemptionParticle.transform.position = theGM.nowPlayer.transform.position;
+        //         exemptionParticle.gameObject.SetActive(true);
+        //         exemptionParticle.Play();
 
-                yield return new WaitForSeconds(1f);
+        //         yield return new WaitForSeconds(1f);
 
-                exemptionParticle.gameObject.SetActive(false);
+        //         exemptionParticle.gameObject.SetActive(false);
 
-                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.ExemptionFlagSet, "");
-                Backend.Match.SendDataToInGameRoom(data);
-            }
+        //         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.ExemptionFlagSet, "");
+        //         Backend.Match.SendDataToInGameRoom(data);
+        //     }
 
-            theGM.penetrateComplete = true;
-        }
+        //     theGM.penetrateComplete = true;
+        // }
     }
 
     public IEnumerator LaserBeamCoroutine()

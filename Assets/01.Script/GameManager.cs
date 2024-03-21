@@ -368,7 +368,7 @@ public class GameManager : MonoBehaviour
             print("카메라 효과 시작");
             // 캐릭터를 비추는 카메라를 비활성화하고 맵을 비출때까지 대기
             VirtualCamera.SetActive(false);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
 
             // 자신이 소유중인 타일에 파티클을 활성화
             for (int i = 0; i < theTM.tiles.Length; i++)
