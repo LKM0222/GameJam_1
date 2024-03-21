@@ -38,6 +38,18 @@ public class ButtonManager : MonoBehaviour
     public Text SignupText;
 
     int result;
+
+    private static ButtonManager _instance;
+    public static ButtonManager Instance{
+        get{
+            if(_instance == null)
+                _instance = FindObjectOfType(typeof(ButtonManager)) as ButtonManager;
+
+            return _instance;
+        }
+    }
+
+    
     public async void SignUpBtn(){
         
         await Task.Run(() => {

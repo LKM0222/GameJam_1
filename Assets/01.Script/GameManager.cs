@@ -214,6 +214,8 @@ public class GameManager : MonoBehaviour
             MatchGameResult matchGameResult = new MatchGameResult();
             matchGameResult.m_winners = new List<SessionId>();
             matchGameResult.m_losers = new List<SessionId>();
+ 
+            UserData user = BackendGameData.Instance.GameDataGet(); //유저의 승률을 가져오기 위한 변수
 
             if (CheckGameOver() == 1)
             {
@@ -221,8 +223,23 @@ public class GameManager : MonoBehaviour
                 print("player2패배");
                 // matchGameResult.m_winners.Add(GameManager.Instance.players[1].sessionId);
                 // matchGameResult.m_losers.Add(GameManager.Instance.players[0].sessionId);
-                matchGameResult.m_winners.Add(GameManager.Instance.sessionArr[1]);
-                matchGameResult.m_losers.Add(GameManager.Instance.sessionArr[0]);
+                // matchGameResult.m_winners.Add(GameManager.Instance.sessionArr[1]);
+                // matchGameResult.m_losers.Add(GameManager.Instance.sessionArr[0]);
+                UIManager.Instance.goImg.GetComponent<UnityEngine.UI.Image>().sprite = UIManager.Instance.winImg[0];
+                if(myCharactor == GameManager.Instance.players[0]){
+                    UIManager.Instance.goTitle.GetComponent<TextMeshPro>().text = "WIN!";
+                    UIManager.Instance.goMoney.GetComponent<TextMeshPro>().text = GameManager.Instance.myCharactor.playerMoney.ToString();
+                    UIManager.Instance.goStatus.GetComponent<TextMeshPro>().text = "승:" + user.winscore + " 패:" + user.losescore + "승률:" + ( user.winscore / (user.winscore + user.losescore)) + "%";
+                    ButtonManager.Instance.UpScore(true);
+                    print("player1 win and winscore 1");
+                }
+                else{
+                    UIManager.Instance.goTitle.GetComponent<TextMeshPro>().text = "LOSE..";
+                    UIManager.Instance.goMoney.GetComponent<TextMeshPro>().text = GameManager.Instance.myCharactor.playerMoney.ToString();
+                    UIManager.Instance.goStatus.GetComponent<TextMeshPro>().text = "승:" + user.winscore + " 패:" + user.losescore + "승률:" + ( user.winscore / (user.winscore + user.losescore)) + "%";
+                    ButtonManager.Instance.UpScore(false);
+                    print("player2 lose and losescore 1");
+                }
             }
             if (CheckGameOver() == 0)
             {
@@ -230,8 +247,23 @@ public class GameManager : MonoBehaviour
                 print("player1패배");
                 // matchGameResult.m_winners.Add(GameManager.Instance.players[0].sessionId);
                 // matchGameResult.m_losers.Add(GameManager.Instance.players[1].sessionId);
-                matchGameResult.m_winners.Add(GameManager.Instance.sessionArr[0]);
-                matchGameResult.m_losers.Add(GameManager.Instance.sessionArr[1]);
+                // matchGameResult.m_winners.Add(GameManager.Instance.sessionArr[0]);
+                // matchGameResult.m_losers.Add(GameManager.Instance.sessionArr[1]);
+                UIManager.Instance.goImg.GetComponent<UnityEngine.UI.Image>().sprite = UIManager.Instance.winImg[1];
+                if(myCharactor == GameManager.Instance.players[1]){
+                    UIManager.Instance.goTitle.GetComponent<TextMeshPro>().text = "WIN!";
+                    UIManager.Instance.goMoney.GetComponent<TextMeshPro>().text = GameManager.Instance.myCharactor.playerMoney.ToString();
+                    UIManager.Instance.goStatus.GetComponent<TextMeshPro>().text = "승:" + user.winscore + " 패:" + user.losescore + "승률:" + ( user.winscore / (user.winscore + user.losescore)) + "%";
+                    ButtonManager.Instance.UpScore(true);
+                    print("player2 win and winscore 1");
+                }
+                else{
+                    ButtonManager.Instance.UpScore(false);
+                    UIManager.Instance.goTitle.GetComponent<TextMeshPro>().text = "WIN!";
+                    UIManager.Instance.goMoney.GetComponent<TextMeshPro>().text = GameManager.Instance.myCharactor.playerMoney.ToString();
+                    UIManager.Instance.goStatus.GetComponent<TextMeshPro>().text = "승:" + user.winscore + " 패:" + user.losescore + "승률:" + ( user.winscore / (user.winscore + user.losescore)) + "%";
+                    print("player1 lose and losescore 1");
+                }
 
             }
             print("session is");
