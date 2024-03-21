@@ -7736,7 +7736,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerId: 1
-  playerMoney: 1000
+  playerMoney: 0
   playerMoneyText: {fileID: 1674247640}
   moveSpeed: 0
   myTurnImg: {fileID: 12135980}
@@ -7777,7 +7777,6 @@ MonoBehaviour:
   theCM: {fileID: 1057635936}
   targetPos: {x: 0, y: 0, z: 0}
   specialTurn: 0
-  sessionId: 0
 --- !u!212 &954396770
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12149,7 +12148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerId: 0
-  playerMoney: 1000
+  playerMoney: 100
   playerMoneyText: {fileID: 1244230541}
   moveSpeed: 0
   myTurnImg: {fileID: 315419175}
@@ -12190,7 +12189,6 @@ MonoBehaviour:
   theCM: {fileID: 1057635936}
   targetPos: {x: 0, y: 0, z: 0}
   specialTurn: 0
-  sessionId: 0
 --- !u!61 &1511854100
 BoxCollider2D:
   m_ObjectHideFlags: 0
