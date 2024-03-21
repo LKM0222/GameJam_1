@@ -6878,9 +6878,9 @@ MonoBehaviour:
   watingUI: {fileID: 221260166}
   turnCardUI: {fileID: 883349527}
   gameoverUI: {fileID: 256666473}
-  goTitle: {fileID: 691882470}
-  goMoney: {fileID: 201274669}
-  goStatus: {fileID: 1362031871}
+  goTitle: {fileID: 691882472}
+  goMoney: {fileID: 201274671}
+  goStatus: {fileID: 1362031873}
   goImg: {fileID: 1022910103}
   winImg:
   - {fileID: 21300000, guid: 8ed7a770f63d4485189deaac0939e9d0, type: 3}

@@ -18,9 +18,9 @@ public class UIManager : MonoBehaviour
     public GameObject watingUI, turnCardUI, gameoverUI;
 
     [Header("GameOver UI")]
-    public GameObject goTitle; 
-    public GameObject goMoney;
-    public GameObject goStatus;
+    public TextMeshProUGUI goTitle; 
+    public TextMeshProUGUI goMoney;
+    public TextMeshProUGUI goStatus;
     public GameObject goImg;
     public Sprite[] winImg = new Sprite[2];
     
