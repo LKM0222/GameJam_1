@@ -175,6 +175,7 @@ public class EventManager : MonoBehaviour
             {
                 Debug.Log(args.GameRecord.m_nickname + "접속 완료");
                 BackendManager.Instance.mySessionId = args.GameRecord.m_sessionId;
+                print("접속한 사람의 정보:" + args.GameRecord.m_sessionId + ", " + args.GameRecord.m_nickname);
                 MenuSceneManager.Instance.matchingLogStr += "접속 완료\n";
 
                 SceneManager.LoadScene("TestScene");
