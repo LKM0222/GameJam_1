@@ -120,6 +120,9 @@ public class GameManager : MonoBehaviour
     //재시작 버튼
     public GameObject RestartBtn;
 
+    //승리 패배 플래그
+    public bool winFlag;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -216,16 +219,23 @@ public class GameManager : MonoBehaviour
             {
                 //player2 패배
                 print("player2패배");
-                matchGameResult.m_winners.Add(GameManager.Instance.players[1].sessionId);
-                matchGameResult.m_losers.Add(GameManager.Instance.players[0].sessionId);
+                // matchGameResult.m_winners.Add(GameManager.Instance.players[1].sessionId);
+                // matchGameResult.m_losers.Add(GameManager.Instance.players[0].sessionId);
+                matchGameResult.m_winners.Add(GameManager.Instance.sessionArr[1]);
+                matchGameResult.m_losers.Add(GameManager.Instance.sessionArr[0]);
             }
             if (CheckGameOver() == 0)
             {
                 //player1 패배
                 print("player1패배");
-               matchGameResult.m_winners.Add(GameManager.Instance.players[0].sessionId);
-                matchGameResult.m_losers.Add(GameManager.Instance.players[1].sessionId);
+                // matchGameResult.m_winners.Add(GameManager.Instance.players[0].sessionId);
+                // matchGameResult.m_losers.Add(GameManager.Instance.players[1].sessionId);
+                matchGameResult.m_winners.Add(GameManager.Instance.sessionArr[0]);
+                matchGameResult.m_losers.Add(GameManager.Instance.sessionArr[1]);
+
             }
+            print("session is");
+            print(matchGameResult);
             Backend.Match.MatchEnd(matchGameResult);
         }
         else

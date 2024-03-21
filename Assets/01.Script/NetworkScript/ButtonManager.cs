@@ -81,7 +81,7 @@ public class ButtonManager : MonoBehaviour
         }
     }
 
-    public async void UpScore(){
+    public async void UpScore(bool winFlag){
         await Task.Run(() => {
             if(winBool){
                 BackendGameData.Instance.UpWinScore();

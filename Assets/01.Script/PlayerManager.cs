@@ -80,7 +80,6 @@ public class PlayerManager : MonoBehaviour
     [Header("Test")]
     [SerializeField] Vector3 targetPos;
     public bool specialTurn;
-    // public SessionInfo sessionInfo;
     public SessionId sessionId;
 
     // Start is called before the first frame update
