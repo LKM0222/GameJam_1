@@ -607,7 +607,7 @@ public class EventManager : MonoBehaviour
     {
         print("도착 코루틴 시작");
         ArriveTileData arriveTileData = JsonUtility.FromJson<ArriveTileData>(pData.data);
-        int totalMoney = arriveTileData.value;
+        int totalMoney = 0;
         print("파싱완료");
         //타일 체크
         for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
@@ -618,15 +618,19 @@ public class EventManager : MonoBehaviour
         GameManager.Instance.nowPlayer.playerMoney += totalMoney;
         print("돈 추가 완료");
         yield return new WaitForSeconds(0.5f);
-        GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, totalMoney, true);
-        print("플로팅 텍스트 완료");
+        if (totalMoney > 0)
+        {
+            GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, totalMoney, true);
+            print("플로팅 텍스트 완료");
+        }
         GameManager.Instance.NextTurnFunc();
         GameManager.Instance.UIFlag = false;
         print("nextturn Finish");
     }
-    
+
     //재단 코루틴
-    IEnumerator TempleCoroutine(){
+    IEnumerator TempleCoroutine()
+    {
         GameManager.Instance.nowPlayer.nowTile.price *= 2;
         GameManager.Instance.nowPlayer.nowTile.transform.Find("Pos").GetChild(0).gameObject.SetActive(true);
         yield return new WaitForSeconds(1f);

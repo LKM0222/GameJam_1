@@ -413,7 +413,7 @@ public class PlayerManager : MonoBehaviour
                     // 양계장
                     case 0:
                         print("양계장");//myturn안에 있기 때문에 통신으로 처리를 하는중...
-                        ArriveTileData arriveTileData = new(this.playerId, 100);
+                        ArriveTileData arriveTileData = new(this.playerId);
                         string arriveJsonData = JsonUtility.ToJson(arriveTileData);
                         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.ArriveTile, arriveJsonData);
                         Backend.Match.SendDataToInGameRoom(data);
