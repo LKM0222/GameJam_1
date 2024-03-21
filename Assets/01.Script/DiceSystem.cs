@@ -115,8 +115,9 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void RollDice()
     {
-        // int dNum = UnityEngine.Random.Range(1, 9);//Test dd
+        
         int dNum = 2;
+        // int dNum = UnityEngine.Random.Range(1, 9);//Test dd
         DiceData dData = new(dNum, GameManager.Instance.turnIndex); //서버로 전송하기 위해 데이터 클래스화
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Dice, JsonUtility.ToJson(dData));
         Backend.Match.SendDataToInGameRoom(data);
