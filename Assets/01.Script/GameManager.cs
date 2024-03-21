@@ -229,6 +229,8 @@ public class GameManager : MonoBehaviour
                 matchGameResult.m_winners.Add(GameManager.Instance.sessionArr[1]);
                 matchGameResult.m_losers.Add(GameManager.Instance.sessionArr[0]);
                 UIManager.Instance.goImg.GetComponent<UnityEngine.UI.Image>().sprite = UIManager.Instance.winImg[0];
+                
+                print("유저정보" + user.winscore + ", " + user.losescore);
                 if(myCharactor == GameManager.Instance.players[0]){
                     UIManager.Instance.goTitle.GetComponent<TextMeshPro>().text = "WIN!";
                     UIManager.Instance.goMoney.GetComponent<TextMeshPro>().text = GameManager.Instance.myCharactor.playerMoney.ToString();
@@ -253,6 +255,8 @@ public class GameManager : MonoBehaviour
                 matchGameResult.m_winners.Add(GameManager.Instance.sessionArr[0]);
                 matchGameResult.m_losers.Add(GameManager.Instance.sessionArr[1]);
                 UIManager.Instance.goImg.GetComponent<UnityEngine.UI.Image>().sprite = UIManager.Instance.winImg[1];
+
+                print("유저정보" + user.winscore + ", " + user.losescore);
                 if(myCharactor == GameManager.Instance.players[1]){
                     UIManager.Instance.goTitle.GetComponent<TextMeshPro>().text = "WIN!";
                     UIManager.Instance.goMoney.GetComponent<TextMeshPro>().text = GameManager.Instance.myCharactor.playerMoney.ToString();
