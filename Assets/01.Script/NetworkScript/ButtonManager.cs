@@ -49,7 +49,7 @@ public class ButtonManager : MonoBehaviour
         }
     }
 
-    
+
     public async void SignUpBtn(){
         
         await Task.Run(() => {
@@ -93,20 +93,32 @@ public class ButtonManager : MonoBehaviour
         }
     }
 
-    public async void UpScore(bool winFlag){
-        await Task.Run(() => {
-            if(winBool){
-                BackendGameData.Instance.UpWinScore();
-                BackendGameData.Instance.GameDataUpdate();
-                // MenuSceneManager.Instance.SetWinText()//winText를 수정해야함...loseText도 마찬가지.
-                print("승리 포인트 1 추가");
-            } else {
-                BackendGameData.Instance.UpLoseScore();
-                BackendGameData.Instance.GameDataUpdate();
-                print("패배 포인트 1 추가");
-            }
-        });
+    // public async void UpScore(bool winFlag){
+    //     await Task.Run(() => {
+    //         if(winBool){
+    //             BackendGameData.Instance.UpWinScore();
+    //             BackendGameData.Instance.GameDataUpdate();
+    //             // MenuSceneManager.Instance.SetWinText()//winText를 수정해야함...loseText도 마찬가지.
+    //             print("승리 포인트 1 추가");
+    //         } else {
+    //             BackendGameData.Instance.UpLoseScore();
+    //             BackendGameData.Instance.GameDataUpdate();
+    //             print("패배 포인트 1 추가");
+    //         }
+    //     });
         
+    // }
+    public void UpScore(bool winFlag){
+        if(winBool){
+            BackendGameData.Instance.UpWinScore();
+            BackendGameData.Instance.GameDataUpdate();
+            // MenuSceneManager.Instance.SetWinText()//winText를 수정해야함...loseText도 마찬가지.
+            print("승리 포인트 1 추가");
+        } else {
+            BackendGameData.Instance.UpLoseScore();
+            BackendGameData.Instance.GameDataUpdate();
+            print("패배 포인트 1 추가");
+        }
     }
 
     public void BackTitleBtn(){
