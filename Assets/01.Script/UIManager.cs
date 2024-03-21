@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
             return _instance;
         }
     }
-    [SerializeField] GameObject watingUI, turnCardUI, gameoverUI;
+    public GameObject watingUI, turnCardUI, gameoverUI;
 
     [Header("GameOver UI")]
     public GameObject goTitle; 

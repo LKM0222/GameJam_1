@@ -211,6 +211,7 @@ public class GameManager : MonoBehaviour
         if (CheckGameOver() < 2)
         {
             print("GameOver");
+            UIManager.Instance.gameoverUI.SetActive(true);
             MatchGameResult matchGameResult = new MatchGameResult();
             matchGameResult.m_winners = new List<SessionId>();
             matchGameResult.m_losers = new List<SessionId>();
