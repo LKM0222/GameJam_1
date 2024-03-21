@@ -216,15 +216,15 @@ public class GameManager : MonoBehaviour
             {
                 //player2 패배
                 print("player2패배");
-                matchGameResult.m_winners.Add(GameManager.Instance.players[1].sessionInfo.SessionId);
-                matchGameResult.m_losers.Add(GameManager.Instance.players[0].sessionInfo.SessionId);
+                matchGameResult.m_winners.Add(GameManager.Instance.players[1].sessionId);
+                matchGameResult.m_losers.Add(GameManager.Instance.players[0].sessionId);
             }
             if (CheckGameOver() == 0)
             {
                 //player1 패배
                 print("player1패배");
-               matchGameResult.m_winners.Add(GameManager.Instance.players[0].sessionInfo.SessionId);
-                matchGameResult.m_losers.Add(GameManager.Instance.players[1].sessionInfo.SessionId);
+               matchGameResult.m_winners.Add(GameManager.Instance.players[0].sessionId);
+                matchGameResult.m_losers.Add(GameManager.Instance.players[1].sessionId);
             }
             Backend.Match.MatchEnd(matchGameResult);
         }
