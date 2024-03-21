@@ -223,8 +223,8 @@ public class GameManager : MonoBehaviour
                 print("player2패배");
                 // matchGameResult.m_winners.Add(GameManager.Instance.players[1].sessionId);
                 // matchGameResult.m_losers.Add(GameManager.Instance.players[0].sessionId);
-                // matchGameResult.m_winners.Add(GameManager.Instance.sessionArr[1]);
-                // matchGameResult.m_losers.Add(GameManager.Instance.sessionArr[0]);
+                matchGameResult.m_winners.Add(GameManager.Instance.sessionArr[1]);
+                matchGameResult.m_losers.Add(GameManager.Instance.sessionArr[0]);
                 UIManager.Instance.goImg.GetComponent<UnityEngine.UI.Image>().sprite = UIManager.Instance.winImg[0];
                 if(myCharactor == GameManager.Instance.players[0]){
                     UIManager.Instance.goTitle.GetComponent<TextMeshPro>().text = "WIN!";
@@ -247,8 +247,8 @@ public class GameManager : MonoBehaviour
                 print("player1패배");
                 // matchGameResult.m_winners.Add(GameManager.Instance.players[0].sessionId);
                 // matchGameResult.m_losers.Add(GameManager.Instance.players[1].sessionId);
-                // matchGameResult.m_winners.Add(GameManager.Instance.sessionArr[0]);
-                // matchGameResult.m_losers.Add(GameManager.Instance.sessionArr[1]);
+                matchGameResult.m_winners.Add(GameManager.Instance.sessionArr[0]);
+                matchGameResult.m_losers.Add(GameManager.Instance.sessionArr[1]);
                 UIManager.Instance.goImg.GetComponent<UnityEngine.UI.Image>().sprite = UIManager.Instance.winImg[1];
                 if(myCharactor == GameManager.Instance.players[1]){
                     UIManager.Instance.goTitle.GetComponent<TextMeshPro>().text = "WIN!";
