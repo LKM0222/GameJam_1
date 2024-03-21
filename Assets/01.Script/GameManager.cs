@@ -240,14 +240,14 @@ public class GameManager : MonoBehaviour
             if (CheckGameOver() == 1)
             {
                 //player2 패배
-                matchGameResult.m_winners.Add(sessionArr[1]);
-                matchGameResult.m_losers.Add(sessionArr[0]);
+                matchGameResult.m_winners.Add(GameManager.Instance.players[1].sessionInfo.SessionId);
+                matchGameResult.m_losers.Add(GameManager.Instance.players[0].sessionInfo.SessionId);
             }
             if (CheckGameOver() == 0)
             {
                 //player1 패배
-                matchGameResult.m_winners.Add(sessionArr[0]);
-                matchGameResult.m_losers.Add(sessionArr[1]);
+               matchGameResult.m_winners.Add(GameManager.Instance.players[0].sessionInfo.SessionId);
+                matchGameResult.m_losers.Add(GameManager.Instance.players[1].sessionInfo.SessionId);
             }
             Backend.Match.MatchEnd(matchGameResult);
         }
