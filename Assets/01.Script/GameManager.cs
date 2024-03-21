@@ -468,7 +468,8 @@ public class GameManager : MonoBehaviour
         laserComplete = true;
     }
 
-    IEnumerator RestartCoroutine(){
+    IEnumerator RestartCoroutine()
+    {
         //5초동안 게임 시작 불가능하다면
         yield return new WaitForSeconds(5f);
         RestartBtn.SetActive(true);

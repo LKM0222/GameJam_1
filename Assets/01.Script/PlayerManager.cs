@@ -174,7 +174,10 @@ public class PlayerManager : MonoBehaviour
 
             nowTile = tileToGo[0].GetComponent<Tile>();
             tileToGo.RemoveAt(0);
-            CheckPassTile();
+            if (tileToGo.Count != 0)
+            {
+                CheckPassTile();
+            }
         }
 
         movingWaitTime = 0f;
