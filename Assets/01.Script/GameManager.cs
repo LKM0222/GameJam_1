@@ -150,30 +150,6 @@ public class GameManager : MonoBehaviour
             // 턴을 종료하고 상대 턴으로 넘어갔다면
             if (nextTurn)
             {
-                /*
-                //나머지가 1이면 1플레이어, 0이면 2플레이어
-                if (turnCount % 2 == 1)
-                {
-                    //player의 myturn을 하나로 만들어야될듯....
-                    // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
-                    players[0].myTurn = true;
-                    players[1].myTurn = false;
-                    nowPlayer = players[0];
-                    CardListUpdate();
-                AudioManager.instance.Play("TurnChange_Sound");
-
-                }
-                else
-                {
-                    // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
-                    players[1].myTurn = true;
-                    players[0].myTurn = false;
-                    nowPlayer = players[1];
-                    CardListUpdate();
-                AudioManager.instance.Play("TurnChange_Sound");
-
-                }
-                */
                 print("turnCount is " + turnCount % 2);
                 CardListUpdate();
                 if (turnCount % 2 == turnIndex)
@@ -182,7 +158,6 @@ public class GameManager : MonoBehaviour
                     // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
                     myCharactor.myTurn = true;
                     nowPlayer = myCharactor;
-                    // CardListUpdate();
                 }
                 else
                 {
@@ -193,7 +168,6 @@ public class GameManager : MonoBehaviour
                     {
                         nowPlayer.myTurn = true;
                     }
-                    // CardListUpdate();
                 }
                 nextTurn = false;
                 theTSI.cursorPos = 1;
@@ -233,6 +207,7 @@ public class GameManager : MonoBehaviour
     {
         if (CheckGameOver() < 2)
         {
+            print("GameOver");
             MatchGameResult matchGameResult = new MatchGameResult();
             matchGameResult.m_winners = new List<SessionId>();
             matchGameResult.m_losers = new List<SessionId>();
@@ -240,12 +215,14 @@ public class GameManager : MonoBehaviour
             if (CheckGameOver() == 1)
             {
                 //player2 패배
+                print("player2패배");
                 matchGameResult.m_winners.Add(GameManager.Instance.players[1].sessionInfo.SessionId);
                 matchGameResult.m_losers.Add(GameManager.Instance.players[0].sessionInfo.SessionId);
             }
             if (CheckGameOver() == 0)
             {
                 //player1 패배
+                print("player1패배");
                matchGameResult.m_winners.Add(GameManager.Instance.players[0].sessionInfo.SessionId);
                 matchGameResult.m_losers.Add(GameManager.Instance.players[1].sessionInfo.SessionId);
             }
