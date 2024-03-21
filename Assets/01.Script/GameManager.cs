@@ -420,6 +420,17 @@ public class GameManager : MonoBehaviour
         // 카드 효과를 사용했으니 flag를 false로 바꿔줌
         print("플래그를 바꿔줌");
         nowPlayer.exemptionFlag = false;
+
+        // 통행료 면제 카드가 더 있다면 플래그를 다시 켜줌
+        for (int i = 0; i < nowPlayer.cards.Count; i++)
+        {
+            if (nowPlayer.cards[i].cardCode == 7)
+            {
+                nowPlayer.exemptionFlag = true;
+                break;
+            }
+        }
+
         print("exemptionFlag Finish");
         NextTurnFunc();
     }
