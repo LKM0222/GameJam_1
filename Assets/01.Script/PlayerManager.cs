@@ -561,6 +561,8 @@ public class PlayerManager : MonoBehaviour
         this.tileNum = int.Parse(tpTile.gameObject.name);
         this.transform.position = tpTile.transform.Find("Pos").position;
         nowTile = tpTile.GetComponent<Tile>();
+        tpTile = null;
+
         this.GetComponent<Animator>().SetInteger("Dir", nowTile.dir);
         yield return new WaitForSeconds(0.5f);
 
