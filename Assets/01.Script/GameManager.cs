@@ -203,7 +203,7 @@ public class GameManager : MonoBehaviour
                 var _card = Instantiate(cardPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, cardsObj.transform);
                 _card.transform.localPosition = new Vector3(0f, 0f, 0f);
                 _card.GetComponent<CardManager>().cardInfo = myCharactor.cards[i];
-                _card.GetComponent<SpriteRenderer>().sprite = myCharactor.cards[i].cardImg; //PPtr에러 
+                _card.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.cards[myCharactor.cards[i].cardCode - 1].cardImg; //PPtr에러 
             }
         }
     }
