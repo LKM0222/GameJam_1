@@ -7750,6 +7750,7 @@ MonoBehaviour:
   diceNum: 1
   isMoving: 0
   canMove: 0
+  finishMoving: 0
   tileNum: 0
   nowTile: {fileID: 1693466814}
   tileToGo: []
@@ -12163,6 +12164,7 @@ MonoBehaviour:
   diceNum: 2
   isMoving: 0
   canMove: 0
+  finishMoving: 0
   tileNum: 0
   nowTile: {fileID: 1693466814}
   tileToGo: []
