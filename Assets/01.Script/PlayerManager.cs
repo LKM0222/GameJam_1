@@ -21,6 +21,7 @@ public class PlayerManager : MonoBehaviour
     public int diceNum;
     public bool isMoving;
     public bool canMove;
+    public bool finishMoving; //nowTile동기화를 위해 무빙이 끝났는지 체크하는 플래그
     float movingWaitTime;
 
 
@@ -163,6 +164,8 @@ public class PlayerManager : MonoBehaviour
         }
 
         movingWaitTime = 0f;
+
+        finishMoving = false;
 
         while (tileToGo.Count != 0)
         {
@@ -312,6 +315,7 @@ public class PlayerManager : MonoBehaviour
 
         VirtualCamera.SetActive(false);
 
+        finishMoving = true;
 
         //내 턴일때만 UI상호작용
         if (GameManager.Instance.myCharactor.myTurn)

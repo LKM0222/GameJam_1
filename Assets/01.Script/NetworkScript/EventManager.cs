@@ -418,23 +418,9 @@ public class EventManager : MonoBehaviour
                     break;
 
                 case ParsingType.ExemptionFlag: //상대방 땅에 걸린경우
-                    if (!GameManager.Instance.nowPlayer.exemptionFlag)
-                    {
-                        GameManager.Instance.nowPlayer.playerMoney -= GameManager.Instance.nowPlayer.nowTile.price;
-                        GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, GameManager.Instance.nowPlayer.nowTile.price, false);
-                        GameManager.Instance.nowPlayer.againstPlayer.playerMoney += GameManager.Instance.nowPlayer.nowTile.price;
-                        GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer.againstPlayer, GameManager.Instance.nowPlayer.nowTile.price, true);
-
-                        GameManager.Instance.NextTurnFunc();
-                    }
-                    // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
-                    else
-                    {
-                        print("exemptionFlag is true!");
-                        print("Func Start!");
-                        StartCoroutine(GameManager.Instance.ParticleFunc());
-                    }
+                    StartCoroutine(ExemptionCoroutine());
                     break;
+
                 case ParsingType.ExemptionFlagSet:
                     print("exemptionFalg true");
                     GameManager.Instance.nowPlayer.exemptionFlag = true;
@@ -638,5 +624,29 @@ public class EventManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         GameManager.Instance.nowPlayer.nowTile.transform.Find("Pos").GetChild(0).gameObject.SetActive(false);
         GameManager.Instance.NextTurnFunc();
+    }
+    
+    //통행료 지불 코루틴(내 움직임이 끝날때까지 기다렸다가 징수하기 위해 코루틴 사용)
+    //왠지 통신 넘어가면서 nowplayer가 상대방으로 바꼈을때 꼬일거같긴한데....
+    IEnumerator ExemptionCoroutine(){
+        yield return new WaitUntil(() => GameManager.Instance.nowPlayer.finishMoving == true); //무빙이 끝났다면 통행료 징수
+        
+        if (!GameManager.Instance.nowPlayer.exemptionFlag)
+        {
+            GameManager.Instance.nowPlayer.playerMoney -= GameManager.Instance.nowPlayer.nowTile.price;
+            GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, GameManager.Instance.nowPlayer.nowTile.price, false);
+            GameManager.Instance.nowPlayer.againstPlayer.playerMoney += GameManager.Instance.nowPlayer.nowTile.price;
+            GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer.againstPlayer, GameManager.Instance.nowPlayer.nowTile.price, true);
+
+            GameManager.Instance.NextTurnFunc(); //통신으로 처리하지 않는 이유는 통신을 거치면 돈이 빠져나가기전에 두 클라이언트 모두 턴이 넘어가기 때문에
+                                                 //완벽히 처리해주고 각 클라이언트의 턴을 넘기기 위함.
+        }
+        // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
+        else
+        {
+            print("exemptionFlag is true!");
+            print("Func Start!");
+            StartCoroutine(GameManager.Instance.ParticleFunc());
+        }
     }
 }
