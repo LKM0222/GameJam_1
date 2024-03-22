@@ -201,7 +201,7 @@ public class EventManager : MonoBehaviour
             // ParsingData data = new ParsingData(ParsingType.Turn, (GameManager.Instance.playerCount.Count).ToString());
             // string jsonData = JsonUtility.ToJson(data);
             // Backend.Match.SendDataToInGameRoom(Encoding.UTF8.GetBytes(jsonData));
-            AudioManager.Instance.Play("MainGame_Sound");
+            // AudioManager.Instance.Play("MainGame_Sound");
 
             UIManager.Instance.SetUI();
         };

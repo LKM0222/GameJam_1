@@ -24,13 +24,11 @@ public class Tile : MonoBehaviour
 
     GameManager theGM;
     CardManager theCM;
-    AudioManager theAudio;
 
     private void Start()
     {
         theGM = FindObjectOfType<GameManager>();
         theCM = FindObjectOfType<CardManager>();
-        theAudio = FindObjectOfType<AudioManager>();
 
         // 모든 타일을 주인 없는 상태로 초기화
         ownPlayer = -1;
@@ -84,25 +82,26 @@ public class Tile : MonoBehaviour
         // 레이저빔 사용 시
         if (canTileSelect && theCM.isSelectingLaser)
         {
-            theAudio.Play("SelectTile_Sound");
+            AudioManager.Instance.Play("SelectTile_Sound");
             theGM.seletedTile = this.gameObject;
         }
 
         // 텔레포트 사용시
         if (canTileSelect && theGM.nowPlayer.isSelectingTeleport)
         {
-            theAudio.Play("SelectTile_Sound");
+            AudioManager.Instance.Play("SelectTile_Sound");
             theGM.seletedTile = this.gameObject;
         }
 
         // 건물 강탈 사용시
         if (canTileSelect && theGM.nowPlayer.isExtortioning)
         {
+            AudioManager.Instance.Play("SelectTile_Sound");
+
             TileSelectData tileSelectData = new(this.gameObject.name);
             string jsondata = JsonUtility.ToJson(tileSelectData);
             byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.TileSelect, jsondata);
             Backend.Match.SendDataToInGameRoom(data);
-            theAudio.Play("SelectTile_Sound");
             // theGM.seletedTile = this.gameObject; //TileManager로 이동.
         }
     }

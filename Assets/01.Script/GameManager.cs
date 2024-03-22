@@ -63,7 +63,6 @@ public class GameManager : MonoBehaviour
 
     TurnSignScript theTSI;
     TileManager theTM;
-    AudioManager theAudio;
 
     public GameObject clickedTile;
 
@@ -132,7 +131,6 @@ public class GameManager : MonoBehaviour
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.TurnCardSet, jsonData);
         Backend.Match.SendDataToInGameRoom(data);
 
-        theAudio = FindObjectOfType<AudioManager>();
         theTM = FindObjectOfType<TileManager>();
         theTSI = FindObjectOfType<TurnSignScript>();
         AudioManager.Instance.Play("MainGame_Sound");
@@ -284,6 +282,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            AudioManager.Instance.Play("TurnChange_Sound");
+
             turnCount += 1;
             nextTurn = true;
         }
@@ -389,7 +389,7 @@ public class GameManager : MonoBehaviour
             {
                 print("사운드 재생");
                 haveBuilding = true;
-                theAudio.Play("Olympics_Sound");
+                AudioManager.Instance.Play("Olympics_Sound");
                 break;
             }
         }
@@ -470,7 +470,8 @@ public class GameManager : MonoBehaviour
     {
         nowPlayer.laserFlag = false;
 
-        theAudio.Play("Laser_Sound");
+        AudioManager.Instance.Play("Laser_Sound");
+
         // 건물과 타일의 컬러를 받아옴
         Color buildingColor = seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color;
         Color tileColor = seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;

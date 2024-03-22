@@ -11,7 +11,6 @@ public class ButtonScript : MonoBehaviour
     GameManager theGM;
     public PurchaseSystem thePS;
     public GroundBuyScript theGBS;
-    AudioManager theAudio;
 
     [Header("TurnCard")]
     public int turnNum, turncardIdx;
@@ -19,14 +18,14 @@ public class ButtonScript : MonoBehaviour
     private void Start()
     {
         theGM = FindObjectOfType<GameManager>();
-        theAudio = FindObjectOfType<AudioManager>();
         thePS = FindObjectOfType<PurchaseSystem>();
     }
 
     //Right버튼
     public void OnRightBtn()
     {
-        theAudio.Play("Click_Sound");
+        AudioManager.Instance.Play("Click_Sound");
+
         thePS.cur += 1;
         // 커서가 리스트의 길이를 넘기면 0으로 초기화
         if (thePS.cur > theGM.buildings.Length - 1)
@@ -40,7 +39,7 @@ public class ButtonScript : MonoBehaviour
     //Left버튼
     public void OnLeftBtn()
     {
-        theAudio.Play("Click_Sound");
+        AudioManager.Instance.Play("Click_Sound");
 
         thePS.cur -= 1;
         // 커서가 1보다 작다면 마지막 건물 리스트로 초기화
@@ -55,7 +54,7 @@ public class ButtonScript : MonoBehaviour
     //건물 구매버튼
     public void OnPurchaseBtn()
     {
-        theAudio.Play("Build_Sound");
+        AudioManager.Instance.Play("Build_Sound");
 
         BuildingData bdata = new(thePS.cur);
         string jsonData = JsonUtility.ToJson(bdata);
@@ -69,7 +68,8 @@ public class ButtonScript : MonoBehaviour
     //취소버튼
     public void OnPurchaseCloseBtn()
     {
-        theAudio.Play("Cancel_Sound");
+        AudioManager.Instance.Play("Cancel_Sound");
+
         theGM.UIFlag = false;
         //턴그냥 넘김
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
@@ -79,7 +79,7 @@ public class ButtonScript : MonoBehaviour
     //땅 구매 버튼
     public void OnGroundBuyBtn()
     {
-        theAudio.Play("Click_Sound");
+        AudioManager.Instance.Play("Click_Sound");
 
         // theGM.SetFloatingText(theGM.nowPlayer, 50, false);
 
@@ -102,7 +102,7 @@ public class ButtonScript : MonoBehaviour
                 GameManager.Instance.myCharactor = GameObject.Find("Player1").GetComponent<PlayerManager>();
                 // SessionData sessionData = new(GameManager.Instance.mySessionId, GameManager.Instance.turnIndex);
                 SessionData sessionData = new(BackendManager.Instance.mySessionId, GameManager.Instance.turnIndex);
-                string jsondata = JsonUtility.ToJson(sessionData); 
+                string jsondata = JsonUtility.ToJson(sessionData);
                 ParsingManager.Instance.ParsingSendData(ParsingType.Session, jsondata);
             }
             else

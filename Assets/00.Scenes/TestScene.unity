@@ -2728,6 +2728,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 145781560}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: UseCard_Sound
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &228348589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7750,6 +7762,7 @@ MonoBehaviour:
   diceNum: 1
   isMoving: 0
   canMove: 0
+  finishMoving: 0
   tileNum: 0
   nowTile: {fileID: 1693466814}
   tileToGo: []
@@ -11588,9 +11601,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1416878612}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.7201, y: -0.4971, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.72010005, y: -0.49709997, z: -0.0000076293945}
+  m_LocalScale: {x: 2.0000002, y: 2.0000002, z: 1.0000001}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2135738793}
@@ -11694,6 +11707,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 145781560}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: UseCard_Sound
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1420386651
@@ -12163,6 +12188,7 @@ MonoBehaviour:
   diceNum: 2
   isMoving: 0
   canMove: 0
+  finishMoving: 0
   tileNum: 0
   nowTile: {fileID: 1693466814}
   tileToGo: []

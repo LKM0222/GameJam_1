@@ -76,7 +76,6 @@ public class PlayerManager : MonoBehaviour
     GameManager theGM;
     TileManager theTM;
     TurnSignScript theTSI;
-    AudioManager theAudio;
 
     [Header("Test")]
     [SerializeField] Vector3 targetPos;
@@ -89,7 +88,6 @@ public class PlayerManager : MonoBehaviour
         theTM = FindObjectOfType<TileManager>();
         theGM = FindObjectOfType<GameManager>();
         theTSI = FindObjectOfType<TurnSignScript>();
-        theAudio = FindObjectOfType<AudioManager>();
         moveSpeed = 4f;
     }
 
@@ -192,7 +190,7 @@ public class PlayerManager : MonoBehaviour
         if (theGM.nowPlayer.highSpeedFlag)
         {
             theCM.HighSpeedMove();
-            theAudio.Play("HighSpeedMove_Sound");
+            AudioManager.Instance.Play("HighSpeedMove_Sound");
         }
 
         if (theGM.nowPlayer.invisibleFlag)
@@ -216,7 +214,7 @@ public class PlayerManager : MonoBehaviour
         // 시작지점을 지나쳐간다면 월급 지급
         if (nowTile.transform.name == "0")
         {
-            theAudio.Play("Salary_Sound");
+            AudioManager.Instance.Play("Salary_Sound");
             playerMoney += 200;
             theGM.SetFloatingText(theGM.nowPlayer, 200, true);
         }
@@ -259,7 +257,7 @@ public class PlayerManager : MonoBehaviour
             {
                 if (movingWaitTime >= 0.5f)
                 {
-                    theAudio.Play("Step_Sound");
+                    AudioManager.Instance.Play("Step_Sound");
                     movingWaitTime = 0f;
                 }
                 else
@@ -296,7 +294,7 @@ public class PlayerManager : MonoBehaviour
         // 고속이동이 끝났다면 스피드를 원상복구 시키고 플래그를 비활성화시킴
         if (theGM.nowPlayer.highSpeedFlag)
         {
-            theAudio.Stop("HighSpeedMove_Sound");
+            AudioManager.Instance.Stop("HighSpeedMove_Sound");
             theCM.EndHighSpeedMove();
         }
 
@@ -545,7 +543,7 @@ public class PlayerManager : MonoBehaviour
         Color alpha = new Color(1, 1, 1, 0);
         this.GetComponent<SpriteRenderer>().color = alpha;
 
-        theAudio.Play("TeleportStart_Sound");
+        AudioManager.Instance.Play("TeleportStart_Sound");
         if (_playerId == 0)
         {
             theGM.player1TeleportEffect.transform.position = theTM.tiles[5].transform.GetChild(0).position;
@@ -570,7 +568,7 @@ public class PlayerManager : MonoBehaviour
         this.GetComponent<Animator>().SetInteger("Dir", nowTile.dir);
         yield return new WaitForSeconds(0.5f);
 
-        theAudio.Play("TeleportEnd_Sound");
+        AudioManager.Instance.Play("TeleportEnd_Sound");
         while (true)
         {
             alpha.a += 0.1f;
@@ -689,7 +687,7 @@ public class PlayerManager : MonoBehaviour
             isExtortioning = false;
             blackBackground.SetActive(false);
 
-            theAudio.Play("Extortion_Sound");
+            AudioManager.Instance.Play("Extortion_Sound");
 
             Color tileColor = theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
 

@@ -8,7 +8,6 @@ public class CardManager : MonoBehaviour
     GameManager theGM;
     TileManager theTile;
     TurnSignScript theTSI;
-    AudioManager theAudio;
     DiceSystem theDice;
 
     // 카드의 정보
@@ -50,7 +49,6 @@ public class CardManager : MonoBehaviour
         theGM = FindObjectOfType<GameManager>();
         theTile = FindObjectOfType<TileManager>();
         theTSI = FindObjectOfType<TurnSignScript>();
-        theAudio = FindObjectOfType<AudioManager>();
         theDice = FindObjectOfType<DiceSystem>();
     }
 
@@ -65,7 +63,7 @@ public class CardManager : MonoBehaviour
     {
         if (theTSI.cursorPos == 1 && !theDice.isDrag)
         {
-            theAudio.Play("SelectCard_Sound");
+            AudioManager.Instance.Play("SelectCard_Sound");
 
             // upPos만큼 Position을 올리고 Scale을 늘림
             this.transform.localScale = new Vector3(14f, 14f, 1f);
@@ -91,7 +89,7 @@ public class CardManager : MonoBehaviour
     {
         if (theTSI.cursorPos == 1 && GameManager.Instance.myCharactor.myTurn)
         {
-            theAudio.Play("UseCard_Sound");
+            AudioManager.Instance.Play("UseCard_Sound");
 
             // cardCode가 1이라면 고속이동(중복사용 방지를 위해 플래그가 꺼져있을때만)
             if (cardInfo.cardCode == 1 && !theGM.nowPlayer.highSpeedFlag)
@@ -227,7 +225,7 @@ public class CardManager : MonoBehaviour
             yield return new WaitUntil(() => GameManager.Instance.invisibleCardNum != -1);
 
             // 효과음 추가하기
-            theAudio.Play("InvisibleThief_Sound");
+            AudioManager.Instance.Play("InvisibleThief_Sound");
 
 
             // if (theGM.nowPlayer.againstPlayer.cards[randomCard] == theGM.cards[6])
@@ -303,7 +301,7 @@ public class CardManager : MonoBehaviour
                 break;
             }
         }
-        theAudio.Play("TollExemption_Sound");
+        AudioManager.Instance.Play("TollExemption_Sound");
 
         //파티클
         exemptionParticle.transform.position = theGM.nowPlayer.transform.position;
@@ -328,7 +326,7 @@ public class CardManager : MonoBehaviour
             Color buildingColor = theGM.nowPlayer.nowTile.buildingImg.GetComponent<SpriteRenderer>().color;
             Color tileColor = theGM.nowPlayer.nowTile.signImg.GetComponent<SpriteRenderer>().color;
 
-            theAudio.Play("BuildingDestroy_Sound");
+            AudioManager.Instance.Play("BuildingDestroy_Sound");
 
             // 건물파괴 파티클을 활성화하고 위치를 현재 타일의 건물 위치로 옮긴 다음 파티클 실행
             destroyParticle.gameObject.SetActive(true);
@@ -553,14 +551,14 @@ public class CardManager : MonoBehaviour
             // theGM.nowPlayer.cards.Add(newCard); (EventManager로 이동.)
 
             StartCoroutine(ShowGetCard(randomNum));
-            theAudio.Play("GetCard_Sound");
+            AudioManager.Instance.Play("GetCard_Sound");
             yield return new WaitUntil(() => isShowCard);
             isShowCard = false;
 
             // 만약 통행료면제 카드라면 카드효과를 즉시 활성화.
             if (newCard == theGM.cards[6])
             {
-                theAudio.Play("TollExemption_Sound");
+                AudioManager.Instance.Play("TollExemption_Sound");
 
                 exemptionParticle.transform.position = theGM.nowPlayer.transform.position;
                 exemptionParticle.gameObject.SetActive(true);
@@ -604,14 +602,14 @@ public class CardManager : MonoBehaviour
             // theGM.nowPlayer.cards.Add(newCard); (EventManager로 이동.)
 
             StartCoroutine(ShowGetCard(randomNum));
-            theAudio.Play("GetCard_Sound");
+            AudioManager.Instance.Play("GetCard_Sound");
             yield return new WaitUntil(() => isShowCard);
             isShowCard = false;
 
             // 만약 통행료면제 카드라면 카드효과를 즉시 활성화.
             if (newCard == theGM.cards[6])
             {
-                theAudio.Play("TollExemption_Sound");
+                AudioManager.Instance.Play("TollExemption_Sound");
 
                 exemptionParticle.transform.position = theGM.nowPlayer.transform.position;
                 exemptionParticle.gameObject.SetActive(true);
