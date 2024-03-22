@@ -19,3 +19,6 @@ TeleportEnd_Sound: Volume 0.7, Loop X
 Olympics_Sound: Volume 1, Loop X
 Extortion_Sound: Volume 1, Loop X
 HighSpeedMove_Sound: Volume 1, Loop O
+----------------------------------------
+Title_Sound: Volume 1, Loop O
+MenuClick_Sound: Volume 1, Loop X

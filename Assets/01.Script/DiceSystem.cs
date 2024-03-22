@@ -133,7 +133,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
         // 게임매니저에 저장시킬 변수는 EventManager로 이동.
         //if() //내 순서라면 플레이어 다이스 넘에 저장.
         thePlayer.diceNum = GameManager.Instance.diceNum;
-        AudioManager.instance.Play("RollDice_Sound");
+        AudioManager.Instance.Play("RollDice_Sound");
 
         // thePlayer.diceNum = UnityEngine.Random.Range(1, 9);
 

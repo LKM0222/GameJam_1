@@ -178,6 +178,8 @@ public class EventManager : MonoBehaviour
                 print("접속한 사람의 정보:" + args.GameRecord.m_sessionId + ", " + args.GameRecord.m_nickname);
                 MenuSceneManager.Instance.matchingLogStr += "접속 완료\n";
 
+                AudioManager.Instance.Stop("Title_Sound");
+
                 SceneManager.LoadScene("TestScene");
                 //방에 접속하면 누가 접속완료하였는지 닉네임이 표시된다.
                 //이를 활용해 모두 접속 완료라면 씬을 옮겨서도 데이터를 주고받을 수 있을까?
@@ -199,6 +201,8 @@ public class EventManager : MonoBehaviour
             // ParsingData data = new ParsingData(ParsingType.Turn, (GameManager.Instance.playerCount.Count).ToString());
             // string jsonData = JsonUtility.ToJson(data);
             // Backend.Match.SendDataToInGameRoom(Encoding.UTF8.GetBytes(jsonData));
+            AudioManager.Instance.Play("MainGame_Sound");
+
             UIManager.Instance.SetUI();
         };
 
@@ -625,12 +629,13 @@ public class EventManager : MonoBehaviour
         GameManager.Instance.nowPlayer.nowTile.transform.Find("Pos").GetChild(0).gameObject.SetActive(false);
         GameManager.Instance.NextTurnFunc();
     }
-    
+
     //통행료 지불 코루틴(내 움직임이 끝날때까지 기다렸다가 징수하기 위해 코루틴 사용)
     //왠지 통신 넘어가면서 nowplayer가 상대방으로 바꼈을때 꼬일거같긴한데....
-    IEnumerator ExemptionCoroutine(){
+    IEnumerator ExemptionCoroutine()
+    {
         yield return new WaitUntil(() => GameManager.Instance.nowPlayer.finishMoving == true); //무빙이 끝났다면 통행료 징수
-        
+
         if (!GameManager.Instance.nowPlayer.exemptionFlag)
         {
             GameManager.Instance.nowPlayer.playerMoney -= GameManager.Instance.nowPlayer.nowTile.price;

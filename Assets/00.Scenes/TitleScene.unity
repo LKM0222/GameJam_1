@@ -153,61 +153,121 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - clip: {fileID: 8300000, guid: 55904ec09deef4e4d9ddc03fb33f43fa, type: 3}
+  - clip: {fileID: 8300000, guid: 1abfb3937c8da1d408b490faea73778d, type: 3}
     source: {fileID: 0}
-    name: buySound
-    volume: 0.4
-    loop: 0
-  - clip: {fileID: 8300000, guid: 9738060f714f1a948a7f15e4ca0b247c, type: 3}
-    source: {fileID: 0}
-    name: buttonSound
+    name: Click_Sound
     volume: 1
     loop: 0
-  - clip: {fileID: 8300000, guid: 6006c6fb90e3e504db0f0477c235cc4a, type: 3}
+  - clip: {fileID: 8300000, guid: 0d7f65ddaf76acc42bded63cc2b81c3d, type: 3}
     source: {fileID: 0}
-    name: moveSound
+    name: Build_Sound
     volume: 1
     loop: 0
-  - clip: {fileID: 8300000, guid: 0450191e690ebcc429bed179d0d8adba, type: 3}
+  - clip: {fileID: 8300000, guid: 61c36304918de2142b46acf737ecb754, type: 3}
     source: {fileID: 0}
-    name: diceSound
+    name: Laser_Sound
     volume: 0.3
     loop: 0
-  - clip: {fileID: 8300000, guid: 31693a97a905fda4ba19694e263b08a8, type: 3}
+  - clip: {fileID: 8300000, guid: ec7bf1f6148222744b74deb5cedfe06e, type: 3}
     source: {fileID: 0}
-    name: explosionSound
+    name: Cancel_Sound
     volume: 0.3
     loop: 0
-  - clip: {fileID: 8300000, guid: d883e741bdff28440ad59caea2a94dfa, type: 3}
+  - clip: {fileID: 8300000, guid: 6fb7e39a914a29c4eaece0575e41c8fa, type: 3}
     source: {fileID: 0}
-    name: hyperMoveSound
-    volume: 0.4
+    name: BuildingDestroy_Sound
+    volume: 1
     loop: 0
-  - clip: {fileID: 8300000, guid: 1ef9da1bb75ef9b48a3658beb1cbe126, type: 3}
+  - clip: {fileID: 8300000, guid: 5ff562b7ac0fa7b47bdd53aa70740bb6, type: 3}
     source: {fileID: 0}
-    name: savageSound
+    name: SelectCard_Sound
     volume: 0.5
     loop: 0
-  - clip: {fileID: 8300000, guid: a51b256736359c24ea07345d25d1eaa5, type: 3}
+  - clip: {fileID: 8300000, guid: 940bc998dc9ce724c96eed450f487ee7, type: 3}
     source: {fileID: 0}
-    name: laserSound
-    volume: 0.3
-    loop: 0
-  - clip: {fileID: 8300000, guid: 28d72c8e01f883441aaf57e31e135bab, type: 3}
-    source: {fileID: 0}
-    name: titleBGM
-    volume: 0.3
-    loop: 1
-  - clip: {fileID: 8300000, guid: 3262e606b9c31cb42975c89529e311e3, type: 3}
-    source: {fileID: 0}
-    name: cardSound
+    name: Step_Sound
     volume: 1
     loop: 0
-  - clip: {fileID: 8300000, guid: da643dc8832ee5d4d9b02d51085344d5, type: 3}
+  - clip: {fileID: 8300000, guid: 774743ee37e848e4aaadf82bcacf6d2d, type: 3}
     source: {fileID: 0}
-    name: mainSound
-    volume: 0.1
+    name: Salary_Sound
+    volume: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: c00fba629d9fcb44c932d7114e8acbc2, type: 3}
+    source: {fileID: 0}
+    name: UseCard_Sound
+    volume: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: a76a8b032bfc9b140b40397a8f374089, type: 3}
+    source: {fileID: 0}
+    name: InvisibleThief_Sound
+    volume: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: b1258835ccc2cd2449d93f5cda0cc718, type: 3}
+    source: {fileID: 0}
+    name: SelectTile_Sound
+    volume: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: c843a052771c2ad4a807f5281fde5522, type: 3}
+    source: {fileID: 0}
+    name: RollDice_Sound
+    volume: 0.3
+    loop: 0
+  - clip: {fileID: 8300000, guid: 764ab8064abd6594eb93a4dc53add09b, type: 3}
+    source: {fileID: 0}
+    name: MainGame_Sound
+    volume: 0.5
     loop: 1
+  - clip: {fileID: 8300000, guid: 9e0e2eedd0e506e4cad79c8cade9e411, type: 3}
+    source: {fileID: 0}
+    name: TollExemption_Sound
+    volume: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: a8f0ffe4875ce0f408aa737ad762bfa9, type: 3}
+    source: {fileID: 0}
+    name: TurnChanger_Sound
+    volume: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: d88dd61c785530e4999813279dc10f47, type: 3}
+    source: {fileID: 0}
+    name: GetCard_Sound
+    volume: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: 9ea0fdf12f251b54da6ca3b329c04641, type: 3}
+    source: {fileID: 0}
+    name: TeleportStart_Sound
+    volume: 0.7
+    loop: 0
+  - clip: {fileID: 8300000, guid: 7667b5b8c50708440bf73368dbdb5fb3, type: 3}
+    source: {fileID: 0}
+    name: TeleportEnd_Sound
+    volume: 0.7
+    loop: 0
+  - clip: {fileID: 8300000, guid: e9177924130ad264f99c10df419e43d8, type: 3}
+    source: {fileID: 0}
+    name: Olympics_Sound
+    volume: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: 992e7eb6f5a9beb4baf662af04e11fae, type: 3}
+    source: {fileID: 0}
+    name: Extortion_Sound
+    volume: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: 3c5b3fbdb2292ab40b8ec59b77a690dd, type: 3}
+    source: {fileID: 0}
+    name: HighSpeedMove_Sound
+    volume: 1
+    loop: 1
+  - clip: {fileID: 8300000, guid: 48b56a3b31cb0d6449adce3f3bbb6a60, type: 3}
+    source: {fileID: 0}
+    name: Title_Sound
+    volume: 0.5
+    loop: 1
+  - clip: {fileID: 8300000, guid: f642bd4186c593e4ebe751e9cecae770, type: 3}
+    source: {fileID: 0}
+    name: MenuClick_Sound
+    volume: 1
+    loop: 0
 --- !u!4 &111616269
 Transform:
   m_ObjectHideFlags: 0
@@ -1223,7 +1283,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 557726790}
         m_TargetAssemblyTypeName: TransferScene, Assembly-CSharp
-        m_MethodName: ButtonClickSound
+        m_MethodName: ClickBtnSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2746,7 +2806,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1219348557
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2977,6 +3037,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 111616268}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MenuClick_Sound
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1305738892
@@ -3839,6 +3911,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 111616268}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MenuClick_Sound
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1814958036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4117,6 +4201,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 111616268}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MenuClick_Sound
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1894135593

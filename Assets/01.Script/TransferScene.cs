@@ -8,7 +8,7 @@ public class TransferScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AudioManager.instance.Play("titleBGM");
+        AudioManager.Instance.Play("Title_Sound");
     }
 
     // Update is called once per frame
@@ -16,14 +16,15 @@ public class TransferScene : MonoBehaviour
     {
 
     }
-    public void ClickBtnSound(){
-        AudioManager.instance.Play("buttonSound");
+    public void ClickBtnSound()
+    {
+        AudioManager.Instance.Play("MenuClick_Sound");
     }
 
     public void LoadingScene()
     {
-        AudioManager.instance.Play("buttonSound");
-        AudioManager.instance.Stop("titleBGM");
+        AudioManager.Instance.Play("MenuClick_Sound");
+        AudioManager.Instance.Stop("Title_Sound");
 
         // SceneManager.LoadScene("LoadingScene");
     }
