@@ -575,6 +575,11 @@ public class CardManager : MonoBehaviour
             byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
             Backend.Match.SendDataToInGameRoom(data);
         }
+        else
+        {
+            byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
+            Backend.Match.SendDataToInGameRoom(data);
+        }
         isGetCard = true;
     }
 
