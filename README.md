@@ -13,7 +13,7 @@
 
 
 ## 다운로드
-<a href="https://www.google.com/" target="_blank">후다닭! : 치킨이 될 순 없어!</a>
+ <center><a href="https://www.google.com/" target="_blank">후다닭! : 치킨이 될 순 없어!</a></center>
 
 
 
