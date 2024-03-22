@@ -92,6 +92,8 @@ public class ButtonScript : MonoBehaviour
     //게임시작때, 자기 턴을 클릭하는 버튼
     public void TurnCardClick()
     {
+        AudioManager.Instance.Play("UseCard_Sound");
+
         if (GameManager.Instance.turnIndex == -1)
         { //묶어주지 않으면 계속 선택이 가능함...
             //턴 인덱스가 0이면 아직 내 턴카드를 선택하지 않은것.

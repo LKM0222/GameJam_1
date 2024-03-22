@@ -172,6 +172,8 @@ public class GameManager : MonoBehaviour
                         nowPlayer.myTurn = true;
                     }
                 }
+                AudioManager.Instance.Play("TurnChange_Sound");
+
                 nextTurn = false;
                 theTSI.cursorPos = 1;
                 StartCoroutine(TurnImgCoroutine(turnCount % 2));
@@ -282,8 +284,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            AudioManager.Instance.Play("TurnChange_Sound");
-
             turnCount += 1;
             nextTurn = true;
         }
