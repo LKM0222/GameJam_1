@@ -634,7 +634,8 @@ public class EventManager : MonoBehaviour
             GameManager.Instance.nowPlayer.againstPlayer.playerMoney += GameManager.Instance.nowPlayer.nowTile.price;
             GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer.againstPlayer, GameManager.Instance.nowPlayer.nowTile.price, true);
 
-            GameManager.Instance.NextTurnFunc();
+            GameManager.Instance.NextTurnFunc(); //통신으로 처리하지 않는 이유는 통신을 거치면 돈이 빠져나가기전에 두 클라이언트 모두 턴이 넘어가기 때문에
+                                                 //완벽히 처리해주고 각 클라이언트의 턴을 넘기기 위함.
         }
         // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
         else
