@@ -14838,20 +14838,17 @@ MonoBehaviour:
   - card_name: "\uAC70\uB300\uD654 \uAF2C\uAF2C"
     cardCode: 3
     cardImg: {fileID: 21300000, guid: 3792c71bf07534e9f9286bfe077f27a3, type: 3}
-  - card_name: "\uD22C\uC2DC"
-    cardCode: 4
-    cardImg: {fileID: 21300000, guid: d46864bc0e0de488f9a6ea74d1c90024, type: 3}
   - card_name: "\uC8FC\uC0AC\uC704\uCEE8\uD2B8\uB864(\uD558)"
-    cardCode: 5
+    cardCode: 4
     cardImg: {fileID: 21300000, guid: e373adfff7d7c4dcf9539dc66f785246, type: 3}
   - card_name: "\uC8FC\uC0AC\uC704\uCEE8\uD2B8\uB864(\uC0C1)"
-    cardCode: 6
+    cardCode: 5
     cardImg: {fileID: 21300000, guid: e373adfff7d7c4dcf9539dc66f785246, type: 3}
   - card_name: "\uD1B5\uD589\uB8CC \uBA74\uC81C"
-    cardCode: 7
+    cardCode: 6
     cardImg: {fileID: 21300000, guid: b7d97c486b14f47cbba872703aa23aca, type: 3}
   - card_name: "\uB808\uC774\uC800 \uBE54"
-    cardCode: 8
+    cardCode: 7
     cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
   buildings:
   - buildingImg:

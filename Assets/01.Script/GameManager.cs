@@ -431,7 +431,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < nowPlayer.cards.Count; i++)
         {
-            if (nowPlayer.cards[i].cardCode == 7) //카드코드 7은 면제카드(혹시나 수정할일 있으면 수정)
+            if (nowPlayer.cards[i].cardCode == 6) //카드코드 7은 면제카드(혹시나 수정할일 있으면 수정)
             {
                 nowPlayer.cards.RemoveAt(i);
                 Destroy(nowPlayer.cardParent.GetChild(0).gameObject);
@@ -455,7 +455,7 @@ public class GameManager : MonoBehaviour
         // 통행료 면제 카드가 더 있다면 플래그를 다시 켜줌
         for (int i = 0; i < nowPlayer.cards.Count; i++)
         {
-            if (nowPlayer.cards[i].cardCode == 7)
+            if (nowPlayer.cards[i].cardCode == 6)
             {
                 nowPlayer.exemptionFlag = true;
                 break;

@@ -123,20 +123,20 @@ public class CardManager : MonoBehaviour
                 // theGM.nowPlayer.biggerFlag = true;
                 DestroyCard();
             }
-            // cardCode가 4라면 투시(투시카드 사용이 완료되었고, 레이저빔도 완료되어야만 사용 가능 => 둘 중 하나라도 발동중이면 사용불가)
-            else if (cardInfo.cardCode == 4 && !theGM.nowPlayer.toosiFlag && theGM.penetrateComplete && theGM.laserComplete)
+            // // cardCode가 4라면 투시(투시카드 사용이 완료되었고, 레이저빔도 완료되어야만 사용 가능 => 둘 중 하나라도 발동중이면 사용불가)
+            // else if (cardInfo.cardCode == 4 && !theGM.nowPlayer.toosiFlag && theGM.penetrateComplete && theGM.laserComplete)
+            // {
+            //     CardClickData cData = new(4, GameManager.Instance.nowPlayer.playerId);
+            //     string jsonData = JsonUtility.ToJson(cData);
+            //     byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+            //     Backend.Match.SendDataToInGameRoom(data);
+            //     // theGM.nowPlayer.toosiFlag = true;
+            //     DestroyCard();
+            // }
+            // cardCode가 4라면 주사위컨트롤(하)
+            else if (cardInfo.cardCode == 4 && !theGM.nowPlayer.lowerDiceFlag)
             {
                 CardClickData cData = new(4, GameManager.Instance.nowPlayer.playerId);
-                string jsonData = JsonUtility.ToJson(cData);
-                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
-                Backend.Match.SendDataToInGameRoom(data);
-                // theGM.nowPlayer.toosiFlag = true;
-                DestroyCard();
-            }
-            // cardCode가 5라면 주사위컨트롤(하)
-            else if (cardInfo.cardCode == 5 && !theGM.nowPlayer.lowerDiceFlag)
-            {
-                CardClickData cData = new(5, GameManager.Instance.nowPlayer.playerId);
                 string jsonData = JsonUtility.ToJson(cData);
                 byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
                 Backend.Match.SendDataToInGameRoom(data);
@@ -145,10 +145,10 @@ public class CardManager : MonoBehaviour
                 theGM.nowPlayer.higherDiceFlag = false;
                 DestroyCard();
             }
-            // cardCode가 6이라면 주사위컨트롤(상)
-            else if (cardInfo.cardCode == 6 && !theGM.nowPlayer.higherDiceFlag)
+            // cardCode가 5이라면 주사위컨트롤(상)
+            else if (cardInfo.cardCode == 5 && !theGM.nowPlayer.higherDiceFlag)
             {
-                CardClickData cData = new(6, GameManager.Instance.nowPlayer.playerId);
+                CardClickData cData = new(5, GameManager.Instance.nowPlayer.playerId);
                 string jsonData = JsonUtility.ToJson(cData);
                 byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
                 Backend.Match.SendDataToInGameRoom(data);
@@ -157,8 +157,8 @@ public class CardManager : MonoBehaviour
                 theGM.nowPlayer.lowerDiceFlag = false;
                 DestroyCard();
             }
-            // cardCode가 8이라면 레이저빔(레이저빔 사용이 완료되었고, 투시 완료되어야만 사용 가능 => 둘 중 하나라도 발동중이면 사용불가)
-            else if (cardInfo.cardCode == 8 && !theGM.nowPlayer.laserFlag && theGM.laserComplete && theGM.penetrateComplete)
+            // cardCode가 7이라면 레이저빔(레이저빔 사용이 완료되었고, 투시 완료되어야만 사용 가능 => 둘 중 하나라도 발동중이면 사용불가)
+            else if (cardInfo.cardCode == 7 && !theGM.nowPlayer.laserFlag && theGM.laserComplete && theGM.penetrateComplete)
             {
                 // 모든 타일을 돌면서 상대방 소유의 땅이 있는지 검사
                 for (int i = 0; i < theTile.tiles.Length; i++)
@@ -166,7 +166,7 @@ public class CardManager : MonoBehaviour
                     // 타일의 주인이 상대플레이어의 ID와 일치하면 카드 사용 가능
                     if (theTile.tiles[i].ownPlayer == theGM.nowPlayer.againstPlayer.playerId)
                     {
-                        CardClickData cData = new(8, GameManager.Instance.nowPlayer.playerId);
+                        CardClickData cData = new(7, GameManager.Instance.nowPlayer.playerId);
                         string jsonData = JsonUtility.ToJson(cData);
                         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
                         Backend.Match.SendDataToInGameRoom(data);
@@ -237,7 +237,7 @@ public class CardManager : MonoBehaviour
             // theGM.nowPlayer.cards.Add(theGM.nowPlayer.againstPlayer.cards[randomCard]);
             // theGM.nowPlayer.againstPlayer.cards.RemoveAt(randomCard);
             // // 만약 뺏어온 카드가 통행료면제 카드라면 플래그를 서로 바꿔줌 GameManager.Instance.invisibleCardNum
-            if (theGM.nowPlayer.againstPlayer.cards[GameManager.Instance.invisibleCardNum] == theGM.cards[6])
+            if (theGM.nowPlayer.againstPlayer.cards[GameManager.Instance.invisibleCardNum] == theGM.cards[5])
             {
                 //이거도 뭔가 통신쪽으로 가야될듯 (나중에 수정)
                 theGM.nowPlayer.exemptionFlag = true;
@@ -293,7 +293,7 @@ public class CardManager : MonoBehaviour
         // 현재 자신의 카드 중에서 통행료 면제 카드를 찾아서 파괴함
         for (int i = 0; i < theGM.nowPlayer.cards.Count; i++)
         {
-            if (theGM.nowPlayer.cards[i] == theGM.cards[6])
+            if (theGM.nowPlayer.cards[i] == theGM.cards[5])
             {
                 theGM.nowPlayer.cards.RemoveAt(i);
                 Destroy(theGM.nowPlayer.cardParent.GetChild(0).gameObject);
@@ -556,7 +556,7 @@ public class CardManager : MonoBehaviour
             isShowCard = false;
 
             // 만약 통행료면제 카드라면 카드효과를 즉시 활성화.
-            if (newCard == theGM.cards[6])
+            if (newCard == theGM.cards[5])
             {
                 AudioManager.Instance.Play("TollExemption_Sound");
 
@@ -607,7 +607,7 @@ public class CardManager : MonoBehaviour
             isShowCard = false;
 
             // 만약 통행료면제 카드라면 카드효과를 즉시 활성화.
-            if (newCard == theGM.cards[6])
+            if (newCard == theGM.cards[5])
             {
                 AudioManager.Instance.Play("TollExemption_Sound");
 

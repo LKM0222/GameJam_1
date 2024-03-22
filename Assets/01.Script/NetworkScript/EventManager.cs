@@ -373,24 +373,24 @@ public class EventManager : MonoBehaviour
                             // theGM.nowPlayer.biggerFlag = true;
                             break;
 
-                        case 4: //투시
-                            GameManager.Instance.nowPlayer.toosiFlag = true;
-                            // theGM.nowPlayer.toosiFlag = true;
-                            break;
+                        // case 4: //투시
+                        //     GameManager.Instance.nowPlayer.toosiFlag = true;
+                        //     // theGM.nowPlayer.toosiFlag = true;
+                        //     break;
 
-                        case 5: //주사위컨트롤 하
+                        case 4: //주사위컨트롤 하
                             GameManager.Instance.nowPlayer.lowerDiceFlag = true;
                             // theGM.nowPlayer.lowerDiceFlag = true;
                             break;
 
-                        case 6: //주사위컨트롤 상
+                        case 5: //주사위컨트롤 상
                             GameManager.Instance.nowPlayer.higherDiceFlag = true;
                             // theGM.nowPlayer.higherDiceFlag = true;
                             break;
 
-                        // 7번 통행료 면제는 사용카드가 아니라 패시브 카드라서 패스.
+                        // 6번 통행료 면제는 사용카드가 아니라 패시브 카드라서 패스.
 
-                        case 8: //레이저빔
+                        case 7: //레이저빔
                             GameManager.Instance.nowPlayer.laserFlag = true;
                             break;
                     }
