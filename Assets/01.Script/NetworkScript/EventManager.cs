@@ -566,6 +566,7 @@ public class EventManager : MonoBehaviour
     //건물강탈 코루틴 빼놓은것.
     IEnumerator ExtortionAlphaCoroutine(Color tileColor, int playerId)
     {
+        AudioManager.Instance.Play("Extortion_Sound");
         //여기부터 둘 다 처리되어야 하는 부분.
         // Color tileColor = GameManager.Instance.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
 
@@ -623,6 +624,7 @@ public class EventManager : MonoBehaviour
     //재단 코루틴
     IEnumerator TempleCoroutine()
     {
+        AudioManager.Instance.Play("Olympics_Sound");
         GameManager.Instance.nowPlayer.nowTile.price *= 2;
         GameManager.Instance.nowPlayer.nowTile.transform.Find("Pos").GetChild(0).gameObject.SetActive(true);
         yield return new WaitForSeconds(1f);

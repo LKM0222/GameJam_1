@@ -225,7 +225,7 @@ MonoBehaviour:
     loop: 0
   - clip: {fileID: 8300000, guid: a8f0ffe4875ce0f408aa737ad762bfa9, type: 3}
     source: {fileID: 0}
-    name: TurnChanger_Sound
+    name: TurnChange_Sound
     volume: 1
     loop: 0
   - clip: {fileID: 8300000, guid: d88dd61c785530e4999813279dc10f47, type: 3}
