@@ -231,8 +231,8 @@ public class ParsingManager : MonoBehaviour
         get
         {
             if (_instance == null)
-                _instance = new ParsingManager();
-            // _instance = FindObjectOfType(typeof(ParsingManager)) as ParsingManager;
+                // _instance = new ParsingManager();
+                _instance = FindObjectOfType(typeof(ParsingManager)) as ParsingManager;
 
             return _instance;
         }

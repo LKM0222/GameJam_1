@@ -7,13 +7,8 @@ using BackEnd.Tcp;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
-using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using Unity.VisualScripting;
-using System.Security.Cryptography;
 using Unity.Mathematics;
-using UnityEditor.Build.Content;
 using System.Threading;
 #endregion
 public class EventManager : MonoBehaviour

@@ -20,7 +20,7 @@ using UnityEngine.SceneManagement;
 public class MatchTestManager : MonoBehaviour
 {
     
-    private static MatchTestManager _instance;
+    private static MatchTestManager _instance = null;
 
     public List<MatchCard> matchCards = new List<MatchCard>();
 
@@ -29,8 +29,8 @@ public class MatchTestManager : MonoBehaviour
     public static MatchTestManager Instance { 
         get {
             if(_instance == null){
-                _instance = new MatchTestManager();
-                // _instance = FindObjectOfType(typeof(MatchTestManager)) as MatchTestManager;
+                // _instance = new MatchTestManager();
+                _instance = FindObjectOfType(typeof(MatchTestManager)) as MatchTestManager;
             }
             return _instance;
         }
