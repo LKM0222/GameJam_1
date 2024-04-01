@@ -28,7 +28,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player2_Teleport
+  m_Name: Blue_Player_Teleport
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:
