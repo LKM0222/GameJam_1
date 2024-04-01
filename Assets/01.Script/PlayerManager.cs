@@ -163,7 +163,12 @@ public class PlayerManager : MonoBehaviour
         }
 
         lastTile = (tileNum + diceNum) % theTM.tiles.Length;
+        if (lastTile == 0)
+        {
+            lastTile = theTM.tiles.Length - 1;
+        }
         theTM.tiles[lastTile - 1].gameObject.transform.Find("TileLine").gameObject.SetActive(true);
+
 
         movingWaitTime = 0f;
 
