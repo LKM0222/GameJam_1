@@ -50,7 +50,6 @@ public class MatchingRoomScript : MonoBehaviour
         Backend.Match.OnMatchMakingRoomJoin = (MatchMakingGamerInfoInRoomEventArgs args) => {// 초대받은 유저가 방에 입장했을때, 방에 있는 플레이어들에게 호출되는 이벤트
             Debug.Log(args.UserInfo.m_nickName + "님이 입장하였습니다.");
             matchingRoomLogStr += args.UserInfo.m_nickName + "님이 입장하였습니다. \n";
-            // matchingRoomUserList += "," + args.UserInfo.m_nickName;
             //userlist를 다시 작성하기 위한 코드 (사람이 변동될 때, 작성해야함.)
             userList.Add(args.UserInfo.m_nickName);
             matchingRoomUserList = "참여한 유저 : ";

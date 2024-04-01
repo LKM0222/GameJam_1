@@ -60,7 +60,6 @@ public class MatchManager
             if(args.ErrInfo == ErrorCode.Success){
                 Backend.Match.RequestMatchMaking(matchCards[index].matchType, matchCards[index].matchModeType, matchCards[index].inDate);
                 Debug.Log("CreateRoom Success : " + args.ToString());
-                // Debug.Log(Backend.Match.room)
             } else {
                 Debug.Log("CreateRoom error : " + args.ToString());
             }

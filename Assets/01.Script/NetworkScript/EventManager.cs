@@ -69,9 +69,6 @@ public class EventManager : MonoBehaviour
             // 유저 리스트는 좀만 있다가 수정하자. 대기방 나갔다는 로그부터
             if (args.ErrInfo == ErrorCode.Success)
             {//성공적으로 퇴장 성공
-                // MatchingRoomScript.Instance.matchingRoomLogStr += args.UserInfo.m_nickName + 
-                // "님이 퇴장하였습니다. \n";
-                // MatchingRoomScript.Instance.UserListRemove(args.UserInfo.m_nickName);
                 print("매칭룸 퇴장");
             }
             if (args.ErrInfo == ErrorCode.InvalidOperation)
@@ -139,14 +136,8 @@ public class EventManager : MonoBehaviour
         { //인게임서버에 접속 성공했을 떄 호출되는 이벤트 이 이벤트가 호출되어야 서버에 접속성공한것.
             if (args.ErrInfo == ErrorInfo.Success)
             {
-                // Debug.Log("인게임서버 접속 성공" );//+ this.roomInfo.m_inGameRoomToken);
-                // MatchingRoomScript.Instance.matchingRoomLogStr += "인게임서버 접속 성공\n"; //주석처리 이유 : 이 구문이 왜 반복적으로 호출되는지 모르겠지만
-                //일단 이 구문이 반복호출되면서 text가 200줄을 넘어가기 때문에 일단 비활성화
                 Backend.Match.JoinGameRoom(this.roomInfo.m_inGameRoomToken); //OnMatchMakingResponse에서 전달받은 RoomToken을 여기로 전달.
                 GameManager.Instance.nowPlayer.sessionId = args.Session.SessionId;
-                // Debug.Log("게임방에 접속시도합니다.");
-                // MatchingRoomScript.Instance.matchingRoomLogStr += "게임방에 접속 시도합니다.\n"; //여기도 마찬가지
-                //다른 에러 케이스가 많지만 그건 추후에...
             }
             else
             {
@@ -198,11 +189,6 @@ public class EventManager : MonoBehaviour
             //이후부터 게임 시작되었다는 뭔가가 필요할듯.
             //턴이 시작되었다는 뭔가가 필요...!
             //ParsingData의 클래스 인스턴스를 생성하여, 선언된 data를 json으로 파싱 후 string데이터를 다시 byte[]로 변환해서 전송.
-            // ParsingData data = new ParsingData(ParsingType.Turn, (GameManager.Instance.playerCount.Count).ToString());
-            // string jsonData = JsonUtility.ToJson(data);
-            // Backend.Match.SendDataToInGameRoom(Encoding.UTF8.GetBytes(jsonData));
-            // AudioManager.Instance.Play("MainGame_Sound");
-
             UIManager.Instance.SetUI();
         };
 
@@ -265,24 +251,18 @@ public class EventManager : MonoBehaviour
                 case ParsingType.GroundBuy: //땅 구매
                     if (GameManager.Instance.myCharactor.myTurn)
                     {
-                        // print("GroundBuy");
-                        // theGBS.GroundBuy();
-                        // print("GroundBuySuccess");
                         GameManager.Instance.myCharactor.groundCount += 1;
                         GameManager.Instance.myCharactor.playerMoney -= 50;
                         GameManager.Instance.nowPlayer.nowTile.price = 50;
-                        // GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, 50, false);
                     }
                     else
                     {
                         //상대방이 땅을 구매했을 때, 상대방 땅 색깔로 구매되었다는걸 알려줘야함.
-                        // theGM.nowPlayer.nowTile.ownPlayer = theGM.nowPlayer.playerId; 
                         GameManager.Instance.myCharactor.againstPlayer.nowTile.ownPlayer
                             = GameManager.Instance.myCharactor.againstPlayer.playerId;
                         GameManager.Instance.myCharactor.againstPlayer.groundCount += 1;
                         GameManager.Instance.myCharactor.againstPlayer.playerMoney -= 50;
                         GameManager.Instance.nowPlayer.nowTile.price = 50;
-                        // GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer.againstPlayer, 50, false);
                     }
                     GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, 50, false);
                     break;
@@ -343,11 +323,7 @@ public class EventManager : MonoBehaviour
                     print("recv ExtortionData!");
                     ExtortionData extortionData = JsonUtility.FromJson<ExtortionData>(pData.data);
                     Color tileColor = GameManager.Instance.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
-                    // AudioManager.instance.Play("Extortion_Sound");
-                    // GameManager.Instance.seletedTile.GetComponent<Tile>().ownPlayer = extortionData.playerId;
-                    // StartCoroutine(ExtortionAlphaCoroutine(tileColor,extortionData.playerId));
                     StartCoroutine(ExtortionAlphaCoroutine(tileColor, extortionData.playerId));
-                    // GameManager.Instance.seletedTile = null;
 
 
 
@@ -360,32 +336,26 @@ public class EventManager : MonoBehaviour
                     {
                         case 1: //고속이동
                             GameManager.Instance.nowPlayer.highSpeedFlag = true;
-                            // theGM.nowPlayer.highSpeedFlag = true;
                             break;
 
                         case 2://투명도둑
                             GameManager.Instance.nowPlayer.invisibleFlag = true;
-                            // theGM.nowPlayer.invisibleFlag = true;
                             break;
 
                         case 3://거대화 꼬꼬
                             GameManager.Instance.nowPlayer.biggerFlag = true;
-                            // theGM.nowPlayer.biggerFlag = true;
                             break;
 
                         case 4: //투시
                             GameManager.Instance.nowPlayer.toosiFlag = true;
-                            // theGM.nowPlayer.toosiFlag = true;
                             break;
 
                         case 5: //주사위컨트롤 하
                             GameManager.Instance.nowPlayer.lowerDiceFlag = true;
-                            // theGM.nowPlayer.lowerDiceFlag = true;
                             break;
 
                         case 6: //주사위컨트롤 상
                             GameManager.Instance.nowPlayer.higherDiceFlag = true;
-                            // theGM.nowPlayer.higherDiceFlag = true;
                             break;
 
                         // 7번 통행료 면제는 사용카드가 아니라 패시브 카드라서 패스.
@@ -442,10 +412,6 @@ public class EventManager : MonoBehaviour
 
                         case 1: //재단
                             StartCoroutine(TempleCoroutine()); //재단 활성화 되었을때 파티클 재생위해 코루틴으로 수정
-                            // GameManager.Instance.nowPlayer.nowTile.price *= 2;
-                            // GameManager.Instance.nowPlayer.nowTile.transform.Find("Pos").GetChild(0).gameObject.SetActive(true);
-                            // // yield return new WaitForSeconds(0.1f);
-                            // GameManager.Instance.NextTurnFunc();
                             break;
 
                     }
@@ -454,7 +420,6 @@ public class EventManager : MonoBehaviour
 
                 case ParsingType.ArriveTile: //양계장에 도착할 경우
                     StartCoroutine(ArriveCoroutine(pData)); //플로팅 텍스트 때문에 코루틴으로 뺌
-                    // ArriveFunc(pData);
                     break;
 
                 case ParsingType.Olympic:
@@ -479,11 +444,6 @@ public class EventManager : MonoBehaviour
             GameManager.Instance.gameOverUI.SetActive(true);
             print(GameManager.Instance.nowPlayer.againstPlayer.playerId + " 승리!");
             print("Game Over!");
-            // if(args.ErrInfo == ErrorCode.Success){ //서버에서 결과가 완벽하게 처리 되었을경우 호출되는데 어째 호출이 안된다...
-            //     GameManager.Instance.gameOverUI.SetActive(true);
-            //     print(GameManager.Instance.nowPlayer.againstPlayer.playerId + " 승리!");
-            //     print("Game Over!");
-            // }
             switch (args.ErrInfo)
             {
                 case ErrorCode.Success:
@@ -568,7 +528,6 @@ public class EventManager : MonoBehaviour
     {
         AudioManager.Instance.Play("Extortion_Sound");
         //여기부터 둘 다 처리되어야 하는 부분.
-        // Color tileColor = GameManager.Instance.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
 
         // 타일의 Alpha 값을 서서히 0으로 줄임
         while (tileColor.a > 0f)

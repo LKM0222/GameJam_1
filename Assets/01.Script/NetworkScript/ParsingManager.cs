@@ -33,7 +33,6 @@ public class TurnCardSet
 
 public class TurnCard
 {
-    // public int turnNum;
     public int turncardIdx;
 
     public TurnCard(int _turnCardIdx)
@@ -232,8 +231,6 @@ public class ParsingManager : MonoBehaviour
         {
             if (_instance == null)
                 _instance = new ParsingManager();
-            // _instance = FindObjectOfType(typeof(ParsingManager)) as ParsingManager;
-
             return _instance;
         }
     }
@@ -254,27 +251,3 @@ public class ParsingManager : MonoBehaviour
 
 
 }
-
-
-/*
-public void ParisngRecvData(MatchRelayEventArgs args){
-        //받는 함수(받는 데이터는 byte[]로 받음.
-        //수신이벤트에서 각 클래스로 변환하는 함수.
-        print("Recv!");
-        byte[] data = args.BinaryUserData;
-        ParsingData pData = JsonUtility.FromJson<ParsingData>(Encoding.Default.GetString(data));
-        //pData.type : 데이터의 타입, pData.data : string데이터 (클래스별 데이터라 각 클래스에 맞는 파싱과정 필요)
-        //데이터의 타입으로 스위치문 결정, 데이터를 다시 위와 같은 과정으로 알맞은 클래스로 변환 후 사용.
-        switch(pData.type){
-            case ParsingType.Turn:
-                print("turn case");
-                TurnCard tData = JsonUtility.FromJson<TurnCard>(pData.data);
-                GameManager.Instance.playerCount.Add(1);
-                GameManager.Instance.turnCards[tData.turncardIdx].SetActive(false); 
-                if(GameManager.Instance.playerCount.Count > 1){
-                    GameManager.Instance.turnCardParent.SetActive(false);
-                }
-            break;
-        }
-    }*/
-

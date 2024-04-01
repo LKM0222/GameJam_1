@@ -54,8 +54,6 @@ public class MenuSceneManager : MonoBehaviour
 
     void Update()
     {
-        // 만약에 초대 핸들러를 함수에서 처리하고, 초대 시 함수를 실행하게 하면 초대가 정상적으로 이뤄지는가?
-        // 안됨.. 무조건 Update에서 해야되는지도 잘 모르겠음... 뭔가 더 깔끔한 방향이 있을것 같음...
         //EventManager에서 가져옴.
         Backend.Match.OnMatchMakingRoomSomeoneInvited += (MatchMakingInvitedRoomEventArgs args) => { //다른 유저가 나를 초대했을때 호출되는 이벤트
             //초대한 유저의 정보를 EventManager에 저장. (나중에 다른 곳에서 써야되기 때문에_ButtonManager의 초대 수락 함수)

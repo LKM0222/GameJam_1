@@ -30,7 +30,6 @@ public class MatchTestManager : MonoBehaviour
         get {
             if(_instance == null){
                 _instance = new MatchTestManager();
-                // _instance = FindObjectOfType(typeof(MatchTestManager)) as MatchTestManager;
             }
             return _instance;
         }
@@ -46,7 +45,6 @@ public class MatchTestManager : MonoBehaviour
         if(matchCard != null){
             print("MatchTestManager matchcard is : " + matchCard);
         }
-        // SceneManager.LoadScene("MatchingRoom");
     }
 
     public void Join(){
@@ -178,7 +176,6 @@ public class MatchTestManager : MonoBehaviour
                 }
             }
             matchCardList.Add(matchCard);
-            // this.matchCards = matchCardList;
         }
 
         foreach(var matchcard in matchCardList)
