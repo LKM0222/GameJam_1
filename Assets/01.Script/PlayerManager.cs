@@ -29,6 +29,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] int tileNum; //플레이어가 서있는 칸의 번호
     public Tile nowTile; //현재 서 있는 타일의 정보
     [SerializeField] List<GameObject> tileToGo = new List<GameObject>(); //플레이어가 가야될 타일
+    int lastTile = 0;
 
     [Header("Card")]
     public List<Card> cards = new List<Card>(); //플레이어가 가진 카드
@@ -161,6 +162,9 @@ public class PlayerManager : MonoBehaviour
             }
         }
 
+        lastTile = (tileNum + diceNum) % theTM.tiles.Length;
+        theTM.tiles[lastTile - 1].gameObject.transform.Find("TileLine").gameObject.SetActive(true);
+
         movingWaitTime = 0f;
 
         finishMoving = false;
@@ -283,6 +287,10 @@ public class PlayerManager : MonoBehaviour
     {
         this.gameObject.GetComponent<Animator>().SetBool("FlyFlag", false);
         this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", false);
+
+        theTM.tiles[lastTile - 1].gameObject.transform.Find("TileLine").gameObject.SetActive(false);
+        lastTile = 0;
+
 
         // 투명도둑을 사용했었다면 알파값 원상복구
         if (theGM.nowPlayer.invisibleFlag)
