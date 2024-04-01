@@ -290,8 +290,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -210, y: -312.8}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 151, y: -400}
+  m_SizeDelta: {x: 140, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &12135982
 MonoBehaviour:
@@ -313,7 +313,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 87d1b7ba8aad3894f98d1478e591ad20, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3715,7 +3715,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 87d1b7ba8aad3894f98d1478e591ad20, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3750,8 +3750,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 210, y: -311.1}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -150, y: -400}
+  m_SizeDelta: {x: 140, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &327076672
 GameObject:
@@ -14829,27 +14829,27 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2b1ac94ec0a104600986da9fc6775e9d, type: 3}
   - {fileID: 21300000, guid: d39d98df0c6e54defa46f6d3cf1d9dc7, type: 3}
   cards:
-  - card_name: "\uACE0\uC18D \uC774\uB3D9"
+  - card_name: "\uACE0\uC18D\uC774\uB3D9"
     cardCode: 1
-    cardImg: {fileID: 21300000, guid: e5631acbcf2f240a58b390969420b074, type: 3}
-  - card_name: "\uD22C\uBA85 \uB3C4\uB451"
+    cardImg: {fileID: 21300000, guid: c6b5b59bf429c03448cb8b85cb536f4b, type: 3}
+  - card_name: "\uD22C\uBA85\uB3C4\uB451"
     cardCode: 2
-    cardImg: {fileID: 21300000, guid: 329fabe67d1ba4f0ab6ae0496c9e14ba, type: 3}
-  - card_name: "\uAC70\uB300\uD654 \uAF2C\uAF2C"
+    cardImg: {fileID: 21300000, guid: ab5050f50afad6e4bb494d65347d1ca1, type: 3}
+  - card_name: "\uAC70\uB300\uD654\uAF2C\uAF2C"
     cardCode: 3
-    cardImg: {fileID: 21300000, guid: 3792c71bf07534e9f9286bfe077f27a3, type: 3}
-  - card_name: "\uC8FC\uC0AC\uC704\uCEE8\uD2B8\uB864(\uD558)"
+    cardImg: {fileID: 21300000, guid: ec88c98928f89b74bbb92a4e50b19838, type: 3}
+  - card_name: "\uC18C\uD615\uC54C"
     cardCode: 4
-    cardImg: {fileID: 21300000, guid: e373adfff7d7c4dcf9539dc66f785246, type: 3}
-  - card_name: "\uC8FC\uC0AC\uC704\uCEE8\uD2B8\uB864(\uC0C1)"
+    cardImg: {fileID: 21300000, guid: 94278d20f61f8ad469d60f74d5fe8b75, type: 3}
+  - card_name: "\uB300\uD615\uC54C"
     cardCode: 5
-    cardImg: {fileID: 21300000, guid: e373adfff7d7c4dcf9539dc66f785246, type: 3}
-  - card_name: "\uD1B5\uD589\uB8CC \uBA74\uC81C"
+    cardImg: {fileID: 21300000, guid: 4e050373ab371774ea820db379da053f, type: 3}
+  - card_name: "\uCC9C\uC0AC\uAF2C\uAF2C"
     cardCode: 6
-    cardImg: {fileID: 21300000, guid: b7d97c486b14f47cbba872703aa23aca, type: 3}
-  - card_name: "\uB808\uC774\uC800 \uBE54"
+    cardImg: {fileID: 21300000, guid: 5eec5f2261606e94b9896924fe3eb69a, type: 3}
+  - card_name: "\uB808\uC774\uC800\uBE54"
     cardCode: 7
-    cardImg: {fileID: 21300000, guid: c21ceb957de8e41d195d206a570a4530, type: 3}
+    cardImg: {fileID: 21300000, guid: d726e49f5d1469d46b621ba03ce44a97, type: 3}
   buildings:
   - buildingImg:
       building_front: {fileID: 0}
