@@ -165,7 +165,7 @@ public class PlayerManager : MonoBehaviour
         lastTile = (tileNum + diceNum) % theTM.tiles.Length;
         if (lastTile == 0)
         {
-            lastTile = theTM.tiles.Length - 1;
+            lastTile = theTM.tiles.Length;
         }
         theTM.tiles[lastTile - 1].gameObject.transform.Find("TileLine").gameObject.SetActive(true);
 
