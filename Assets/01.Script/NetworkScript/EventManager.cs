@@ -18,7 +18,7 @@ public class EventManager : MonoBehaviour
     public bool acceptFlag = false; //초대수락 플래그
 
     [Header("InGameServer")]
-    MatchInGameRoomInfo roomInfo; //인게임에서 방 정보를 전달하기위해 선언해둔 변수
+    MatchInGameRoomInfo _roomInfo; //인게임에서 방 정보를 전달하기위해 선언해둔 변수
 
 
     #region FindObjectArea
@@ -86,7 +86,7 @@ public class EventManager : MonoBehaviour
                 case ErrorCode.Success: //매칭이 성사되었을 떄 여기서 인게임 서버 접속시도
                     Debug.Log("매칭 성사 , 인게임 서버에 접속 시도합니다.");
                     MenuSceneManager.Instance.matchingLogStr += "매칭 성사 , 인게임 서버에 접속 시도합니다.\n";
-                    roomInfo = args.RoomInfo; //추후에 roomToken을 써야되기 때문에 따로 저장
+                    _roomInfo = args.RoomInfo; //추후에 roomToken을 써야되기 때문에 따로 저장
                     if (Backend.Match.JoinGameServer(args.RoomInfo.m_inGameServerEndPoint.m_address,
                     args.RoomInfo.m_inGameServerEndPoint.m_port,
                     false, out ErrorInfo errorInfo) == false)
@@ -127,7 +127,7 @@ public class EventManager : MonoBehaviour
         { //인게임서버에 접속 성공했을 떄 호출되는 이벤트 이 이벤트가 호출되어야 서버에 접속성공한것.
             if (args.ErrInfo == ErrorInfo.Success)
             {
-                Backend.Match.JoinGameRoom(this.roomInfo.m_inGameRoomToken); //OnMatchMakingResponse에서 전달받은 RoomToken을 여기로 전달.
+                Backend.Match.JoinGameRoom(this._roomInfo.m_inGameRoomToken); //OnMatchMakingResponse에서 전달받은 RoomToken을 여기로 전달.
                 GameManager.Instance.nowPlayer.sessionId = args.Session.SessionId;
             }
             else

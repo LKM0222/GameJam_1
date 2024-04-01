@@ -6,17 +6,17 @@ using System.Text;
 using System;
 
 public class UserData {
-    public int winscore;
-    public int losescore;
-    public string nickname;
+    public int winScore;
+    public int loseScore;
+    public string nickName;
     public string email;
 
     public override string ToString()
     {   
         StringBuilder result = new StringBuilder();
-        result.AppendLine($"winscore : {winscore}");
-        result.AppendLine($"losescore : {losescore}");
-        result.AppendLine($"nickname : {nickname}");
+        result.AppendLine($"winscore : {winScore}");
+        result.AppendLine($"losescore : {loseScore}");
+        result.AppendLine($"nickname : {nickName}");
         result.AppendLine($"email : {email}");
         return base.ToString();
     }
@@ -45,15 +45,15 @@ public class BackendGameData
             userData = new UserData();
         }
         Debug.Log("userdata를 초기화 합니다.");
-        userData.losescore = 0;
-        userData.winscore = 0;
-        userData.nickname = _nickname;
+        userData.loseScore = 0;
+        userData.winScore = 0;
+        userData.nickName = _nickname;
         userData.email = _email;
 
         Param param = new Param();
-        param.Add("winscore",userData.winscore);
-        param.Add("losescore", userData.losescore);
-        param.Add("nickname", userData.nickname);
+        param.Add("winscore",userData.winScore);
+        param.Add("losescore", userData.loseScore);
+        param.Add("nickname", userData.nickName);
         param.Add("email", userData.email);
 
         var bro = Backend.GameData.Insert("USER_DATA", param);
@@ -80,9 +80,9 @@ public class BackendGameData
                 gamedataRowInDate = gameDataJson[0]["inDate"].ToString();
 
                 userData = new UserData();
-                userData.losescore = int.Parse(gameDataJson[0]["losescore"].ToString());
-                userData.winscore = int.Parse(gameDataJson[0]["winscore"].ToString());
-                userData.nickname = gameDataJson[0]["nickname"].ToString();
+                userData.winScore = int.Parse(gameDataJson[0]["losescore"].ToString());
+                userData.winScore = int.Parse(gameDataJson[0]["winscore"].ToString());
+                userData.nickName = gameDataJson[0]["nickname"].ToString();
                 userData.email = gameDataJson[0]["email"].ToString();
 
                 Debug.Log(userData.ToString());
@@ -96,11 +96,11 @@ public class BackendGameData
 
     public void UpWinScore() {
         Debug.Log("승리 포인트 증가");
-        userData.winscore += 1;
+        userData.winScore += 1;
     }
     public void UpLoseScore(){
         Debug.Log("패배 포인트 증가");
-        userData.losescore += 1;
+        userData.loseScore += 1;
     }
     
     public void GameDataUpdate() {
@@ -109,9 +109,9 @@ public class BackendGameData
             return;
         }
         Param param = new Param();
-        param.Add("winscore",userData.winscore);
-        param.Add("losescore", userData.losescore);
-        param.Add("nickname", userData.nickname);
+        param.Add("winscore",userData.winScore);
+        param.Add("losescore", userData.loseScore);
+        param.Add("nickname", userData.nickName);
         param.Add("email", userData.email);
 
         BackendReturnObject bro = null;

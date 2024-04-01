@@ -39,14 +39,14 @@ public class MenuSceneManager : MonoBehaviour
 
     private void Awake() { //승률 체크하는곳.
         UserData user = BackendGameData.Instance.GameDataGet();
-        print("user nickname : " + user.nickname);
-        nickname.text = user.nickname;
-        winText.text = user.winscore.ToString();
-        loseText.text = user.losescore.ToString();
-        if(user.winscore + user.losescore == 0){
+        print("user nickname : " + user.nickName);
+        nickname.text = user.nickName;
+        winText.text = user.winScore.ToString();
+        loseText.text = user.loseScore.ToString();
+        if(user.winScore + user.loseScore == 0){
             ratingText.text = + 0 + "%";
         }else{
-            ratingText.text = ( user.winscore / (user.winscore + user.losescore)) + "%";
+            ratingText.text = ( user.winScore / (user.winScore + user.loseScore)) + "%";
         }
         
     }
@@ -78,10 +78,10 @@ public class MenuSceneManager : MonoBehaviour
     }
     public void SetRatingText(){ //이 함수는 수정 필요함...
         UserData user = BackendGameData.Instance.GameDataGet();
-        if(user.winscore + user.losescore == 0){
+        if(user.winScore + user.loseScore == 0){
             ratingText.text = "승률 : " + 0 + "%";
         }else{
-            ratingText.text = "승률 : " + ( user.winscore / (user.winscore + user.losescore)) + "%";
+            ratingText.text = "승률 : " + ( user.winScore / (user.winScore + user.loseScore)) + "%";
         }
     }
 

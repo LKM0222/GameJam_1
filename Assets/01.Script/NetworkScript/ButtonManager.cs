@@ -11,7 +11,7 @@ using BackEnd.Tcp;
 public class ButtonManager : MonoBehaviour
 {
     [Header("Login")]
-    [SerializeField] InputField loginIdInput;
+    [SerializeField] InputField _loginIdInput;
     [SerializeField] InputField loginPwInput;
     [Header("SignUp")]
     [SerializeField] InputField signIdInput;
@@ -84,7 +84,7 @@ public class ButtonManager : MonoBehaviour
 
         await Task.Run(() =>
         {
-            BackendLogin.Instance.CustomLogin(loginIdInput.text, loginPwInput.text);
+            BackendLogin.Instance.CustomLogin(_loginIdInput.text, loginPwInput.text);
         });
 
         if (Backend.IsLogin)

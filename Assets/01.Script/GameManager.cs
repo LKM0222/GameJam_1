@@ -230,22 +230,22 @@ public class GameManager : MonoBehaviour
                 matchGameResult.m_losers.Add(GameManager.Instance.sessionArr[0]);
                 UIManager.Instance.goImg.GetComponent<UnityEngine.UI.Image>().sprite = UIManager.Instance.winImg[0];
 
-                print("유저정보" + user.winscore + ", " + user.losescore);
+                print("유저정보" + user.winScore + ", " + user.loseScore);
                 if (myCharactor == GameManager.Instance.players[0])
                 {
                     UIManager.Instance.goTitle.text = "WIN!";
                     UIManager.Instance.goMoney.text = GameManager.Instance.myCharactor.playerMoney.ToString();
-                    UIManager.Instance.goStatus.text = user.winscore + "승 " + user.losescore + "패 " + " 승률:" + (user.winscore / (user.winscore + user.losescore)) + "%";
+                    UIManager.Instance.goStatus.text = user.winScore + "승 " + user.loseScore + "패 " + " 승률:" + (user.winScore / (user.winScore + user.loseScore)) + "%";
                     ButtonManager.Instance.UpScore(true);
-                    print("player1 win and winscore 1");
+                    print("player1 win and winScore 1");
                 }
                 else
                 {
                     UIManager.Instance.goTitle.text = "LOSE..";
                     UIManager.Instance.goMoney.text = GameManager.Instance.myCharactor.playerMoney.ToString();
-                    UIManager.Instance.goStatus.text = user.winscore + "승 " + user.losescore + "패 " + " 승률:" + (user.winscore / (user.winscore + user.losescore)) + "%";
+                    UIManager.Instance.goStatus.text = user.winScore + "승 " + user.loseScore + "패 " + " 승률:" + (user.winScore / (user.winScore + user.loseScore)) + "%";
                     ButtonManager.Instance.UpScore(false);
-                    print("player2 lose and losescore 1");
+                    print("player2 lose and loseScore 1");
                 }
             }
             if (CheckGameOver() == 0)
@@ -258,23 +258,23 @@ public class GameManager : MonoBehaviour
                 matchGameResult.m_losers.Add(GameManager.Instance.sessionArr[1]);
                 UIManager.Instance.goImg.GetComponent<UnityEngine.UI.Image>().sprite = UIManager.Instance.winImg[1];
 
-                print("유저정보" + user.winscore + ", " + user.losescore);
+                print("유저정보" + user.winScore + ", " + user.loseScore);
                 if (myCharactor == GameManager.Instance.players[1])
                 {
                     UIManager.Instance.goTitle.text = "WIN!";
                     UIManager.Instance.goMoney.text = GameManager.Instance.myCharactor.playerMoney.ToString();
-                    UIManager.Instance.goStatus.text = user.winscore + "승 " + user.losescore + "패 " + " 승률:" + (user.winscore / (user.winscore + user.losescore)) + "%";
+                    UIManager.Instance.goStatus.text = user.winScore + "승 " + user.loseScore + "패 " + " 승률:" + (user.winScore / (user.winScore + user.loseScore)) + "%";
                     ButtonManager.Instance.UpScore(true);
-                    print("player2 win and winscore 1");
+                    print("player2 win and winScore 1");
                 }
                 else
                 {
 
                     UIManager.Instance.goTitle.text = "LOSE..";
                     UIManager.Instance.goMoney.text = GameManager.Instance.myCharactor.playerMoney.ToString();
-                    UIManager.Instance.goStatus.text = user.winscore + "승 " + user.losescore + "패 " + " 승률:" + (user.winscore / (user.winscore + user.losescore)) + "%";
+                    UIManager.Instance.goStatus.text = user.winScore + "승 " + user.loseScore + "패 " + " 승률:" + (user.winScore / (user.winScore + user.loseScore)) + "%";
                     ButtonManager.Instance.UpScore(false);
-                    print("player1 lose and losescore 1");
+                    print("player1 lose and loseScore 1");
                 }
 
             }

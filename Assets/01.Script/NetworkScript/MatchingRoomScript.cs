@@ -31,8 +31,8 @@ public class MatchingRoomScript : MonoBehaviour
         Backend.Match.OnMatchMakingRoomCreate = (MatchMakingInteractionEventArgs args) => { //매칭룸을 생성했을때 호출되는 이벤트
             Debug.Log("MatchRoom Create1");
             if(matchingRoomUserList != null){
-                userList.Add(BackendGameData.userData.nickname);
-                matchingRoomUserList += BackendGameData.userData.nickname + "\n"; //여기다가 방을 생성한 사람의 이름을 넣어야됨...
+                userList.Add(BackendGameData.userData.nickName);
+                matchingRoomUserList += BackendGameData.userData.nickName + "\n"; //여기다가 방을 생성한 사람의 이름을 넣어야됨...
             } else {
                 Debug.Log("matchingRoomUserList is null");
             }
