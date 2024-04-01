@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using BackEnd.Tcp;
 using UnityEngine.UIElements;
 using System.Linq;
-using Demo_Project;
+
 
 public class GameManager : MonoBehaviour
 {
