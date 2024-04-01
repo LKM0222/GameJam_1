@@ -36,6 +36,7 @@ public class ButtonManager : MonoBehaviour
     [Header("Signup Success UI")]
     public GameObject SignupUI;
     public Text SignupText;
+    public Text SignupHeader;
 
     int result;
 
@@ -64,18 +65,23 @@ public class ButtonManager : MonoBehaviour
         switch (result)
         {
             case 1:
+                SignupHeader.text = "실패";
                 SignupText.text = "입력값이 없는곳이 있습니다.";
                 break;
             case 2:
+                SignupHeader.text = "실패";
                 SignupText.text = "이메일 변경 실패.";
                 break;
             case 3:
+                SignupHeader.text = "실패";
                 SignupText.text = "닉네임 변경 실패.";
                 break;
             case 4:
+                SignupHeader.text = "성공";
                 SignupText.text = "회원가입 성공";
                 break;
             case 5:
+                SignupHeader.text = "실패";
                 SignupText.text = "회원가입 실패";
                 break;
         }
