@@ -235,16 +235,12 @@ public class GameManager : MonoBehaviour
                 {
                     UIManager.Instance.goTitle.text = "WIN!";
                     UIManager.Instance.goMoney.text = GameManager.Instance.myCharactor.playerMoney.ToString();
-                    UIManager.Instance.goStatus.text = user.winscore + "승 " + user.losescore + "패 " + " 승률:" + (user.winscore / (user.winscore + user.losescore)) + "%";
-                    ButtonManager.Instance.UpScore(true);
                     print("player1 win and winscore 1");
                 }
                 else
                 {
                     UIManager.Instance.goTitle.text = "LOSE..";
                     UIManager.Instance.goMoney.text = GameManager.Instance.myCharactor.playerMoney.ToString();
-                    UIManager.Instance.goStatus.text = user.winscore + "승 " + user.losescore + "패 " + " 승률:" + (user.winscore / (user.winscore + user.losescore)) + "%";
-                    ButtonManager.Instance.UpScore(false);
                     print("player2 lose and losescore 1");
                 }
             }
@@ -263,8 +259,6 @@ public class GameManager : MonoBehaviour
                 {
                     UIManager.Instance.goTitle.text = "WIN!";
                     UIManager.Instance.goMoney.text = GameManager.Instance.myCharactor.playerMoney.ToString();
-                    UIManager.Instance.goStatus.text = user.winscore + "승 " + user.losescore + "패 " + " 승률:" + (user.winscore / (user.winscore + user.losescore)) + "%";
-                    ButtonManager.Instance.UpScore(true);
                     print("player2 win and winscore 1");
                 }
                 else
@@ -272,8 +266,6 @@ public class GameManager : MonoBehaviour
 
                     UIManager.Instance.goTitle.text = "LOSE..";
                     UIManager.Instance.goMoney.text = GameManager.Instance.myCharactor.playerMoney.ToString();
-                    UIManager.Instance.goStatus.text = user.winscore + "승 " + user.losescore + "패 " + " 승률:" + (user.winscore / (user.winscore + user.losescore)) + "%";
-                    ButtonManager.Instance.UpScore(false);
                     print("player1 lose and losescore 1");
                 }
 
