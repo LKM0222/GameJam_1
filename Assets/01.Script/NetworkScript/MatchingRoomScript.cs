@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using BackEnd;
 using BackEnd.Tcp;
-using Unity.VisualScripting;
-using System;
 using System.Linq;
 
 public class MatchingRoomScript : MonoBehaviour

@@ -3,19 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using BackEnd;
 using BackEnd.Tcp;
-using UnityEngine.SceneManagement;
-
-
-/*
-    내가 본 게 맞다면
-    일단 호출하는 함수 따로, 이벤트 따로일것.
-
-    이벤트는 Pool 함수에 이벤트가 호출된다면 자동으로 호출되는것..!
-
-    그러면 어쨌든 다른 스크립트에 있어도 이벤트가 호출되지 않을까?
-
-    이벤트가 호출되는 스크립트는 EventManager에서 호출됨.
-*/
 
 public class MatchTestManager : MonoBehaviour
 {

@@ -1,11 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using BackEnd;
 using BackEnd.Tcp;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 #region ParsingClass
 public class ParsingData

@@ -7,9 +7,6 @@ using BackEnd;
 using UnityEngine.SceneManagement;
 using System;
 using BackEnd.Tcp;
-using System.Text.RegularExpressions;
-using Unity.VisualScripting;
-using System.Text;
 
 public class ButtonManager : MonoBehaviour
 {

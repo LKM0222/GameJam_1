@@ -4,7 +4,6 @@ using UnityEngine;
 using BackEnd;
 using System.Text;
 using System;
-using System.Reflection;
 
 public class UserData {
     public int winscore;
