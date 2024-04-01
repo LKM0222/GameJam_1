@@ -175,7 +175,7 @@ public class EventManager : MonoBehaviour
 
                 AudioManager.Instance.Stop("Title_Sound");
 
-                SceneManager.LoadScene("TestScene");
+                SceneManager.LoadScene("MainScene");
                 //방에 접속하면 누가 접속완료하였는지 닉네임이 표시된다.
                 //이를 활용해 모두 접속 완료라면 씬을 옮겨서도 데이터를 주고받을 수 있을까?
             }

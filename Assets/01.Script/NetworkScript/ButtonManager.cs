@@ -97,7 +97,7 @@ public class ButtonManager : MonoBehaviour
             Backend.Match.OnJoinMatchMakingServer = (JoinChannelEventArgs args) =>
             {
                 Debug.Log("Login Result : " + args.ErrInfo);
-                SceneManager.LoadScene("MenuScene"); //매칭서버에 접속 완료했을 때 MenuScene으로 넘어가야함.
+                SceneManager.LoadScene("LobbyScene"); //매칭서버에 접속 완료했을 때 LobbyScene으로 넘어가야함.
             };
         }
         else
@@ -243,7 +243,7 @@ public class ButtonManager : MonoBehaviour
     {
         Backend.Match.AcceptInvitation(EventManager.Instance.roomId, EventManager.Instance.roomToken);
         //여기서 씬을 불러와야될까?
-        SceneManager.LoadScene("MatchingRoom");
+        // SceneManager.LoadScene("MatchingRoom");
         EventManager.Instance.acceptFlag = true;
         Backend.Match.OnMatchMakingRoomUserList = (MatchMakingGamerInfoListInRoomEventArgs args) =>
         { //초대받은 유저가 대기방에 입장했을 때, 호출되는 이벤트
@@ -290,7 +290,7 @@ public class ButtonManager : MonoBehaviour
         //게임 종료 시, 게임방에서 나가고, 게임 종료에 따른 결과 처리 후, 메뉴씬으로 나가야한다.
         Backend.Match.LeaveMatchRoom();
         Backend.Match.LeaveGameServer();
-        SceneManager.LoadScene("MenuScene");
+        SceneManager.LoadScene("LobbyScene");
     }
 
 }
