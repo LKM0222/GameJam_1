@@ -73,7 +73,7 @@ public class MenuSceneManager : MonoBehaviour
             invitePopup.SetActive(true);
             inviteInfoText.text = EventManager.Instance.matchMakingUserInfo.m_nickName + "님이 게임에 초대하였습니다!";
         };
-        matchingLogText.text = matchingLogStr;
+        // matchingLogText.text = matchingLogStr;
     }
 
 
