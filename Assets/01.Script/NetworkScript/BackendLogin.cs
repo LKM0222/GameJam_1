@@ -2,11 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BackEnd;
-using System.Runtime.InteropServices;
-using BackEnd.Tcp;
-using Unity.Mathematics;
-using Unity.VisualScripting;
-using UnityEngine.SceneManagement;
 
 public class BackendLogin
 {
@@ -62,7 +57,4 @@ public class BackendLogin
         }
     }
 
-    public void UpdateNickName(string nickname){
-
-    }
 }

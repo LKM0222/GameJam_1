@@ -9,9 +9,6 @@ public class ButtonScript : MonoBehaviour
     public PurchaseSystem purchase;
     public GroundBuyScript ground;
 
-    [Header("TurnCard")]
-    public int turnNum, turnCardIdx;
-
     private void Start()
     {
         purchase = FindObjectOfType<PurchaseSystem>();
@@ -73,40 +70,5 @@ public class ButtonScript : MonoBehaviour
         Backend.Match.SendDataToInGameRoom(data);
 
         ground.GroundBuy();
-    }
-
-
-    //게임시작때, 자기 턴을 클릭하는 버튼
-    public void TurnCardClick()
-    {
-        AudioManager.Instance.Play("UseCard_Sound");
-
-        if (GameManager.Instance.turnIndex == -1)
-        { //묶어주지 않으면 계속 선택이 가능함...
-            //턴 인덱스가 0이면 아직 내 턴카드를 선택하지 않은것.
-            GameManager.Instance.turnIndex = turnNum; //나의 턴을 저장.
-
-            if (GameManager.Instance.turnIndex == 1)
-            {
-                GameManager.Instance.myCharactor = GameObject.Find("Player1").GetComponent<PlayerManager>();
-                // SessionData sessionData = new(GameManager.Instance.mySessionId, GameManager.Instance.turnIndex);
-                SessionData sessionData = new(BackendManager.Instance.mySessionId, GameManager.Instance.turnIndex);
-                string jsondata = JsonUtility.ToJson(sessionData);
-                ParsingManager.Instance.ParsingSendData(ParsingType.Session, jsondata);
-            }
-            else
-            {
-                GameManager.Instance.myCharactor = GameObject.Find("Player2").GetComponent<PlayerManager>();
-            }
-
-            TurnCard tCard = new(turnCardIdx);
-            string jsonData = JsonUtility.ToJson(tCard);
-            byte[] data;
-            data = ParsingManager.Instance.ParsingSendData(ParsingType.Turn, jsonData);
-            Backend.Match.SendDataToInGameRoom(data);
-
-            this.gameObject.SetActive(false);
-        }
-        GameManager.Instance.myCharactor.myTurnImg.SetActive(true);
     }
 }

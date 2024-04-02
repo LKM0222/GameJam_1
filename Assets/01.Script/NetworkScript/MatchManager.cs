@@ -4,10 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using BackEnd;
 using BackEnd.Tcp;
-using BackEnd.RealTime;
-using System.IO;
-using System.Threading;
-using Unity.VisualScripting;
 
 public class MatchManager
 {
@@ -28,9 +24,6 @@ public class MatchManager
             }
             
         }
-    }
-    private void Update() {
-        
     }
 
     public void JoinMatchMakingServer(){
@@ -60,7 +53,6 @@ public class MatchManager
             if(args.ErrInfo == ErrorCode.Success){
                 Backend.Match.RequestMatchMaking(matchCards[index].matchType, matchCards[index].matchModeType, matchCards[index].inDate);
                 Debug.Log("CreateRoom Success : " + args.ToString());
-                // Debug.Log(Backend.Match.room)
             } else {
                 Debug.Log("CreateRoom error : " + args.ToString());
             }
@@ -199,7 +191,6 @@ public class MatchManager
         }
         if(matchCardList.Count > 0){
             Debug.Log("list idx 0 is " + matchCardList[0]);
-            // MatchingRoomScript.Instance.roomMatchCard = matchCardList[0];
             listIsEmpty = true;
         }
         
@@ -207,54 +198,3 @@ public class MatchManager
 
 
 }
-// public class MatchCard
-// {
-//     public string inDate;
-//     public string matchTitle;
-//     public bool enable_sandbox;
-//     public BackEnd.Tcp.MatchType matchType;
-//     public MatchModeType matchModeType;
-//     public int matchHeadCount;
-//     public bool enable_battle_royale;
-//     public int match_timeout_m;
-//     public int transit_to_sandbox_timeout_ms;
-//     public int match_start_waiting_time_s;
-//     public int match_increment_time_s;
-//     public int maxMatchRange;
-//     public int increaseAndDecrease;
-//     public string initializeCycle;
-//     public int defaultPoint;
-//     public int version;
-//     public string result_processing_type;
-//     public Dictionary<string, int> savingPoint = new Dictionary<string, int>(); // 팀전/개인전에 따라 키값이 달라질 수 있음.  
-//     public override string ToString()
-//     {
-//         string savingPointString = "savingPont : \n";
-//         foreach(var dic in savingPoint)
-//         {
-//             savingPointString += $"{dic.Key} : {dic.Value}\n";
-//         }
-//         savingPointString += "\n";
-//         return $"inDate : {inDate}\n" +
-//         $"matchTitle : {matchTitle}\n" +
-//         $"enable_sandbox : {enable_sandbox}\n" +
-//         $"matchType : {matchType}\n" +
-//         $"matchModeType : {matchModeType}\n" +
-//         $"matchHeadCount : {matchHeadCount}\n" +
-//         $"enable_battle_royale : {enable_battle_royale}\n" +
-//         $"match_timeout_m : {match_timeout_m}\n" +
-//         $"transit_to_sandbox_timeout_ms : {transit_to_sandbox_timeout_ms}\n" +
-//         $"match_start_waiting_time_s : {match_start_waiting_time_s}\n" +
-//         $"match_increment_time_s : {match_increment_time_s}\n" +
-//         $"maxMatchRange : {maxMatchRange}\n" +
-//         $"increaseAndDecrease : {increaseAndDecrease}\n" +
-//         $"initializeCycle : {initializeCycle}\n" +
-//         $"defaultPoint : {defaultPoint}\n" +
-//         $"version : {version}\n" +
-//         $"result_processing_type : {result_processing_type}\n" +
-//         savingPointString;
-//     }
-// }
-
-
-

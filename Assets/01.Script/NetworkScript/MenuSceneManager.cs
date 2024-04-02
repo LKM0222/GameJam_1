@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using BackEnd;
-using UnityEditor;
 using BackEnd.Tcp;
 
 public class MenuSceneManager : MonoBehaviour
@@ -44,6 +43,7 @@ public class MenuSceneManager : MonoBehaviour
     private void Awake()
     { //승률 체크하는곳.
         UserData user = BackendGameData.Instance.GameDataGet();
+<<<<<<< HEAD
         print("user nickname : " + user.nickname);
         nickname.text = user.nickname;
         // winText.text = user.winscore.ToString();
@@ -54,12 +54,22 @@ public class MenuSceneManager : MonoBehaviour
         //     ratingText.text = ( user.winscore / (user.winscore + user.losescore)) + "%";
         // }
 
+=======
+        print("user nickname : " + user.nickName);
+        nickname.text = user.nickName;
+        winText.text = user.winScore.ToString();
+        loseText.text = user.loseScore.ToString();
+        if(user.winScore + user.loseScore == 0){
+            ratingText.text = + 0 + "%";
+        }else{
+            ratingText.text = ( user.winScore / (user.winScore + user.loseScore)) + "%";
+        }
+        
+>>>>>>> newJH
     }
 
     void Update()
     {
-        // 만약에 초대 핸들러를 함수에서 처리하고, 초대 시 함수를 실행하게 하면 초대가 정상적으로 이뤄지는가?
-        // 안됨.. 무조건 Update에서 해야되는지도 잘 모르겠음... 뭔가 더 깔끔한 방향이 있을것 같음...
         //EventManager에서 가져옴.
         Backend.Match.OnMatchMakingRoomSomeoneInvited += (MatchMakingInvitedRoomEventArgs args) =>
         { //다른 유저가 나를 초대했을때 호출되는 이벤트
@@ -77,6 +87,24 @@ public class MenuSceneManager : MonoBehaviour
     }
 
 
+<<<<<<< HEAD
+=======
+    
+    public void SetWinText(string _winText){
+        winText.text = _winText;
+    }
+    public void SetLoseText(string _loseText){
+        loseText.text = _loseText;
+    }
+    public void SetRatingText(){ //이 함수는 수정 필요함...
+        UserData user = BackendGameData.Instance.GameDataGet();
+        if(user.winScore + user.loseScore == 0){
+            ratingText.text = "승률 : " + 0 + "%";
+        }else{
+            ratingText.text = "승률 : " + ( user.winScore / (user.winScore + user.loseScore)) + "%";
+        }
+    }
+>>>>>>> newJH
 
     // public void SetWinText(string _winText){
     //     winText.text = _winText;

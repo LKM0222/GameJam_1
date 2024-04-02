@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using BackEnd;
 using BackEnd.Tcp;
-using Unity.VisualScripting;
-using System;
 using System.Linq;
 
 public class MatchingRoomScript : MonoBehaviour
@@ -33,8 +31,8 @@ public class MatchingRoomScript : MonoBehaviour
         Backend.Match.OnMatchMakingRoomCreate = (MatchMakingInteractionEventArgs args) => { //매칭룸을 생성했을때 호출되는 이벤트
             Debug.Log("MatchRoom Create1");
             if(matchingRoomUserList != null){
-                userList.Add(BackendGameData.userData.nickname);
-                matchingRoomUserList += BackendGameData.userData.nickname + "\n"; //여기다가 방을 생성한 사람의 이름을 넣어야됨...
+                userList.Add(BackendGameData.userData.nickName);
+                matchingRoomUserList += BackendGameData.userData.nickName + "\n"; //여기다가 방을 생성한 사람의 이름을 넣어야됨...
             } else {
                 Debug.Log("matchingRoomUserList is null");
             }
@@ -50,7 +48,6 @@ public class MatchingRoomScript : MonoBehaviour
         Backend.Match.OnMatchMakingRoomJoin = (MatchMakingGamerInfoInRoomEventArgs args) => {// 초대받은 유저가 방에 입장했을때, 방에 있는 플레이어들에게 호출되는 이벤트
             Debug.Log(args.UserInfo.m_nickName + "님이 입장하였습니다.");
             matchingRoomLogStr += args.UserInfo.m_nickName + "님이 입장하였습니다. \n";
-            // matchingRoomUserList += "," + args.UserInfo.m_nickName;
             //userlist를 다시 작성하기 위한 코드 (사람이 변동될 때, 작성해야함.)
             userList.Add(args.UserInfo.m_nickName);
             matchingRoomUserList = "참여한 유저 : ";
