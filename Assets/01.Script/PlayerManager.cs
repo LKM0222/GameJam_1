@@ -429,6 +429,9 @@ public class PlayerManager : MonoBehaviour
                     case 1:
                         StartCoroutine(theCM.CardProvideCoroutine());
                         yield return new WaitUntil(() => theCM.isGetCard);
+
+                        byte[] data1 = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
+                        Backend.Match.SendDataToInGameRoom(data1);
                         break;
 
                     // 텔레포트
