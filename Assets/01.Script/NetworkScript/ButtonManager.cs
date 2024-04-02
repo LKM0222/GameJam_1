@@ -37,7 +37,7 @@ public class ButtonManager : MonoBehaviour
 
     int result;
 
-    
+
     [Header("TurnCard")]
     public int turnNum, turncardIdx;
 
@@ -176,10 +176,8 @@ public class ButtonManager : MonoBehaviour
         //타이머 코루틴 해제 후 텍스트 초기화
         MenuSceneManager.Instance.coroFlag = false;
         MenuSceneManager.Instance.timerText.text = "00:00";
-        //로그에 띄워줌.
-        MenuSceneManager.Instance.matchingLogStr += "매칭 신청을 취소하였습니다. \n";
     }
-    
+
     //로비로 돌아가기 (매칭 취소)
     public void GoToLobby()
     {
@@ -189,7 +187,6 @@ public class ButtonManager : MonoBehaviour
     //게임 시작
     public void RequestMatchMaking()
     {
-        MenuSceneManager.Instance.matchingLogStr += "매칭 신청\n";
         MatchTestManager.Instance.RequestMatchMaking();
     }
 

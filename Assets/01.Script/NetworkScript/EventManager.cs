@@ -80,12 +80,10 @@ public class EventManager : MonoBehaviour
             {
                 case ErrorCode.Match_InProgress: //매칭신청에 성공하였을때
                     Debug.Log("매칭신청 성공");
-                    MenuSceneManager.Instance.matchingLogStr += "매칭신청 성공\n";
                     break;
 
                 case ErrorCode.Success: //매칭이 성사되었을 떄 여기서 인게임 서버 접속시도
                     Debug.Log("매칭 성사 , 인게임 서버에 접속 시도합니다.");
-                    MenuSceneManager.Instance.matchingLogStr += "매칭 성사 , 인게임 서버에 접속 시도합니다.\n";
                     _roomInfo = args.RoomInfo; //추후에 roomToken을 써야되기 때문에 따로 저장
                     if (Backend.Match.JoinGameServer(args.RoomInfo.m_inGameServerEndPoint.m_address,
                     args.RoomInfo.m_inGameServerEndPoint.m_port,
@@ -158,7 +156,6 @@ public class EventManager : MonoBehaviour
                 Debug.Log(args.GameRecord.m_nickname + "접속 완료");
                 BackendManager.Instance.mySessionId = args.GameRecord.m_sessionId;
                 print("접속한 사람의 정보:" + args.GameRecord.m_sessionId + ", " + args.GameRecord.m_nickname);
-                MenuSceneManager.Instance.matchingLogStr += "접속 완료\n";
 
                 AudioManager.Instance.Stop("Title_Sound");
 

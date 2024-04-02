@@ -2,21 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using BackEnd;
-using BackEnd.Tcp;
 
 public class MenuSceneManager : MonoBehaviour
 {
     [SerializeField] Text nickname;
-    // [SerializeField] Text winText;
-    // [SerializeField] Text loseText;
-    // [SerializeField] Text ratingText;
-
-    [Header("Invite Popup")]
-    [SerializeField] GameObject invitePopup; //초대시 띄울 팝업오브젝트
-    [SerializeField] Text inviteInfoText; //초대 팝업 오브젝트에서 누가 초대했는지 알려주는 텍스트
-
     public bool coroFlag = false;
+    public Text timerText;
 
     #region Instance
     private static MenuSceneManager _instance = null;
@@ -33,62 +24,11 @@ public class MenuSceneManager : MonoBehaviour
     }
     #endregion
 
-    //log Text
-    [SerializeField] Text matchingLogText;
-    public string matchingLogStr = "";
-
-    //Timer
-    public Text timerText;
-
     private void Awake()
-    { //승률 체크하는곳.
-        UserData user = BackendGameData.Instance.GameDataGet();
-        // print("user nickname : " + user.nickname);
-        // nickname.text = user.nickname;
-        // winText.text = user.winscore.ToString();
-        // loseText.text = user.losescore.ToString();
-        // if(user.winscore + user.losescore == 0){
-        //     ratingText.text = + 0 + "%";
-        // }else{
-        //     ratingText.text = ( user.winscore / (user.winscore + user.losescore)) + "%";
-        // }
-
-    }
-
-    void Update()
     {
-        //EventManager에서 가져옴.
-        Backend.Match.OnMatchMakingRoomSomeoneInvited += (MatchMakingInvitedRoomEventArgs args) =>
-        { //다른 유저가 나를 초대했을때 호출되는 이벤트
-            //초대한 유저의 정보를 EventManager에 저장. (나중에 다른 곳에서 써야되기 때문에_ButtonManager의 초대 수락 함수)
-            Debug.Log("someone Invite me ");
-            EventManager.Instance.matchMakingUserInfo = args.InviteUserInfo;
-            EventManager.Instance.roomId = args.RoomId;
-            EventManager.Instance.roomToken = args.RoomToken;
-
-            //팝업 띄우고, 텍스트 변환
-            invitePopup.SetActive(true);
-            inviteInfoText.text = EventManager.Instance.matchMakingUserInfo.m_nickName + "님이 게임에 초대하였습니다!";
-        };
-        // matchingLogText.text = matchingLogStr;
+        UserData user = BackendGameData.Instance.GameDataGet();
+        nickname.text = user.nickName;
     }
-
-
-
-    // public void SetWinText(string _winText){
-    //     winText.text = _winText;
-    // }
-    // public void SetLoseText(string _loseText){
-    //     loseText.text = _loseText;
-    // }
-    // public void SetRatingText(){ //이 함수는 수정 필요함...
-    //     UserData user = BackendGameData.Instance.GameDataGet();
-    //     if(user.winscore + user.losescore == 0){
-    //         ratingText.text = "승률 : " + 0 + "%";
-    //     }else{
-    //         ratingText.text = "승률 : " + ( user.winscore / (user.winscore + user.losescore)) + "%";
-    //     }
-    // }
 
     public IEnumerator TimerCoroutine()
     {

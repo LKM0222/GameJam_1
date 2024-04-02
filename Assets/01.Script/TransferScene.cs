@@ -10,11 +10,6 @@ public class TransferScene : MonoBehaviour
         AudioManager.Instance.Play("Title_Sound");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     public void ClickBtnSound()
     {
         AudioManager.Instance.Play("MenuClick_Sound");
@@ -24,8 +19,6 @@ public class TransferScene : MonoBehaviour
     {
         AudioManager.Instance.Play("MenuClick_Sound");
         AudioManager.Instance.Stop("Title_Sound");
-
-        // SceneManager.LoadScene("LoadingScene");
     }
 
     public void Exit()
