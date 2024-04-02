@@ -6,84 +6,73 @@ using BackEnd;
 // 땅 및 건물 구매창 UI 버튼 관리 스크립트
 public class ButtonScript : MonoBehaviour
 {
-    GameManager theGM;
-    public PurchaseSystem thePS;
-    public GroundBuyScript theGBS;
+    public PurchaseSystem purchase;
+    public GroundBuyScript ground;
 
     [Header("TurnCard")]
-    public int turnNum, turncardIdx;
+    public int turnNum, turnCardIdx;
 
     private void Start()
     {
-        theGM = FindObjectOfType<GameManager>();
-        thePS = FindObjectOfType<PurchaseSystem>();
+        purchase = FindObjectOfType<PurchaseSystem>();
+        ground = FindObjectOfType<GroundBuyScript>();
     }
 
-    //Right버튼
-    public void OnRightBtn()
+    public void RightButton()
     {
         AudioManager.Instance.Play("Click_Sound");
 
-        thePS.cur += 1;
-        // 커서가 리스트의 길이를 넘기면 0으로 초기화
-        if (thePS.cur > theGM.buildings.Length - 1)
-        {
-            thePS.cur = 1;
-        }
-        thePS.buildingImg.sprite = theGM.buildings[thePS.cur].buildingImg.building_front;
-        thePS.buildingText.text = theGM.buildings[thePS.cur].buildingName;
+        purchase.cur += 1;
+
+        if (purchase.cur > GameManager.Instance.buildings.Length - 1) purchase.cur = 1;
+
+        purchase.buildingImg.sprite = GameManager.Instance.buildings[purchase.cur].buildingImg.building_front;
+        purchase.buildingText.text = GameManager.Instance.buildings[purchase.cur].buildingName;
     }
 
-    //Left버튼
-    public void OnLeftBtn()
+    public void LeftButton()
     {
         AudioManager.Instance.Play("Click_Sound");
 
-        thePS.cur -= 1;
-        // 커서가 1보다 작다면 마지막 건물 리스트로 초기화
-        if (thePS.cur == 0)
-        {
-            thePS.cur = theGM.buildings.Length - 1;
-        }
-        thePS.buildingImg.sprite = theGM.buildings[thePS.cur].buildingImg.building_front;
-        thePS.buildingText.text = theGM.buildings[thePS.cur].buildingName;
+        purchase.cur -= 1;
+
+        if (purchase.cur == 0) purchase.cur = GameManager.Instance.buildings.Length - 1;
+
+        purchase.buildingImg.sprite = GameManager.Instance.buildings[purchase.cur].buildingImg.building_front;
+        purchase.buildingText.text = GameManager.Instance.buildings[purchase.cur].buildingName;
     }
 
-    //건물 구매버튼
-    public void OnPurchaseBtn()
+    public void PurchaseButton()
     {
         AudioManager.Instance.Play("Build_Sound");
 
-        BuildingData bdata = new(thePS.cur);
+        BuildingData bdata = new(purchase.cur);
         string jsonData = JsonUtility.ToJson(bdata);
 
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.BuildingBuy, jsonData);
         Backend.Match.SendDataToInGameRoom(data);
 
-        thePS.BuildingPurchase();
+        purchase.BuildingPurchase();
     }
 
-    //취소버튼
-    public void OnPurchaseCloseBtn()
+    public void CancelButton()
     {
         AudioManager.Instance.Play("Cancel_Sound");
 
-        theGM.UIFlag = false;
-        //턴그냥 넘김
+        GameManager.Instance.UIFlag = false;
+
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
         Backend.Match.SendDataToInGameRoom(data);
     }
 
-    //땅 구매 버튼
-    public void OnGroundBuyBtn()
+    public void GroundBuyButton()
     {
         AudioManager.Instance.Play("Click_Sound");
 
-        // theGM.SetFloatingText(theGM.nowPlayer, 50, false);
-
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.GroundBuy, "");
         Backend.Match.SendDataToInGameRoom(data);
-        theGBS.GroundBuy();
+
+        ground.GroundBuy();
     }
 
 
@@ -110,7 +99,7 @@ public class ButtonScript : MonoBehaviour
                 GameManager.Instance.myCharactor = GameObject.Find("Player2").GetComponent<PlayerManager>();
             }
 
-            TurnCard tCard = new(turncardIdx);
+            TurnCard tCard = new(turnCardIdx);
             string jsonData = JsonUtility.ToJson(tCard);
             byte[] data;
             data = ParsingManager.Instance.ParsingSendData(ParsingType.Turn, jsonData);
