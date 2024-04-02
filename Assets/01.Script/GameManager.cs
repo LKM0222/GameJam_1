@@ -37,8 +37,6 @@ public class GameManager : MonoBehaviour
     public PlayerManager nowPlayer;
     public PlayerManager controlPlayer;
 
-    public TextManager textManager;
-
     // 현재 진행된 턴 수
     public int turnCount;
 

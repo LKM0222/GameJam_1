@@ -390,11 +390,11 @@ public class CardManager : MonoBehaviour
         // 상대방의 카드가 없을 경우 안내메시지 출력
         else
         {
-            theGM.textManager.ShowText("상대방의 카드가 없습니다!");
+            // theGM.textManager.ShowText("상대방의 카드가 없습니다!");
 
-            yield return new WaitForSeconds(3f);
+            // yield return new WaitForSeconds(3f);
 
-            theGM.textManager.HideText();
+            // theGM.textManager.HideText();
         }
 
 
