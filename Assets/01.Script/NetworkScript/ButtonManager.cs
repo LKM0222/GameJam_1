@@ -213,9 +213,9 @@ public class ButtonManager : MonoBehaviour
             {
                 GameManager.Instance.myCharactor = GameObject.Find("Player1").GetComponent<PlayerManager>();
                 // SessionData sessionData = new(GameManager.Instance.mySessionId, GameManager.Instance.turnIndex);
-                SessionData sessionData = new(BackendManager.Instance.mySessionId, GameManager.Instance.turnIndex);
-                string jsondata = JsonUtility.ToJson(sessionData);
-                ParsingManager.Instance.ParsingSendData(ParsingType.Session, jsondata);
+                // SessionData sessionData = new(BackendManager.Instance.mySessionId, GameManager.Instance.turnIndex);
+                // string jsondata = JsonUtility.ToJson(sessionData);
+                // ParsingManager.Instance.ParsingSendData(ParsingType.Session, jsondata);
             }
             else
             {
@@ -228,7 +228,7 @@ public class ButtonManager : MonoBehaviour
             data = ParsingManager.Instance.ParsingSendData(ParsingType.Turn, jsonData);
             Backend.Match.SendDataToInGameRoom(data);
 
-            this.gameObject.SetActive(false);
+            this.gameObject.GetComponent<Image>().sprite = GameManager.Instance.turnCardImage[1];
         }
         GameManager.Instance.myCharactor.myTurnImg.SetActive(true);
     }

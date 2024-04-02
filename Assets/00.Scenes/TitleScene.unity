@@ -1222,7 +1222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c63862070b98148a9b2cc1a2f09c095e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loginIdInput: {fileID: 1040186417}
+  _loginIdInput: {fileID: 1040186417}
   loginPwInput: {fileID: 1174674769}
   signIdInput: {fileID: 0}
   signPwInput: {fileID: 0}
@@ -1236,6 +1236,8 @@ MonoBehaviour:
   SignupUI: {fileID: 0}
   SignupText: {fileID: 0}
   SignupHeader: {fileID: 0}
+  turnNum: 0
+  turncardIdx: 0
 --- !u!114 &551059103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2008,7 +2010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c63862070b98148a9b2cc1a2f09c095e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loginIdInput: {fileID: 0}
+  _loginIdInput: {fileID: 0}
   loginPwInput: {fileID: 0}
   signIdInput: {fileID: 714400309}
   signPwInput: {fileID: 2007234257}
@@ -2022,6 +2024,8 @@ MonoBehaviour:
   SignupUI: {fileID: 1219348556}
   SignupText: {fileID: 351423518}
   SignupHeader: {fileID: 425692329}
+  turnNum: 0
+  turncardIdx: 0
 --- !u!1 &873185529
 GameObject:
   m_ObjectHideFlags: 0

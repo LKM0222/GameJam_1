@@ -116,6 +116,8 @@ public class GameManager : MonoBehaviour
     //승리 패배 플래그
     public bool winFlag;
 
+    public Sprite[] turnCardImage;
+
     // Start is called before the first frame update
     void Start()
     {
