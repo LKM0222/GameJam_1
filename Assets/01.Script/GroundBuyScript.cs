@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 // 토지 구매 관리 스크립트(건물 X)
@@ -53,10 +52,11 @@ public class GroundBuyScript : MonoBehaviour
         // if (groundBuyFlag)
         // {
         //     // 건물 구매 UI 출력시 항상 첫번째 건물을 띄워주게 변경
-            
+
         // }
     }
-    public void GroundBuy(){
+    public void GroundBuy()
+    {
         print("groundbuy func");
         thePS.cur = 1;
         thePS.buildingImg.sprite = theGM.buildings[1].buildingImg.building_front;

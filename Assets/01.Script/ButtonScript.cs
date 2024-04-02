@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using LitJson;
 using UnityEngine;
 using BackEnd;
-using BackEnd.Tcp;
 
 // 땅 및 건물 구매창 UI 버튼 관리 스크립트
 public class ButtonScript : MonoBehaviour

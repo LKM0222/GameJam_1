@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using BackEnd;
 using UnityEngine;
-using UnityEngine.UI;
 
 [System.Serializable]
 public class Tile : MonoBehaviour

@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using BackEnd;
 using UnityEngine;
 using UnityEngine.UI;
 
