@@ -43,9 +43,8 @@ public class MenuSceneManager : MonoBehaviour
     private void Awake()
     { //승률 체크하는곳.
         UserData user = BackendGameData.Instance.GameDataGet();
-<<<<<<< HEAD
-        print("user nickname : " + user.nickname);
-        nickname.text = user.nickname;
+        // print("user nickname : " + user.nickname);
+        // nickname.text = user.nickname;
         // winText.text = user.winscore.ToString();
         // loseText.text = user.losescore.ToString();
         // if(user.winscore + user.losescore == 0){
@@ -54,18 +53,6 @@ public class MenuSceneManager : MonoBehaviour
         //     ratingText.text = ( user.winscore / (user.winscore + user.losescore)) + "%";
         // }
 
-=======
-        print("user nickname : " + user.nickName);
-        nickname.text = user.nickName;
-        winText.text = user.winScore.ToString();
-        loseText.text = user.loseScore.ToString();
-        if(user.winScore + user.loseScore == 0){
-            ratingText.text = + 0 + "%";
-        }else{
-            ratingText.text = ( user.winScore / (user.winScore + user.loseScore)) + "%";
-        }
-        
->>>>>>> newJH
     }
 
     void Update()
@@ -87,24 +74,6 @@ public class MenuSceneManager : MonoBehaviour
     }
 
 
-<<<<<<< HEAD
-=======
-    
-    public void SetWinText(string _winText){
-        winText.text = _winText;
-    }
-    public void SetLoseText(string _loseText){
-        loseText.text = _loseText;
-    }
-    public void SetRatingText(){ //이 함수는 수정 필요함...
-        UserData user = BackendGameData.Instance.GameDataGet();
-        if(user.winScore + user.loseScore == 0){
-            ratingText.text = "승률 : " + 0 + "%";
-        }else{
-            ratingText.text = "승률 : " + ( user.winScore / (user.winScore + user.loseScore)) + "%";
-        }
-    }
->>>>>>> newJH
 
     // public void SetWinText(string _winText){
     //     winText.text = _winText;
