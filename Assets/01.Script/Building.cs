@@ -11,8 +11,9 @@ public class Building
     // 건물 이름
     public string buildingName;
 
-    // 건물의 타입(null, 농장, 제단, 상점, 랜드마크)
+    // 건물의 타입
     public int type;
-    // 각 건물의 기본 통행료
+
+    // 건물의 기본 통행료
     public int toll;
 }

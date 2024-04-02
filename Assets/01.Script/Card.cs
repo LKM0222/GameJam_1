@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class Card
 {
-    public string card_name;
+    public string cardName;
     public int cardCode;
     public Sprite cardImg;
 }
