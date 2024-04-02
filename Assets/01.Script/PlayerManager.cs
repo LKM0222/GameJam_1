@@ -108,16 +108,10 @@ public class PlayerManager : MonoBehaviour
             StartCoroutine(ReadyToMovePlayerCoroutine());
         }
 
-        if (toosiFlag && myTurn) //card
-        {
-            toosiFlag = false;
-            StartCoroutine(theCM.PenetrateCoroutine());
-        }
-
         if (laserFlag && myTurn) //card
         {
             laserFlag = false;
-            StartCoroutine(theCM.LaserBeamCoroutine());
+            StartCoroutine(theCM.SelectLaserCoroutine());
         }
 
         if (tpFlag && myTurn)
@@ -379,7 +373,7 @@ public class PlayerManager : MonoBehaviour
                                 {
                                     if (cards.Count < 8)
                                     {
-                                        StartCoroutine(theCM.ShopCardProvideCoroutine());
+                                        StartCoroutine(theCM.CardProvideCoroutine());
                                         yield return new WaitUntil(() => theCM.isGetCard);
                                     }
                                 }
