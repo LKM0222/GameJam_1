@@ -22,7 +22,7 @@ public class EventManager : MonoBehaviour
 
 
     #region FindObjectArea
-    GroundBuyScript theGBS;
+    GroundBuyScript _theGBS;
     CardManager theCM;
 
     TileManager theTM;
@@ -45,7 +45,7 @@ public class EventManager : MonoBehaviour
 
     private void Start()
     {
-        theGBS = FindObjectOfType<GroundBuyScript>();
+        _theGBS = FindObjectOfType<GroundBuyScript>();
         theCM = FindObjectOfType<CardManager>();
         theTM = FindObjectOfType<TileManager>();
     }
@@ -199,13 +199,13 @@ public class EventManager : MonoBehaviour
                     TurnCardSet tsData = JsonUtility.FromJson<TurnCardSet>(pData.data);
                     if (tsData.randomNum == 0)
                     {
-                        GameManager.Instance.turnCards[0].GetComponent<ButtonScript>().turnNum = 1;
-                        GameManager.Instance.turnCards[1].GetComponent<ButtonScript>().turnNum = 0;
+                        GameManager.Instance.turnCards[0].GetComponent<ButtonManager>().turnNum = 1;
+                        GameManager.Instance.turnCards[1].GetComponent<ButtonManager>().turnNum = 0;
                     }
                     else
                     {
-                        GameManager.Instance.turnCards[0].GetComponent<ButtonScript>().turnNum = 0;
-                        GameManager.Instance.turnCards[1].GetComponent<ButtonScript>().turnNum = 1;
+                        GameManager.Instance.turnCards[0].GetComponent<ButtonManager>().turnNum = 0;
+                        GameManager.Instance.turnCards[1].GetComponent<ButtonManager>().turnNum = 1;
                     }
 
                     break;
