@@ -228,7 +228,7 @@ public class ButtonManager : MonoBehaviour
             data = ParsingManager.Instance.ParsingSendData(ParsingType.Turn, jsonData);
             Backend.Match.SendDataToInGameRoom(data);
 
-            this.gameObject.GetComponent<Image>().sprite = GameManager.Instance.turnCardImage[1];
+            // this.gameObject.GetComponent<Image>().sprite = GameManager.Instance.turnCardImage[1];
         }
         GameManager.Instance.myCharactor.myTurnImg.SetActive(true);
     }

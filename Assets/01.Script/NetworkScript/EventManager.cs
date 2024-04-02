@@ -6,6 +6,8 @@ using BackEnd;
 using BackEnd.Tcp;
 using UnityEngine.SceneManagement;
 using System.Text;
+using UnityEngine.UI;
+
 #endregion
 public class EventManager : MonoBehaviour
 {
@@ -216,7 +218,7 @@ public class EventManager : MonoBehaviour
                     print("turn case");
                     TurnCard tData = JsonUtility.FromJson<TurnCard>(pData.data);
                     GameManager.Instance.playerCount.Add(1);
-                    GameManager.Instance.turnCards[tData.turncardIdx].SetActive(false);
+                    GameManager.Instance.turnCards[tData.turncardIdx].gameObject.GetComponent<Image>().sprite = GameManager.Instance.turnCardImage[1];
                     if (GameManager.Instance.playerCount.Count > 1)
                     {
                         GameManager.Instance.turnCardParent.SetActive(false);
