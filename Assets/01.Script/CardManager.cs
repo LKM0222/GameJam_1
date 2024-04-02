@@ -269,23 +269,23 @@ public class CardManager : MonoBehaviour
         StartCoroutine(theGM.nowPlayer.SetPlayerTransparency("Visible"));
     }
 
-    public void LowerDiceControl()
-    {
-        // theGM.nowPlayer.diceNum = Random.Range(1, 5);
-        DiceData dData = new(Random.Range(1, 5), GameManager.Instance.turnIndex); //서버로 전송하기 위해 데이터 클래스화
-        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Dice, JsonUtility.ToJson(dData));
-        Backend.Match.SendDataToInGameRoom(data);
-        theGM.nowPlayer.lowerDiceFlag = false;
-    }
+    // public void LowerDiceControl()
+    // {
+    //     // theGM.nowPlayer.diceNum = Random.Range(1, 5);
+    //     DiceData dData = new(Random.Range(1, 5), GameManager.Instance.turnIndex); //서버로 전송하기 위해 데이터 클래스화
+    //     // byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Dice, JsonUtility.ToJson(dData));
+    //     // Backend.Match.SendDataToInGameRoom(data);
+    //     theGM.nowPlayer.lowerDiceFlag = false;
+    // }
 
-    public void HigherDiceControll()
-    {
-        // theGM.nowPlayer.diceNum = Random.Range(5, 9);
-        DiceData dData = new(Random.Range(5, 9), GameManager.Instance.turnIndex); //서버로 전송하기 위해 데이터 클래스화
-        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Dice, JsonUtility.ToJson(dData));
-        Backend.Match.SendDataToInGameRoom(data);
-        theGM.nowPlayer.higherDiceFlag = false;
-    }
+    // public void HigherDiceControll()
+    // {
+    //     // theGM.nowPlayer.diceNum = Random.Range(5, 9);
+    //     DiceData dData = new(Random.Range(5, 9), GameManager.Instance.turnIndex); //서버로 전송하기 위해 데이터 클래스화
+    //     byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Dice, JsonUtility.ToJson(dData));
+    //     Backend.Match.SendDataToInGameRoom(data);
+    //     theGM.nowPlayer.higherDiceFlag = false;
+    // }
 
     public IEnumerator TollExemption()
     {

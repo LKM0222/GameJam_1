@@ -117,6 +117,19 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         int dNum = UnityEngine.Random.Range(1, 9);//Test dd
 
+        // 주사위컨트롤 카드 사용 시, 해당 함수 호출
+        if (thePlayer.lowerDiceFlag)
+        {
+            dNum = UnityEngine.Random.Range(1, 5);
+            theGM.nowPlayer.lowerDiceFlag = false;
+        }
+
+        if (thePlayer.higherDiceFlag)
+        {
+            dNum = UnityEngine.Random.Range(5, 9);
+            theGM.nowPlayer.higherDiceFlag = false;
+        }
+
         DiceData dData = new(dNum, GameManager.Instance.turnIndex); //서버로 전송하기 위해 데이터 클래스화
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Dice, JsonUtility.ToJson(dData));
         Backend.Match.SendDataToInGameRoom(data);
@@ -137,16 +150,16 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
 
         // thePlayer.diceNum = UnityEngine.Random.Range(1, 9);
 
-        // 주사위컨트롤 카드 사용 시, 해당 함수 호출
-        if (thePlayer.lowerDiceFlag)
-        {
-            theCM.LowerDiceControl();
-        }
+        // // 주사위컨트롤 카드 사용 시, 해당 함수 호출
+        // if (thePlayer.lowerDiceFlag)
+        // {
+        //     theCM.LowerDiceControl();
+        // }
 
-        if (thePlayer.higherDiceFlag)
-        {
-            theCM.HigherDiceControll();
-        }
+        // if (thePlayer.higherDiceFlag)
+        // {
+        //     theCM.HigherDiceControll();
+        // }
 
         // 주사위를 랜덤하게 굴린 다음 text에 적용
         diceNumText.text = thePlayer.diceNum.ToString();
