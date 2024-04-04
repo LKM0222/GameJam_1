@@ -25,7 +25,8 @@ public class EventManager : MonoBehaviour
 
     #region FindObjectArea
     GroundBuyScript _theGBS;
-    CardManager cardManager;
+    CardManager theCardManager;
+    DiceSystem theDice;
     TileManager theTM;
 
     #endregion
@@ -48,6 +49,7 @@ public class EventManager : MonoBehaviour
     {
         _theGBS = FindObjectOfType<GroundBuyScript>();
         theTM = FindObjectOfType<TileManager>();
+        theDice = FindObjectOfType<DiceSystem>();
     }
 
     // Update is called once per frame
@@ -225,10 +227,10 @@ public class EventManager : MonoBehaviour
 
                 case ParsingType.Dice: //주사위 데이터
                     print("dice type");
-                    StartCoroutine(DiceSystem.Instance.RollDiceCoroutine());
+                    StartCoroutine(theDice.RollDiceCoroutine());
                     DiceData dData = JsonUtility.FromJson<DiceData>(pData.data);
                     GameManager.Instance.diceNum = dData.diceNum;
-                    DiceSystem.Instance.diceFlag = true;
+                    theDice.diceFlag = true;
                     break;
 
                 case ParsingType.NextTurn: //다음턴으로 넘기기
@@ -414,8 +416,8 @@ public class EventManager : MonoBehaviour
                 case ParsingType.Laser:
                     LaserData laserData = JsonUtility.FromJson<LaserData>(pData.data);
                     GameManager.Instance.seletedTile = GameObject.Find(laserData.laserTileNum);
-                    cardManager = GameObject.Find("CardManager").GetComponent<CardManager>();
-                    StartCoroutine(cardManager.LaserCoroutine());
+                    theCardManager = GameObject.Find("CardManager").GetComponent<CardManager>();
+                    StartCoroutine(theCardManager.LaserCoroutine());
 
                     break;
             }
