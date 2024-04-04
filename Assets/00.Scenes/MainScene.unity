@@ -14780,9 +14780,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd7989d03ae6041f99888f5684f13f2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thePS: {fileID: 1005354486}
+  thePurchase: {fileID: 1005354486}
   purchaseUI: {fileID: 1980317331}
-  groundBuyFlag: 0
 --- !u!1 &1670625031
 GameObject:
   m_ObjectHideFlags: 0
