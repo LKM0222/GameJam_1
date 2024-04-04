@@ -40,8 +40,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     public void OnDrag(PointerEventData eventData)
     {
         isDrag = true;
-
-        if (GameManager.Instance.nowPlayer.name == this.name[..6])
+        if (GameManager.Instance.nowPlayer.name == this.name[..7])
         {
             if (GameManager.Instance.myCharactor.myTurn && GameManager.Instance.laserComplete && theTurnSign.cursorPos == 1)
             {
