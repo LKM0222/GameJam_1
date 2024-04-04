@@ -1336,7 +1336,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 557726790}
         m_TargetAssemblyTypeName: TransferScene, Assembly-CSharp
-        m_MethodName: Exit
+        m_MethodName: ClickBtnSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1348,7 +1348,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 557726790}
         m_TargetAssemblyTypeName: TransferScene, Assembly-CSharp
-        m_MethodName: ClickBtnSound
+        m_MethodName: Exit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

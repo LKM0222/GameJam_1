@@ -8,24 +8,15 @@ public class TurnSignScript : MonoBehaviour
     // 테두리 오브젝트
     [SerializeField] GameObject cursor;
 
-    // 어떤 행동을 할 차례인지 나타내는 순서
+    // 행동 순서
     public int cursorPos;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
     void Update()
     {
         // 카드를 사용할 때
         if (cursorPos == 1)
         {
             cursor.transform.localPosition = new Vector3(-147f, cursor.transform.position.y, 0f);
-
         }
         // 주사위를 굴릴 때
         else if (cursorPos == 2)

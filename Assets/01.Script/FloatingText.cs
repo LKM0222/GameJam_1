@@ -6,7 +6,6 @@ public class FloatingText : MonoBehaviour
 {
     public Animator anim;
 
-    // Update is called once per frame
     void Update()
     {
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("End"))
