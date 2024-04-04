@@ -47,7 +47,6 @@ public class EventManager : MonoBehaviour
     private void Start()
     {
         _theGBS = FindObjectOfType<GroundBuyScript>();
-        cardManager = FindObjectOfType<CardManager>();
         theTM = FindObjectOfType<TileManager>();
     }
 
@@ -415,6 +414,7 @@ public class EventManager : MonoBehaviour
                 case ParsingType.Laser:
                     LaserData laserData = JsonUtility.FromJson<LaserData>(pData.data);
                     GameManager.Instance.seletedTile = GameObject.Find(laserData.laserTileNum);
+                    cardManager = GameObject.Find("CardManager").GetComponent<CardManager>();
                     StartCoroutine(cardManager.LaserCoroutine());
 
                     break;
