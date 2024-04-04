@@ -27,6 +27,8 @@ public class CardManager : MonoBehaviour
     public ParticleSystem InvisibleParticle;
     public ParticleSystem exemptionParticle;
 
+    public ParticleSystem laserParticle;
+
     #region Instance
     private static CardManager _instance;
     public static CardManager Instance
@@ -328,6 +330,51 @@ public class CardManager : MonoBehaviour
         Backend.Match.SendDataToInGameRoom(sendData);
     }
 
+    public IEnumerator LaserCoroutine()
+    {
+        GameManager.Instance.nowPlayer.laserFlag = false;
+
+        AudioManager.Instance.Play("Laser_Sound");
+
+        laserParticle.gameObject.SetActive(true);
+        laserParticle.transform.position = GameManager.Instance.seletedTile.transform.GetChild(0).position;
+        laserParticle.Play();
+
+        // 건물과 타일의 색상을 가져옴
+        Color buildingColor = GameManager.Instance.seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color;
+        Color tileColor = GameManager.Instance.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
+
+        // Alpha값을 줄여서 서서히 사라지는 듯한 연출
+        while (buildingColor.a > 0f)
+        {
+            buildingColor.a -= 0.02f;
+            tileColor.a -= 0.02f;
+
+            GameManager.Instance.seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
+            GameManager.Instance.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
+
+            yield return new WaitForSeconds(0.02f);
+        }
+
+        laserParticle.gameObject.SetActive(false);
+
+        // 타일의 소유주 초기화
+        GameManager.Instance.seletedTile.GetComponent<Tile>().ownPlayer = -1;
+        GameManager.Instance.seletedTile.GetComponent<Tile>().building = GameManager.Instance.buildings[0];
+        GameManager.Instance.seletedTile.GetComponent<Tile>().price = 0;
+
+        yield return new WaitForEndOfFrame();
+
+        // Alpha값 원상복구
+        buildingColor.a = 1f;
+        tileColor.a = 1f;
+        GameManager.Instance.seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
+        GameManager.Instance.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
+
+        GameManager.Instance.seletedTile = null;
+        GameManager.Instance.laserComplete = true;
+    }
+
     public IEnumerator ShowGetCard(int _randomNum)
     {
         GameObject card = Instantiate(theGM.onlyCardImg, Vector3.zero, Quaternion.identity, theGM.showCardObject.transform);
@@ -364,6 +411,7 @@ public class CardManager : MonoBehaviour
 
             isShowCard = false;
 
+            // 통행료 면제 카드를 획득했을 때
             if (newCard == theGM.cards[5])
             {
                 AudioManager.Instance.Play("TollExemption_Sound");

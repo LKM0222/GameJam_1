@@ -108,7 +108,6 @@ public class GameManager : MonoBehaviour
 
     //파티클
     public ParticleSystem exemptionParticle;
-    public ParticleSystem laserParticle;
 
     //재시작 버튼
     public GameObject RestartBtn;
@@ -456,53 +455,6 @@ public class GameManager : MonoBehaviour
 
         print("exemptionFlag Finish");
         NextTurnFunc();
-    }
-
-    public IEnumerator LaserCoroutine()
-    {
-        nowPlayer.laserFlag = false;
-
-        AudioManager.Instance.Play("Laser_Sound");
-
-        // 건물과 타일의 컬러를 받아옴
-        Color buildingColor = seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color;
-        Color tileColor = seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
-
-        // 건물파괴 파티클을 활성화하고 위치를 현재 타일의 건물 위치로 옮긴 다음 파티클 실행
-        laserParticle.gameObject.SetActive(true);
-        laserParticle.transform.position = seletedTile.transform.GetChild(0).position;
-        laserParticle.Play();
-
-        // 건물의 Alpha 값을 조절해서 서서히 사라지는 듯한 연출
-        while (buildingColor.a > 0f)
-        {
-            buildingColor.a -= 0.02f;
-            tileColor.a -= 0.02f;
-
-            seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
-            seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
-
-            yield return new WaitForSeconds(0.02f);
-        }
-
-        // 파티클 비활성화
-        GameManager.Instance.laserParticle.gameObject.SetActive(false);
-
-        // 현재 타일의 소유주와 건물을 없앰
-        seletedTile.GetComponent<Tile>().ownPlayer = -1;
-        seletedTile.GetComponent<Tile>().building = buildings[0];
-        seletedTile.GetComponent<Tile>().price = 0;
-
-        yield return new WaitForEndOfFrame();
-
-        // 0으로 감소시켰던 건물과 타일의 Alpha 값을 원상복구
-        buildingColor.a = 1f;
-        tileColor.a = 1f;
-        seletedTile.GetComponent<Tile>().buildingImg.GetComponent<SpriteRenderer>().color = buildingColor;
-        seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
-
-        seletedTile = null;
-        laserComplete = true;
     }
 
     IEnumerator RestartCoroutine()
