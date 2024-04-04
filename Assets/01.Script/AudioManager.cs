@@ -70,16 +70,13 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         // 인스펙터 창에서 sounds에 넣어놓은 audio 갯수만큼 반복
         for (int i = 0; i < sounds.Length; i++)
         {
-            // sound 하나당 하나의 GameObject 생성
             GameObject soundObject = new GameObject("사운드 파일 이름 : " + i + " = " + sounds[i].name);
             sounds[i].SetSource(soundObject.AddComponent<AudioSource>());
-            // AudioManager 오브젝트 아래로 위치
             soundObject.transform.SetParent(this.transform);
         }
     }
@@ -89,7 +86,6 @@ public class AudioManager : MonoBehaviour
     {
         for (int i = 0; i < sounds.Length; i++)
         {
-            // 실행하고자 하는 sound 파일을 찾기
             if (_name == sounds[i].name)
             {
                 sounds[i].Play();
@@ -103,7 +99,6 @@ public class AudioManager : MonoBehaviour
     {
         for (int i = 0; i < sounds.Length; i++)
         {
-            // 실행하고자 하는 sound 파일을 찾기
             if (_name == sounds[i].name)
             {
                 sounds[i].Stop();
@@ -117,7 +112,6 @@ public class AudioManager : MonoBehaviour
     {
         for (int i = 0; i < sounds.Length; i++)
         {
-            // 실행하고자 하는 sound 파일을 찾기
             if (_name == sounds[i].name)
             {
                 sounds[i].SetLoop();
@@ -131,7 +125,6 @@ public class AudioManager : MonoBehaviour
     {
         for (int i = 0; i < sounds.Length; i++)
         {
-            // 실행하고자 하는 sound 파일을 찾기
             if (_name == sounds[i].name)
             {
                 sounds[i].SetLoopCancel();
@@ -145,7 +138,6 @@ public class AudioManager : MonoBehaviour
     {
         for (int i = 0; i < sounds.Length; i++)
         {
-            // 실행하고자 하는 sound 파일을 찾기
             if (_name == sounds[i].name)
             {
                 sounds[i].volume = _volume;
