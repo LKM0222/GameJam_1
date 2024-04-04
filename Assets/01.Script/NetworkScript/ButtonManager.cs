@@ -196,6 +196,9 @@ public class ButtonManager : MonoBehaviour
         //게임 종료 시, 게임방에서 나가고, 게임 종료에 따른 결과 처리 후, 메뉴씬으로 나가야한다.
         Backend.Match.LeaveMatchRoom();
         Backend.Match.LeaveGameServer();
+
+        AudioManager.Instance.Stop("MainGame_Sound");
+        AudioManager.Instance.Play("Title_Sound");
         SceneManager.LoadScene("LobbyScene");
     }
 
