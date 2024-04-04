@@ -7324,6 +7324,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7699574458126707921, guid: 9d2f27e7aab11ee43b677c1bf1c5cea2, type: 3}
   m_PrefabInstance: {fileID: 777124578}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &777124580 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3584456885056516277, guid: 9d2f27e7aab11ee43b677c1bf1c5cea2, type: 3}
+  m_PrefabInstance: {fileID: 777124578}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &798927237
 GameObject:
   m_ObjectHideFlags: 0
@@ -9655,7 +9660,7 @@ MonoBehaviour:
   highMoveParticle: {fileID: 1893069635}
   InvisibleParticle: {fileID: 2141155194}
   exemptionParticle: {fileID: 1083455422928650791}
-  laserParticle: {fileID: 3584456885056516277, guid: 9d2f27e7aab11ee43b677c1bf1c5cea2, type: 3}
+  laserParticle: {fileID: 777124580}
 --- !u!4 &1057635937
 Transform:
   m_ObjectHideFlags: 0
