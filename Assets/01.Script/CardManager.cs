@@ -26,23 +26,8 @@ public class CardManager : MonoBehaviour
     public ParticleSystem highMoveParticle;
     public ParticleSystem InvisibleParticle;
     public ParticleSystem exemptionParticle;
-
     public ParticleSystem laserParticle;
 
-    #region Instance
-    private static CardManager _instance;
-    public static CardManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindObjectOfType(typeof(CardManager)) as CardManager;
-            }
-            return _instance;
-        }
-    }
-    #endregion
 
     // Start is called before the first frame update
     void Start()
