@@ -13816,11 +13816,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 726cdcdcaf161447a93960f835a70194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thePlayer: {fileID: 1511854098}
   nowPos: {x: 0, y: 0, z: 0}
-  EggObj: {fileID: 1747282803}
+  diceObject: {fileID: 1747282803}
   diceNumText: {fileID: 1626855499}
-  EggAnimator: {fileID: 2110583021}
+  diceAnimator: {fileID: 2110583021}
   animatorFlag: 0
   diceFlag: 0
   isDrag: 0
@@ -17033,11 +17032,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 726cdcdcaf161447a93960f835a70194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thePlayer: {fileID: 954396769}
   nowPos: {x: 0, y: 0, z: 0}
-  EggObj: {fileID: 1747282803}
+  diceObject: {fileID: 1747282803}
   diceNumText: {fileID: 1626855499}
-  EggAnimator: {fileID: 2110583021}
+  diceAnimator: {fileID: 2110583021}
   animatorFlag: 0
   diceFlag: 0
   isDrag: 0
