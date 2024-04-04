@@ -11,17 +11,10 @@ public class Tutorial : MonoBehaviour
     int currentPage;
     int maxPage;
 
-    // Start is called before the first frame update
     void Start()
     {
         currentPage = 0;
         maxPage = tutorialImage.Length;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void TurnLeftPage()
