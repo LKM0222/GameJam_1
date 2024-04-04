@@ -49,6 +49,7 @@ public class EventManager : MonoBehaviour
     {
         _theGBS = FindObjectOfType<GroundBuyScript>();
         theTM = FindObjectOfType<TileManager>();
+        theDice = FindObjectOfType<DiceSystem>();
     }
 
     // Update is called once per frame

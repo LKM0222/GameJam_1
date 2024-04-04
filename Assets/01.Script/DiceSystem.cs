@@ -59,6 +59,7 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
     public void OnEndDrag(PointerEventData eventData1)
     {
         isDrag = false;
+
         if (GameManager.Instance.myCharactor.myTurn && GameManager.Instance.laserComplete && theTurnSign.cursorPos == 1)
         {
             if (this.transform.localPosition.y < 470)
@@ -104,6 +105,5 @@ public class DiceSystem : MonoBehaviour, IDragHandler, IEndDragHandler
         diceNumText.text = GameManager.Instance.nowPlayer.diceNum.ToString();
         diceObject.SetActive(true);
         animatorFlag = true;
-        diceFlag = false;
     }
 }
