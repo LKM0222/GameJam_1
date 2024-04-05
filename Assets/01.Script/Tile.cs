@@ -6,94 +6,65 @@ using UnityEngine;
 [System.Serializable]
 public class Tile : MonoBehaviour
 {
-    public Building building; //땅에 올라가있는 건물의 정보
-    public int price; //땅의 가격
-    public int ownPlayer = -1; //몇번째 플레이어의 땅인지 표시
-    public SpriteRenderer buildingImg; //땅에 올라가있는 건물 이미지
-    public SpriteRenderer signImg; //땅이 누구 소유인지 보여주는 표식
-    public bool tileFrontFlag; //타일의 위치 플래그 건물이 보여지는 위치를 결정
-    public bool specialTile; //특수타일인지 체크하는 플래그
-    public int specialTileType; //특수타일이라면 어떤 타일인지 구분하기 위한 변수 
-    //(0 : 양계장, 1 : 카드, 2 : 워프, 3 : 세금, 4 : 강탈)
+    CardManager theCM;
 
-    public bool canTileSelect;
+    public Building building;
+    public SpriteRenderer buildingImg;
+    public SpriteRenderer signImg;
 
-    // 타일의 상하좌우 방향(1,2,3,4)
+    // 건물의 방향
+    public bool tileFrontFlag;
+    public bool specialTile;
+    public int specialTileType;
     public int dir;
 
-    GameManager theGM;
-    CardManager theCM;
+    public int price;
+    public int ownPlayer = -1;
+    public bool canTileSelect;
 
     private void Start()
     {
-        theGM = FindObjectOfType<GameManager>();
         theCM = FindObjectOfType<CardManager>();
 
-        // 모든 타일을 주인 없는 상태로 초기화
         ownPlayer = -1;
 
-        // 일반 타일이라면 건물과 타일 색을 초기화
         if (!specialTile)
         {
             buildingImg = this.transform.GetChild(0).GetComponent<SpriteRenderer>();
             signImg = this.transform.GetChild(1).GetComponent<SpriteRenderer>();
         }
-
     }
 
     private void Update()
     {
         if (!specialTile)
         {
-            //땅의 소유 색깔 변경
-            if (ownPlayer == -1)
-            {
-                signImg.sprite = null;
-            }
-            else if (ownPlayer == 0)
-            {
-                signImg.sprite = theGM.signSprites[0];
-            }
-            else
-            {
-                signImg.sprite = theGM.signSprites[1];
-            }
+            // 타일 소유주가 변경되면 Sign 타일 수정
+            if (ownPlayer == -1) signImg.sprite = null;
+            else if (ownPlayer == 0) signImg.sprite = GameManager.Instance.signSprites[0];
+            else signImg.sprite = GameManager.Instance.signSprites[1];
 
-            // 건물의 이미지 변경
+            // 건물이 있다면 건물의 이미지 수정
             if (building.type > -1)
             {
-                if (tileFrontFlag)//true : left, false : front
-                    buildingImg.sprite = theGM.buildings[building.type + 1].buildingImg.building_left;
-                else
-                {
-                    buildingImg.sprite = theGM.buildings[building.type + 1].buildingImg.building_front;
-                }
+                if (tileFrontFlag) buildingImg.sprite = GameManager.Instance.buildings[building.type + 1].buildingImg.building_left;
+                else buildingImg.sprite = GameManager.Instance.buildings[building.type + 1].buildingImg.building_front;
             }
-            else
-            {
-                buildingImg.sprite = null;
-            }
+            else buildingImg.sprite = null;
         }
     }
 
     private void OnMouseDown()
     {
-        // 레이저빔 사용 시
-        if (canTileSelect && theCM.isSelectingLaser)
+        // 레이저 사용 시 OR 텔레포트 사용 시
+        if (canTileSelect && theCM.isSelectingLaser || canTileSelect && GameManager.Instance.nowPlayer.isSelectingTeleport)
         {
             AudioManager.Instance.Play("SelectTile_Sound");
-            theGM.seletedTile = this.gameObject;
-        }
-
-        // 텔레포트 사용시
-        if (canTileSelect && theGM.nowPlayer.isSelectingTeleport)
-        {
-            AudioManager.Instance.Play("SelectTile_Sound");
-            theGM.seletedTile = this.gameObject;
+            GameManager.Instance.seletedTile = this.gameObject;
         }
 
         // 건물 강탈 사용시
-        if (canTileSelect && theGM.nowPlayer.isExtortioning)
+        if (canTileSelect && GameManager.Instance.nowPlayer.isExtortioning)
         {
             AudioManager.Instance.Play("SelectTile_Sound");
 
@@ -101,7 +72,6 @@ public class Tile : MonoBehaviour
             string jsondata = JsonUtility.ToJson(tileSelectData);
             byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.TileSelect, jsondata);
             Backend.Match.SendDataToInGameRoom(data);
-            // theGM.seletedTile = this.gameObject; //TileManager로 이동.
         }
     }
 }
