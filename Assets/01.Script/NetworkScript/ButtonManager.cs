@@ -85,6 +85,10 @@ public class ButtonManager : MonoBehaviour
                 SignupHeader.text = "실패";
                 SignupText.text = "회원가입 실패";
                 break;
+            case 6:
+                SignupHeader.text = "실패";
+                SignupText.text = "아이디에 특수문자, 공백이 들어가있습니다.";
+                break;
         }
     }
 
