@@ -194,7 +194,7 @@ public class EventManager : MonoBehaviour
             //데이터의 타입으로 스위치문 결정, 데이터를 다시 위와 같은 과정으로 알맞은 클래스로 변환 후 사용.
             switch (pData.type)
             {
-                case ParsingType.TurnCardSet:
+                case ParsingType.TurnCardSet: //게임 시작 시 두 클라이언트 간 턴 선택하는 카드의 랜덤번호를 맞춰준다.
                     TurnCardSet tsData = JsonUtility.FromJson<TurnCardSet>(pData.data);
                     if (tsData.randomNum == 0)
                     {
@@ -214,7 +214,7 @@ public class EventManager : MonoBehaviour
                     GameManager.Instance.sessionArr[sessionData.turnNum] = sessionData.sessionId;
                     break;
 
-                case ParsingType.Turn: //턴 선택 분기
+                case ParsingType.Turn: //턴 선택 분기, 상대방이 어떤 카드를 뽑았는지 전달해주고, 상대방이 뽑은 카드를 비활성화 처리 하기 위해 사용
                     print("turn case");
                     TurnCard tData = JsonUtility.FromJson<TurnCard>(pData.data);
                     GameManager.Instance.playerCount.Add(1);

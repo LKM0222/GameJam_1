@@ -20,7 +20,7 @@ public class ParsingData
 
 public class TurnCardSet
 {
-    public int randomNum;
+    public int randomNum; //턴 카드에 저장되는 턴 정보를 저장할 변수(랜덤된 값이 들어감.)
 
     public TurnCardSet(int _randomNum)
     {
@@ -30,7 +30,7 @@ public class TurnCardSet
 
 public class TurnCard
 {
-    public int turncardIdx;
+    public int turncardIdx; //현재 선택한 턴카드가 어느 위치에 있는지 알려주는 변수 상대방이 어떤 카드를 눌렀는지 전달하고, 내 클라이언트에서도 상대방이 누른 카드의 active를 false로 하기 위한 변수임.
 
     public TurnCard(int _turnCardIdx)
     {
