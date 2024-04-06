@@ -13,34 +13,23 @@ public class ButtonManager : MonoBehaviour
     [Header("Login")]
     [SerializeField] InputField _loginIdInput;
     [SerializeField] InputField loginPwInput;
+
     [Header("SignUp")]
     [SerializeField] InputField signIdInput;
     [SerializeField] InputField signPwInput;
     [SerializeField] InputField signNickNameInput;
     [SerializeField] InputField signEmailInput;
 
-    [Header("Test")]
-    [SerializeField] Text testNickname;
-    [SerializeField] bool winBool;
-
-    [Header("InviteUserBtn")]
-    [SerializeField] InputField inviteUserNicknameInput;
-    [SerializeField] GameObject inviteResultPopup;
-    [SerializeField] Text inviteResultText;
-
-    // UI
-
     [Header("Signup Success UI")]
     public GameObject SignupUI;
     public Text SignupText;
     public Text SignupHeader;
-
     int result;
-
-
+    
     [Header("TurnCard")]
     public int turnNum, turncardIdx;
 
+    #region Instance
     private static ButtonManager _instance;
     public static ButtonManager Instance
     {
@@ -52,9 +41,9 @@ public class ButtonManager : MonoBehaviour
             return _instance;
         }
     }
+    #endregion
 
-
-    public async void SignUpBtn()
+    public async void SignUpBtn() //회원가입 버튼
     {
         AudioManager.Instance.Play("MenuClick_Sound");
 
@@ -103,33 +92,11 @@ public class ButtonManager : MonoBehaviour
 
         if (Backend.IsLogin)
         {
-            print("로그인 완료");
             MatchManager.Instance.Join(); //로그인 후 매칭서버 접속 
             Backend.Match.OnJoinMatchMakingServer = (JoinChannelEventArgs args) =>
             {
-                Debug.Log("Login Result : " + args.ErrInfo);
                 SceneManager.LoadScene("LobbyScene");
             };
-        }
-        else
-        {
-            print("로그인 실패");
-        }
-    }
-
-    public void UpScore(bool winFlag)
-    {
-        if (winBool)
-        {
-            BackendGameData.Instance.UpWinScore();
-            BackendGameData.Instance.GameDataUpdate();
-            print("승리 포인트 1 추가");
-        }
-        else
-        {
-            BackendGameData.Instance.UpLoseScore();
-            BackendGameData.Instance.GameDataUpdate();
-            print("패배 포인트 1 추가");
         }
     }
 
@@ -141,8 +108,7 @@ public class ButtonManager : MonoBehaviour
         SceneManager.LoadScene("TitleScene");
 
     }
-
-
+    
     //대기방 생성 매칭서버 접속은 여기서 하지 않고, 로그인 시 자동으로 이뤄져야함.
     public void MatchingBtn()
     {
@@ -155,17 +121,14 @@ public class ButtonManager : MonoBehaviour
         //매칭룸을 생성했을때 호출되는 이벤트
         Backend.Match.OnMatchMakingRoomCreate = (MatchMakingInteractionEventArgs args) =>
         { 
-            Debug.Log("MatchRoom Create1");
             if (args.ErrInfo == ErrorCode.Success)
             {
-                print("대기방 생성 성공");
                 RequestMatchMaking();
             }
         };
     }
 
     //매칭취소 
-    //대기방을 생성했던걸 취소해줘야됨.
     public void MatchingCancelBtn()
     {
         AudioManager.Instance.Play("MenuClick_Sound");
@@ -177,7 +140,7 @@ public class ButtonManager : MonoBehaviour
         MenuSceneManager.Instance.timerText.text = "00:00";
     }
 
-    //로비로 돌아가기 (매칭 취소)
+    //로비로 돌아가기 (인게임에서 타이틀로 가기)
     public void GoToLobby()
     {
         Backend.Match.LeaveMatchRoom(); //대기방을 떠나는 함수
@@ -230,5 +193,4 @@ public class ButtonManager : MonoBehaviour
         }
         GameManager.Instance.myCharactor.myTurnImg.SetActive(true);
     }
-
 }

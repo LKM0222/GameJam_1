@@ -30,8 +30,7 @@ public class TurnCardSet
 
 public class TurnCard
 {
-    public int turncardIdx; //현재 선택한 턴카드가 어느 위치에 있는지 알려주는 변수 상대방이 어떤 카드를 눌렀는지 전달하고, 내 클라이언트에서도 상대방이 누른 카드의 active를 false로 하기 위한 변수임.
-
+    public int turncardIdx; 
     public TurnCard(int _turnCardIdx)
     {
         turncardIdx = _turnCardIdx;
@@ -116,17 +115,6 @@ public class InvisibleData
     }
 }
 
-public class SessionData
-{
-    public SessionId sessionId;
-    public int turnNum;
-    public SessionData(SessionId _id, int _turnNum)
-    {
-        sessionId = _id;
-        turnNum = _turnNum;
-    }
-}
-
 public class TileSelectData
 {
     public string tilename;
@@ -183,8 +171,6 @@ public class ExemptionData
 {
     public int value;
 }
-
-
 #endregion
 
 #region Enum_ParsingType
@@ -204,7 +190,6 @@ public enum ParsingType
     InvisibleThief,
     ExemptionFlag,
     ExemptionFlagSet,
-    Session,
     TileSelect,
     Extortion,
     Visit,
@@ -235,16 +220,10 @@ public class ParsingManager : MonoBehaviour
 
     public byte[] ParsingSendData(ParsingType _type, string _jsonData)
     {
-        //전달하는 함수. 전달값은 byte[]로 전달.
-        //클래스를 선언한 다음 이 함수 사용
-        //string jsonData = JsonUtility.ToJson(data);로 바뀐 데이터를 전달.
+        //Backend.Match.SendDataToinGameRoom에 전달할 데이터 파싱
         ParsingData data = new(_type, _jsonData);
         string jsonData = JsonUtility.ToJson(data);
         print("ParsingSendData is " + jsonData);
-        return Encoding.UTF8.GetBytes(jsonData); //반환값을 Backend.Match.SendDataToinGameRoom으로 전달.
+        return Encoding.UTF8.GetBytes(jsonData);
     }
-
-
-
-
 }

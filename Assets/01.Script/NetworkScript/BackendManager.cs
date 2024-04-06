@@ -20,13 +20,6 @@ public class BackendManager : MonoBehaviour
 
     private BackendManager _instance = null;
 
-
-
-    //SessionID
-    public SessionId mySessionId;
-
-    //SignUpUI
-
     private void Awake() {
         if(_instance == null){
             _instance = FindObjectOfType(typeof(BackendManager)) as BackendManager;
@@ -40,17 +33,12 @@ public class BackendManager : MonoBehaviour
     void Start()
     {
         var bro = Backend.Initialize(true);
-
-        if(bro.IsSuccess()){
-            print("서버 접속 성공 : " + bro);
-        } else {
-            print("서버 접속 실패 : " + bro);
-        }
+        //성공 실패는 bro.isSuccess
     }
+
     private void Update() {
         if(Backend.IsInitialized){
-            Backend.Match.Poll();
+            Backend.Match.Poll(); //데이터 전송용 poll
         }
     }
-
 }

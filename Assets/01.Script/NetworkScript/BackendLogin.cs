@@ -17,9 +17,9 @@ public class BackendLogin
     }
     
     public int CustomSignUp(string id, string pw, string nickname, string email){
-        Debug.Log("회원가입을 요청합니다.");
+        //회원가입 요청
         if(id.Trim() == "" || pw.Trim() == "" || nickname.Trim() == "" || email.Trim() == ""){
-            Debug.Log("입력값이 없는 곳이 있습니다.");
+            //입력값이 없을경우
             return 1;
         }
         else{
@@ -27,42 +27,25 @@ public class BackendLogin
             if(id.Equals(idChecker) == true){
                 var bro = Backend.BMember.CustomSignUp(id, pw);
                 if(bro.IsSuccess()){
-                    Debug.Log("회원가입 성공! : " +bro);
-
+                    //회원가입 성공
                     var Nemail = Backend.BMember.UpdateCustomEmail(email);
-                    if (Nemail.IsSuccess())Debug.Log("이메일 변경 로그" + Nemail);
-                    else {Debug.Log("이메일 변경 실패"); return 2;}
-                    
 
+                    if (!Nemail.IsSuccess()) return 2; //이메일 변경 실패
+                    
                     var Nnickname = Backend.BMember.UpdateNickname(nickname);
-                    if(Nnickname.IsSuccess()) {
-                        Debug.Log("닉네임 변경 로그" + Nnickname);
-                    } else {Debug.Log("닉네임 변경 실패"); return 3;}
+                    if(!Nnickname.IsSuccess()) return 3; //닉네임 변경 실패
 
                     BackendGameData.Instance.GameDataInsert(nickname,email);
                     return 4;
-                } else {
-                    Debug.Log("회원가입 실패! : " +bro);
-                    return 5;
-                }
+                } else return 5;//회원가입 실패
             }
-            else{
-                Debug.Log("아이디에 특수문자 및 공백은 허용되지 않습니다!");
-                return 6;
-            }
+            else return 6; //특수문자 포함된 아이디
+
         }
     }
 
-    public void CustomLogin(string id, string pw){
-        Debug.Log("로그인을 요청합니다.");
+    public void CustomLogin(string id, string pw){ //로그인 요청
         var bro = Backend.BMember.CustomLogin(id,pw);
-
-        if(bro.IsSuccess()){
-            Debug.Log("로그인 성공!" + bro);
-        }
-        else {
-            Debug.Log("로그인 실패" + bro);
-        }
+        //변경실패는 bro.IsSuccess()
     }
-
 }

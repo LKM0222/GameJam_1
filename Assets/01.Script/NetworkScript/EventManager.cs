@@ -150,48 +150,25 @@ public class EventManager : MonoBehaviour
         };
 
         Backend.Match.OnMatchInGameAccess = (MatchInGameSessionEventArgs args) =>
-        { //유저가 게임방에 입장할 때마다 호출되는 이벤트입니다.
-            // 입장한 유저(자기 자신)에게 호출됩니다.
-            // 이미 게임방에 접속해있던 모든 유저에게 호출됩니다.
+        { 
+            //유저가 입장 시 호출됨
             if (args.ErrInfo == ErrorCode.Success)
             {
-                Debug.Log(args.GameRecord.m_nickname + "접속 완료");
-                BackendManager.Instance.mySessionId = args.GameRecord.m_sessionId;
-                print("접속한 사람의 정보:" + args.GameRecord.m_sessionId + ", " + args.GameRecord.m_nickname);
-
                 AudioManager.Instance.Stop("Title_Sound");
-
                 SceneManager.LoadScene("MainScene");
-                //방에 접속하면 누가 접속완료하였는지 닉네임이 표시된다.
-                //이를 활용해 모두 접속 완료라면 씬을 옮겨서도 데이터를 주고받을 수 있을까?
             }
         };
 
         Backend.Match.OnMatchInGameStart = () =>
-        { //게임 시작 이밴트
-          // 모든 유저의 데이터를 브로드캐스팅 할 준비가 되었다는 이벤트
-          // 모든 유저가 게임방에 접속한 이후 
-          // 콘솔에서 설정한 매치 시작 대기시간이 지난 이후에 모든 유저에게 게임 시작 이벤트가 호출
-          // 게임 시작 이벤트가 호출된 후 게임에서 필요한 데이터 동기화, 유저들 간 로딩 상황 공유 등 다양한 데이터 설정을 진행
-
-            //데이터를 넘길 수는 있지만, 이제부터 누가 선 플레이어고, 게임 진행에 대하여 데이터 전송이 이뤄져야한다....
-            Debug.Log("게임 시작! 이제부터 데이터가 모든 유저에게 브로드캐스팅 가능합니다!");
-            //이후부터 게임 시작되었다는 뭔가가 필요할듯.
-            //턴이 시작되었다는 뭔가가 필요...!
-            //ParsingData의 클래스 인스턴스를 생성하여, 선언된 data를 json으로 파싱 후 string데이터를 다시 byte[]로 변환해서 전송.
+        {
+            //게임시작 이벤트 브로드캐스팅 준비 완료
             UIManager.Instance.SetUI();
         };
 
         Backend.Match.OnMatchRelay = (MatchRelayEventArgs args) =>
-        { //데이터 수신
-            //수신받은 Json데이터를 다시 ParsingData클래스로 변환 후 처리.
-            //받는 함수(받는 데이터는 byte[]로 받음.
-            //수신이벤트에서 각 클래스로 변환하는 함수.
-            print("Recv!");
+        {
             byte[] data = args.BinaryUserData;
             ParsingData pData = JsonUtility.FromJson<ParsingData>(Encoding.Default.GetString(data));
-            //pData.type : 데이터의 타입, pData.data : string데이터 (클래스별 데이터라 각 클래스에 맞는 파싱과정 필요)
-            //데이터의 타입으로 스위치문 결정, 데이터를 다시 위와 같은 과정으로 알맞은 클래스로 변환 후 사용.
             switch (pData.type)
             {
                 case ParsingType.TurnCardSet: //게임 시작 시 두 클라이언트 간 턴 선택하는 카드의 랜덤번호를 맞춰준다.
@@ -209,12 +186,7 @@ public class EventManager : MonoBehaviour
 
                     break;
 
-                case ParsingType.Session: //플레이어 인덱스에 맞게 세션 저장.
-                    SessionData sessionData = JsonUtility.FromJson<SessionData>(pData.data);
-                    GameManager.Instance.sessionArr[sessionData.turnNum] = sessionData.sessionId;
-                    break;
-
-                case ParsingType.Turn: //턴 선택 분기, 상대방이 어떤 카드를 뽑았는지 전달해주고, 상대방이 뽑은 카드를 비활성화 처리 하기 위해 사용
+                case ParsingType.Turn: //턴 선택 분기
                     print("turn case");
                     TurnCard tData = JsonUtility.FromJson<TurnCard>(pData.data);
                     GameManager.Instance.playerCount.Add(1);
@@ -263,8 +235,6 @@ public class EventManager : MonoBehaviour
                     if (GameManager.Instance.myCharactor.myTurn)
                     {
                         // //모든 작업 완료 후 턴 넘기기
-                        // 여기는 그냥 버튼 눌렀을때 처리해주면 됨. 자기턴이니깐.
-                        // 상대방에게는 아래와 같이 전달해주면 될듯.
                         GameManager.Instance.NextTurnFunc();
                         GameManager.Instance.UIFlag = false;
 
@@ -307,7 +277,7 @@ public class EventManager : MonoBehaviour
                 //건물파괴 타일 선택시(타일선택)
                 case ParsingType.TileSelect:
                     TileSelectData tileSelectData = JsonUtility.FromJson<TileSelectData>(pData.data);
-                    GameManager.Instance.seletedTile = GameObject.Find(tileSelectData.tilename); //missing오류...?
+                    GameManager.Instance.seletedTile = GameObject.Find(tileSelectData.tilename);
                     break;
 
                 //건물파괴
@@ -376,7 +346,6 @@ public class EventManager : MonoBehaviour
                 case ParsingType.InvisibleThief: //카드 투명도둑
                     GameManager.Instance.invisibleCardNum = UnityEngine.Random.Range(0,
                         GameManager.Instance.nowPlayer.againstPlayer.cards.Count);
-                    //랜덤으로 뽑았으니 함수 계속.
                     break;
 
                 case ParsingType.ExemptionFlag: //상대방 땅에 걸린경우
@@ -393,7 +362,7 @@ public class EventManager : MonoBehaviour
                     switch (visitData.caseNum)
                     {
                         case 0: //농장
-                            GameManager.Instance.nowPlayer.playerMoney += visitData.money; //money = 200
+                            GameManager.Instance.nowPlayer.playerMoney += visitData.money;
                             GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, visitData.money, true);
                             GameManager.Instance.NextTurnFunc();
                             break;
@@ -425,28 +394,11 @@ public class EventManager : MonoBehaviour
             }
         };
 
-        //게임 종료(정상적: 게임에서 게임오버 함수 호출, 비정상적 : 플레이어가 나감) 결과 처리 후 호출이 된다면 분기를 나눌 수 있는데...
+        //게임 종료(정상적: 게임에서 게임오버 함수 호출, 비정상적 : 플레이어가 나감)
         Backend.Match.OnMatchResult = (MatchResultEventArgs args) =>
         {
-            // TODO
-            print("호출완료!");
             GameManager.Instance.gameOverUI.SetActive(true);
-            print(GameManager.Instance.nowPlayer.againstPlayer.playerId + " 승리!");
-            print("Game Over!");
-            switch (args.ErrInfo)
-            {
-                case ErrorCode.Success:
-                    print("결과 종합 성공");
-                    break;
-
-                case ErrorCode.Exception:
-                    print("결과 종합 실패 - 서버에서 결과 종합을 실패한 경우 " + args.Reason);
-                    break;
-
-                case ErrorCode.Match_InGame_Timeout:
-                    print("게임 시작 실패(룸 생성 후 모든 유저가 게임에 접속하지 않은 경우) " + args.Reason);
-                    break;
-            }
+            //게임오버는 따로 처리하는거 없이 나가기 버튼만
         };
 
         //게임 중, 플레이어가 연결 끊김.
@@ -454,61 +406,10 @@ public class EventManager : MonoBehaviour
         {
             if (args.ErrInfo == ErrorCode.NetworkOffline)
             {
-                print("플레이어가 연결을 끊어 연결이 끊어졌습니다. 남아있는 플레이어가 자동 우승이 됩니다. \n " + "끊어진 플레이어 정보 : "
-                        + args.GameRecord);
+                //연결 끊긴 방에서 나가기 위한 UI 출력
                 UIManager.Instance.SetErrorUI();
             }
-            if (args.ErrInfo == ErrorCode.Exception)
-            {
-                print("서버가 끊어졌습니다. 게임 결과는 처리되지 않습니다.\n " + "끊어진 플레이어 정보 : "
-                        + args.GameRecord);
-            }
-
         };
-
-        //인게임 서버 종료
-        Backend.Match.OnLeaveInGameServer = (MatchInGameSessionEventArgs args) =>
-        {
-            switch (args.ErrInfo)
-            {
-                case ErrorCode.Success:
-                    print("정상적으로 종료됨");
-                    UIManager.Instance.SetErrorUI();
-                    break;
-
-                case ErrorCode.Exception:
-                    print("에러로 인한 종료 : " + args.Reason);
-                    break;
-
-                case ErrorCode.AuthenticationFailed:
-                    print("재접속 오류");
-                    break;
-
-            }
-        };
-        //매치메이킹 서버 종료
-        Backend.Match.OnLeaveMatchMakingServer = (LeaveChannelEventArgs args) =>
-        {
-            switch (args.ErrInfo.Category)
-            {
-                case ErrorCode.Success:
-                    print("정상적으로 매치메이킹 서버 종료됨");
-                    break;
-
-                case ErrorCode.Exception:
-                    print("비정상적으로 종료됨 : " + args.ErrInfo.Detail);
-                    break;
-
-                case ErrorCode.DisconnectFromRemote:
-                    print("콘솔에서 생성하지 않은 매치 타입 & 매치 유형으로 매칭을 신청 오류");
-                    break;
-
-                case ErrorCode.NetworkTimeout:
-                    print("매치 서버와 클라이언트가 30초 이상 연결이 끊어진 경우");
-                    break;
-            }
-        };
-
     }
 
 

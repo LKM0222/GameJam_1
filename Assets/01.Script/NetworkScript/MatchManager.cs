@@ -22,26 +22,17 @@ public class MatchManager : MonoBehaviour
         }
     }
 
-    //여기까지가 방을 만들고, 방에 유저를 모으는 작업.
-    //대기방 참여 코드
-    public void CreateMatchingRoom(){ //EventHandler는 EventManager에 위치함.
+    public void CreateMatchingRoom(){
         CreateMatchRoom();//대기방 생성
         GetMatchList(); //추후 매칭신청을 위해 카드 리스트 가져와야함.
-        print("matchcards count is " + matchCards.Count);
-        matchCard = matchCards[0];
-        if(matchCard != null){
-            print("MatchTestManager matchcard is : " + matchCard);
-        }
     }
 
     public void Join(){
         ErrorInfo errorInfo;
-        if(Backend.Match.JoinMatchMakingServer(out errorInfo)){
-            Debug.Log("Success " + errorInfo);
-        }
+        if(Backend.Match.JoinMatchMakingServer(out errorInfo)){ }
     }
     
-    void CreateMatchRoom(){ //envent handler는 eventManager에 있음.
+    void CreateMatchRoom(){
         Backend.Match.CreateMatchRoom();
     }
 
@@ -52,10 +43,7 @@ public class MatchManager : MonoBehaviour
         Backend.Match.RequestMatchMaking(matchCard.matchType, matchCard.matchModeType, matchCard.inDate);
     }
 
-    
-
-
-
+    //매치 리스트 받아오기(건들면 안됨)
     void GetMatchList()
     {
         Debug.Log("start GetmatchList");
@@ -173,9 +161,7 @@ public class MatchManager : MonoBehaviour
             matchCards = matchCardList;
             Debug.Log("list idx 0 is " + matchCardList[0]);
         }
-        
     }
-
 }
 
 public class MatchCard
@@ -226,7 +212,3 @@ public class MatchCard
         savingPointString;
     }
 }
-
-
-
-
