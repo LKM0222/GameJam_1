@@ -29,7 +29,6 @@ public class BackendManager : MonoBehaviour
 
     private void Awake() {
         if(_instance == null){
-            // _instance = new BackendManager();
             _instance = FindObjectOfType(typeof(BackendManager)) as BackendManager;
             DontDestroyOnLoad(this.gameObject);
         }
@@ -37,7 +36,7 @@ public class BackendManager : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-    // Start is called before the first frame update
+    
     void Start()
     {
         var bro = Backend.Initialize(true);

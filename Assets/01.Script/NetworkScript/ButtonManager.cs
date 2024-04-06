@@ -104,11 +104,11 @@ public class ButtonManager : MonoBehaviour
         if (Backend.IsLogin)
         {
             print("로그인 완료");
-            MatchTestManager.Instance.Join(); //로그인 후 매칭서버 접속 
+            MatchManager.Instance.Join(); //로그인 후 매칭서버 접속 
             Backend.Match.OnJoinMatchMakingServer = (JoinChannelEventArgs args) =>
             {
                 Debug.Log("Login Result : " + args.ErrInfo);
-                SceneManager.LoadScene("LobbyScene"); //매칭서버에 접속 완료했을 때 LobbyScene으로 넘어가야함.
+                SceneManager.LoadScene("LobbyScene");
             };
         }
         else
@@ -123,7 +123,6 @@ public class ButtonManager : MonoBehaviour
         {
             BackendGameData.Instance.UpWinScore();
             BackendGameData.Instance.GameDataUpdate();
-            // MenuSceneManager.Instance.SetWinText()//winText를 수정해야함...loseText도 마찬가지.
             print("승리 포인트 1 추가");
         }
         else
@@ -143,11 +142,6 @@ public class ButtonManager : MonoBehaviour
 
     }
 
-    public void NicknameTest()
-    {
-        testNickname.text = "gg \n" + DateTime.Now;
-    }
-
 
     //대기방 생성 매칭서버 접속은 여기서 하지 않고, 로그인 시 자동으로 이뤄져야함.
     public void MatchingBtn()
@@ -157,9 +151,10 @@ public class ButtonManager : MonoBehaviour
         MenuSceneManager.Instance.coroFlag = true;
         StartCoroutine(MenuSceneManager.Instance.TimerCoroutine());
 
-        MatchTestManager.Instance.CreateMatchingRoom();
+        MatchManager.Instance.CreateMatchingRoom();
+        //매칭룸을 생성했을때 호출되는 이벤트
         Backend.Match.OnMatchMakingRoomCreate = (MatchMakingInteractionEventArgs args) =>
-        { //매칭룸을 생성했을때 호출되는 이벤트
+        { 
             Debug.Log("MatchRoom Create1");
             if (args.ErrInfo == ErrorCode.Success)
             {
@@ -191,7 +186,7 @@ public class ButtonManager : MonoBehaviour
     //게임 시작
     public void RequestMatchMaking()
     {
-        MatchTestManager.Instance.RequestMatchMaking();
+        MatchManager.Instance.RequestMatchMaking();
     }
 
     //게임 종료
@@ -219,10 +214,6 @@ public class ButtonManager : MonoBehaviour
             if (GameManager.Instance.turnIndex == 1)
             {
                 GameManager.Instance.myCharactor = GameObject.Find("Player1").GetComponent<PlayerManager>();
-                // SessionData sessionData = new(GameManager.Instance.mySessionId, GameManager.Instance.turnIndex);
-                // SessionData sessionData = new(BackendManager.Instance.mySessionId, GameManager.Instance.turnIndex);
-                // string jsondata = JsonUtility.ToJson(sessionData);
-                // ParsingManager.Instance.ParsingSendData(ParsingType.Session, jsondata);
             }
             else
             {

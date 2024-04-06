@@ -17,8 +17,8 @@ public class BackendLogin
     }
     
     public int CustomSignUp(string id, string pw, string nickname, string email){
-        Debug.Log("회원가입을 요청합니다."); //아직까지는 문자열 사이의 공백은 신경쓰지 않고 있음. 추후 수정
-        if(id.Trim() == "" || pw.Trim() == "" || nickname.Trim() == "" || email.Trim() == ""){ //
+        Debug.Log("회원가입을 요청합니다.");
+        if(id.Trim() == "" || pw.Trim() == "" || nickname.Trim() == "" || email.Trim() == ""){
             Debug.Log("입력값이 없는 곳이 있습니다.");
             return 1;
         }
@@ -46,7 +46,7 @@ public class BackendLogin
                     return 5;
                 }
             }
-            else{ //아이디 이상할때
+            else{
                 Debug.Log("아이디에 특수문자 및 공백은 허용되지 않습니다!");
                 return 6;
             }

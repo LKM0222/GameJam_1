@@ -512,7 +512,7 @@ public class EventManager : MonoBehaviour
     }
 
 
-    //건물강탈 코루틴 빼놓은것.
+    //건물강탈 코루틴
     IEnumerator ExtortionAlphaCoroutine(Color tileColor, int playerId)
     {
         AudioManager.Instance.Play("Extortion_Sound");
@@ -581,7 +581,6 @@ public class EventManager : MonoBehaviour
     }
 
     //통행료 지불 코루틴(내 움직임이 끝날때까지 기다렸다가 징수하기 위해 코루틴 사용)
-    //왠지 통신 넘어가면서 nowplayer가 상대방으로 바꼈을때 꼬일거같긴한데....
     IEnumerator ExemptionCoroutine()
     {
         yield return new WaitUntil(() => GameManager.Instance.nowPlayer.finishMoving == true); //무빙이 끝났다면 통행료 징수
