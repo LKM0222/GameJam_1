@@ -1351,15 +1351,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 0
   specialTile: 0
   specialTileType: 0
-  canTileSelect: 0
   dir: 3
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1 &141276519
 GameObject:
   m_ObjectHideFlags: 0
@@ -2865,11 +2865,6 @@ MonoBehaviour:
   signPwInput: {fileID: 0}
   signNickNameInput: {fileID: 0}
   signEmailInput: {fileID: 0}
-  testNickname: {fileID: 0}
-  winBool: 0
-  inviteUserNicknameInput: {fileID: 0}
-  inviteResultPopup: {fileID: 0}
-  inviteResultText: {fileID: 0}
   SignupUI: {fileID: 0}
   SignupText: {fileID: 0}
   SignupHeader: {fileID: 0}
@@ -2960,15 +2955,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 1
   specialTile: 0
   specialTileType: 0
-  canTileSelect: 0
   dir: 2
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1 &241255652
 GameObject:
   m_ObjectHideFlags: 0
@@ -3052,15 +3047,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 0
   specialTile: 1
   specialTileType: 4
-  canTileSelect: 0
   dir: 4
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1 &243160862
 GameObject:
   m_ObjectHideFlags: 0
@@ -3781,11 +3776,6 @@ MonoBehaviour:
   signPwInput: {fileID: 0}
   signNickNameInput: {fileID: 0}
   signEmailInput: {fileID: 0}
-  testNickname: {fileID: 0}
-  winBool: 0
-  inviteUserNicknameInput: {fileID: 0}
-  inviteResultPopup: {fileID: 0}
-  inviteResultText: {fileID: 0}
   SignupUI: {fileID: 0}
   SignupText: {fileID: 0}
   SignupHeader: {fileID: 0}
@@ -5664,15 +5654,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 0
   specialTile: 0
   specialTileType: 0
-  canTileSelect: 0
   dir: 3
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1001 &593699489
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6016,15 +6006,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 1
   specialTile: 0
   specialTileType: 0
-  canTileSelect: 0
   dir: 2
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1 &617987188
 GameObject:
   m_ObjectHideFlags: 0
@@ -6108,15 +6098,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 1
   specialTile: 1
   specialTileType: 1
-  canTileSelect: 0
   dir: 4
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1 &626869443
 GameObject:
   m_ObjectHideFlags: 0
@@ -6477,15 +6467,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 0
   specialTile: 1
   specialTileType: 1
-  canTileSelect: 0
   dir: 3
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1 &691882470
 GameObject:
   m_ObjectHideFlags: 0
@@ -6865,15 +6855,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 1
   specialTile: 0
   specialTileType: 0
-  canTileSelect: 0
   dir: 4
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1 &731565981
 GameObject:
   m_ObjectHideFlags: 0
@@ -7742,15 +7732,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 0
   specialTile: 1
   specialTileType: 3
-  canTileSelect: 0
   dir: 3
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1 &857763380
 GameObject:
   m_ObjectHideFlags: 0
@@ -8799,15 +8789,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 0
   specialTile: 0
   specialTileType: 0
-  canTileSelect: 0
   dir: 1
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1 &979879834
 GameObject:
   m_ObjectHideFlags: 0
@@ -8845,15 +8835,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 0
   specialTile: 0
   specialTileType: 0
-  canTileSelect: 0
   dir: 1
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!60 &979879836
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -10179,15 +10169,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 1
   specialTile: 0
   specialTileType: 0
-  canTileSelect: 0
   dir: 4
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1 &1126494466
 GameObject:
   m_ObjectHideFlags: 0
@@ -10877,15 +10867,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 1
   specialTile: 0
   specialTileType: 0
-  canTileSelect: 0
   dir: 2
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1001 &1193252407
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11880,15 +11870,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 0
   specialTile: 1
   specialTileType: 1
-  canTileSelect: 0
   dir: 1
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1001 &1360252440
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12481,15 +12471,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 1
   specialTile: 0
   specialTileType: 0
-  canTileSelect: 0
   dir: 4
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1001 &1404844204
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12910,16 +12900,11 @@ MonoBehaviour:
   signPwInput: {fileID: 0}
   signNickNameInput: {fileID: 0}
   signEmailInput: {fileID: 0}
-  testNickname: {fileID: 0}
-  winBool: 0
-  inviteUserNicknameInput: {fileID: 0}
-  inviteResultPopup: {fileID: 0}
-  inviteResultText: {fileID: 0}
   SignupUI: {fileID: 0}
   SignupText: {fileID: 0}
   SignupHeader: {fileID: 0}
   turnNum: 0
-  turncardIdx: 0
+  turncardIdx: 1
 --- !u!1001 &1427381493
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13091,15 +13076,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 1
   specialTile: 0
   specialTileType: 0
-  canTileSelect: 0
   dir: 2
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1 &1431344160
 GameObject:
   m_ObjectHideFlags: 0
@@ -13344,15 +13329,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 0
   specialTile: 0
   specialTileType: 0
-  canTileSelect: 0
   dir: 3
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1001 &1490365826
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14433,15 +14418,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 0
   specialTile: 1
   specialTileType: 2
-  canTileSelect: 0
   dir: 2
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1 &1623167384
 GameObject:
   m_ObjectHideFlags: 0
@@ -15177,15 +15162,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 0
   specialTile: 1
   specialTileType: 0
-  canTileSelect: 0
   dir: 1
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1 &1696929356
 GameObject:
   m_ObjectHideFlags: 0
@@ -15746,15 +15731,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 1
   specialTile: 0
   specialTileType: 0
-  canTileSelect: 0
   dir: 4
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!198 &1790210990 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 580982210786710893, guid: ef0edec794c3c6a47ab61b3b14811f9b, type: 3}
@@ -16008,11 +15993,6 @@ MonoBehaviour:
   signPwInput: {fileID: 0}
   signNickNameInput: {fileID: 0}
   signEmailInput: {fileID: 0}
-  testNickname: {fileID: 0}
-  winBool: 0
-  inviteUserNicknameInput: {fileID: 0}
-  inviteResultPopup: {fileID: 0}
-  inviteResultText: {fileID: 0}
   SignupUI: {fileID: 0}
   SignupText: {fileID: 0}
   SignupHeader: {fileID: 0}
@@ -16399,11 +16379,8 @@ MonoBehaviour:
   floatingTextPrefab: {fileID: 6434184484119944231, guid: 7275c77c7ca9eeb48a55360b69fed337, type: 3}
   successFalg: 0
   invisibleCardNum: -1
-  mySessionId: 0
-  sessionArr: 0000000000000000
   exemptionParticle: {fileID: 1083455422928650791}
   RestartBtn: {fileID: 1816343219}
-  winFlag: 0
   turnCardImage:
   - {fileID: 21300000, guid: a0492f7a203eff1419022bc4776be503, type: 3}
   - {fileID: 21300000, guid: ad1d59f11919a6745af5593e3c79e293, type: 3}
@@ -16845,15 +16822,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 0
   specialTile: 0
   specialTileType: 0
-  canTileSelect: 0
   dir: 3
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1 &1953869135
 GameObject:
   m_ObjectHideFlags: 0
@@ -18030,15 +18007,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 0
   specialTile: 0
   specialTileType: 0
-  canTileSelect: 0
   dir: 1
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1 &2082389204
 GameObject:
   m_ObjectHideFlags: 0
@@ -18282,15 +18259,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 1
   specialTile: 1
   specialTileType: 1
-  canTileSelect: 0
   dir: 2
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!1 &2102621171
 GameObject:
   m_ObjectHideFlags: 0
@@ -18884,15 +18861,15 @@ MonoBehaviour:
     buildingName: 
     type: -1
     toll: 0
-  price: 0
-  ownPlayer: -1
   buildingImg: {fileID: 0}
   signImg: {fileID: 0}
   tileFrontFlag: 0
   specialTile: 0
   specialTileType: 0
-  canTileSelect: 0
   dir: 1
+  price: 0
+  ownPlayer: -1
+  canTileSelect: 0
 --- !u!4 &1083455422928650790 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6387912941914824879, guid: d1eae9caeaded0a4482f4eac6c500eae, type: 3}
