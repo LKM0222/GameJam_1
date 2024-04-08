@@ -26,8 +26,6 @@ public class CardManager : MonoBehaviour
     public ParticleSystem exemptionParticle;
     public ParticleSystem laserParticle;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         theTurnSign = FindObjectOfType<TurnSignScript>();

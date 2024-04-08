@@ -284,14 +284,14 @@ public class EventManager : MonoBehaviour
                     break;
 
                 case ParsingType.Olympic:
-                    StartCoroutine(GameManager.Instance.OlympicMethod(GameManager.Instance.nowPlayer.playerId, GameManager.Instance.nowPlayer.VirtualCamera));
+                    StartCoroutine(OlympicMethod(GameManager.Instance.nowPlayer.playerId, GameManager.Instance.nowPlayer.VirtualCamera));
                     GameManager.Instance.NextTurnFunc();
                     break;
 
                 case ParsingType.Laser:
                     LaserData laserData = JsonUtility.FromJson<LaserData>(pData.data);
                     GameManager.Instance.seletedTile = GameObject.Find(laserData.laserTileNum);
-                    theCardManager = GameObject.Find("CardManager").GetComponent<CardManager>();
+                    if (theCardManager == null) theCardManager = GameObject.Find("CardManager").GetComponent<CardManager>();
                     StartCoroutine(theCardManager.LaserCoroutine());
                     break;
             }
@@ -394,7 +394,92 @@ public class EventManager : MonoBehaviour
         }
         else
         {
-            StartCoroutine(GameManager.Instance.ParticleFunc());
+            StartCoroutine(RunExemptionParticle());
         }
+    }
+
+    public IEnumerator OlympicMethod(int playerId, GameObject VirtualCamera)
+    {
+        bool haveBuilding = false;
+
+        // 자신의 소유인 타일이 있다면 플래그를 활성화하고 사운드 재생
+        for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
+        {
+            if (TileManager.Instance.tiles[i].ownPlayer == playerId)
+            {
+                AudioManager.Instance.Play("Olympics_Sound");
+                haveBuilding = true;
+                break;
+            }
+        }
+
+        if (haveBuilding)
+        {
+            // 캐릭터를 비추는 카메라를 비활성화하고 맵을 비출때까지 대기
+            VirtualCamera.SetActive(false);
+            yield return new WaitForSeconds(1f);
+
+            // 자신이 소유중인 타일에 파티클을 활성화
+            for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
+            {
+                if (TileManager.Instance.tiles[i].ownPlayer == playerId)
+                {
+                    TileManager.Instance.tiles[i].price *= 2;
+                    TileManager.Instance.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(true);
+                    yield return new WaitForSeconds(0.1f);
+                }
+            }
+
+            yield return new WaitForSeconds(1f);
+
+            // 활성화한 파티클을 다시 비활성화
+            for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
+            {
+                if (TileManager.Instance.tiles[i].ownPlayer == playerId)
+                {
+                    TileManager.Instance.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(false);
+                }
+            }
+        }
+    }
+
+    public IEnumerator RunExemptionParticle()
+    {
+        if (theCardManager == null) theCardManager = GameObject.Find("CardManager").GetComponent<CardManager>();
+
+        // 천사꼬꼬 카드를 찾아서 삭제
+        for (int i = 0; i < GameManager.Instance.nowPlayer.cards.Count; i++)
+        {
+            if (GameManager.Instance.nowPlayer.cards[i].cardCode == 6)
+            {
+                GameManager.Instance.nowPlayer.cards.RemoveAt(i);
+                Destroy(GameManager.Instance.nowPlayer.cardParent.GetChild(0).gameObject);
+                break;
+            }
+        }
+
+        // 오디오 재생 및 파티클 실행
+        AudioManager.Instance.Play("TollExemption_Sound");
+
+        theCardManager.exemptionParticle.transform.position = GameManager.Instance.nowPlayer.transform.position;
+        theCardManager.exemptionParticle.gameObject.SetActive(true);
+        theCardManager.exemptionParticle.Play();
+
+        yield return new WaitForSeconds(1f);
+
+        theCardManager.exemptionParticle.gameObject.SetActive(false);
+
+        // 천사꼬꼬 카드가 더 있다면 플래그를 다시 켜줌
+        for (int i = 0; i < GameManager.Instance.nowPlayer.cards.Count; i++)
+        {
+            if (GameManager.Instance.nowPlayer.cards[i].cardCode == 6)
+            {
+                GameManager.Instance.nowPlayer.exemptionFlag = true;
+                break;
+            }
+            else GameManager.Instance.nowPlayer.exemptionFlag = false;
+        }
+
+        GameManager.Instance.NextTurnFunc();
     }
 }

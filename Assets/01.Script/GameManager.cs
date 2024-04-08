@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
 {
     #region instance
     private static GameManager _instance;
-
     public static GameManager Instance
     {
         get
@@ -22,155 +21,117 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    // 플레이어 이미지 스프라이트
-    public Sprite[] signSprites = new Sprite[2];
-    // public BuildingType[] buildingSprite = new BuildingType[1];
-    // 모든 카드의 정보를 담는 Card 배열
-    public Card[] cards;
-
-    // 모든 빌딩의 정보를 담는 Building 배열
-    public Building[] buildings = new Building[4];
-
-    //전체 플레이어 리스트
+    [Header("Player")]
+    // 게임에 참가하는 플레이어
     public PlayerManager[] players = new PlayerManager[2];
-    // 현재 턴을 가진 플레이어 정보
+    // 플레이어의 이미지
+    public Sprite[] signSprites = new Sprite[2];
+    // 턴이 돌아온 플레이어
     public PlayerManager nowPlayer;
-    public PlayerManager controlPlayer;
-
-    // 현재 진행된 턴 수
-    public int turnCount;
-
-    // 턴을 종료하고 턴을 넘기는 체크 플래그
-    public bool nextTurn = false;
-
-    //UI가 활성화 되어있는지 확인하는 플래그
-    public bool UIFlag = false;
-
-    // 투시, 레이저빔의 카드 사용이 완료되었는지 체크하는 플래그
-    public bool penetrateComplete = true;
-    public bool laserComplete = true;
-
-    // 카드를 담을 GameObject
-    public GameObject cardsObj;
-    // 카드 Prefab
-    public GameObject cardPrefab;
-
-    TurnSignScript theTSI;
-    TileManager theTM;
-
-    public GameObject clickedTile;
-
-    public GameObject seletedTile; //텔레포트 활성화 시 다음턴에 움질일 위치 정함.
-    public GameObject tpImg; //텔레포트 활성화 시 표시할 그림
-
-    // 투시를 사용하면 카드들을 보여줄 오브젝트
-    public GameObject showCardListObject;
-    // 카드를 획득하면 보여줄 오브젝트
-    public GameObject showCardObject;
-    // 카드 이미지만 담은 프리팹
-    public GameObject onlyCardImg;
-
-
-    #region Turn
-    [Header("TurnCard")]
-    public List<int> playerCount = new();
-    public int turnIndex; //자신이 몇번째 턴인지 정보 저장.
-
-    public List<GameObject> turnCards = new List<GameObject>();
-
-    public GameObject turnCardParent;
-
+    // 플레이어가 컨트롤하는 플레이어
     public PlayerManager myCharactor;
 
-    #endregion
 
-    #region Dice
-    public int diceNum;
-    #endregion
+    [Space(10), Header("Card")]
+    // 카드 7종의 정보를 담은 카드
+    public Card[] cards;
+    // 획득한 카드가 들어갈 오브젝트
+    public GameObject cardsObj;
+    // 카드 프리팹
+    public GameObject cardPrefab;
+    // 카드 획득 시 카드가 담길 오브젝트
+    public GameObject showCardObject;
+    // 카드 이미지 프리팹
+    public GameObject onlyCardImg;
+    // 턴 카드 리스트
+    public List<GameObject> turnCards = new List<GameObject>();
+    // 턴 카드가 들어갈 오브젝트
+    public GameObject turnCardParent;
 
-    [SerializeField] GameObject player1TurnImg, player2TurnImg;
+
+    [Space(10), Header("Building")]
+    // 빌딩 4종의 정보를 담은 빌딩
+    public Building[] buildings = new Building[4];
+
+
+    [Space(10), Header("Trun")]
+    // 턴 카드를 뽑은 횟수
+    public List<int> playerCount = new();
+    // 현재 진행된 턴 수
+    public int turnCount;
+    // 플레이어의 턴 순서
+    public int turnIndex;
+    // 턴을 넘기는 플래그
+    public bool nextTurn;
+
+
+    [Space(10), Header("Flag")]
+    public bool UIFlag = false;
+    public bool laserComplete = true;
     public bool isActiveTurnImage;
-    public GameObject player1TeleportEffect, player2TeleportEffect;
-    public GameObject gameOverUI;
 
+
+    [Space(10), Header("UI")]
+    [SerializeField] GameObject player1TurnImg;
+    [SerializeField] GameObject player2TurnImg;
+    public GameObject player1TeleportEffect, player2TeleportEffect;
     public GameObject player1_floatingObject, player2_floatingObject;
     public GameObject floatingTextPrefab;
-
-    //server
-    public bool successFalg = false;
-
-    //Invisible
-    public int invisibleCardNum = -1;
-
-    //파티클
-    public ParticleSystem exemptionParticle;
-
-    //재시작 버튼
+    public GameObject gameOverUI;
     public GameObject RestartBtn;
 
-    public Sprite[] turnCardImage;
 
-    // Start is called before the first frame update
+    [Space(10), Header("ETC")]
+    // 타일 선택 시 선택된 타일
+    public GameObject seletedTile;
+    public int diceNum;
+    public int invisibleCardNum = -1;
+
+    TurnSignScript theTSI;
+
+
     void Start()
     {
-        //턴 선택 카드 번호 랜덤으로 설정
         TurnCardSet tsdata = new(Random.Range(0, 2));
         string jsonData = JsonUtility.ToJson(tsdata);
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.TurnCardSet, jsonData);
         Backend.Match.SendDataToInGameRoom(data);
 
-        theTM = FindObjectOfType<TileManager>();
-        theTSI = FindObjectOfType<TurnSignScript>();
         AudioManager.Instance.Play("MainGame_Sound");
+        theTSI = FindObjectOfType<TurnSignScript>();
 
         StartCoroutine(RestartCoroutine());
     }
-    
+
     void Update()
     {
-        //이 모든 과정을 턴 카드를 뽑았을때 실행되도록 수정.
-        //턴카드를 뽑았을 때, palyerCount가 1씩 증가. 길이가 2가 됐다면 플레이어가 모두 카드를 뽑았다는 뜻. 이때부터 게임 시작.
-        if (playerCount.Count > 1)
+        // 모든 플레이어가 턴카드를 뽑았고, 턴이 넘어갔을 때
+        if (playerCount.Count > 1 && nextTurn)
         {
-            //여기서 컨트롤 플레이어에 맞춰서 카드 보여줘야될거같은데
-            //사실 컨트롤 플레이어가 필요없긴 한데... 일단 그런 식으로 할꺼다라는 말.
+            nextTurn = false;
+            theTSI.cursorPos = 1;
 
-            // 턴을 종료하고 상대 턴으로 넘어갔다면
-            if (nextTurn)
+            if (turnCount % 2 == turnIndex)
             {
-                print("turnCount is " + turnCount % 2);
-                CardListUpdate();
-                if (turnCount % 2 == turnIndex)
-                {
-                    //player의 myturn을 하나로 만들어야될듯....
-                    // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
-                    myCharactor.myTurn = true;
-                    nowPlayer = myCharactor;
-                }
-                else
-                {
-                    // 각각의 플레이어의 myTurn을 바꿔주고 nowPlayer를 현재 턴을 가진 플레이어로 바꿈
-                    myCharactor.myTurn = false;
-                    nowPlayer = myCharactor.againstPlayer;
-                    if (nowPlayer.tpFlag)
-                    {
-                        nowPlayer.myTurn = true;
-                    }
-                }
-                AudioManager.Instance.Play("TurnChange_Sound");
-
-                nextTurn = false;
-                theTSI.cursorPos = 1;
-                StartCoroutine(TurnImgCoroutine(turnCount % 2));
+                myCharactor.myTurn = true;
+                nowPlayer = myCharactor;
             }
-        }
+            else
+            {
+                myCharactor.myTurn = false;
+                nowPlayer = myCharactor.againstPlayer;
+                if (nowPlayer.tpFlag) nowPlayer.myTurn = true;
+            }
 
+            AudioManager.Instance.Play("TurnChange_Sound");
+            StartCoroutine(TurnImgCoroutine(turnCount % 2));
+            CardListUpdate();
+        }
     }
 
     // 플레이어가 가진 카드의 목록 업데이트
     public void CardListUpdate()
     {
-        // 카드를 1개 이상 가지고 있다면 전부 삭제
         if (cardsObj.transform.childCount != 0)
         {
             for (int i = 0; i < cardsObj.transform.childCount; i++)
@@ -179,62 +140,60 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // 삭제 이후 플레이어가 가진 카드 갯수만큼 다시 복제 (복제가 안되는 오류가 간간히 있음.)
         if (myCharactor.cards.Count > 0)
         {
             for (int i = 0; i < myCharactor.cards.Count; i++)
             {
-                // 카드 프리팹을 복제한 이후, 위치를 맞춰주고, 카드의 정보와 이미지를 바꿔준다.
                 var _card = Instantiate(cardPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, cardsObj.transform);
                 _card.transform.localPosition = new Vector3(0f, 0f, 0f);
                 _card.GetComponent<CardManager>().cardInfo = myCharactor.cards[i];
-                _card.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.cards[myCharactor.cards[i].cardCode - 1].cardImg; //PPtr에러 
+                _card.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.cards[myCharactor.cards[i].cardCode - 1].cardImg;
             }
         }
     }
 
+    // 턴 넘기기 및 게임오버 체크
     public void NextTurnFunc()
     {
-        if (CheckGameOver() < 2)
+        int gameOver = CheckGameOver();
+
+        // Player1 승리
+        if (gameOver == 1)
         {
-            //GameOver
             UIManager.Instance.gameoverUI.SetActive(true);
+            UIManager.Instance.goImg.GetComponent<UnityEngine.UI.Image>().sprite = UIManager.Instance.winImg[0];
+
             MatchGameResult matchGameResult = new MatchGameResult();
 
-            UserData user = BackendGameData.Instance.GameDataGet(); //유저의 승률을 가져오기 위한 변수
-
-            if (CheckGameOver() == 1)
+            if (myCharactor == players[0])
             {
-                //player2 패배
-                UIManager.Instance.goImg.GetComponent<UnityEngine.UI.Image>().sprite = UIManager.Instance.winImg[0];
-
-                if (myCharactor == GameManager.Instance.players[0])
-                {
-                    UIManager.Instance.goTitle.text = "WIN!";
-                    UIManager.Instance.goMoney.text = GameManager.Instance.myCharactor.playerMoney.ToString();
-                }
-                else
-                {
-                    UIManager.Instance.goTitle.text = "LOSE..";
-                    UIManager.Instance.goMoney.text = GameManager.Instance.myCharactor.playerMoney.ToString();
-                }
+                UIManager.Instance.goTitle.text = "WIN!";
+                UIManager.Instance.goMoney.text = myCharactor.playerMoney.ToString();
             }
-            if (CheckGameOver() == 0)
+            else
             {
-                UIManager.Instance.goImg.GetComponent<UnityEngine.UI.Image>().sprite = UIManager.Instance.winImg[1];
+                UIManager.Instance.goTitle.text = "LOSE..";
+                UIManager.Instance.goMoney.text = myCharactor.playerMoney.ToString();
+            }
+            Backend.Match.MatchEnd(matchGameResult);
+        }
+        // Player2 승리
+        else if (gameOver == 0)
+        {
+            UIManager.Instance.gameoverUI.SetActive(true);
+            UIManager.Instance.goImg.GetComponent<UnityEngine.UI.Image>().sprite = UIManager.Instance.winImg[1];
 
-                if (myCharactor == GameManager.Instance.players[1])
-                {
-                    UIManager.Instance.goTitle.text = "WIN!";
-                    UIManager.Instance.goMoney.text = GameManager.Instance.myCharactor.playerMoney.ToString();
-                }
-                else
-                {
+            MatchGameResult matchGameResult = new MatchGameResult();
 
-                    UIManager.Instance.goTitle.text = "LOSE..";
-                    UIManager.Instance.goMoney.text = GameManager.Instance.myCharactor.playerMoney.ToString();
-                }
-
+            if (myCharactor == players[1])
+            {
+                UIManager.Instance.goTitle.text = "WIN!";
+                UIManager.Instance.goMoney.text = myCharactor.playerMoney.ToString();
+            }
+            else
+            {
+                UIManager.Instance.goTitle.text = "LOSE..";
+                UIManager.Instance.goMoney.text = myCharactor.playerMoney.ToString();
             }
             Backend.Match.MatchEnd(matchGameResult);
         }
@@ -248,40 +207,36 @@ public class GameManager : MonoBehaviour
     IEnumerator TurnImgCoroutine(int turn)
     {
         isActiveTurnImage = true;
+
         if (turn == 1)
         {
             player1TurnImg.SetActive(true);
+
             yield return new WaitForSeconds(1f);
+
             player1TurnImg.SetActive(false);
-            // players[0].downInformationText.gameObject.SetActive(true);
-            // players[1].downInformationText.gameObject.SetActive(false);
         }
         if (turn == 0)
         {
             player2TurnImg.SetActive(true);
+
             yield return new WaitForSeconds(1f);
+
             player2TurnImg.SetActive(false);
-            // players[0].downInformationText.gameObject.SetActive(false);
-            // players[1].downInformationText.gameObject.SetActive(true);
         }
-        if (GameManager.Instance.myCharactor.myTurn)
-        {
-            GameManager.Instance.myCharactor.downInformationText.gameObject.SetActive(true);
-        }
-        else
-        {
-            GameManager.Instance.myCharactor.downInformationText.gameObject.SetActive(false);
-        }
+
+        if (myCharactor.myTurn) myCharactor.downInformationText.gameObject.SetActive(true);
+        else myCharactor.downInformationText.gameObject.SetActive(false);
+
         isActiveTurnImage = false;
     }
 
     int CheckGameOver()
     {
         int i;
-        for (i = 0; i < GameManager.Instance.players.Length; i++)
+        for (i = 0; i < players.Length; i++)
         {
-            if (players[i].playerMoney < 0)
-                return i;
+            if (players[i].playerMoney < 0) return i;
         }
         return i;
     }
@@ -290,12 +245,10 @@ public class GameManager : MonoBehaviour
     {
         if (_player.playerId == 0)
         {
-            // 플로팅 텍스트 프리팹 복제 및 텍스트 정렬
             GameObject prefab = Instantiate(floatingTextPrefab, player1_floatingObject.transform);
             prefab.transform.GetChild(0).GetComponent<TMP_Text>().alignment = TextAlignmentOptions.Left;
             prefab.transform.GetChild(1).GetComponent<TMP_Text>().alignment = TextAlignmentOptions.Left;
 
-            // 부호에 따라 텍스트 내용과 색상을 바꿔줌
             if (sign)
             {
                 prefab.transform.GetChild(0).GetComponent<TMP_Text>().text = "+" + _value.ToString();
@@ -311,12 +264,10 @@ public class GameManager : MonoBehaviour
         }
         else if (_player.playerId == 1)
         {
-            // 플로팅 텍스트 프리팹 복제 및 텍스트 정렬
             GameObject prefab = Instantiate(floatingTextPrefab, player2_floatingObject.transform);
             prefab.transform.GetChild(0).GetComponent<TMP_Text>().alignment = TextAlignmentOptions.Right;
             prefab.transform.GetChild(1).GetComponent<TMP_Text>().alignment = TextAlignmentOptions.Right;
 
-            // 부호에 따라 텍스트 내용과 색상을 바꿔줌
             if (sign)
             {
                 prefab.transform.GetChild(0).GetComponent<TMP_Text>().text = "+" + _value.ToString();
@@ -331,94 +282,6 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    public IEnumerator OlympicMethod(int playerId, GameObject VirtualCamera)
-    {
-        print("올림픽 입장");
-        bool haveBuilding = false;
-
-        // 자신의 소유인 타일이 있다면 플래그를 활성화하고 사운드 재생
-        for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
-        {
-            if (theTM.tiles[i].ownPlayer == playerId)
-            {
-                print("사운드 재생");
-                haveBuilding = true;
-                AudioManager.Instance.Play("Olympics_Sound");
-                break;
-            }
-        }
-
-        if (haveBuilding)
-        {
-            print("카메라 효과 시작");
-            // 캐릭터를 비추는 카메라를 비활성화하고 맵을 비출때까지 대기
-            VirtualCamera.SetActive(false);
-            yield return new WaitForSeconds(1f);
-
-            // 자신이 소유중인 타일에 파티클을 활성화
-            for (int i = 0; i < theTM.tiles.Length; i++)
-            {
-                if (TileManager.Instance.tiles[i].ownPlayer == playerId)
-                {
-                    print("파티클 활성화");
-                    TileManager.Instance.tiles[i].price *= 2;
-                    TileManager.Instance.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(true);
-                    yield return new WaitForSeconds(0.1f);
-                }
-            }
-
-            yield return new WaitForSeconds(1f);
-
-            // 활성화한 파티클을 다시 비활성화
-            for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
-            {
-                if (TileManager.Instance.tiles[i].ownPlayer == playerId)
-                {
-                    TileManager.Instance.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(false);
-                }
-            }
-            print("올림픽 완료");
-        }
-    }
-
-    public IEnumerator ParticleFunc()
-    {
-        for (int i = 0; i < nowPlayer.cards.Count; i++)
-        {
-            if (nowPlayer.cards[i].cardCode == 6) //카드코드 7은 면제카드(혹시나 수정할일 있으면 수정)
-            {
-                nowPlayer.cards.RemoveAt(i);
-                Destroy(nowPlayer.cardParent.GetChild(0).gameObject);
-                print("cardFind!");
-                break;
-            }
-        }
-        AudioManager.Instance.Play("TollExemption_Sound");
-        print("사운드 출력");
-        exemptionParticle.transform.position = nowPlayer.transform.position;
-        exemptionParticle.gameObject.SetActive(true);
-        exemptionParticle.Play();
-        yield return new WaitForSeconds(1f);
-        exemptionParticle.gameObject.SetActive(false);
-        print("파티클 출력");
-
-        // 카드 효과를 사용했으니 flag를 false로 바꿔줌
-        print("플래그를 바꿔줌");
-        nowPlayer.exemptionFlag = false;
-
-        // 통행료 면제 카드가 더 있다면 플래그를 다시 켜줌
-        for (int i = 0; i < nowPlayer.cards.Count; i++)
-        {
-            if (nowPlayer.cards[i].cardCode == 6)
-            {
-                nowPlayer.exemptionFlag = true;
-                break;
-            }
-        }
-
-        print("exemptionFlag Finish");
-        NextTurnFunc();
-    }
 
     IEnumerator RestartCoroutine()
     {
@@ -426,18 +289,4 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(5f);
         RestartBtn.SetActive(true);
     }
-
 }
-
-class GameOverClass
-{
-    public bool overFlag;
-    public SessionId sessionId;
-
-    public GameOverClass(bool _overFlag, SessionId _sessionId)
-    {
-        overFlag = _overFlag;
-        sessionId = _sessionId;
-    }
-}
-
