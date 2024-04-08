@@ -6,8 +6,7 @@ using BackEnd;
 using BackEnd.Tcp;
 using UnityEngine.SceneManagement;
 using System.Text;
-using UnityEngine.UI;
-
+using UnityEngine.UI; 
 #endregion
 public class EventManager : MonoBehaviour
 {
