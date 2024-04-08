@@ -8591,7 +8591,7 @@ MonoBehaviour:
   playerId: 1
   playerMoney: 500
   playerMoneyText: {fileID: 1674247640}
-  moveSpeed: 0
+  moveSpeed: 4
   myTurnImg: {fileID: 12135980}
   diceNum: 1
   isMoving: 0
@@ -13611,7 +13611,7 @@ MonoBehaviour:
   playerId: 0
   playerMoney: 500
   playerMoneyText: {fileID: 1244230541}
-  moveSpeed: 0
+  moveSpeed: 4
   myTurnImg: {fileID: 315419175}
   diceNum: 2
   isMoving: 0
