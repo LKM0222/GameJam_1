@@ -52,5 +52,5 @@
         "Temp/": true
     },
     "dotnet.preferCSharpExtension": true,
-    "dotnet.defaultSolution": "GameJam_1.sln"
+    "dotnet.defaultSolution": "2023Gamezam Hudadark.sln"
 }
