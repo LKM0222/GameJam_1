@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using System.Threading.Tasks;
 using BackEnd;
 using UnityEngine.SceneManagement;
-using System;
 using BackEnd.Tcp;
 
 public class ButtonManager : MonoBehaviour
@@ -25,7 +24,7 @@ public class ButtonManager : MonoBehaviour
     public Text SignupText;
     public Text SignupHeader;
     int result;
-    
+
     [Header("TurnCard")]
     public int turnNum, turncardIdx;
 
@@ -43,7 +42,8 @@ public class ButtonManager : MonoBehaviour
     }
     #endregion
 
-    public async void SignUpBtn() //회원가입 버튼
+    //회원가입 버튼
+    public async void SignUpBtn()
     {
         AudioManager.Instance.Play("MenuClick_Sound");
 
@@ -51,6 +51,7 @@ public class ButtonManager : MonoBehaviour
         {
             result = BackendLogin.Instance.CustomSignUp(signIdInput.text, signPwInput.text, signNickNameInput.text, signEmailInput.text);
         });
+
         SignupUI.SetActive(true);
         switch (result)
         {
@@ -108,19 +109,20 @@ public class ButtonManager : MonoBehaviour
         SceneManager.LoadScene("TitleScene");
 
     }
-    
+
     //대기방 생성 매칭서버 접속은 여기서 하지 않고, 로그인 시 자동으로 이뤄져야함.
     public void MatchingBtn()
     {
         AudioManager.Instance.Play("MenuClick_Sound");
 
-        MenuSceneManager.Instance.coroFlag = true;
+        MenuSceneManager.Instance.timerFlag = true;
         StartCoroutine(MenuSceneManager.Instance.TimerCoroutine());
 
         MatchManager.Instance.CreateMatchingRoom();
+
         //매칭룸을 생성했을때 호출되는 이벤트
         Backend.Match.OnMatchMakingRoomCreate = (MatchMakingInteractionEventArgs args) =>
-        { 
+        {
             if (args.ErrInfo == ErrorCode.Success)
             {
                 RequestMatchMaking();
@@ -135,8 +137,9 @@ public class ButtonManager : MonoBehaviour
 
         Backend.Match.CancelMatchMaking();
         Backend.Match.LeaveMatchRoom();
+
         //타이머 코루틴 해제 후 텍스트 초기화
-        MenuSceneManager.Instance.coroFlag = false;
+        MenuSceneManager.Instance.timerFlag = false;
         MenuSceneManager.Instance.timerText.text = "00:00";
     }
 
@@ -170,8 +173,7 @@ public class ButtonManager : MonoBehaviour
         AudioManager.Instance.Play("UseCard_Sound");
 
         if (GameManager.Instance.turnIndex == -1)
-        { //묶어주지 않으면 계속 선택이 가능함...
-            //턴 인덱스가 0이면 아직 내 턴카드를 선택하지 않은것.
+        {
             GameManager.Instance.turnIndex = turnNum; //나의 턴을 저장.
 
             if (GameManager.Instance.turnIndex == 1)

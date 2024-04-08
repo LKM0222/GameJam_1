@@ -6,38 +6,45 @@ using BackEnd.Tcp;
 
 public class MatchManager : MonoBehaviour
 {
-    
+
     private static MatchManager _instance = null;
 
     public List<MatchCard> matchCards = new List<MatchCard>();
 
     public MatchCard matchCard;
 
-    public static MatchManager Instance { 
-        get {
-            if(_instance == null){
+    public static MatchManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
                 _instance = new MatchManager();
             }
             return _instance;
         }
     }
 
-    public void CreateMatchingRoom(){
+    public void CreateMatchingRoom()
+    {
         CreateMatchRoom();//대기방 생성
         GetMatchList(); //추후 매칭신청을 위해 카드 리스트 가져와야함.
     }
 
-    public void Join(){
+    public void Join()
+    {
         ErrorInfo errorInfo;
-        if(Backend.Match.JoinMatchMakingServer(out errorInfo)){ }
+        if (Backend.Match.JoinMatchMakingServer(out errorInfo)) { }
     }
-    
-    void CreateMatchRoom(){
+
+    void CreateMatchRoom()
+    {
         Backend.Match.CreateMatchRoom();
     }
 
     //인게임 리퀘스트 함수
-    public void RequestMatchMaking(){
+    public void RequestMatchMaking()
+    {
         GetMatchList();
         matchCard = matchCards[0];
         Backend.Match.RequestMatchMaking(matchCard.matchType, matchCard.matchModeType, matchCard.inDate);
@@ -49,7 +56,7 @@ public class MatchManager : MonoBehaviour
         Debug.Log("start GetmatchList");
         var callback = Backend.Match.GetMatchList();
 
-        if(!callback.IsSuccess())
+        if (!callback.IsSuccess())
         {
             Debug.LogError("Backend.Match.GetMatchList Error : " + callback);
             return;
@@ -63,7 +70,7 @@ public class MatchManager : MonoBehaviour
 
         MatchCard matchCard = new MatchCard();
 
-        for(int i = 0; i < matchCardListJson.Count; i++)
+        for (int i = 0; i < matchCardListJson.Count; i++)
         {
             matchCard.inDate = matchCardListJson[i]["inDate"].ToString();
             matchCard.result_processing_type = matchCardListJson[i]["result_processing_type"].ToString();
@@ -73,7 +80,8 @@ public class MatchManager : MonoBehaviour
             string matchType = matchCardListJson[i]["matchType"].ToString();
             string matchModeType = matchCardListJson[i]["matchModeType"].ToString();
 
-            switch(matchType){
+            switch (matchType)
+            {
                 case "random":
                     matchCard.matchType = BackEnd.Tcp.MatchType.Random;
                     break;
@@ -87,15 +95,16 @@ public class MatchManager : MonoBehaviour
                     break;
             }
 
-            switch(matchModeType){
+            switch (matchModeType)
+            {
                 case "Melee":
                     matchCard.matchModeType = BackEnd.Tcp.MatchModeType.Melee;
                     break;
-                
+
                 case "TeamOnTeam":
                     matchCard.matchModeType = BackEnd.Tcp.MatchModeType.TeamOnTeam;
                     break;
-                
+
                 case "OneOnOne":
                     matchCard.matchModeType = BackEnd.Tcp.MatchModeType.OneOnOne;
                     break;
@@ -108,35 +117,35 @@ public class MatchManager : MonoBehaviour
             matchCard.transit_to_sandbox_timeout_ms = int.Parse(matchCardListJson[i]["transit_to_sandbox_timeout_ms"].ToString());
             matchCard.match_start_waiting_time_s = int.Parse(matchCardListJson[i]["match_start_waiting_time_s"].ToString());
 
-            if(matchCardListJson[i].ContainsKey("match_increment_time_s"))
+            if (matchCardListJson[i].ContainsKey("match_increment_time_s"))
             {
                 matchCard.match_increment_time_s = int.Parse(matchCardListJson[i]["match_increment_time_s"].ToString());
             }
-            if(matchCardListJson[i].ContainsKey("maxMatchRange"))
+            if (matchCardListJson[i].ContainsKey("maxMatchRange"))
             {
                 matchCard.maxMatchRange = int.Parse(matchCardListJson[i]["maxMatchRange"].ToString());
             }
-            if(matchCardListJson[i].ContainsKey("increaseAndDecrease"))
+            if (matchCardListJson[i].ContainsKey("increaseAndDecrease"))
             {
                 matchCard.increaseAndDecrease = int.Parse(matchCardListJson[i]["increaseAndDecrease"].ToString());
             }
-            if(matchCardListJson[i].ContainsKey("initializeCycle"))
+            if (matchCardListJson[i].ContainsKey("initializeCycle"))
             {
                 matchCard.initializeCycle = matchCardListJson[i]["initializeCycle"].ToString();
             }
-            if(matchCardListJson[i].ContainsKey("defaultPoint"))
+            if (matchCardListJson[i].ContainsKey("defaultPoint"))
             {
                 matchCard.defaultPoint = int.Parse(matchCardListJson[i]["defaultPoint"].ToString());
             }
 
-            if(matchCardListJson[i].ContainsKey("savingPoint"))
+            if (matchCardListJson[i].ContainsKey("savingPoint"))
             {
-                if(matchCardListJson[i]["savingPoint"].IsArray)
+                if (matchCardListJson[i]["savingPoint"].IsArray)
                 {
-                    for(int listNum = 0; listNum < matchCardListJson[i]["savingPoint"].Count; listNum++)
+                    for (int listNum = 0; listNum < matchCardListJson[i]["savingPoint"].Count; listNum++)
                     {
                         var keyList = matchCardListJson[i]["savingPoint"][listNum].Keys;
-                        foreach(var key in keyList)
+                        foreach (var key in keyList)
                         {
                             matchCard.savingPoint.Add(key, int.Parse(matchCardListJson[i]["savingPoint"][listNum][key].ToString()));
                         }
@@ -144,7 +153,7 @@ public class MatchManager : MonoBehaviour
                 }
                 else
                 {
-                    foreach(var key in matchCardListJson[i]["savingPoint"].Keys)
+                    foreach (var key in matchCardListJson[i]["savingPoint"].Keys)
                     {
                         matchCard.savingPoint.Add(key, int.Parse(matchCardListJson[i]["savingPoint"][key].ToString()));
                     }
@@ -153,11 +162,12 @@ public class MatchManager : MonoBehaviour
             matchCardList.Add(matchCard);
         }
 
-        foreach(var matchcard in matchCardList)
+        foreach (var matchcard in matchCardList)
         {
             Debug.Log(matchcard.ToString());
         }
-        if(matchCardList.Count > 0){
+        if (matchCardList.Count > 0)
+        {
             matchCards = matchCardList;
             Debug.Log("list idx 0 is " + matchCardList[0]);
         }
@@ -187,7 +197,7 @@ public class MatchCard
     public override string ToString()
     {
         string savingPointString = "savingPont : \n";
-        foreach(var dic in savingPoint)
+        foreach (var dic in savingPoint)
         {
             savingPointString += $"{dic.Key} : {dic.Value}\n";
         }

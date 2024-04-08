@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using BackEnd.Tcp;
 using UnityEngine;
 
 #region ParsingClass
@@ -9,7 +8,6 @@ public class ParsingData
 {
     public ParsingType type;
     public string data;
-    //data는 type에 맞춰서 각 클래스를 data로 파싱.
 
     public ParsingData(ParsingType _type, string _data)
     {
@@ -20,7 +18,7 @@ public class ParsingData
 
 public class TurnCardSet
 {
-    public int randomNum; //턴 카드에 저장되는 턴 정보를 저장할 변수(랜덤된 값이 들어감.)
+    public int randomNum;
 
     public TurnCardSet(int _randomNum)
     {
@@ -30,7 +28,8 @@ public class TurnCardSet
 
 public class TurnCard
 {
-    public int turncardIdx; 
+    public int turncardIdx;
+
     public TurnCard(int _turnCardIdx)
     {
         turncardIdx = _turnCardIdx;
@@ -39,8 +38,8 @@ public class TurnCard
 
 public class DiceData
 {
-    public int diceNum; //어느 플레이어든 던진 주사위 값
-    public int playerNum; //어떤 플레이어가 주사위를 던진건지
+    public int diceNum;
+    public int playerNum;
 
     public DiceData(int _diceNum, int _playerNum)
     {
@@ -53,6 +52,7 @@ public class DiceData
 public class BuildingData
 {
     public int buildingNum;
+
     public BuildingData(int _buildingNum)
     {
         buildingNum = _buildingNum;
@@ -86,6 +86,7 @@ public class CardClickData
 public class CardData
 {
     public Card card;
+
     public CardData(Card _card)
     {
         card = _card;
@@ -118,6 +119,7 @@ public class InvisibleData
 public class TileSelectData
 {
     public string tilename;
+
     public TileSelectData(string _tilename)
     {
         tilename = _tilename;
@@ -127,6 +129,7 @@ public class TileSelectData
 public class ExtortionData
 {
     public int playerId;
+
     public ExtortionData(int _id)
     {
         playerId = _id;
@@ -201,7 +204,6 @@ public enum ParsingType
 
 
 //데이터가 송신될때의 클래스 및 데이터 파싱형태를 지정합니다.
-
 public class ParsingManager : MonoBehaviour
 {
     #region Instance_Parsing
@@ -223,7 +225,6 @@ public class ParsingManager : MonoBehaviour
         //Backend.Match.SendDataToinGameRoom에 전달할 데이터 파싱
         ParsingData data = new(_type, _jsonData);
         string jsonData = JsonUtility.ToJson(data);
-        print("ParsingSendData is " + jsonData);
         return Encoding.UTF8.GetBytes(jsonData);
     }
 }
