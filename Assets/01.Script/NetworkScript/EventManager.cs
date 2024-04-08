@@ -13,12 +13,6 @@ public class EventManager : MonoBehaviour
 {
     public static EventManager Instance = null;
 
-    // [Header("Invite Info")]
-    // public MatchMakingUserInfo matchMakingUserInfo;
-    // public SessionId roomId;
-    // public string roomToken;
-    // public bool acceptFlag = false; //초대수락 플래그
-
     [Header("InGameServer")]
     MatchInGameRoomInfo _roomInfo; //인게임에서 방 정보를 전달하기위해 선언해둔 변수
 
@@ -48,7 +42,6 @@ public class EventManager : MonoBehaviour
     private void Start()
     {
         _theGBS = FindObjectOfType<GroundBuyScript>();
-        // theTM = FindObjectOfType<TileManager>();
         theDice = FindObjectOfType<DiceSystem>();
     }
 
@@ -57,21 +50,21 @@ public class EventManager : MonoBehaviour
     {
         Backend.Match.OnMatchMakingRoomLeave = (MatchMakingGamerInfoInRoomEventArgs args) =>
         {
-            // 대기방을 떠나면서 실행되는 핸들러
-            // 대기방을 떠날때, 유저 리스트와 대기방을 나갔다는 로그가 필요함.
-            // 유저 리스트는 좀만 있다가 수정하자. 대기방 나갔다는 로그부터
-            if (args.ErrInfo == ErrorCode.Success)
-            {//성공적으로 퇴장 성공
-                print("매칭룸 퇴장");
-            }
-            if (args.ErrInfo == ErrorCode.InvalidOperation)
-            {//매칭중이라 퇴장 실패
-                Debug.Log("매칭중이라 방에서 나갈 수 없습니다.");
-            }
-            if (args.ErrInfo == ErrorCode.Match_Making_KickedByOwner)
-            { //강퇴당했을경우
+            // // 대기방을 떠나면서 실행되는 핸들러
+            // // 대기방을 떠날때, 유저 리스트와 대기방을 나갔다는 로그가 필요함.
+            // // 유저 리스트는 좀만 있다가 수정하자. 대기방 나갔다는 로그부터
+            // if (args.ErrInfo == ErrorCode.Success)
+            // {//성공적으로 퇴장 성공
+            //     print("매칭룸 퇴장");
+            // }
+            // if (args.ErrInfo == ErrorCode.InvalidOperation)
+            // {//매칭중이라 퇴장 실패
+            //     Debug.Log("매칭중이라 방에서 나갈 수 없습니다.");
+            // }
+            // if (args.ErrInfo == ErrorCode.Match_Making_KickedByOwner)
+            // { //강퇴당했을경우
 
-            }
+            // }
         };
 
         //매칭신청(인게임서버접속 시작)
@@ -83,50 +76,6 @@ public class EventManager : MonoBehaviour
                     args.RoomInfo.m_inGameServerEndPoint.m_port,
                     false, out ErrorInfo errorInfo);
             }
-            // // 유저가 매칭을 신청, 취소 했을 때 그리고 매칭이 성사되었을 때 호출되는 이벤트
-            // switch (args.ErrInfo)
-            // {
-            //     case ErrorCode.Match_InProgress: //매칭신청에 성공하였을때
-            //         Debug.Log("매칭신청 성공");
-            //         break;
-
-            //     case ErrorCode.Success: //매칭이 성사되었을 떄 여기서 인게임 서버 접속시도
-            //         Debug.Log("매칭 성사 , 인게임 서버에 접속 시도합니다.");
-                    
-            //         // if (Backend.Match.JoinGameServer(args.RoomInfo.m_inGameServerEndPoint.m_address,
-            //         // args.RoomInfo.m_inGameServerEndPoint.m_port,
-            //         // false, out ErrorInfo errorInfo) == false)
-            //         // {
-            //         //     //true인 경우, OnSessionJoinInServer 호출.
-            //         //     Debug.Log("errorinfo is" + errorInfo.Reason);
-            //         // }
-            //         // else
-            //         // {
-            //         //     Debug.Log("OnSessionJoinInServer Start");
-            //         // }
-            //         break;
-
-            //     case ErrorCode.Match_MatchMakingCanceled: //매칭 신청을 취소했을때
-            //         //매칭이 성사되었으나 서버에서 인게임 룸 생성에 실패했을 경우(다시 매칭을 신청해야 합니다.)
-            //         Debug.Log("매칭을 취소하였습니다. " + args.Reason);
-            //         break;
-
-            //     case ErrorCode.Match_InvalidModeType: //잘못된 모드 타입으로 신청했을 때
-            //         Debug.Log("잘못된 모드타입 입니다.");
-            //         break;
-
-            //     case ErrorCode.Match_Making_InvalidRoom: //대기방에 허용된 인원보다 많은 인원이 존재하는 경우
-            //         Debug.Log("대기방 안에 허용된 인원보다 많은 인원이 존재합니다." + args.Reason);
-            //         break;
-
-
-            //     case ErrorCode.InvalidOperation:  // 잘못된 요청을 했을 때
-            //         // 잘못된 요청을 했을 때, 매치를 두번 이상 신청했을 때, 방장이 아닌 유저가 매칭 신청을 했을 때, 
-            //         // 방장이 아닌 유저가 매칭을 취소했을 때.
-            //         // 대기방에 2명 이상의 유저가 존재하는데 1:1, 개인전 매칭을 신청한 경우
-            //         Debug.Log("잘못된 요청입니다." + args.Reason);
-            //         break;
-            // }
         };
 
         Backend.Match.OnSessionJoinInServer += (args) =>
@@ -136,23 +85,6 @@ public class EventManager : MonoBehaviour
                 Backend.Match.JoinGameRoom(this._roomInfo.m_inGameRoomToken); //OnMatchMakingResponse에서 전달받은 RoomToken을 여기로 전달.
                 GameManager.Instance.nowPlayer.sessionId = args.Session.SessionId;
             }
-            // else
-            // {
-            //     switch (args.ErrInfo.Category)
-            //     {
-            //         case ErrorCode.Exception:
-            //             Debug.Log("인게임 서버 접속 실패사유 : " + args.ErrInfo.Reason);
-            //             break;
-
-            //         case ErrorCode.AuthenticationFailed:
-            //             Debug.Log("서버에 이전 세션 접속기록이 남아있습니다.");
-            //             break;
-
-            //         default:
-            //             Debug.Log("이외의 오류 : " + args.ErrInfo.Reason);
-            //             break;
-            //     }
-            // }
         };
 
         Backend.Match.OnMatchInGameAccess = (MatchInGameSessionEventArgs args) =>
@@ -288,7 +220,6 @@ public class EventManager : MonoBehaviour
 
                 //건물파괴
                 case ParsingType.Extortion:
-                    print("recv ExtortionData!");
                     ExtortionData extortionData = JsonUtility.FromJson<ExtortionData>(pData.data);
                     Color tileColor = GameManager.Instance.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
                     StartCoroutine(ExtortionAlphaCoroutine(tileColor, extortionData.playerId));
@@ -389,7 +320,6 @@ public class EventManager : MonoBehaviour
                     GameManager.Instance.seletedTile = GameObject.Find(laserData.laserTileNum);
                     theCardManager = GameObject.Find("CardManager").GetComponent<CardManager>();
                     StartCoroutine(theCardManager.LaserCoroutine());
-
                     break;
             }
         };
@@ -447,27 +377,22 @@ public class EventManager : MonoBehaviour
     //양계장 코루틴
     IEnumerator ArriveCoroutine(ParsingData pData)
     {
-        print("도착 코루틴 시작");
         ArriveTileData arriveTileData = JsonUtility.FromJson<ArriveTileData>(pData.data);
         int totalMoney = 0;
-        print("파싱완료");
+
         //타일 체크
         for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
         {
-            print("TileCheck");
             if (TileManager.Instance.tiles[i].ownPlayer == arriveTileData.playerId && TileManager.Instance.tiles[i].building.type == 0) totalMoney += 100;
         }
         GameManager.Instance.nowPlayer.playerMoney += totalMoney;
-        print("돈 추가 완료");
         yield return new WaitForSeconds(0.5f);
         if (totalMoney > 0)
         {
             GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, totalMoney, true);
-            print("플로팅 텍스트 완료");
         }
         GameManager.Instance.NextTurnFunc();
         GameManager.Instance.UIFlag = false;
-        print("nextturn Finish");
     }
 
     //재단 코루틴
@@ -499,8 +424,6 @@ public class EventManager : MonoBehaviour
         // 통행료 면제 카드가 있다면 통행료 징수를 하지 않음
         else
         {
-            print("exemptionFlag is true!");
-            print("Func Start!");
             StartCoroutine(GameManager.Instance.ParticleFunc());
         }
     }
