@@ -11,11 +11,18 @@ using UnityEngine.UI;
 #endregion
 public class EventManager : MonoBehaviour
 {
-    CardManager theCardManager;
-    DiceSystem theDice;
+    public static EventManager Instance = null;
+
+    [Header("InGameServer")]
     MatchInGameRoomInfo _roomInfo; //인게임에서 방 정보를 전달하기위해 선언해둔 변수
 
-    public static EventManager Instance = null;
+
+    #region FindObjectArea
+    GroundBuyScript _theGBS;
+    CardManager theCardManager;
+    DiceSystem theDice;
+    #endregion
+
 
 
     private void Awake()
@@ -33,6 +40,7 @@ public class EventManager : MonoBehaviour
 
     private void Start()
     {
+        _theGBS = FindObjectOfType<GroundBuyScript>();
         theDice = FindObjectOfType<DiceSystem>();
     }
 
@@ -41,25 +49,17 @@ public class EventManager : MonoBehaviour
         // 대기방을 떠나면서 실행되는 핸들러
         Backend.Match.OnMatchMakingRoomLeave = (MatchMakingGamerInfoInRoomEventArgs args) =>
         {
-
+            //Todo
         };
 
         //매칭신청(인게임서버접속 시작)
         Backend.Match.OnMatchMakingResponse = (MatchMakingResponseEventArgs args) =>
         {
-            // 유저가 매칭을 신청, 취소 했을 때 그리고 매칭이 성사되었을 때 호출되는 이벤트
-            switch (args.ErrInfo)
-            {
-                case ErrorCode.Success: //매칭이 성사되었을 떄 여기서 인게임 서버 접속시도
-
-                    //true인 경우, OnSessionJoinInServer 호출.
-                    if (Backend.Match.JoinGameServer(args.RoomInfo.m_inGameServerEndPoint.m_address,
+            if(args.ErrInfo == ErrorCode.Success){
+                _roomInfo = args.RoomInfo; //추후에 roomToken을 써야되기 때문에 따로 저장
+                    Backend.Match.JoinGameServer(args.RoomInfo.m_inGameServerEndPoint.m_address,
                     args.RoomInfo.m_inGameServerEndPoint.m_port,
-                    false, out ErrorInfo errorInfo) == false)
-                    {
-
-                    }
-                    break;
+                    false, out ErrorInfo errorInfo);
             }
         };
 
@@ -68,8 +68,7 @@ public class EventManager : MonoBehaviour
         {
             if (args.ErrInfo == ErrorInfo.Success)
             {
-                //OnMatchMakingResponse에서 전달받은 RoomToken을 여기로 전달.
-                Backend.Match.JoinGameRoom(this._roomInfo.m_inGameRoomToken);
+                Backend.Match.JoinGameRoom(this._roomInfo.m_inGameRoomToken); //OnMatchMakingResponse에서 전달받은 RoomToken을 여기로 전달.
             }
         };
 
@@ -345,12 +344,12 @@ public class EventManager : MonoBehaviour
         ArriveTileData arriveTileData = JsonUtility.FromJson<ArriveTileData>(pData.data);
         int totalMoney = 0;
 
+        //타일 체크
         for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
         {
             if (TileManager.Instance.tiles[i].ownPlayer == arriveTileData.playerId && TileManager.Instance.tiles[i].building.type == 0) totalMoney += 100;
         }
         GameManager.Instance.nowPlayer.playerMoney += totalMoney;
-
         yield return new WaitForSeconds(0.5f);
 
         if (totalMoney > 0)
