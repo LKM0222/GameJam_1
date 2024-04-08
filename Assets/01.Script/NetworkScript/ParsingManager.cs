@@ -223,7 +223,6 @@ public class ParsingManager : MonoBehaviour
         //Backend.Match.SendDataToinGameRoom에 전달할 데이터 파싱
         ParsingData data = new(_type, _jsonData);
         string jsonData = JsonUtility.ToJson(data);
-        print("ParsingSendData is " + jsonData);
         return Encoding.UTF8.GetBytes(jsonData);
     }
 }

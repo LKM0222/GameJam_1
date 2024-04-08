@@ -13,11 +13,11 @@ public class EventManager : MonoBehaviour
 {
     public static EventManager Instance = null;
 
-    [Header("Invite Info")]
-    public MatchMakingUserInfo matchMakingUserInfo;
-    public SessionId roomId;
-    public string roomToken;
-    public bool acceptFlag = false; //초대수락 플래그
+    // [Header("Invite Info")]
+    // public MatchMakingUserInfo matchMakingUserInfo;
+    // public SessionId roomId;
+    // public string roomToken;
+    // public bool acceptFlag = false; //초대수락 플래그
 
     [Header("InGameServer")]
     MatchInGameRoomInfo _roomInfo; //인게임에서 방 정보를 전달하기위해 선언해둔 변수
@@ -48,7 +48,7 @@ public class EventManager : MonoBehaviour
     private void Start()
     {
         _theGBS = FindObjectOfType<GroundBuyScript>();
-        theTM = FindObjectOfType<TileManager>();
+        // theTM = FindObjectOfType<TileManager>();
         theDice = FindObjectOfType<DiceSystem>();
     }
 
@@ -77,50 +77,56 @@ public class EventManager : MonoBehaviour
         //매칭신청(인게임서버접속 시작)
         Backend.Match.OnMatchMakingResponse = (MatchMakingResponseEventArgs args) =>
         {
-            // 유저가 매칭을 신청, 취소 했을 때 그리고 매칭이 성사되었을 때 호출되는 이벤트
-            switch (args.ErrInfo)
-            {
-                case ErrorCode.Match_InProgress: //매칭신청에 성공하였을때
-                    Debug.Log("매칭신청 성공");
-                    break;
-
-                case ErrorCode.Success: //매칭이 성사되었을 떄 여기서 인게임 서버 접속시도
-                    Debug.Log("매칭 성사 , 인게임 서버에 접속 시도합니다.");
-                    _roomInfo = args.RoomInfo; //추후에 roomToken을 써야되기 때문에 따로 저장
-                    if (Backend.Match.JoinGameServer(args.RoomInfo.m_inGameServerEndPoint.m_address,
+            if(args.ErrInfo == ErrorCode.Success){
+                _roomInfo = args.RoomInfo; //추후에 roomToken을 써야되기 때문에 따로 저장
+                    Backend.Match.JoinGameServer(args.RoomInfo.m_inGameServerEndPoint.m_address,
                     args.RoomInfo.m_inGameServerEndPoint.m_port,
-                    false, out ErrorInfo errorInfo) == false)
-                    {
-                        //true인 경우, OnSessionJoinInServer 호출.
-                        Debug.Log("errorinfo is" + errorInfo.Reason);
-                    }
-                    else
-                    {
-                        Debug.Log("OnSessionJoinInServer Start");
-                    }
-                    break;
-
-                case ErrorCode.Match_MatchMakingCanceled: //매칭 신청을 취소했을때
-                    //매칭이 성사되었으나 서버에서 인게임 룸 생성에 실패했을 경우(다시 매칭을 신청해야 합니다.)
-                    Debug.Log("매칭을 취소하였습니다. " + args.Reason);
-                    break;
-
-                case ErrorCode.Match_InvalidModeType: //잘못된 모드 타입으로 신청했을 때
-                    Debug.Log("잘못된 모드타입 입니다.");
-                    break;
-
-                case ErrorCode.Match_Making_InvalidRoom: //대기방에 허용된 인원보다 많은 인원이 존재하는 경우
-                    Debug.Log("대기방 안에 허용된 인원보다 많은 인원이 존재합니다." + args.Reason);
-                    break;
-
-
-                case ErrorCode.InvalidOperation:  // 잘못된 요청을 했을 때
-                    // 잘못된 요청을 했을 때, 매치를 두번 이상 신청했을 때, 방장이 아닌 유저가 매칭 신청을 했을 때, 
-                    // 방장이 아닌 유저가 매칭을 취소했을 때.
-                    // 대기방에 2명 이상의 유저가 존재하는데 1:1, 개인전 매칭을 신청한 경우
-                    Debug.Log("잘못된 요청입니다." + args.Reason);
-                    break;
+                    false, out ErrorInfo errorInfo);
             }
+            // // 유저가 매칭을 신청, 취소 했을 때 그리고 매칭이 성사되었을 때 호출되는 이벤트
+            // switch (args.ErrInfo)
+            // {
+            //     case ErrorCode.Match_InProgress: //매칭신청에 성공하였을때
+            //         Debug.Log("매칭신청 성공");
+            //         break;
+
+            //     case ErrorCode.Success: //매칭이 성사되었을 떄 여기서 인게임 서버 접속시도
+            //         Debug.Log("매칭 성사 , 인게임 서버에 접속 시도합니다.");
+                    
+            //         // if (Backend.Match.JoinGameServer(args.RoomInfo.m_inGameServerEndPoint.m_address,
+            //         // args.RoomInfo.m_inGameServerEndPoint.m_port,
+            //         // false, out ErrorInfo errorInfo) == false)
+            //         // {
+            //         //     //true인 경우, OnSessionJoinInServer 호출.
+            //         //     Debug.Log("errorinfo is" + errorInfo.Reason);
+            //         // }
+            //         // else
+            //         // {
+            //         //     Debug.Log("OnSessionJoinInServer Start");
+            //         // }
+            //         break;
+
+            //     case ErrorCode.Match_MatchMakingCanceled: //매칭 신청을 취소했을때
+            //         //매칭이 성사되었으나 서버에서 인게임 룸 생성에 실패했을 경우(다시 매칭을 신청해야 합니다.)
+            //         Debug.Log("매칭을 취소하였습니다. " + args.Reason);
+            //         break;
+
+            //     case ErrorCode.Match_InvalidModeType: //잘못된 모드 타입으로 신청했을 때
+            //         Debug.Log("잘못된 모드타입 입니다.");
+            //         break;
+
+            //     case ErrorCode.Match_Making_InvalidRoom: //대기방에 허용된 인원보다 많은 인원이 존재하는 경우
+            //         Debug.Log("대기방 안에 허용된 인원보다 많은 인원이 존재합니다." + args.Reason);
+            //         break;
+
+
+            //     case ErrorCode.InvalidOperation:  // 잘못된 요청을 했을 때
+            //         // 잘못된 요청을 했을 때, 매치를 두번 이상 신청했을 때, 방장이 아닌 유저가 매칭 신청을 했을 때, 
+            //         // 방장이 아닌 유저가 매칭을 취소했을 때.
+            //         // 대기방에 2명 이상의 유저가 존재하는데 1:1, 개인전 매칭을 신청한 경우
+            //         Debug.Log("잘못된 요청입니다." + args.Reason);
+            //         break;
+            // }
         };
 
         Backend.Match.OnSessionJoinInServer += (args) =>
@@ -130,23 +136,23 @@ public class EventManager : MonoBehaviour
                 Backend.Match.JoinGameRoom(this._roomInfo.m_inGameRoomToken); //OnMatchMakingResponse에서 전달받은 RoomToken을 여기로 전달.
                 GameManager.Instance.nowPlayer.sessionId = args.Session.SessionId;
             }
-            else
-            {
-                switch (args.ErrInfo.Category)
-                {
-                    case ErrorCode.Exception:
-                        Debug.Log("인게임 서버 접속 실패사유 : " + args.ErrInfo.Reason);
-                        break;
+            // else
+            // {
+            //     switch (args.ErrInfo.Category)
+            //     {
+            //         case ErrorCode.Exception:
+            //             Debug.Log("인게임 서버 접속 실패사유 : " + args.ErrInfo.Reason);
+            //             break;
 
-                    case ErrorCode.AuthenticationFailed:
-                        Debug.Log("서버에 이전 세션 접속기록이 남아있습니다.");
-                        break;
+            //         case ErrorCode.AuthenticationFailed:
+            //             Debug.Log("서버에 이전 세션 접속기록이 남아있습니다.");
+            //             break;
 
-                    default:
-                        Debug.Log("이외의 오류 : " + args.ErrInfo.Reason);
-                        break;
-                }
-            }
+            //         default:
+            //             Debug.Log("이외의 오류 : " + args.ErrInfo.Reason);
+            //             break;
+            //     }
+            // }
         };
 
         Backend.Match.OnMatchInGameAccess = (MatchInGameSessionEventArgs args) =>
@@ -286,9 +292,6 @@ public class EventManager : MonoBehaviour
                     ExtortionData extortionData = JsonUtility.FromJson<ExtortionData>(pData.data);
                     Color tileColor = GameManager.Instance.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
                     StartCoroutine(ExtortionAlphaCoroutine(tileColor, extortionData.playerId));
-
-
-
                     break;
 
                 case ParsingType.CardClick:
@@ -335,9 +338,7 @@ public class EventManager : MonoBehaviour
                     break;
 
                 case ParsingType.CardDestory:
-                    print("Destroy");
                     CardDestroyData destroyData = JsonUtility.FromJson<CardDestroyData>(pData.data);
-                    print("Recv : " + destroyData.cardCode);
                     Destroy(destroyData.destoryCard);
                     Destroy(GameManager.Instance.nowPlayer.cardParent.GetChild(0).gameObject);
                     GameManager.Instance.nowPlayer.cards.Remove(GameManager.Instance.nowPlayer.cards.Find(card => card.cardCode == destroyData.cardCode));
@@ -353,7 +354,6 @@ public class EventManager : MonoBehaviour
                     break;
 
                 case ParsingType.ExemptionFlagSet:
-                    print("exemptionFalg true");
                     GameManager.Instance.nowPlayer.exemptionFlag = true;
                     break;
 

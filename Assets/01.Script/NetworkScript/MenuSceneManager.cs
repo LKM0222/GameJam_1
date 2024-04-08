@@ -24,16 +24,16 @@ public class MenuSceneManager : MonoBehaviour
     [Header("MenuText")]
     [SerializeField] Text nickname;
     
-    [Header("Invite Popup")]
-    [SerializeField] GameObject invitePopup; //초대시 띄울 팝업오브젝트
-    [SerializeField] Text inviteInfoText; //초대 팝업 오브젝트에서 누가 초대했는지 알려주는 텍스트
+    // [Header("Invite Popup")]
+    // [SerializeField] GameObject invitePopup; //초대시 띄울 팝업오브젝트
+    // [SerializeField] Text inviteInfoText; //초대 팝업 오브젝트에서 누가 초대했는지 알려주는 텍스트
 
     public bool coroFlag = false; //수정 필요
 
 
-    //log Text
-    [SerializeField] Text matchingLogText;
-    public string matchingLogStr = "";
+    // //log Text
+    // [SerializeField] Text matchingLogText;
+    // public string matchingLogStr = "";
 
     //Timer
     public Text timerText;
