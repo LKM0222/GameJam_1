@@ -50,21 +50,7 @@ public class EventManager : MonoBehaviour
     {
         Backend.Match.OnMatchMakingRoomLeave = (MatchMakingGamerInfoInRoomEventArgs args) =>
         {
-            // // 대기방을 떠나면서 실행되는 핸들러
-            // // 대기방을 떠날때, 유저 리스트와 대기방을 나갔다는 로그가 필요함.
-            // // 유저 리스트는 좀만 있다가 수정하자. 대기방 나갔다는 로그부터
-            // if (args.ErrInfo == ErrorCode.Success)
-            // {//성공적으로 퇴장 성공
-            //     print("매칭룸 퇴장");
-            // }
-            // if (args.ErrInfo == ErrorCode.InvalidOperation)
-            // {//매칭중이라 퇴장 실패
-            //     Debug.Log("매칭중이라 방에서 나갈 수 없습니다.");
-            // }
-            // if (args.ErrInfo == ErrorCode.Match_Making_KickedByOwner)
-            // { //강퇴당했을경우
-
-            // }
+            //Todo
         };
 
         //매칭신청(인게임서버접속 시작)
