@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using BackEnd;
-using BackEnd.Tcp;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -11,55 +10,65 @@ public class PlayerManager : MonoBehaviour
     public int playerId;
     public int playerMoney;
     public Text playerMoneyText;
-    public float moveSpeed;
+    public float moveSpeed = 4f;
+    // 자신이 몇 번째 플레이어인지 나타내는 오브젝트
     public GameObject myTurnImg;
 
-    [Header("Moving")]
+
+    [Space(10), Header("Moving")]
     public int diceNum;
     public bool isMoving;
     public bool canMove;
-    public bool finishMoving; //nowTile동기화를 위해 무빙이 끝났는지 체크하는 플래그
+    public bool finishMoving;
     float movingWaitTime;
+    // 이동할 타일 위치
+    [SerializeField] Vector3 targetPos;
 
 
-    [Header("Tile")]
-    [SerializeField] int tileNum; //플레이어가 서있는 칸의 번호
-    public Tile nowTile; //현재 서 있는 타일의 정보
-    [SerializeField] List<GameObject> tileToGo = new List<GameObject>(); //플레이어가 가야될 타일
+    [Space(10), Header("Tile")]
+    // 타일의 번호
+    [SerializeField] int tileNum;
+    // 현재 서있는 타일
+    public Tile nowTile;
+    // 지나쳐야 할 타일 리스트
+    [SerializeField] List<GameObject> tileToGo = new List<GameObject>();
+    // 마지막 도착할 타일
     int lastTile = 0;
 
-    [Header("Card")]
-    public List<Card> cards = new List<Card>(); //플레이어가 가진 카드
-    public GameObject cardPrefab; // 플레이어의 카드 뒷면 프리팹
-    public Transform cardParent; // 플레이어의 카드 갯수만큼 복제하여 넣을 부모 오브젝트
 
-    [Header("Building")]
-    public int buildingCount = 0;
-    public int groundCount = 0;
+    [Space(10), Header("Card")]
+    // 플레이어의 카드
+    public List<Card> cards = new List<Card>();
+    // 카드 뒷면 프리팹
+    public GameObject cardPrefab;
+    // 보유한 카드의 수를 복제할 위치
+    public Transform cardParent;
 
-    [Header("Buy")]
+
+    [Space(10), Header("Buy")]
     [SerializeField] GameObject groundBuyUi;
     [SerializeField] GameObject purchaseUi;
 
-    [Header("InGameData")]
+
+    [Space(10), Header("InGameData")]
     public bool myTurn;
+    public PlayerManager againstPlayer;
     public Text downInformationText;
     public GameObject VirtualCamera;
-    public PlayerManager againstPlayer;
 
 
-    [Header("SpecialEffect")]
-    public GameObject tpTile; //다음 이동할곳 저장
-    public GameObject blackBackground; //tp활성화 시 맵 이외의 주변이 어둡게 변함.
-    public GameObject teleportEffect;
+    [Space(10), Header("SpecialEffect")]
+    // 텔레포트 할 타일
+    public GameObject tpTile;
+    public GameObject blackBackground;
     public bool tpFlag;
     public bool isSelectingTeleport;
     public bool isExtortioning;
 
-    [Header("CardFlag")]
+
+    [Space(10), Header("CardFlag")]
     public bool highSpeedFlag;
     public bool invisibleFlag;
-    public bool toosiFlag;
     public bool biggerFlag;
     public bool higherDiceFlag;
     public bool lowerDiceFlag;
@@ -69,38 +78,18 @@ public class PlayerManager : MonoBehaviour
     public bool isSetScale;
     public bool isCheckingCard;
 
-    [Header("ScriptReperence")]
+
+    [Space(10), Header("ScriptReperence")]
     public CardManager theCM;
-    GameManager theGM;
-    TileManager theTM;
     TurnSignScript theTSI;
 
-    [Header("Test")]
-    [SerializeField] Vector3 targetPos;
-    public bool specialTurn;
-    public SessionId sessionId;
-
-    // Start is called before the first frame update
     void Start()
     {
-        theTM = FindObjectOfType<TileManager>();
-        theGM = FindObjectOfType<GameManager>();
         theTSI = FindObjectOfType<TurnSignScript>();
-        moveSpeed = 4f;
     }
 
-    // Update is called once per frame
     void Update()
     {
-
-        //의외로 쉬울지도??
-        //내 턴을 알 수만 있다면 내 턴에서 하는것과 상대방턴에서 하는것을 구분할 수 있다.
-        //예를들어서 내 턴이면 내 캐릭터의 PlayerManager를 사용하면 되고,
-        //상대방턴이면 상대방의 PlayerManager를 사용하면 된다.
-        //즉, 턴 구분만 완벽하게 이뤄지면 스크립트의 수정이 거의 없을것.
-
-        //단, 플레이어가 구매하는 행동, 건물을 짓는 행동은 구별해줄 필요가 있다.
-
         playerMoneyText.text = playerMoney.ToString();
 
         if (canMove)
@@ -108,22 +97,17 @@ public class PlayerManager : MonoBehaviour
             StartCoroutine(ReadyToMovePlayerCoroutine());
         }
 
-        if (laserFlag && myTurn) //card
+        if (laserFlag && myTurn)
         {
             laserFlag = false;
             StartCoroutine(theCM.SelectLaserCoroutine());
         }
 
         if (tpFlag && myTurn)
-        //if (tpFlag && GameManager.Instance.turnCount % 2 == GameManager.Instance.turnIndex)
         {
             StartCoroutine(TeleportCoroutine(playerId));
-            if (GameManager.Instance.turnCount % 2 != GameManager.Instance.turnIndex)
-            {
-                myTurn = false;
-            }
+            if (GameManager.Instance.turnCount % 2 != GameManager.Instance.turnIndex) myTurn = false;
         }
-
     }
 
     // 실질적인 이동 전, 카드 사전 작업 및 타일 추가 등을 수행
@@ -139,27 +123,19 @@ public class PlayerManager : MonoBehaviour
         StartCoroutine(CheckUsedCardCoroutine());
         yield return new WaitUntil(() => !isCheckingCard);
 
-        // 주사위 수만큼 tileToGo 리스트에 추가
+        // 주사위 수만큼 밟아야 할 타일을 tileToGo 리스트에 추가
         for (int i = 0; i < diceNum; i++)
         {
-            // 이동할 타일의 번호가 전체 타일의 길이를 넘어간다면 전체 타일 길이만큼 빼줌
-            if (tileNum + i >= theTM.tiles.Length)
-            {
-                tileToGo.Add(theTM.tiles[tileNum + i - theTM.tiles.Length].gameObject);
-            }
-            else
-            {
-                tileToGo.Add(theTM.tiles[tileNum + i].gameObject);
-            }
+            tileToGo.Add(TileManager.Instance.tiles[(tileNum + i) % TileManager.Instance.tiles.Length].gameObject);
         }
 
-        lastTile = (tileNum + diceNum) % theTM.tiles.Length;
+        // 도착 타일을 계산해서 이펙트를 띄워줌
+        lastTile = (tileNum + diceNum) % TileManager.Instance.tiles.Length;
         if (lastTile == 0)
         {
-            lastTile = theTM.tiles.Length;
+            lastTile = TileManager.Instance.tiles.Length;
         }
-        theTM.tiles[lastTile - 1].gameObject.transform.Find("TileLine").gameObject.SetActive(true);
-
+        TileManager.Instance.tiles[lastTile - 1].gameObject.transform.Find("TileLine").gameObject.SetActive(true);
 
         movingWaitTime = 0f;
 
@@ -167,9 +143,10 @@ public class PlayerManager : MonoBehaviour
 
         while (tileToGo.Count != 0)
         {
-            // Player 실제 이동 코루틴 실행
             isMoving = true;
             targetPos = tileToGo[0].transform.Find("Pos").transform.position;
+
+            // 플레이어 이동 코루틴 실행
             StartCoroutine(MovingPlayerCoroutine(targetPos));
             yield return new WaitUntil(() => isMoving == false);
 
@@ -178,28 +155,28 @@ public class PlayerManager : MonoBehaviour
 
             CheckPassTile();
         }
-
         movingWaitTime = 0f;
 
         StartCoroutine(EndMovePlayerCoroutine());
     }
 
+    // 이동 전 카드 사용 효과 발동
     public IEnumerator CheckUsedCardCoroutine()
     {
         isCheckingCard = true;
-        if (theGM.nowPlayer.highSpeedFlag)
+        if (GameManager.Instance.nowPlayer.highSpeedFlag)
         {
             theCM.HighSpeedMove();
             AudioManager.Instance.Play("HighSpeedMove_Sound");
         }
 
-        if (theGM.nowPlayer.invisibleFlag)
+        if (GameManager.Instance.nowPlayer.invisibleFlag)
         {
             StartCoroutine(SetPlayerTransparency("Invisible"));
             yield return new WaitUntil(() => !isSetTransparent);
         }
 
-        if (theGM.nowPlayer.biggerFlag)
+        if (GameManager.Instance.nowPlayer.biggerFlag)
         {
             StartCoroutine(SetPlayerScale("Larger"));
             yield return new WaitUntil(() => !isSetScale);
@@ -210,68 +187,53 @@ public class PlayerManager : MonoBehaviour
     // 플레이어 이동시 지나치는 타일 체크
     public void CheckPassTile()
     {
-        // if() //시작점에 딱 도착한다면 바로 체크타일로
-        // 시작지점을 지나쳐간다면 월급 지급
+        // 양계장 도착 시 월급 지급
         if (nowTile.transform.name == "0")
         {
             AudioManager.Instance.Play("Salary_Sound");
             playerMoney += 200;
-            theGM.SetFloatingText(theGM.nowPlayer, 200, true);
+            GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, 200, true);
         }
 
-        // 투명도둑을 사용하고 나와 상대방이 겹쳐질때, 상대방의 카드가 있을 때 투명도둑 효과 발동
-        if (invisibleFlag)
+        // 투명도둑 사용 && 이동할 타일이 남음 && 상대방과 같은 타일 && 상대방의 카드가 있음
+        if (invisibleFlag && tileToGo.Count != 0 && againstPlayer.nowTile == nowTile && againstPlayer.cards.Count != 0)
         {
-            // tileToGo가 남았다는건, 아직 움직일 타일이 남아있다는 것.
-            // 이 조건을 추가함으로써 상대방과 같은 타일에 도착하는 순간에는 검사하지 않음
-            if (tileToGo.Count != 0)
-            {
-                print("invisible");
-                if (againstPlayer.nowTile == nowTile && againstPlayer.cards.Count != 0)
-                {
-                    print("invisibleTrue"); //이거 테스트 해야됨.
-                    StartCoroutine(theCM.InvisibleThief());
-                    print("invisibleFinish");
-                }
-            }
+            StartCoroutine(theCM.InvisibleThief());
         }
     }
 
+    // 플레이어의 실질적 이동 코루틴
     IEnumerator MovingPlayerCoroutine(Vector3 target)
     {
 
         this.gameObject.GetComponent<Animator>().SetInteger("Dir", nowTile.dir);
         this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", true);
 
-        if (theGM.nowPlayer.highSpeedFlag)
+        if (GameManager.Instance.nowPlayer.highSpeedFlag)
         {
             this.gameObject.GetComponent<Animator>().SetBool("FlyFlag", true);
-            theCM.highMoveParticle.gameObject.transform.SetParent(theGM.nowPlayer.transform.GetChild(nowTile.dir));
+            theCM.highMoveParticle.gameObject.transform.SetParent(GameManager.Instance.nowPlayer.transform.GetChild(nowTile.dir));
             theCM.highMoveParticle.gameObject.transform.localPosition = new Vector3(0f, 0f, 1f);
         }
 
+        // 걷는 중일 때만 0.5초 간격으로 StepSound 재생
         while (isMoving)
         {
-            // 걷는 중일 때만 0.5초 간격으로 StepSound 재생
-            if (!theGM.nowPlayer.highSpeedFlag)
+            if (!GameManager.Instance.nowPlayer.highSpeedFlag)
             {
                 if (movingWaitTime >= 0.5f)
                 {
                     AudioManager.Instance.Play("Step_Sound");
                     movingWaitTime = 0f;
                 }
-                else
-                {
-                    movingWaitTime += Time.deltaTime;
-                }
+                else movingWaitTime += Time.deltaTime;
             }
 
-            // print("is moving Check");
             this.transform.position = Vector3.MoveTowards(this.transform.position, target, Time.deltaTime * moveSpeed);
             yield return new WaitForEndOfFrame();
+
             if (this.transform.position == target)
             {
-                print("positioncheck");
                 isMoving = false;
                 break;
             }
@@ -279,31 +241,31 @@ public class PlayerManager : MonoBehaviour
         yield return null;
     }
 
+    // 플레이어 이동 종료 후처리
     IEnumerator EndMovePlayerCoroutine()
     {
         this.gameObject.GetComponent<Animator>().SetBool("FlyFlag", false);
         this.gameObject.GetComponent<Animator>().SetBool("WalkFlag", false);
 
-        theTM.tiles[lastTile - 1].gameObject.transform.Find("TileLine").gameObject.SetActive(false);
+        TileManager.Instance.tiles[lastTile - 1].gameObject.transform.Find("TileLine").gameObject.SetActive(false);
         lastTile = 0;
 
-
         // 투명도둑을 사용했었다면 알파값 원상복구
-        if (theGM.nowPlayer.invisibleFlag)
+        if (GameManager.Instance.nowPlayer.invisibleFlag)
         {
             theCM.EndInvisibleThief();
             yield return new WaitUntil(() => !isSetTransparent);
         }
 
         // 고속이동이 끝났다면 스피드를 원상복구 시키고 플래그를 비활성화시킴
-        if (theGM.nowPlayer.highSpeedFlag)
+        if (GameManager.Instance.nowPlayer.highSpeedFlag)
         {
             AudioManager.Instance.Stop("HighSpeedMove_Sound");
             theCM.EndHighSpeedMove();
         }
 
         // 플레이어가 거대화 스킬을 사용하고 이동이 끝났다면 효과 발동
-        if (theGM.nowPlayer.biggerFlag)
+        if (GameManager.Instance.nowPlayer.biggerFlag)
         {
             StartCoroutine(theCM.BiggerCoroutine());
             yield return new WaitUntil(() => theCM.biggerComplete);
@@ -319,31 +281,29 @@ public class PlayerManager : MonoBehaviour
 
         finishMoving = true;
 
-        //내 턴일때만 UI상호작용
+        // 내 턴일때만 UI상호작용
         if (GameManager.Instance.myCharactor.myTurn)
         {
             StartCoroutine(CheckArriveTile());
         }
-
     }
 
     // 도착한 땅의 타일을 체크하여 상호작용하는 기능
     public IEnumerator CheckArriveTile()
     {
-        if (myTurn) //이게 없으면 상대방이 특수타일 동작 후 나 자신도 같은 UI를 띄우게 됨...! 중요
+        if (myTurn)
         {
-            // 이동이 끝난 후, 일반 타일에 도착했다면
+            //일반 타일에 도착
             if (!nowTile.specialTile)
             {
-                // 일반 타일 중 자신이 구매한 타일이라면
+                // 자신이 구매한 타일
                 if (nowTile.ownPlayer == playerId)
                 {
                     // 건물이 없으면 건물 구매 UI 활성화
                     if (nowTile.price == 50)
                     {
-                        print("건물이 없는 땅");
                         purchaseUi.SetActive(true);
-                        theGM.UIFlag = true;
+                        GameManager.Instance.UIFlag = true;
                     }
                     // 건물이 있으면 건물 방문 효과 활성화
                     else
@@ -352,14 +312,12 @@ public class PlayerManager : MonoBehaviour
                         {
                             // 농장
                             case 0:
-                                // playerMoney += 200;
-                                // theGM.SetFloatingText(theGM.nowPlayer, 200, true);
                                 VisitData visitData = new(200, 0);
                                 string jsondata = JsonUtility.ToJson(visitData);
                                 byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.Visit, jsondata);
                                 Backend.Match.SendDataToInGameRoom(sendData);
-                                // print(playerMoney);
                                 break;
+
                             // 제단
                             case 1:
                                 VisitData visitData1 = new(0, 1);
@@ -367,6 +325,7 @@ public class PlayerManager : MonoBehaviour
                                 byte[] sendData1 = ParsingManager.Instance.ParsingSendData(ParsingType.Visit, jsondata1);
                                 Backend.Match.SendDataToInGameRoom(sendData1);
                                 break;
+
                             // 특별상점
                             case 2:
                                 for (int i = 0; i < 2; i++)
@@ -377,25 +336,26 @@ public class PlayerManager : MonoBehaviour
                                         yield return new WaitUntil(() => theCM.isGetCard);
                                     }
                                 }
+
                                 byte[] data2 = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
                                 Backend.Match.SendDataToInGameRoom(data2);
                                 break;
+
                             // 랜드마크
                             case 3:
                                 byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
                                 Backend.Match.SendDataToInGameRoom(data);
                                 break;
                         }
-
                     }
                 }
-                // 일반 타일 중 아무도 구매하지 않은 타일이라면 땅 구매 UI 활성화
+                // 아무도 구매하지 않은 타일
                 else if (nowTile.ownPlayer == -1)
                 {
                     if (playerMoney >= 50)
                     {
                         groundBuyUi.SetActive(true);
-                        theGM.UIFlag = true;
+                        GameManager.Instance.UIFlag = true;
                     }
                     else
                     {
@@ -403,7 +363,7 @@ public class PlayerManager : MonoBehaviour
                         Backend.Match.SendDataToInGameRoom(data);
                     }
                 }
-                // 일반 타일 중 상대방이 구매한 타일이라면
+                // 상대방이 구매한 타일이라면
                 else
                 {
                     byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.ExemptionFlag, "");
@@ -411,14 +371,13 @@ public class PlayerManager : MonoBehaviour
                 }
             }
 
-            // 일반 타일이 아니라, 특수 타일일 경우
+            // 특수 타일에 도착
             else
             {
                 switch (nowTile.specialTileType)
                 {
                     // 양계장
                     case 0:
-                        print("양계장");//myturn안에 있기 때문에 통신으로 처리를 하는중...
                         ArriveTileData arriveTileData = new(this.playerId);
                         string arriveJsonData = JsonUtility.ToJson(arriveTileData);
                         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.ArriveTile, arriveJsonData);
@@ -440,7 +399,7 @@ public class PlayerManager : MonoBehaviour
                         yield return new WaitUntil(() => tpFlag);
                         break;
 
-                    // 올림픽
+                    // 부활절
                     case 3:
                         byte[] olympicData = ParsingManager.Instance.ParsingSendData(ParsingType.Olympic, "");
                         Backend.Match.SendDataToInGameRoom(olympicData);
@@ -449,11 +408,11 @@ public class PlayerManager : MonoBehaviour
                     // 건물강탈
                     case 4:
                         bool canExtortion = false;
-                        print("건물강탈!");
+
                         // 상대방 소유의 타일이 있는지 체크
-                        for (int i = 0; i < theTM.tiles.Length; i++)
+                        for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
                         {
-                            if (theTM.tiles[i].ownPlayer == againstPlayer.playerId)
+                            if (TileManager.Instance.tiles[i].ownPlayer == againstPlayer.playerId)
                             {
                                 canExtortion = true;
                                 break;
@@ -466,84 +425,81 @@ public class PlayerManager : MonoBehaviour
                             blackBackground.SetActive(true);
                             isExtortioning = true;
 
-                            for (int i = 0; i < theTM.tiles.Length; i++)
+                            for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
                             {
-                                if (theTM.tiles[i].ownPlayer == againstPlayer.playerId) theTM.tiles[i].canTileSelect = true;
+                                if (TileManager.Instance.tiles[i].ownPlayer == againstPlayer.playerId) TileManager.Instance.tiles[i].canTileSelect = true;
                             }
 
-                            yield return new WaitUntil(() => theGM.seletedTile != null); //이부분을 뭔가 분리시켜야될듯.
+                            yield return new WaitUntil(() => GameManager.Instance.seletedTile != null);
 
-                            print("건물 체크 완료");
-                            for (int i = 0; i < theTM.tiles.Length; i++)
+                            for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
                             {
-                                theTM.tiles[i].canTileSelect = false;
+                                TileManager.Instance.tiles[i].canTileSelect = false;
                             }
 
                             isExtortioning = false;
                             blackBackground.SetActive(false);
 
-                            //서버로 데이터 전송 시켜야함.
                             ExtortionData extortionData = new(playerId);
                             string jsonData = JsonUtility.ToJson(extortionData);
                             byte[] data2 = ParsingManager.Instance.ParsingSendData(ParsingType.Extortion, jsonData);
                             Backend.Match.SendDataToInGameRoom(data2);
                         }
                         else
-                        { //강탈 할 땅이 없다면 그냥 턴 넘김
+                        {
                             byte[] data3 = ParsingManager.Instance.ParsingSendData(ParsingType.NextTurn, "");
                             Backend.Match.SendDataToInGameRoom(data3);
                         }
-
                         break;
                 }
             }
         }
     }
 
+    // 텔레포트 타일 선택
     IEnumerator TeleportSetCoroutine()
     {
         blackBackground.SetActive(true);
         isSelectingTeleport = true;
-        for (int i = 0; i < theTM.tiles.Length; i++)
+
+        // 텔레포트 타일을 제외하고 타일을 선택 가능하게 세팅
+        for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
         {
-            if (i != 5) theTM.tiles[i].canTileSelect = true;
+            if (i != 5) TileManager.Instance.tiles[i].canTileSelect = true;
         }
 
-        yield return new WaitUntil(() => theGM.seletedTile != null);
+        yield return new WaitUntil(() => GameManager.Instance.seletedTile != null);
 
         isSelectingTeleport = false;
-        for (int i = 0; i < theTM.tiles.Length; i++)
+
+        // 타일을 다시 선택 불가능하게 세팅
+        for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
         {
-            theTM.tiles[i].canTileSelect = false;
+            TileManager.Instance.tiles[i].canTileSelect = false;
         }
 
         blackBackground.SetActive(false);
-        tpTile = theGM.seletedTile;
+        tpTile = GameManager.Instance.seletedTile;
 
         myTurn = false;
         tpFlag = true;
 
-        print("tpTileName is " + tpTile.name);
-        print("and, TPTile Find Name is " + GameObject.Find(tpTile.name).name);
         TeleportData tpData = new(tpFlag, tpTile.name);
 
         string jsonData = JsonUtility.ToJson(tpData);
         byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.Teleport, jsonData);
         Backend.Match.SendDataToInGameRoom(data);
-        // theGM.seletedTile = null;
-        // theGM.NextTurnFunc();
     }
 
+    // 텔레포트로 이동
     IEnumerator TeleportCoroutine(int _playerId)
     {
         tpFlag = false;
-        // myTurn = false;
 
         // 턴을 알리는 텍스트가 사라질때까지 대기
-        yield return new WaitUntil(() => !theGM.isActiveTurnImage);
+        yield return new WaitUntil(() => !GameManager.Instance.isActiveTurnImage);
 
-
-        theGM.players[_playerId].downInformationText.gameObject.SetActive(false);
+        GameManager.Instance.players[_playerId].downInformationText.gameObject.SetActive(false);
         VirtualCamera.SetActive(true);
         yield return new WaitForSeconds(0.5f);
 
@@ -551,22 +507,24 @@ public class PlayerManager : MonoBehaviour
         this.GetComponent<SpriteRenderer>().color = alpha;
 
         AudioManager.Instance.Play("TeleportStart_Sound");
+
+        // 텔레포트 이펙트 실행
         if (_playerId == 0)
         {
-            theGM.player1TeleportEffect.transform.position = theTM.tiles[5].transform.GetChild(0).position;
-            theGM.player1TeleportEffect.SetActive(true);
+            GameManager.Instance.player1TeleportEffect.transform.position = TileManager.Instance.tiles[5].transform.GetChild(0).position;
+            GameManager.Instance.player1TeleportEffect.SetActive(true);
             yield return new WaitForSeconds(3f);
-            theGM.player1TeleportEffect.SetActive(false);
+            GameManager.Instance.player1TeleportEffect.SetActive(false);
         }
         else if (_playerId == 1)
         {
-            theGM.player2TeleportEffect.transform.position = theTM.tiles[5].transform.GetChild(0).position;
-            theGM.player2TeleportEffect.SetActive(true);
+            GameManager.Instance.player2TeleportEffect.transform.position = TileManager.Instance.tiles[5].transform.GetChild(0).position;
+            GameManager.Instance.player2TeleportEffect.SetActive(true);
             yield return new WaitForSeconds(3f);
-            theGM.player2TeleportEffect.SetActive(false);
+            GameManager.Instance.player2TeleportEffect.SetActive(false);
         }
 
-        // player가 서있는 타일의 정보를 갱신함
+        // 플레이어가 서있는 타일의 정보를 갱신함
         this.tileNum = int.Parse(tpTile.gameObject.name);
         this.transform.position = tpTile.transform.Find("Pos").position;
         nowTile = tpTile.GetComponent<Tile>();
@@ -576,6 +534,7 @@ public class PlayerManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         AudioManager.Instance.Play("TeleportEnd_Sound");
+
         while (true)
         {
             alpha.a += 0.1f;
@@ -585,7 +544,8 @@ public class PlayerManager : MonoBehaviour
         }
 
         VirtualCamera.SetActive(false);
-        yield return new WaitForSeconds(0.5f); // 카메라가 정상으로 돌아오고 다음 행동이 실행되기 위한 대기
+        yield return new WaitForSeconds(0.5f);
+
         StartCoroutine(CheckArriveTile());
     }
 
@@ -598,11 +558,10 @@ public class PlayerManager : MonoBehaviour
             while (true)
             {
                 alpha.a -= 0.1f;
-                theGM.nowPlayer.GetComponent<SpriteRenderer>().color = alpha;
+                GameManager.Instance.nowPlayer.GetComponent<SpriteRenderer>().color = alpha;
                 yield return new WaitForSeconds(0.1f);
 
-                if (alpha.a <= 0.5f)
-                    break;
+                if (alpha.a <= 0.5f) break;
             }
         }
         else if (_parameter == "Visible")
@@ -611,11 +570,10 @@ public class PlayerManager : MonoBehaviour
             while (true)
             {
                 alpha.a += 0.1f;
-                theGM.nowPlayer.GetComponent<SpriteRenderer>().color = alpha;
+                GameManager.Instance.nowPlayer.GetComponent<SpriteRenderer>().color = alpha;
                 yield return new WaitForSeconds(0.1f);
 
-                if (alpha.a >= 1f)
-                    break;
+                if (alpha.a >= 1f) break;
             }
         }
         isSetTransparent = false;
@@ -630,13 +588,10 @@ public class PlayerManager : MonoBehaviour
             while (true)
             {
                 scale += new Vector3(0.1f, 0.1f, 0);
-                theGM.nowPlayer.gameObject.transform.localScale = scale;
+                GameManager.Instance.nowPlayer.gameObject.transform.localScale = scale;
                 yield return new WaitForSeconds(0.1f);
 
-                if (scale.x >= 2f)
-                {
-                    break;
-                }
+                if (scale.x >= 2f) break;
             }
         }
         else if (_parameter == "Smaller")
@@ -645,80 +600,12 @@ public class PlayerManager : MonoBehaviour
             while (true)
             {
                 scale -= new Vector3(0.1f, 0.1f, 0);
-                theGM.nowPlayer.gameObject.transform.localScale = scale;
+                GameManager.Instance.nowPlayer.gameObject.transform.localScale = scale;
                 yield return new WaitForSeconds(0.1f);
 
-                if (scale.x <= 1.5f)
-                {
-                    break;
-                }
+                if (scale.x <= 1.5f) break;
             }
         }
         isSetScale = false;
-    }
-
-    //건물강탈 코루틴
-    public IEnumerator ExtortionCoroutine()
-    {
-        bool canExtortion = false;
-        print("건물강탈!");
-        // 상대방 소유의 타일이 있는지 체크
-        for (int i = 0; i < theTM.tiles.Length; i++)
-        {
-            if (theTM.tiles[i].ownPlayer == againstPlayer.playerId)
-            {
-                canExtortion = true;
-                break;
-            }
-        }
-
-        // 상대방 소유의 타일이 있다면 강탈 가능
-        if (canExtortion)
-        {
-            blackBackground.SetActive(true);
-            isExtortioning = true;
-
-            for (int i = 0; i < theTM.tiles.Length; i++)
-            {
-                if (theTM.tiles[i].ownPlayer == againstPlayer.playerId) theTM.tiles[i].canTileSelect = true;
-            }
-
-            yield return new WaitUntil(() => theGM.seletedTile != null); //이부분을 뭔가 분리시켜야될듯.
-
-            print("건물 체크 완료");
-            for (int i = 0; i < theTM.tiles.Length; i++)
-            {
-                theTM.tiles[i].canTileSelect = false;
-            }
-
-            isExtortioning = false;
-            blackBackground.SetActive(false);
-
-            AudioManager.Instance.Play("Extortion_Sound");
-
-            Color tileColor = theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color;
-
-            // 타일의 Alpha 값을 서서히 0으로 줄임
-            while (tileColor.a > 0f)
-            {
-                tileColor.a -= 0.02f;
-                theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
-                yield return new WaitForSeconds(0.02f);
-            }
-
-            // ownPlayer를 바꿔서 땅의 소유주를 바꿔주고, signImg도 동시에 변하게함
-            theGM.seletedTile.GetComponent<Tile>().ownPlayer = playerId;
-
-            // 타일의 Alpha 값을 서서히 1로 올림
-            while (tileColor.a < 1f)
-            {
-                tileColor.a += 0.02f;
-                theGM.seletedTile.GetComponent<Tile>().signImg.GetComponent<SpriteRenderer>().color = tileColor;
-                yield return new WaitForSeconds(0.02f);
-            }
-
-            theGM.seletedTile = null;
-            theGM.NextTurnFunc();
-        }
     }
 }

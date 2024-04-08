@@ -8597,29 +8597,26 @@ MonoBehaviour:
   isMoving: 0
   canMove: 0
   finishMoving: 0
+  targetPos: {x: 0, y: 0, z: 0}
   tileNum: 0
   nowTile: {fileID: 1693466814}
   tileToGo: []
   cards: []
   cardPrefab: {fileID: 512139286912891607, guid: c228b954db53a4beab116a5d0893c68a, type: 3}
   cardParent: {fileID: 1038877134}
-  buildingCount: 0
-  groundCount: 0
   groundBuyUi: {fileID: 530706387}
   purchaseUi: {fileID: 1980317331}
   myTurn: 0
+  againstPlayer: {fileID: 1511854098}
   downInformationText: {fileID: 1114345601}
   VirtualCamera: {fileID: 1021519568}
-  againstPlayer: {fileID: 1511854098}
   tpTile: {fileID: 0}
   blackBackground: {fileID: 453495399}
-  teleportEffect: {fileID: 0}
   tpFlag: 0
   isSelectingTeleport: 0
   isExtortioning: 0
   highSpeedFlag: 0
   invisibleFlag: 0
-  toosiFlag: 0
   biggerFlag: 0
   higherDiceFlag: 0
   lowerDiceFlag: 0
@@ -8629,9 +8626,6 @@ MonoBehaviour:
   isSetScale: 0
   isCheckingCard: 0
   theCM: {fileID: 1057635936}
-  targetPos: {x: 0, y: 0, z: 0}
-  specialTurn: 0
-  sessionId: 0
 --- !u!212 &954396770
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13623,29 +13617,26 @@ MonoBehaviour:
   isMoving: 0
   canMove: 0
   finishMoving: 0
+  targetPos: {x: 0, y: 0, z: 0}
   tileNum: 0
   nowTile: {fileID: 1693466814}
   tileToGo: []
   cards: []
   cardPrefab: {fileID: 6451146003781836655, guid: 25207cfdf14f24dae8bcd45a9e382694, type: 3}
   cardParent: {fileID: 1044211839}
-  buildingCount: 0
-  groundCount: 0
   groundBuyUi: {fileID: 530706387}
   purchaseUi: {fileID: 1980317331}
   myTurn: 0
+  againstPlayer: {fileID: 954396769}
   downInformationText: {fileID: 255605554}
   VirtualCamera: {fileID: 997630559}
-  againstPlayer: {fileID: 954396769}
   tpTile: {fileID: 0}
   blackBackground: {fileID: 453495399}
-  teleportEffect: {fileID: 0}
   tpFlag: 0
   isSelectingTeleport: 0
   isExtortioning: 0
   highSpeedFlag: 0
   invisibleFlag: 0
-  toosiFlag: 0
   biggerFlag: 0
   higherDiceFlag: 0
   lowerDiceFlag: 0
@@ -13655,9 +13646,6 @@ MonoBehaviour:
   isSetScale: 0
   isCheckingCard: 0
   theCM: {fileID: 1057635936}
-  targetPos: {x: 0, y: 0, z: 0}
-  specialTurn: 0
-  sessionId: 0
 --- !u!61 &1511854100
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -16286,9 +16274,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ba2469fb0ae9404c8d19a5dddf40b0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  players:
+  - {fileID: 1511854098}
+  - {fileID: 954396769}
   signSprites:
   - {fileID: 21300000, guid: 2b1ac94ec0a104600986da9fc6775e9d, type: 3}
   - {fileID: 21300000, guid: d39d98df0c6e54defa46f6d3cf1d9dc7, type: 3}
+  nowPlayer: {fileID: 0}
+  myCharactor: {fileID: 0}
   cards:
   - cardName: 
     cardCode: 1
@@ -16311,6 +16304,14 @@ MonoBehaviour:
   - cardName: 
     cardCode: 7
     cardImg: {fileID: 21300000, guid: d726e49f5d1469d46b621ba03ce44a97, type: 3}
+  cardsObj: {fileID: 307154998}
+  cardPrefab: {fileID: 2251793717217502938, guid: cf27e7408929c443abe4eeeeefda3072, type: 3}
+  showCardObject: {fileID: 1322388068}
+  onlyCardImg: {fileID: 6734135712915195262, guid: f0c8e962b9bb6944f8cd518915fe3f3f, type: 3}
+  turnCards:
+  - {fileID: 228348586}
+  - {fileID: 1420386648}
+  turnCardParent: {fileID: 883349527}
   buildings:
   - buildingImg:
       building_front: {fileID: 0}
@@ -16342,48 +16343,25 @@ MonoBehaviour:
     buildingName: "\uB79C\uB4DC\uB9C8\uD06C"
     type: 3
     toll: 200
-  players:
-  - {fileID: 1511854098}
-  - {fileID: 954396769}
-  nowPlayer: {fileID: 0}
-  controlPlayer: {fileID: 0}
+  playerCount: 
   turnCount: 3
+  turnIndex: -1
   nextTurn: 1
   UIFlag: 0
-  penetrateComplete: 1
   laserComplete: 1
-  cardsObj: {fileID: 307154998}
-  cardPrefab: {fileID: 2251793717217502938, guid: cf27e7408929c443abe4eeeeefda3072, type: 3}
-  clickedTile: {fileID: 0}
-  seletedTile: {fileID: 0}
-  tpImg: {fileID: 0}
-  showCardListObject: {fileID: 1553124379}
-  showCardObject: {fileID: 1322388068}
-  onlyCardImg: {fileID: 6734135712915195262, guid: f0c8e962b9bb6944f8cd518915fe3f3f, type: 3}
-  playerCount: 
-  turnIndex: -1
-  turnCards:
-  - {fileID: 228348586}
-  - {fileID: 1420386648}
-  turnCardParent: {fileID: 883349527}
-  myCharactor: {fileID: 0}
-  diceNum: 0
+  isActiveTurnImage: 0
   player1TurnImg: {fileID: 2138027891}
   player2TurnImg: {fileID: 1406615652}
-  isActiveTurnImage: 0
   player1TeleportEffect: {fileID: 1623167384}
   player2TeleportEffect: {fileID: 1589605834}
-  gameOverUI: {fileID: 256666473}
   player1_floatingObject: {fileID: 2041914195}
   player2_floatingObject: {fileID: 35028578}
   floatingTextPrefab: {fileID: 6434184484119944231, guid: 7275c77c7ca9eeb48a55360b69fed337, type: 3}
-  successFalg: 0
-  invisibleCardNum: -1
-  exemptionParticle: {fileID: 1083455422928650791}
+  gameOverUI: {fileID: 256666473}
   RestartBtn: {fileID: 1816343219}
-  turnCardImage:
-  - {fileID: 21300000, guid: a0492f7a203eff1419022bc4776be503, type: 3}
-  - {fileID: 21300000, guid: ad1d59f11919a6745af5593e3c79e293, type: 3}
+  seletedTile: {fileID: 0}
+  diceNum: 0
+  invisibleCardNum: -1
 --- !u!1 &1883762171
 GameObject:
   m_ObjectHideFlags: 0

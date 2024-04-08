@@ -136,7 +136,6 @@ public class EventManager : MonoBehaviour
                 case ParsingType.GroundBuy:
                     if (GameManager.Instance.myCharactor.myTurn)
                     {
-                        GameManager.Instance.myCharactor.groundCount += 1;
                         GameManager.Instance.myCharactor.playerMoney -= 50;
                         GameManager.Instance.nowPlayer.nowTile.price = 50;
                     }
@@ -144,7 +143,6 @@ public class EventManager : MonoBehaviour
                     {
                         GameManager.Instance.myCharactor.againstPlayer.nowTile.ownPlayer
                             = GameManager.Instance.myCharactor.againstPlayer.playerId;
-                        GameManager.Instance.myCharactor.againstPlayer.groundCount += 1;
                         GameManager.Instance.myCharactor.againstPlayer.playerMoney -= 50;
                         GameManager.Instance.nowPlayer.nowTile.price = 50;
                     }
@@ -164,7 +162,6 @@ public class EventManager : MonoBehaviour
                         GameManager.Instance.myCharactor.againstPlayer.nowTile.building =
                             GameManager.Instance.buildings[bdata.buildingNum];
 
-                        GameManager.Instance.myCharactor.againstPlayer.buildingCount += 1;
                         GameManager.Instance.myCharactor.againstPlayer.playerMoney -= 50;
                         GameManager.Instance.myCharactor.againstPlayer.nowTile.price =
                         GameManager.Instance.buildings[bdata.buildingNum].toll;
