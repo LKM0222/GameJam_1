@@ -269,6 +269,7 @@ public class EventManager : MonoBehaviour
                             break;
 
                         case 1:
+                            GameManager.Instance.nowPlayer.nowTile = visitData.tile;
                             StartCoroutine(TempleCoroutine());
                             break;
                     }
