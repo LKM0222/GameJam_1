@@ -4,6 +4,7 @@ using BackEnd;
 using TMPro;
 using UnityEngine;
 using BackEnd.Tcp;
+using UnityEngine.UI;
 
 
 public class GameManager : MonoBehaviour
@@ -79,6 +80,7 @@ public class GameManager : MonoBehaviour
     public GameObject floatingTextPrefab;
     public GameObject gameOverUI;
     public GameObject RestartBtn;
+    public GameObject errorUI;
 
 
     [Space(10), Header("ETC")]

@@ -289,6 +289,10 @@ public class EventManager : MonoBehaviour
                     if (theCardManager == null) theCardManager = GameObject.Find("CardManager").GetComponent<CardManager>();
                     StartCoroutine(theCardManager.LaserCoroutine());
                     break;
+
+                case ParsingType.Disconnect:
+                    GameManager.Instance.errorUI.SetActive(true);
+                    break;
             }
         };
 
@@ -305,6 +309,10 @@ public class EventManager : MonoBehaviour
             {
                 //연결 끊긴 방에서 나가기 위한 UI 출력
                 UIManager.Instance.SetErrorUI();
+            }
+            if(args.ErrInfo == ErrorCode.Exception){
+                byte[] disconnectData = ParsingManager.Instance.ParsingSendData(ParsingType.Disconnect, "");
+                Backend.Match.SendDataToInGameRoom(disconnectData);
             }
         };
     }

@@ -174,6 +174,7 @@ public class ExemptionData
 {
     public int value;
 }
+
 #endregion
 
 #region Enum_ParsingType
@@ -198,7 +199,8 @@ public enum ParsingType
     Visit,
     ArriveTile,
     Olympic,
-    Laser
+    Laser,
+    Disconnect
 }
 #endregion
 
