@@ -469,6 +469,8 @@ public class EventManager : MonoBehaviour
 
         theCardManager.exemptionParticle.gameObject.SetActive(false);
 
+        GameManager.Instance.nowPlayer.exemptionFlag = false;
+
         // 천사꼬꼬 카드가 더 있다면 플래그를 다시 켜줌
         for (int i = 0; i < GameManager.Instance.nowPlayer.cards.Count; i++)
         {
@@ -477,7 +479,6 @@ public class EventManager : MonoBehaviour
                 GameManager.Instance.nowPlayer.exemptionFlag = true;
                 break;
             }
-            else GameManager.Instance.nowPlayer.exemptionFlag = false;
         }
 
         GameManager.Instance.NextTurnFunc();
