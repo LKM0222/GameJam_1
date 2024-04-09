@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -24,6 +25,10 @@ public class UIManager : MonoBehaviour
     public TMP_Text goMoney;
     public GameObject goImg;
     public Sprite[] winImg = new Sprite[2];
+
+    [Header("Login Input")]
+    public InputField loginIDInput;
+    public InputField loginPWInput;
 
     public void SetUI()
     {

@@ -1228,11 +1228,6 @@ MonoBehaviour:
   signPwInput: {fileID: 0}
   signNickNameInput: {fileID: 0}
   signEmailInput: {fileID: 0}
-  testNickname: {fileID: 0}
-  winBool: 0
-  inviteUserNicknameInput: {fileID: 0}
-  inviteResultPopup: {fileID: 0}
-  inviteResultText: {fileID: 0}
   SignupUI: {fileID: 0}
   SignupText: {fileID: 0}
   SignupHeader: {fileID: 0}
@@ -1437,9 +1432,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbfb6406f942e409ba26f74d42174181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomId: 0
-  roomToken: 
-  acceptFlag: 0
 --- !u!4 &558422190
 Transform:
   m_ObjectHideFlags: 0
@@ -2016,11 +2008,6 @@ MonoBehaviour:
   signPwInput: {fileID: 2007234257}
   signNickNameInput: {fileID: 1832707461}
   signEmailInput: {fileID: 964413899}
-  testNickname: {fileID: 0}
-  winBool: 0
-  inviteUserNicknameInput: {fileID: 0}
-  inviteResultPopup: {fileID: 0}
-  inviteResultText: {fileID: 0}
   SignupUI: {fileID: 1219348556}
   SignupText: {fileID: 351423518}
   SignupHeader: {fileID: 425692329}
@@ -3493,7 +3480,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1543373814
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4442,7 +4429,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 070831e66bb7746e3abfff7f63854100, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mySessionId: 0
 --- !u!114 &1937675131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4455,6 +4441,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afe56be61e0434efda7ccd686d6dd090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1948480107
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1948480109}
+  - component: {fileID: 1948480110}
+  m_Layer: 0
+  m_Name: InputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1948480109
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948480107}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.7072353, y: -4.0986743, z: 894.74255}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1948480110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948480107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53f0b8e8ccd4571428db1c4736d86d41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loginIDInput: {fileID: 1040186417}
+  loginPWInput: {fileID: 1174674769}
+  signIDInput: {fileID: 714400309}
+  signPWInput: {fileID: 2007234257}
+  signNicknameInput: {fileID: 1832707461}
+  signEmailInput: {fileID: 964413899}
+  testInput: {fileID: 0}
+  testTmpInput: {fileID: 0}
 --- !u!1 &2007234255
 GameObject:
   m_ObjectHideFlags: 0
