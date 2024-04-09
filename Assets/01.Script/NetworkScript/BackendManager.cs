@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BackEnd;
+using UnityEngine.UI;
 
 public class BackendManager : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class BackendManager : MonoBehaviour
     }
     #endregion
 
+    [SerializeField] Text hashText;
     private BackendManager _instance = null;
 
     private void Awake()
@@ -38,6 +40,11 @@ public class BackendManager : MonoBehaviour
     {
         var bro = Backend.Initialize(true);
         //성공 실패는 bro.isSuccess
+
+        // // Android Hash Key Test
+        // Backend.Utils.GetGoogleHash();
+        // string googlehash = Backend.Utils.GetGoogleHash();
+        // hashText.text = "hash : " + googlehash +" :: is hash";
     }
 
     private void Update()

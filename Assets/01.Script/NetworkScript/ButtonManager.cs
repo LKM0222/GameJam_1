@@ -12,6 +12,8 @@ public class ButtonManager : MonoBehaviour
     [Header("Login")]
     [SerializeField] InputField _loginIdInput;
     [SerializeField] InputField loginPwInput;
+    [SerializeField] GameObject lodingUI;
+    [SerializeField] Text lodingInfo;
 
     [Header("SignUp")]
     [SerializeField] InputField signIdInput;
@@ -85,7 +87,7 @@ public class ButtonManager : MonoBehaviour
     public async void LoginBtn()
     {
         AudioManager.Instance.Play("MenuClick_Sound");
-
+        LodingUIActive("로그인중입니다!");
         await Task.Run(() =>
         {
             BackendLogin.Instance.CustomLogin(_loginIdInput.text, loginPwInput.text);
@@ -98,7 +100,7 @@ public class ButtonManager : MonoBehaviour
             {
                 SceneManager.LoadScene("LobbyScene");
             };
-        }
+        } else LodingUIActive("아이디와 비밀번호를 다시 확인하세요!");
     }
 
     public void BackTitleBtn()
@@ -194,5 +196,11 @@ public class ButtonManager : MonoBehaviour
             this.gameObject.SetActive(false);
         }
         GameManager.Instance.myCharactor.myTurnImg.SetActive(true);
+    }
+    
+    //로그인 안내 UI
+    void LodingUIActive(string _message){
+        lodingUI.SetActive(true); 
+        lodingInfo.text = _message;
     }
 }
