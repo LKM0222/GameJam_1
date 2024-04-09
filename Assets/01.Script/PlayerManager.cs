@@ -284,6 +284,7 @@ public class PlayerManager : MonoBehaviour
         // 내 턴일때만 UI상호작용
         if (GameManager.Instance.myCharactor.myTurn)
         {
+            
             StartCoroutine(CheckArriveTile());
         }
     }
@@ -312,7 +313,7 @@ public class PlayerManager : MonoBehaviour
                         {
                             // 농장
                             case 0:
-                                VisitData visitData = new(200, 0);
+                                VisitData visitData = new(200, 0, nowTile);
                                 string jsondata = JsonUtility.ToJson(visitData);
                                 byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.Visit, jsondata);
                                 Backend.Match.SendDataToInGameRoom(sendData);
@@ -320,7 +321,7 @@ public class PlayerManager : MonoBehaviour
 
                             // 제단
                             case 1:
-                                VisitData visitData1 = new(0, 1);
+                                VisitData visitData1 = new(0, 1, nowTile);
                                 string jsondata1 = JsonUtility.ToJson(visitData1);
                                 byte[] sendData1 = ParsingManager.Instance.ParsingSendData(ParsingType.Visit, jsondata1);
                                 Backend.Match.SendDataToInGameRoom(sendData1);
