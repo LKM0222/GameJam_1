@@ -9,18 +9,9 @@ EditorBuildSettings:
     path: Assets/00.Scenes/TitleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/00.Scenes/LoadingScene.unity
-    guid: 1c261395792b49a4a80d3677e6872ef0
-  - enabled: 1
     path: Assets/00.Scenes/MainScene.unity
     guid: 30e1b7d80d293421580303fad3a20d1e
   - enabled: 1
     path: Assets/00.Scenes/LobbyScene.unity
     guid: b65393ac999bc455785dbe9993c32a4f
-  - enabled: 1
-    path: Assets/00.Scenes/MatchingRoom.unity
-    guid: 350bd9931e85e4c17bb37970acf20a1f
-  - enabled: 1
-    path: Assets/00.Scenes/LoadTestScene.unity
-    guid: 2185050ccc60b4e31bc24f1243fa2e29
   m_configObjects: {}
