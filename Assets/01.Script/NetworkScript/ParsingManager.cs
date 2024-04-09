@@ -140,11 +140,12 @@ public class VisitData
 {
     public int money;
     public int caseNum;
-
-    public VisitData(int _money, int _caseNum)
+    public Tile tile;
+    public VisitData(int _money, int _caseNum, Tile _tile)
     {
         money = _money;
         caseNum = _caseNum;
+        tile = _tile;
     }
 }
 
