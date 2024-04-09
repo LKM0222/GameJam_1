@@ -311,6 +311,7 @@ public class EventManager : MonoBehaviour
                 UIManager.Instance.SetErrorUI();
             }
             if(args.ErrInfo == ErrorCode.Exception){
+                print("연결끊김");
                 byte[] disconnectData = ParsingManager.Instance.ParsingSendData(ParsingType.Disconnect, "");
                 Backend.Match.SendDataToInGameRoom(disconnectData);
             }
