@@ -6,7 +6,7 @@ using BackEnd;
 using BackEnd.Tcp;
 using UnityEngine.SceneManagement;
 using System.Text;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 #endregion
 public class EventManager : MonoBehaviour
 {
@@ -17,12 +17,9 @@ public class EventManager : MonoBehaviour
 
 
     #region FindObjectArea
-    GroundBuyScript _theGBS;
     CardManager theCardManager;
     DiceSystem theDice;
     #endregion
-
-
 
     private void Awake()
     {
@@ -39,26 +36,23 @@ public class EventManager : MonoBehaviour
 
     private void Start()
     {
-        _theGBS = FindObjectOfType<GroundBuyScript>();
         theDice = FindObjectOfType<DiceSystem>();
     }
 
     void Update()
     {
         // 대기방을 떠나면서 실행되는 핸들러
-        Backend.Match.OnMatchMakingRoomLeave = (MatchMakingGamerInfoInRoomEventArgs args) =>
-        {
-            //Todo
-        };
+        Backend.Match.OnMatchMakingRoomLeave = (MatchMakingGamerInfoInRoomEventArgs args) => { };
 
         //매칭신청(인게임서버접속 시작)
         Backend.Match.OnMatchMakingResponse = (MatchMakingResponseEventArgs args) =>
         {
-            if(args.ErrInfo == ErrorCode.Success){
+            if (args.ErrInfo == ErrorCode.Success)
+            {
                 _roomInfo = args.RoomInfo; //추후에 roomToken을 써야되기 때문에 따로 저장
-                    Backend.Match.JoinGameServer(args.RoomInfo.m_inGameServerEndPoint.m_address,
-                    args.RoomInfo.m_inGameServerEndPoint.m_port,
-                    false, out ErrorInfo errorInfo);
+                Backend.Match.JoinGameServer(args.RoomInfo.m_inGameServerEndPoint.m_address,
+                args.RoomInfo.m_inGameServerEndPoint.m_port,
+                false, out ErrorInfo errorInfo);
             }
         };
 
@@ -310,7 +304,8 @@ public class EventManager : MonoBehaviour
                 //연결 끊긴 방에서 나가기 위한 UI 출력
                 UIManager.Instance.SetErrorUI();
             }
-            if(args.ErrInfo == ErrorCode.Exception){
+            if (args.ErrInfo == ErrorCode.Exception)
+            {
                 print("연결끊김");
                 byte[] disconnectData = ParsingManager.Instance.ParsingSendData(ParsingType.Disconnect, "");
                 Backend.Match.SendDataToInGameRoom(disconnectData);
