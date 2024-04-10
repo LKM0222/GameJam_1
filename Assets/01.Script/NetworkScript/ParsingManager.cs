@@ -106,16 +106,6 @@ public class CardDestroyData
 
 }
 
-public class InvisibleData
-{
-    public int cardNum;
-
-    public InvisibleData(int _cardNum)
-    {
-        cardNum = _cardNum;
-    }
-}
-
 public class TileSelectData
 {
     public string tilename;
@@ -176,6 +166,19 @@ public class ExemptionData
     public int value;
 }
 
+public class SetCardFlagData
+{
+    public int cardCode;
+    public int playerId;
+    public bool flag;
+
+    public SetCardFlagData(int _cardCode, int _playerId, bool _flag)
+    {
+        cardCode = _cardCode;
+        playerId = _playerId;
+        flag = _flag;
+    }
+}
 #endregion
 
 #region Enum_ParsingType
@@ -201,7 +204,8 @@ public enum ParsingType
     ArriveTile,
     Olympic,
     Laser,
-    Disconnect
+    Disconnect,
+    SetCardFlag,
 }
 #endregion
 

@@ -288,6 +288,19 @@ public class EventManager : MonoBehaviour
                 case ParsingType.Disconnect:
                     GameManager.Instance.errorUI.SetActive(true);
                     break;
+
+                case ParsingType.SetCardFlag:
+                    SetCardFlagData setCardFlagData = JsonUtility.FromJson<SetCardFlagData>(pData.data);
+                    switch (setCardFlagData.cardCode)
+                    {
+                        case 1:
+                            AudioManager.Instance.Stop("HighSpeedMove_Sound");
+                            if (theCardManager == null) theCardManager = GameObject.Find("CardManager").GetComponent<CardManager>();
+                            theCardManager.EndHighSpeedMove();
+                            break;
+                    }
+                    break;
+
             }
         };
 

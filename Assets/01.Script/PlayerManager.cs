@@ -260,8 +260,10 @@ public class PlayerManager : MonoBehaviour
         // 고속이동이 끝났다면 스피드를 원상복구 시키고 플래그를 비활성화시킴
         if (GameManager.Instance.nowPlayer.highSpeedFlag)
         {
-            AudioManager.Instance.Stop("HighSpeedMove_Sound");
-            theCM.EndHighSpeedMove();
+            SetCardFlagData setCardFlagData = new(1, playerId, false);
+            string jsondata = JsonUtility.ToJson(setCardFlagData);
+            byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.SetCardFlag, jsondata);
+            Backend.Match.SendDataToInGameRoom(sendData);
         }
 
         // 플레이어가 거대화 스킬을 사용하고 이동이 끝났다면 효과 발동
@@ -284,7 +286,7 @@ public class PlayerManager : MonoBehaviour
         // 내 턴일때만 UI상호작용
         if (GameManager.Instance.myCharactor.myTurn)
         {
-            
+
             StartCoroutine(CheckArriveTile());
         }
     }
