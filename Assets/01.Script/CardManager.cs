@@ -195,6 +195,8 @@ public class CardManager : MonoBehaviour
             GameObject dCard = GameManager.Instance.nowPlayer.againstPlayer.cardParent.GetChild(0).gameObject;
             dCard.transform.SetParent(GameManager.Instance.nowPlayer.cardParent);
             dCard.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.nowPlayer.cardPrefab.GetComponent<SpriteRenderer>().sprite;
+
+            GameManager.Instance.invisibleCardNum = -1;
         }
     }
 
