@@ -35,10 +35,10 @@ public class MenuSceneManager : MonoBehaviour
         float sec = 0, min = 0;
         while (timerFlag)
         {
-            sec += 0.01f;
+            sec += Time.deltaTime;
             if (sec > 59f) { min += 1f; sec = 0f; }
             timerText.text = min.ToString("00") + ":" + sec.ToString("00");
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForEndOfFrame();
         }
     }
 }

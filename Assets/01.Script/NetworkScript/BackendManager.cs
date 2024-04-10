@@ -47,7 +47,7 @@ public class BackendManager : MonoBehaviour
         // hashText.text = "hash : " + googlehash +" :: is hash";
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (Backend.IsInitialized)
         {

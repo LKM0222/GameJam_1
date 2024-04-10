@@ -309,20 +309,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c63862070b98148a9b2cc1a2f09c095e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loginIdInput: {fileID: 0}
+  _loginIdInput: {fileID: 0}
   loginPwInput: {fileID: 0}
+  lodingUI: {fileID: 0}
+  lodingInfo: {fileID: 0}
   signIdInput: {fileID: 0}
   signPwInput: {fileID: 0}
   signNickNameInput: {fileID: 0}
   signEmailInput: {fileID: 0}
-  testNickname: {fileID: 0}
-  winBool: 0
-  inviteUserNicknameInput: {fileID: 0}
-  inviteResultPopup: {fileID: 0}
-  inviteResultText: {fileID: 0}
   SignupUI: {fileID: 0}
   SignupText: {fileID: 0}
   SignupHeader: {fileID: 0}
+  turnNum: 0
+  turncardIdx: 0
 --- !u!114 &374699987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,20 +456,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c63862070b98148a9b2cc1a2f09c095e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loginIdInput: {fileID: 0}
+  _loginIdInput: {fileID: 0}
   loginPwInput: {fileID: 0}
+  lodingUI: {fileID: 0}
+  lodingInfo: {fileID: 0}
   signIdInput: {fileID: 0}
   signPwInput: {fileID: 0}
   signNickNameInput: {fileID: 0}
   signEmailInput: {fileID: 0}
-  testNickname: {fileID: 0}
-  winBool: 0
-  inviteUserNicknameInput: {fileID: 0}
-  inviteResultPopup: {fileID: 0}
-  inviteResultText: {fileID: 0}
   SignupUI: {fileID: 0}
   SignupText: {fileID: 0}
   SignupHeader: {fileID: 0}
+  turnNum: 0
+  turncardIdx: 0
 --- !u!114 &384790239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -938,7 +936,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0.5
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1151,12 +1149,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nickname: {fileID: 1583142170}
-  invitePopup: {fileID: 0}
-  inviteInfoText: {fileID: 0}
-  coroFlag: 0
-  matchingLogText: {fileID: 0}
-  matchingLogStr: 
   timerText: {fileID: 1872211697}
+  timerFlag: 0
 --- !u!4 &1584395046
 Transform:
   m_ObjectHideFlags: 0
@@ -1318,20 +1312,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c63862070b98148a9b2cc1a2f09c095e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loginIdInput: {fileID: 0}
+  _loginIdInput: {fileID: 0}
   loginPwInput: {fileID: 0}
+  lodingUI: {fileID: 0}
+  lodingInfo: {fileID: 0}
   signIdInput: {fileID: 0}
   signPwInput: {fileID: 0}
   signNickNameInput: {fileID: 0}
   signEmailInput: {fileID: 0}
-  testNickname: {fileID: 0}
-  winBool: 0
-  inviteUserNicknameInput: {fileID: 0}
-  inviteResultPopup: {fileID: 0}
-  inviteResultText: {fileID: 0}
   SignupUI: {fileID: 0}
   SignupText: {fileID: 0}
   SignupHeader: {fileID: 0}
+  turnNum: 0
+  turncardIdx: 0
 --- !u!1 &1693756039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1490,20 +1483,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c63862070b98148a9b2cc1a2f09c095e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loginIdInput: {fileID: 0}
+  _loginIdInput: {fileID: 0}
   loginPwInput: {fileID: 0}
+  lodingUI: {fileID: 0}
+  lodingInfo: {fileID: 0}
   signIdInput: {fileID: 0}
   signPwInput: {fileID: 0}
   signNickNameInput: {fileID: 0}
   signEmailInput: {fileID: 0}
-  testNickname: {fileID: 0}
-  winBool: 0
-  inviteUserNicknameInput: {fileID: 0}
-  inviteResultPopup: {fileID: 0}
-  inviteResultText: {fileID: 0}
   SignupUI: {fileID: 0}
   SignupText: {fileID: 0}
   SignupHeader: {fileID: 0}
+  turnNum: 0
+  turncardIdx: 0
 --- !u!1 &1719545771
 GameObject:
   m_ObjectHideFlags: 0
@@ -1930,20 +1922,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c63862070b98148a9b2cc1a2f09c095e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loginIdInput: {fileID: 0}
+  _loginIdInput: {fileID: 0}
   loginPwInput: {fileID: 0}
+  lodingUI: {fileID: 0}
+  lodingInfo: {fileID: 0}
   signIdInput: {fileID: 0}
   signPwInput: {fileID: 0}
   signNickNameInput: {fileID: 0}
   signEmailInput: {fileID: 0}
-  testNickname: {fileID: 0}
-  winBool: 0
-  inviteUserNicknameInput: {fileID: 0}
-  inviteResultPopup: {fileID: 0}
-  inviteResultText: {fileID: 0}
   SignupUI: {fileID: 0}
   SignupText: {fileID: 0}
   SignupHeader: {fileID: 0}
+  turnNum: 0
+  turncardIdx: 0
 --- !u!114 &2004206372
 MonoBehaviour:
   m_ObjectHideFlags: 0
