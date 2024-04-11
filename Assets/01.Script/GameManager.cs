@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using BackEnd.Tcp;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 
 public class GameManager : MonoBehaviour
@@ -48,6 +49,9 @@ public class GameManager : MonoBehaviour
     public List<GameObject> turnCards = new List<GameObject>();
     // 턴 카드가 들어갈 오브젝트
     public GameObject turnCardParent;
+    //카드 UI를 위한 변수
+    //카드를 사용했을 때, 다음위치에 있는 카드가 선택되지 않게 하기 위함.
+    public bool cardActive;
 
 
     [Space(10), Header("Building")]

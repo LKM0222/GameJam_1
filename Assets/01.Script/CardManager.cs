@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using BackEnd;
+using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CardManager : MonoBehaviour
 {
@@ -26,6 +29,9 @@ public class CardManager : MonoBehaviour
     public ParticleSystem exemptionParticle;
     public ParticleSystem laserParticle;
 
+    [SerializeField] bool isSelected;
+
+
     void Start()
     {
         theTurnSign = FindObjectOfType<TurnSignScript>();
@@ -35,104 +41,121 @@ public class CardManager : MonoBehaviour
     // 획득한 카드에 마우스를 올려놓았을 때
     private void OnMouseEnter()
     {
-        if (theTurnSign.cursorPos == 1 && !theDice.isDrag)
-        {
-            AudioManager.Instance.Play("SelectCard_Sound");
+        if(!GameManager.Instance.cardActive){
+            if (theTurnSign.cursorPos == 1 && !theDice.isDrag)
+            {
+                AudioManager.Instance.Play("SelectCard_Sound");
 
-            this.transform.localScale = new Vector3(14f, 14f, 1f);
-            this.transform.position += Vector3.up * upPos;
-            this.GetComponent<SpriteRenderer>().sortingOrder = 1;
+                this.transform.localScale = new Vector3(14f, 14f, 1f);
+                this.transform.position += Vector3.up * upPos;
+                this.GetComponent<SpriteRenderer>().sortingOrder = 1;
+                isSelected = true;
+            }
+        }else{
+            GameManager.Instance.cardActive = false;
         }
     }
 
     // 획득한 카드에 마우스를 올렸다가 떨어트렸을 때
     private void OnMouseExit()
     {
-        if (theTurnSign.cursorPos == 1 && !theDice.isDrag)
-        {
-            this.transform.localScale = new Vector3(7f, 7f, 1f);
-            this.transform.position += Vector3.down * upPos;
-            this.GetComponent<SpriteRenderer>().sortingOrder = 0;
+        //왜 카드 클릭 후 카드 위치가 내려가냐....
+        if(!GameManager.Instance.cardActive){
+            if (theTurnSign.cursorPos == 1 && !theDice.isDrag)
+            {   
+                if(this.transform.localScale.x != 7f){ //크기가 원래크기와 다를때만 진행
+                    this.transform.localScale = new Vector3(7f, 7f, 1f);
+                    this.transform.position += Vector3.down * upPos;
+                    this.GetComponent<SpriteRenderer>().sortingOrder = 0;
+                    isSelected = false;
+                }
+            }
+        }
+        else{
+            GameManager.Instance.cardActive = false;
         }
     }
 
     // 획득한 카드를 클릭해서 사용할 때
     private void OnMouseDown()
-    {
-        if (theTurnSign.cursorPos == 1 && GameManager.Instance.myCharactor.myTurn)
-        {
-            AudioManager.Instance.Play("UseCard_Sound");
-
-            if (cardInfo.cardCode == 1 && !GameManager.Instance.nowPlayer.highSpeedFlag)
+    {   
+        if(isSelected){
+            if (theTurnSign.cursorPos == 1 && GameManager.Instance.myCharactor.myTurn)
             {
-                CardClickData cData = new(1, GameManager.Instance.nowPlayer.playerId);
-                string jsonData = JsonUtility.ToJson(cData);
-                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
-                Backend.Match.SendDataToInGameRoom(data);
+                GameManager.Instance.cardActive = true;
+                AudioManager.Instance.Play("UseCard_Sound");
 
-                DestroyCard();
-            }
-
-            else if (cardInfo.cardCode == 2 && !GameManager.Instance.nowPlayer.invisibleFlag)
-            {
-                CardClickData cData = new(2, GameManager.Instance.nowPlayer.playerId);
-                string jsonData = JsonUtility.ToJson(cData);
-                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
-                Backend.Match.SendDataToInGameRoom(data);
-
-                DestroyCard();
-            }
-
-            else if (cardInfo.cardCode == 3 && !GameManager.Instance.nowPlayer.biggerFlag)
-            {
-                CardClickData cData = new(3, GameManager.Instance.nowPlayer.playerId);
-                string jsonData = JsonUtility.ToJson(cData);
-                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
-                Backend.Match.SendDataToInGameRoom(data);
-
-                DestroyCard();
-            }
-
-            else if (cardInfo.cardCode == 4 && !GameManager.Instance.nowPlayer.lowerDiceFlag)
-            {
-                CardClickData cData = new(4, GameManager.Instance.nowPlayer.playerId);
-                string jsonData = JsonUtility.ToJson(cData);
-                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
-                Backend.Match.SendDataToInGameRoom(data);
-
-                GameManager.Instance.nowPlayer.lowerDiceFlag = true;
-                GameManager.Instance.nowPlayer.higherDiceFlag = false;
-
-                DestroyCard();
-            }
-
-            else if (cardInfo.cardCode == 5 && !GameManager.Instance.nowPlayer.higherDiceFlag)
-            {
-                CardClickData cData = new(5, GameManager.Instance.nowPlayer.playerId);
-                string jsonData = JsonUtility.ToJson(cData);
-                byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
-                Backend.Match.SendDataToInGameRoom(data);
-
-                GameManager.Instance.nowPlayer.higherDiceFlag = true;
-                GameManager.Instance.nowPlayer.lowerDiceFlag = false;
-
-                DestroyCard();
-            }
-
-            else if (cardInfo.cardCode == 7 && !GameManager.Instance.nowPlayer.laserFlag && GameManager.Instance.laserComplete)
-            {
-                for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
+                if (cardInfo.cardCode == 1 && !GameManager.Instance.nowPlayer.highSpeedFlag)
                 {
-                    // 상대방 소유의 타일 체크
-                    if (TileManager.Instance.tiles[i].ownPlayer == GameManager.Instance.nowPlayer.againstPlayer.playerId)
-                    {
-                        CardClickData cData = new(7, GameManager.Instance.nowPlayer.playerId);
-                        string jsonData = JsonUtility.ToJson(cData);
-                        byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
-                        Backend.Match.SendDataToInGameRoom(data);
+                    CardClickData cData = new(1, GameManager.Instance.nowPlayer.playerId);
+                    string jsonData = JsonUtility.ToJson(cData);
+                    byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                    Backend.Match.SendDataToInGameRoom(data);
 
-                        DestroyCard();
-                        break;
+                    DestroyCard();
+                }
+
+                else if (cardInfo.cardCode == 2 && !GameManager.Instance.nowPlayer.invisibleFlag)
+                {
+                    CardClickData cData = new(2, GameManager.Instance.nowPlayer.playerId);
+                    string jsonData = JsonUtility.ToJson(cData);
+                    byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                    Backend.Match.SendDataToInGameRoom(data);
+
+                    DestroyCard();
+                }
+
+                else if (cardInfo.cardCode == 3 && !GameManager.Instance.nowPlayer.biggerFlag)
+                {
+                    CardClickData cData = new(3, GameManager.Instance.nowPlayer.playerId);
+                    string jsonData = JsonUtility.ToJson(cData);
+                    byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                    Backend.Match.SendDataToInGameRoom(data);
+
+                    DestroyCard();
+                }
+
+                else if (cardInfo.cardCode == 4 && !GameManager.Instance.nowPlayer.lowerDiceFlag)
+                {
+                    CardClickData cData = new(4, GameManager.Instance.nowPlayer.playerId);
+                    string jsonData = JsonUtility.ToJson(cData);
+                    byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                    Backend.Match.SendDataToInGameRoom(data);
+
+                    GameManager.Instance.nowPlayer.lowerDiceFlag = true;
+                    GameManager.Instance.nowPlayer.higherDiceFlag = false;
+
+                    DestroyCard();
+                }
+
+                else if (cardInfo.cardCode == 5 && !GameManager.Instance.nowPlayer.higherDiceFlag)
+                {
+                    CardClickData cData = new(5, GameManager.Instance.nowPlayer.playerId);
+                    string jsonData = JsonUtility.ToJson(cData);
+                    byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                    Backend.Match.SendDataToInGameRoom(data);
+
+                    GameManager.Instance.nowPlayer.higherDiceFlag = true;
+                    GameManager.Instance.nowPlayer.lowerDiceFlag = false;
+
+                    DestroyCard();
+                }
+
+                else if (cardInfo.cardCode == 7 && !GameManager.Instance.nowPlayer.laserFlag && GameManager.Instance.laserComplete)
+                {
+                    for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
+                    {
+                        // 상대방 소유의 타일 체크
+                        if (TileManager.Instance.tiles[i].ownPlayer == GameManager.Instance.nowPlayer.againstPlayer.playerId)
+                        {
+                            CardClickData cData = new(7, GameManager.Instance.nowPlayer.playerId);
+                            string jsonData = JsonUtility.ToJson(cData);
+                            byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
+                            Backend.Match.SendDataToInGameRoom(data);
+
+                            DestroyCard();
+                            break;
+                        }
                     }
                 }
             }
