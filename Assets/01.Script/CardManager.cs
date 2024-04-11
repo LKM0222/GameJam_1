@@ -82,7 +82,6 @@ public class CardManager : MonoBehaviour
         if(isSelected){
             if (theTurnSign.cursorPos == 1 && GameManager.Instance.myCharactor.myTurn)
             {
-                GameManager.Instance.cardActive = true;
                 AudioManager.Instance.Play("UseCard_Sound");
 
                 if (cardInfo.cardCode == 1 && !GameManager.Instance.nowPlayer.highSpeedFlag)
@@ -91,6 +90,7 @@ public class CardManager : MonoBehaviour
                     string jsonData = JsonUtility.ToJson(cData);
                     byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
                     Backend.Match.SendDataToInGameRoom(data);
+                    GameManager.Instance.cardActive = true; 
 
                     DestroyCard();
                 }
@@ -101,6 +101,7 @@ public class CardManager : MonoBehaviour
                     string jsonData = JsonUtility.ToJson(cData);
                     byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
                     Backend.Match.SendDataToInGameRoom(data);
+                    GameManager.Instance.cardActive = true; 
 
                     DestroyCard();
                 }
@@ -111,6 +112,7 @@ public class CardManager : MonoBehaviour
                     string jsonData = JsonUtility.ToJson(cData);
                     byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
                     Backend.Match.SendDataToInGameRoom(data);
+                    GameManager.Instance.cardActive = true; 
 
                     DestroyCard();
                 }
@@ -124,6 +126,7 @@ public class CardManager : MonoBehaviour
 
                     GameManager.Instance.nowPlayer.lowerDiceFlag = true;
                     GameManager.Instance.nowPlayer.higherDiceFlag = false;
+                    GameManager.Instance.cardActive = true; 
 
                     DestroyCard();
                 }
@@ -137,6 +140,7 @@ public class CardManager : MonoBehaviour
 
                     GameManager.Instance.nowPlayer.higherDiceFlag = true;
                     GameManager.Instance.nowPlayer.lowerDiceFlag = false;
+                    GameManager.Instance.cardActive = true; 
 
                     DestroyCard();
                 }
@@ -152,6 +156,7 @@ public class CardManager : MonoBehaviour
                             string jsonData = JsonUtility.ToJson(cData);
                             byte[] data = ParsingManager.Instance.ParsingSendData(ParsingType.CardClick, jsonData);
                             Backend.Match.SendDataToInGameRoom(data);
+                            GameManager.Instance.cardActive = true; 
 
                             DestroyCard();
                             break;
