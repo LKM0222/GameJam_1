@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
     public TMP_Text goMoney;
     public GameObject goImg;
     public Sprite[] winImg = new Sprite[2];
+    public Sprite[] surrend = new Sprite[2];
 
     [Header("Login Input")]
     public InputField loginIDInput;

@@ -301,6 +301,16 @@ public class EventManager : MonoBehaviour
                     }
                     break;
 
+                case ParsingType.Surrender:
+                    //승리 UI띄우기
+                    GameManager.Instance.gameOverUI.SetActive(true);
+                    UIManager.Instance.goImg.GetComponent<UnityEngine.UI.Image>().sprite = UIManager.Instance.surrend[GameManager.Instance.myCharactor.playerId];
+                    UIManager.Instance.goTitle.text = "항복!";
+                    UIManager.Instance.goMoney.text = "상대방이 항복했습니다!";
+                    MatchGameResult matchGameResult = new MatchGameResult();
+                    Backend.Match.MatchEnd(matchGameResult);
+                    //항복 UI 개편중
+                    break;
             }
         };
 

@@ -109,7 +109,8 @@ public class ButtonManager : MonoBehaviour
         Backend.BMember.Logout();
         Backend.Match.LeaveMatchMakingServer();
         SceneManager.LoadScene("TitleScene");
-
+        byte[] surrenderData = ParsingManager.Instance.ParsingSendData(ParsingType.Surrender, "");
+        Backend.Match.SendDataToInGameRoom(surrenderData);
     }
 
     //대기방 생성 매칭서버 접속은 여기서 하지 않고, 로그인 시 자동으로 이뤄져야함.

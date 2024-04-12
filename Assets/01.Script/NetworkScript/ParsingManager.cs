@@ -206,6 +206,7 @@ public enum ParsingType
     Laser,
     Disconnect,
     SetCardFlag,
+    Surrender
 }
 #endregion
 
