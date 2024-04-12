@@ -179,6 +179,13 @@ public class SetCardFlagData
         flag = _flag;
     }
 }
+
+public class SurrenderData{
+    public int playerId;
+    public SurrenderData(int _playerId){
+        playerId = _playerId;
+    }
+}
 #endregion
 
 #region Enum_ParsingType

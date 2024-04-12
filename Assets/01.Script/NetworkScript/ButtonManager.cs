@@ -105,12 +105,11 @@ public class ButtonManager : MonoBehaviour
 
     public void BackTitleBtn()
     {
+        AudioManager.Instance.Stop("MainGame_Sound");
         AudioManager.Instance.Play("MenuClick_Sound");
         Backend.BMember.Logout();
         Backend.Match.LeaveMatchMakingServer();
         SceneManager.LoadScene("TitleScene");
-        byte[] surrenderData = ParsingManager.Instance.ParsingSendData(ParsingType.Surrender, "");
-        Backend.Match.SendDataToInGameRoom(surrenderData);
     }
 
     //대기방 생성 매칭서버 접속은 여기서 하지 않고, 로그인 시 자동으로 이뤄져야함.
@@ -172,8 +171,10 @@ public class ButtonManager : MonoBehaviour
 
     //항복
     public void SurrenderBtn(){
-        byte[] surrenderData = ParsingManager.Instance.ParsingSendData(ParsingType.Surrender, "");
-        Backend.Match.SendDataToInGameRoom(surrenderData);
+        SurrenderData surrendData = new(GameManager.Instance.myCharactor.playerId);
+        string jsondata = JsonUtility.ToJson(surrendData);
+        byte[] sendData = ParsingManager.Instance.ParsingSendData(ParsingType.Surrender, jsondata);
+        Backend.Match.SendDataToInGameRoom(sendData);
     }
 
     //게임시작때, 자기 턴을 클릭하는 버튼
