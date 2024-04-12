@@ -302,7 +302,6 @@ public class EventManager : MonoBehaviour
                     break;
 
                 case ParsingType.Surrender:
-                    //승리 UI띄우기
                     SurrenderData surrenderData = JsonUtility.FromJson<SurrenderData>(pData.data);
                     GameManager.Instance.gameOverUI.SetActive(true);
                     UIManager.Instance.goImg.GetComponent<UnityEngine.UI.Image>().sprite = UIManager.Instance.surrend[surrenderData.playerId];
@@ -310,7 +309,6 @@ public class EventManager : MonoBehaviour
                     UIManager.Instance.goMoney.text = (surrenderData.playerId == 0 ? "1P" : "2P") + "가 항복했습니다!";
                     MatchGameResult matchGameResult = new MatchGameResult();
                     Backend.Match.MatchEnd(matchGameResult);
-                    //항복 UI 개편중
                     break;
             }
         };
