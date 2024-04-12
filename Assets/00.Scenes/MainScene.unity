@@ -8041,8 +8041,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 8ed7a770f63d4485189deaac0939e9d0, type: 3}
   - {fileID: 21300000, guid: e978b55e71d4c4a7c8d4cf0d2eb18ee0, type: 3}
   surrend:
-  - {fileID: 21300000, guid: 6bc3eb33f7799004fa95e06696e436c3, type: 3}
   - {fileID: 21300000, guid: 7c53b25309aa20a4fb0030ec5d7f3669, type: 3}
+  - {fileID: 21300000, guid: 6bc3eb33f7799004fa95e06696e436c3, type: 3}
   loginIDInput: {fileID: 0}
   loginPWInput: {fileID: 0}
 --- !u!4 &819363426
