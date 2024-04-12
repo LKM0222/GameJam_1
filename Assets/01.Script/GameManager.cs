@@ -174,12 +174,12 @@ public class GameManager : MonoBehaviour
             if (myCharactor == players[0])
             {
                 UIManager.Instance.goTitle.text = "WIN!";
-                UIManager.Instance.goMoney.text = myCharactor.playerMoney.ToString();
+                UIManager.Instance.goMoney.text = "보유금액 : " + myCharactor.playerMoney.ToString();
             }
             else
             {
                 UIManager.Instance.goTitle.text = "LOSE..";
-                UIManager.Instance.goMoney.text = myCharactor.playerMoney.ToString();
+                UIManager.Instance.goMoney.text = "보유금액 : " + myCharactor.playerMoney.ToString();
             }
             Backend.Match.MatchEnd(matchGameResult);
         }
@@ -194,12 +194,12 @@ public class GameManager : MonoBehaviour
             if (myCharactor == players[1])
             {
                 UIManager.Instance.goTitle.text = "WIN!";
-                UIManager.Instance.goMoney.text = myCharactor.playerMoney.ToString();
+                UIManager.Instance.goMoney.text = "보유금액 : " + myCharactor.playerMoney.ToString();
             }
             else
             {
                 UIManager.Instance.goTitle.text = "LOSE..";
-                UIManager.Instance.goMoney.text = myCharactor.playerMoney.ToString();
+                UIManager.Instance.goMoney.text = "보유금액 : " + myCharactor.playerMoney.ToString();
             }
             Backend.Match.MatchEnd(matchGameResult);
         }
