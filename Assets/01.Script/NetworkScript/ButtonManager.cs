@@ -174,13 +174,6 @@ public class ButtonManager : MonoBehaviour
     public void SurrenderBtn(){
         byte[] surrenderData = ParsingManager.Instance.ParsingSendData(ParsingType.Surrender, "");
         Backend.Match.SendDataToInGameRoom(surrenderData);
-
-        Backend.Match.LeaveMatchRoom();
-        Backend.Match.LeaveGameServer();
-
-        AudioManager.Instance.Stop("MainGame_Sound");
-        AudioManager.Instance.Play("Title_Sound");
-        SceneManager.LoadScene("LobbyScene");
     }
 
     //게임시작때, 자기 턴을 클릭하는 버튼

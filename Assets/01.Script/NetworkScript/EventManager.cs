@@ -306,7 +306,11 @@ public class EventManager : MonoBehaviour
                     GameManager.Instance.gameOverUI.SetActive(true);
                     UIManager.Instance.goImg.GetComponent<UnityEngine.UI.Image>().sprite = UIManager.Instance.surrend[GameManager.Instance.myCharactor.playerId];
                     UIManager.Instance.goTitle.text = "항복!";
-                    UIManager.Instance.goMoney.text = "상대방이 항복했습니다!";
+                    // if(GameManager.Instance.myCharactor.playerId == 0)
+                    //     UIManager.Instance.goMoney.text = "1P가 항복했습니다!";
+                    // else
+                    //     UIManager.Instance.goMoney.text = "2P가 항복했습니다!";
+                    UIManager.Instance.goMoney.text = (GameManager.Instance.myCharactor.playerId == 0 ? "1P" : "2P") + "가 항복했습니다!";
                     MatchGameResult matchGameResult = new MatchGameResult();
                     Backend.Match.MatchEnd(matchGameResult);
                     //항복 UI 개편중
