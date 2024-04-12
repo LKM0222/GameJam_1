@@ -18849,7 +18849,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2065761921}
         m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
-        m_MethodName: BackTitleBtn
+        m_MethodName: SurrenderBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
