@@ -211,4 +211,10 @@ public class ButtonManager : MonoBehaviour
         lodingUI.SetActive(true); 
         lodingInfo.text = _message;
     }
+
+    //회원가입 약관버튼
+    public void PrivateButton()
+    {
+        Application.OpenURL("https://storage.thebackend.io/2cb7da63cc95c6452c9815c79820021417aa1a8aa15ceeed5a127ff091630baa/privacy.html");
+    }
 }
