@@ -218,7 +218,7 @@ public class GameManager : MonoBehaviour
         if (turn == 1)
         {
             player1TurnImg.SetActive(true);
-            UIManager.Instance.player1Text.text = GameManager.Instance.players[0].nickname + "의 차례입니다!";
+            UIManager.Instance.player1Text.text = players[0].nickname + "의 차례입니다!";
             yield return new WaitForSeconds(1f);
 
             player1TurnImg.SetActive(false);
@@ -226,7 +226,7 @@ public class GameManager : MonoBehaviour
         if (turn == 0)
         {
             player2TurnImg.SetActive(true);
-            UIManager.Instance.player2Text.text = GameManager.Instance.players[1].nickname + "의 차례입니다!";
+            UIManager.Instance.player2Text.text = players[1].nickname + "의 차례입니다!";
             yield return new WaitForSeconds(1f);
 
             player2TurnImg.SetActive(false);
@@ -301,7 +301,7 @@ public class GameManager : MonoBehaviour
 
     public void CheckMagnification()
     {
-        if (turnCount % 10 == 1)
+        if (turnCount % 20 == 1 && turnCount > 20)
         {
             magnification *= 2;
 

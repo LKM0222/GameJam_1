@@ -21,7 +21,7 @@ public class PurchaseSystem : MonoBehaviour
     public void BuildingPurchase()
     {
         GameManager.Instance.nowPlayer.nowTile.building = GameManager.Instance.buildings[cur];
-        GameManager.Instance.nowPlayer.nowTile.price = GameManager.Instance.buildings[cur].toll;
+        GameManager.Instance.nowPlayer.nowTile.price = GameManager.Instance.buildings[cur].toll * GameManager.Instance.magnification;
         GameManager.Instance.nowPlayer.playerMoney -= 50;
         GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, 50, false);
 
