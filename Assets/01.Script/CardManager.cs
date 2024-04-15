@@ -40,7 +40,7 @@ public class CardManager : MonoBehaviour
     // 획득한 카드에 마우스를 올려놓았을 때
     private void OnMouseEnter()
     {
-        if(!GameManager.Instance.cardActive){
+        if(!GameManager.Instance.cardActive && GameManager.Instance.myCharactor.myTurn){
             if (theTurnSign.cursorPos == 1 && !theDice.isDrag)
             {
                 AudioManager.Instance.Play("SelectCard_Sound");
@@ -59,7 +59,7 @@ public class CardManager : MonoBehaviour
     private void OnMouseExit()
     {
         //왜 카드 클릭 후 카드 위치가 내려가냐....
-        if(!GameManager.Instance.cardActive){
+        if(!GameManager.Instance.cardActive && GameManager.Instance.myCharactor.myTurn){
             if (theTurnSign.cursorPos == 1 && !theDice.isDrag)
             {   
                 if(this.transform.localScale.x != 7f){ //크기가 원래크기와 다를때만 진행
@@ -308,8 +308,8 @@ public class CardManager : MonoBehaviour
     public IEnumerator SelectLaserCoroutine()
     {
         GameManager.Instance.laserComplete = false;
-
         GameManager.Instance.nowPlayer.blackBackground.SetActive(true);
+        UIManager.Instance.laserText.SetActive(true);
 
         isSelectingLaser = true;
 
@@ -321,6 +321,8 @@ public class CardManager : MonoBehaviour
         }
 
         yield return new WaitUntil(() => GameManager.Instance.seletedTile != null);
+
+        UIManager.Instance.laserText.SetActive(false);
 
         isSelectingLaser = false;
 
