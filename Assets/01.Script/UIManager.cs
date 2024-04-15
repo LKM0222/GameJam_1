@@ -40,6 +40,7 @@ public class UIManager : MonoBehaviour
     public GameObject extortionText;
     public GameObject olympicText;
     public GameObject laserText;
+    public GameObject magnificationText;
 
     public void SetUI()
     {

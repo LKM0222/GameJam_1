@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
     public int turnIndex;
     // 턴을 넘기는 플래그
     public bool nextTurn;
+    public int magnification = 1;
 
 
     [Space(10), Header("Flag")]
@@ -207,6 +208,7 @@ public class GameManager : MonoBehaviour
         {
             turnCount += 1;
             nextTurn = true;
+            CheckMagnification();
         }
     }
 
@@ -294,5 +296,53 @@ public class GameManager : MonoBehaviour
         //5초동안 게임 시작 불가능하다면
         yield return new WaitForSeconds(3f);
         RestartBtn.SetActive(true);
+    }
+
+    public void CheckMagnification()
+    {
+        if (turnCount % 10 == 1)
+        {
+            magnification *= 2;
+
+            for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
+            {
+                TileManager.Instance.tiles[i].price *= 2;
+            }
+            StartCoroutine(SetMagnification());
+        }
+    }
+
+    public IEnumerator SetMagnification()
+    {
+        UIManager.Instance.magnificationText.SetActive(true);
+
+        // 통행료 증가 사운드 재생
+        for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
+        {
+            AudioManager.Instance.Play("Olympics_Sound");
+        }
+
+        // 모든 타일에 파티클을 활성화
+        for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
+        {
+            if (i != 5 && i != 11 && i != 17 && i != 23)
+            {
+                TileManager.Instance.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(true);
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        // 활성화한 파티클을 다시 비활성화
+        for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
+        {
+            if (i != 5 && i != 11 && i != 17 && i != 23)
+            {
+                TileManager.Instance.tiles[i].transform.Find("Pos").GetChild(0).gameObject.SetActive(false);
+            }
+        }
+
+        UIManager.Instance.magnificationText.SetActive(false);
     }
 }

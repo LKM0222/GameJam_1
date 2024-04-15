@@ -110,10 +110,12 @@ public class EventManager : MonoBehaviour
                         GameManager.Instance.turnCardParent.SetActive(false);
                     }
 
-                    if(tData.turnIndex == 1){
+                    if (tData.turnIndex == 1)
+                    {
                         GameManager.Instance.players[0].nickname = tData.nickname;
                     }
-                    else{
+                    else
+                    {
                         GameManager.Instance.players[1].nickname = tData.nickname;
                     }
                     break;
@@ -163,7 +165,7 @@ public class EventManager : MonoBehaviour
 
                         GameManager.Instance.myCharactor.againstPlayer.playerMoney -= 50;
                         GameManager.Instance.myCharactor.againstPlayer.nowTile.price =
-                        GameManager.Instance.buildings[bdata.buildingNum].toll;
+                        GameManager.Instance.buildings[bdata.buildingNum].toll * GameManager.Instance.magnification;
                         GameManager.Instance.SetFloatingText(GameManager.Instance.nowPlayer, 50, false);
                         GameManager.Instance.NextTurnFunc();
                         GameManager.Instance.UIFlag = false;
@@ -430,7 +432,7 @@ public class EventManager : MonoBehaviour
     public IEnumerator OlympicMethod(int playerId, GameObject VirtualCamera)
     {
         bool haveBuilding = false;
-        
+
         UIManager.Instance.olympicText.SetActive(true);
 
         // 자신의 소유인 타일이 있다면 플래그를 활성화하고 사운드 재생
