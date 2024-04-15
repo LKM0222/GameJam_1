@@ -430,6 +430,8 @@ public class EventManager : MonoBehaviour
     public IEnumerator OlympicMethod(int playerId, GameObject VirtualCamera)
     {
         bool haveBuilding = false;
+        
+        UIManager.Instance.olympicText.SetActive(true);
 
         // 자신의 소유인 타일이 있다면 플래그를 활성화하고 사운드 재생
         for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
@@ -470,6 +472,7 @@ public class EventManager : MonoBehaviour
                 }
             }
         }
+        UIManager.Instance.olympicText.SetActive(false);
     }
 
     public IEnumerator RunExemptionParticle()

@@ -35,6 +35,12 @@ public class UIManager : MonoBehaviour
     public Text player1Text;
     public Text player2Text;
 
+    [Header("SpecialTileText")]
+    public GameObject teleportText;
+    public GameObject extortionText;
+    public GameObject olympicText;
+    public GameObject laserText;
+
     public void SetUI()
     {
         watingUI.SetActive(false);

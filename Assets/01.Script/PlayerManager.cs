@@ -428,6 +428,7 @@ public class PlayerManager : MonoBehaviour
                         {
                             blackBackground.SetActive(true);
                             isExtortioning = true;
+                            UIManager.Instance.extortionText.SetActive(true);
 
                             for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
                             {
@@ -435,6 +436,8 @@ public class PlayerManager : MonoBehaviour
                             }
 
                             yield return new WaitUntil(() => GameManager.Instance.seletedTile != null);
+                            
+                            UIManager.Instance.extortionText.SetActive(false);
 
                             for (int i = 0; i < TileManager.Instance.tiles.Length; i++)
                             {
@@ -464,6 +467,7 @@ public class PlayerManager : MonoBehaviour
     IEnumerator TeleportSetCoroutine()
     {
         blackBackground.SetActive(true);
+        UIManager.Instance.teleportText.SetActive(true);
         isSelectingTeleport = true;
 
         // 텔레포트 타일을 제외하고 타일을 선택 가능하게 세팅
@@ -473,6 +477,7 @@ public class PlayerManager : MonoBehaviour
         }
 
         yield return new WaitUntil(() => GameManager.Instance.seletedTile != null);
+        UIManager.Instance.teleportText.SetActive(false);
 
         isSelectingTeleport = false;
 
