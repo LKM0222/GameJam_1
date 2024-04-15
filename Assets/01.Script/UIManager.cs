@@ -31,6 +31,10 @@ public class UIManager : MonoBehaviour
     public InputField loginIDInput;
     public InputField loginPWInput;
 
+    [Header("TurnImg")]
+    public Text player1Text;
+    public Text player2Text;
+
     public void SetUI()
     {
         watingUI.SetActive(false);

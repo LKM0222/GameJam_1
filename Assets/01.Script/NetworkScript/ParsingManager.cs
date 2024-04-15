@@ -29,10 +29,14 @@ public class TurnCardSet
 public class TurnCard
 {
     public int turncardIdx;
+    public int turnIndex;
+    public string nickname;
 
-    public TurnCard(int _turnCardIdx)
+    public TurnCard(int _turnCardIdx, int _turnIndex, string _nickname)
     {
         turncardIdx = _turnCardIdx;
+        turnIndex = _turnIndex;
+        nickname = _nickname;
     }
 }
 

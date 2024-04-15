@@ -194,8 +194,10 @@ public class ButtonManager : MonoBehaviour
             {
                 GameManager.Instance.myCharactor = GameObject.Find("Player2").GetComponent<PlayerManager>();
             }
+            
+            UserData userData = BackendGameData.Instance.GameDataGet();
 
-            TurnCard tCard = new(turncardIdx);
+            TurnCard tCard = new(turncardIdx, turnNum, userData.nickName);
             string jsonData = JsonUtility.ToJson(tCard);
             byte[] data;
             data = ParsingManager.Instance.ParsingSendData(ParsingType.Turn, jsonData);

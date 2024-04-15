@@ -109,6 +109,13 @@ public class EventManager : MonoBehaviour
                     {
                         GameManager.Instance.turnCardParent.SetActive(false);
                     }
+
+                    if(tData.turnIndex == 1){
+                        GameManager.Instance.players[0].nickname = tData.nickname;
+                    }
+                    else{
+                        GameManager.Instance.players[1].nickname = tData.nickname;
+                    }
                     break;
 
                 case ParsingType.Dice:

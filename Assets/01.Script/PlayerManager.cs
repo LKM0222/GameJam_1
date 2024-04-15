@@ -13,6 +13,7 @@ public class PlayerManager : MonoBehaviour
     public float moveSpeed = 4f;
     // 자신이 몇 번째 플레이어인지 나타내는 오브젝트
     public GameObject myTurnImg;
+    public string nickname;
 
 
     [Space(10), Header("Moving")]
