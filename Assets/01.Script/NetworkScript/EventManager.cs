@@ -284,7 +284,6 @@ public class EventManager : MonoBehaviour
 
                 case ParsingType.Olympic:
                     StartCoroutine(OlympicMethod(GameManager.Instance.nowPlayer.playerId, GameManager.Instance.nowPlayer.VirtualCamera));
-                    GameManager.Instance.NextTurnFunc();
                     break;
 
                 case ParsingType.Laser:
@@ -475,6 +474,7 @@ public class EventManager : MonoBehaviour
             }
         }
         UIManager.Instance.olympicText.SetActive(false);
+        GameManager.Instance.NextTurnFunc();
     }
 
     public IEnumerator RunExemptionParticle()
