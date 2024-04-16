@@ -330,17 +330,7 @@ public class EventManager : MonoBehaviour
         //게임 중, 플레이어가 연결 끊김.
         Backend.Match.OnSessionOffline = (MatchInGameSessionEventArgs args) =>
         {
-            if (args.ErrInfo == ErrorCode.NetworkOffline)
-            {
-                //연결 끊긴 방에서 나가기 위한 UI 출력
-                UIManager.Instance.SetErrorUI();
-            }
-            if (args.ErrInfo == ErrorCode.Exception)
-            {
-                print("연결끊김");
-                byte[] disconnectData = ParsingManager.Instance.ParsingSendData(ParsingType.Disconnect, "");
-                Backend.Match.SendDataToInGameRoom(disconnectData);
-            }
+            UIManager.Instance.errorUI.SetActive(true);
         };
     }
 

@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour
             return _instance;
         }
     }
-    public GameObject watingUI, turnCardUI, gameoverUI;
+    public GameObject watingUI, turnCardUI, gameoverUI, errorUI;
 
     [Header("GameOver UI")]
     public Text goTitle;

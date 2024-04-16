@@ -8244,6 +8244,7 @@ MonoBehaviour:
   watingUI: {fileID: 221260166}
   turnCardUI: {fileID: 883349527}
   gameoverUI: {fileID: 256666473}
+  errorUI: {fileID: 1337576569}
   goTitle: {fileID: 0}
   goMoney: {fileID: 201274671}
   goImg: {fileID: 1022910103}
