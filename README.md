@@ -49,6 +49,12 @@
 ----
 ## 게임 내부 컨텐츠
 #### **1. 건물**
+<p align="center">  
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/7b5f0285-9a10-4fad-ba3a-7777a708a576" align="center" width="10%"> 
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/874bab2d-7490-42ca-93b5-baea2716dd30" align="center" width="10%">  
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/f6fc506e-52c3-47c7-979e-7ab272c229d9" align="center" width="10%">  
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/be2577a9-266b-4ff5-b26e-187a52d246d2" align="center" width="10%">  
+</p>
 
 건물은 빈 땅에 플레이어가 도착했을 시 건설 할 수 있습니다.
 
@@ -62,19 +68,44 @@
 -> 건물이 지어진 땅에 상대방이 걸린다면 상대방은 100알을 지불하게 됩니다. (랜드마크는 200알입니다.)
 
 #### **2. 특수타일**
-
+<p align="center">  
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/7b5f0285-9a10-4fad-ba3a-7777a708a576" align="center" width="10%"> 
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/874bab2d-7490-42ca-93b5-baea2716dd30" align="center" width="10%">  
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/f6fc506e-52c3-47c7-979e-7ab272c229d9" align="center" width="10%">  
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/be2577a9-266b-4ff5-b26e-187a52d246d2" align="center" width="10%">  
+</p>
 특수타일은 맵 각 모서리에 4개가 존재합니다.
+
+특수타일은 다음과 같은 효과를 가집니다.
+
 + 양계장 : 플레이어가 지나칠땐 100알, 정확히 도착할땐 100알 + (플레이어가 소지한 농장 수 x 100알)을 획득하게 됩니다.
 + 텔레포트 : 플레이어가 원하는 위치로 텔레포트 할 수 있게 됩니다. 타일을 클릭 후 다음턴에 플레이어가 바로 이동하게 됩니다.
 + 올림픽 : 플레이어가 올림픽에 도착하면 플레이어가 소지한 모든 건물이 있는 타일의 가격이 2배가 됩니다.
 + 건물강탈 : 상대 플레이어가 소유한 땅 중, 하나를 자신의 땅으로 만듭니다.
 
-**3. 카드**
-
+#### **3. 카드**
+<p align="center">
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/88327dd3-db9e-4b41-941e-0237e18e6525" align="center" width="10%"> 
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/7f9847d4-0d29-4e36-8da4-4ff0fb449d81" align="center" width="10%">  
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/63b475a3-fb1a-404c-980d-6990d5185d68" align="center" width="10%">  
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/09e49b21-9e9f-4559-965f-e6180a3b7114" align="center" width="10%">  
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/55b175c7-beec-4fe9-b1aa-1a934730318a" align="center" width="10%">  
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/79f9d5f7-ac55-4c4a-8920-6629ac7a923c" align="center" width="10%">  
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/140170db-7b62-45fa-889e-5f411600b3de" align="center" width="10%">  
+</p>
 각 줄의 세번째 타일은 카드 타일입니다.
 
-카드는 총 7장으로 구성되어 있고 자신의 턴이 시작되었을 때, 주사위를 굴리기 전에 사용 할 수 있습니다.
+카드는 총 7장으로 구성되어 있고 자신의 턴이 시작되었을 때, 주사위를 굴리기 전에 여러장(혹은 한장)사용 할 수 있습니다.
 
+카드는 플레이어 당 최대 8장까지 보유할 수 있습니다.
+
++ 투명도둑 : 카드를 사용한 후 상대방 플레이어를 지나친다면, 상대방이 보유하고 있는 카드 중 무작위로 카드 하나를 훔쳐옵니다.
++ 고속이동 : 카드를 사용한 후 알까기를 한다면 나온 수의 두배를 이동합니다.
++ 거대화꼬꼬 : 카드를 사용하면 꼬꼬가 커지고, 커진 후 상대방 타일에 도착한다면 상대방의 건물을 부숩니다.
++ 소형알 : 카드를 사용하면 이번턴엔 1~4 사이의 숫자만 나오게 됩니다.
++ 대형알 : 카드를 사용하면 이번턴엔 5~8 사이의 숫자만 나오게 됩니다.
++ 천사꼬꼬 : 카드를 소지하고 있을 때, 상대방 땅에 도착한다면 통행료가 면제됩니다. (직접 사용하는 카드가 아닌 패시브 카드입니다.)
++ 레이저빔 : 카드를 사용한 후 상대방 타일을 고르면 상대방 건물을 파괴할 수 있습니다.
 
 ----
 ## 게임 제작에 사용한 API
