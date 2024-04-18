@@ -69,10 +69,10 @@
 
 #### **2. 특수타일**
 <p align="center">  
- <img src="https://github.com/LKM0222/Hudadark/assets/57254350/7b5f0285-9a10-4fad-ba3a-7777a708a576" align="center" width="10%"> 
- <img src="https://github.com/LKM0222/Hudadark/assets/57254350/874bab2d-7490-42ca-93b5-baea2716dd30" align="center" width="10%">  
- <img src="https://github.com/LKM0222/Hudadark/assets/57254350/f6fc506e-52c3-47c7-979e-7ab272c229d9" align="center" width="10%">  
- <img src="https://github.com/LKM0222/Hudadark/assets/57254350/be2577a9-266b-4ff5-b26e-187a52d246d2" align="center" width="10%">  
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/d46cb4a2-b2b9-4ed2-95b9-2eeb536c9969" align="center" width="10%"> 
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/faf27b5c-7731-4bf6-94ed-9843d362f3f6" align="center" width="10%">  
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/60b5a64f-e5ef-47b2-9ad9-201476d41865" align="center" width="10%">  
+ <img src="https://github.com/LKM0222/Hudadark/assets/57254350/b728b49f-8828-4483-8bf2-0ee8a0d26d0e" align="center" width="10%">  
 </p>
 특수타일은 맵 각 모서리에 4개가 존재합니다.
 
@@ -94,6 +94,7 @@
  <img src="https://github.com/LKM0222/Hudadark/assets/57254350/140170db-7b62-45fa-889e-5f411600b3de" align="center" width="10%">  
 </p>
 각 줄의 세번째 타일은 카드 타일입니다.
+
 
 카드는 총 7장으로 구성되어 있고 자신의 턴이 시작되었을 때, 주사위를 굴리기 전에 여러장(혹은 한장)사용 할 수 있습니다.
 
