@@ -1,4 +1,4 @@
-# 🐓후다닭! : 치킨이 될 순 없어!
+# 🐓후다닭! : 후라이드가 될 순 없어!
 ![후다닭Title](https://github.com/LKM0222/GameJam_1/blob/main/Assets/04.Image/Title/main.png?raw=true)
 
 ## 목차
@@ -14,6 +14,7 @@
 
 ## 💾다운로드
  <center><a href="https://www.google.com/" target="_blank">후다닭! : 치킨이 될 순 없어!</a></center>
+ 현재 구글 플레이스토어에서 출시 심사중입니다! 곧 만나보실 수 있습니다!
 
 
 
