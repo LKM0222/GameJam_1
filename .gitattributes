@@ -1,0 +1,4 @@
+Assets/TextMesh\ Pro/** linguist-vendored
+Assets/VFX/** linguist-vendored
+
+*.mm linguist-vendored
